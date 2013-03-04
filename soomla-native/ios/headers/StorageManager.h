@@ -16,10 +16,11 @@
 
 #import <Foundation/Foundation.h>
 
-@class StoreDatabase;
+@class KeyValDatabase;
 @class VirtualGoodStorage;
 @class VirtualCurrencyStorage;
 @class NonConsumableStorage;
+@class KeyValueStorage;
 
 
 /**
@@ -30,19 +31,23 @@
  * You will usually need the storage in order to get/set the amounts of virtual goods/currency.
  */
 @interface StorageManager : NSObject{
-    StoreDatabase* database;
+    KeyValDatabase* kvDatabase;
     VirtualGoodStorage* virtualGoodStorage;
     VirtualCurrencyStorage* virtualCurrenctStorage;
     NonConsumableStorage* nonConsumableStorage;
+    KeyValueStorage* keyValueStorage;
 }
 
-@property (nonatomic, retain)StoreDatabase* database;
+@property (nonatomic, retain)KeyValDatabase* kvDatabase;
 @property (nonatomic, retain)VirtualGoodStorage* virtualGoodStorage;
 @property (nonatomic, retain)VirtualCurrencyStorage* virtualCurrencyStorage;
 @property (nonatomic, retain)NonConsumableStorage* nonConsumableStorage;
+@property (nonatomic, retain)KeyValueStorage* keyValueStorage;
 
 + (StorageManager*)getInstance;
 
 - (id)init;
+
++ (NSString *) applicationDirectory;
 
 @end

@@ -6,12 +6,13 @@ $currDir = $ARGV[0];
 $find = "_;@#";
 $replace = " ";
 $find = quotemeta $find;
+my $old_installPath = $installPath;
 $installPath =~ s/$find/$replace/g;
 $currDir =~ s/$find/$replace/g;
 chomp $currDir; 
 chomp $installPath;
 
-`python2.6 \'$currDir/Editor/SoomlaRunner.py\' \'$installPath\'`;
+`python2.6 \'$currDir/Editor/SoomlaRunner.py\' \'$old_installPath\'`;
 
 $old = "$installPath/Unity-iPhone.xcodeproj/project.pbxproj";
 $new = "$installPath/tmp.$$";
