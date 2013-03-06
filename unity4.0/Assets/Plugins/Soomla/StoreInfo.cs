@@ -73,56 +73,66 @@ namespace com.soomla.unity
 				//virtual categories
 				using(AndroidJavaObject jniVirtualCategories = jniStoreAssets.GetStatic<AndroidJavaObject>("virtualCategories")) {
 					jniVirtualCategories.Call("clear");
+					AndroidJNI.PushLocalFrame(100);
 					foreach(VirtualCategory vc in storeAssets.GetVirtualCategories()){
 						jniCategories[vc.Id] = vc.toAndroidJavaObject(jniStoreAssets);
 						jniVirtualCategories.Call<bool>("add", jniCategories[vc.Id]);
 					}
+					AndroidJNI.PopLocalFrame(IntPtr.Zero);
 				}
 
 				//non consumable items
 				using(AndroidJavaObject jniNonConsumableItems = jniStoreAssets.GetStatic<AndroidJavaObject>("nonConsumableItems")) {
 					jniNonConsumableItems.Call("clear");
+					AndroidJNI.PushLocalFrame(100);
 					foreach(NonConsumableItem non in storeAssets.GetNonConsumableItems()){
 						using(AndroidJavaObject obj = non.toAndroidJavaObject()) {
 							jniNonConsumableItems.Call<bool>("add", obj);
 						}
 					}
+					AndroidJNI.PopLocalFrame(IntPtr.Zero);
 				}
 				
 				Dictionary<string, AndroidJavaObject> jniCurrencies = new Dictionary<string, AndroidJavaObject>();
 				//Virtual currencies
 				using(AndroidJavaObject jniVirtualCurrencies = jniStoreAssets.GetStatic<AndroidJavaObject>("virtualCurrencies")) {
 					jniVirtualCurrencies.Call("clear");
+					AndroidJNI.PushLocalFrame(100);
 					foreach(VirtualCurrency vc in storeAssets.GetVirtualCurrencies()){
 						jniCurrencies[vc.ItemId] = vc.toAndroidJavaObject();
 						jniVirtualCurrencies.Call<bool>("add", jniCurrencies[vc.ItemId]);
 					}
+					AndroidJNI.PopLocalFrame(IntPtr.Zero);
 				}
 				
 				//Virtual currency packs
 				using(AndroidJavaObject jniVirtualCurrencyPacks = jniStoreAssets.GetStatic<AndroidJavaObject>("virtualCurrencyPacks")) {
 					jniVirtualCurrencyPacks.Call("clear");
+					AndroidJNI.PushLocalFrame(100);
 					foreach(VirtualCurrencyPack vcp in storeAssets.GetVirtualCurrencyPacks()){
 						using(AndroidJavaObject obj = vcp.toAndroidJavaObject(jniCurrencies[vcp.Currency.ItemId])) {
 							jniVirtualCurrencyPacks.Call<bool>("add", obj);
 						}
 					}
+					AndroidJNI.PopLocalFrame(IntPtr.Zero);
 				}
 
 				//Virtual goods
 				using(AndroidJavaObject jniVirtualGoods = jniStoreAssets.GetStatic<AndroidJavaObject>("virtualGoods")) {
 					jniVirtualGoods.Call("clear");
 					foreach(VirtualGood vg in storeAssets.GetVirtualGoods()){
+						AndroidJNI.PushLocalFrame(100);
 						using(AndroidJavaObject obj = vg.toAndroidJavaObject(jniStoreAssets, jniCategories[vg.Category.Id])) {
 							jniVirtualGoods.Call<bool>("add", obj);
 						}
+						AndroidJNI.PopLocalFrame(IntPtr.Zero);
 					}
 				}
 				
 				foreach(KeyValuePair<int, AndroidJavaObject> kvp in jniCategories) {
 					kvp.Value.Dispose();
 				}
-				
+
 				foreach(KeyValuePair<string, AndroidJavaObject> kvp in jniCurrencies) {
 					kvp.Value.Dispose();
 				}
@@ -227,9 +237,11 @@ namespace com.soomla.unity
 			AndroidJNI.PushLocalFrame(100);
 			using(AndroidJavaObject jniVirtualGoods = new AndroidJavaClass("com.soomla.unity.StoreInfo").CallStatic<AndroidJavaObject>("getVirtualGoods")) {
 				for(int i=0; i<jniVirtualGoods.Call<int>("size"); i++) {
+					AndroidJNI.PushLocalFrame(100);
 					using(AndroidJavaObject jniGood = jniVirtualGoods.Call<AndroidJavaObject>("get", i)) {
 						virtualGoods.Add(new VirtualGood(jniGood));
 					}
+					AndroidJNI.PopLocalFrame(IntPtr.Zero);
 				}
 			}
 			AndroidJNI.PopLocalFrame(IntPtr.Zero);

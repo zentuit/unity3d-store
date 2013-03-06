@@ -116,9 +116,7 @@ namespace com.soomla.unity
 				AndroidJNI.PushLocalFrame(100);
 				using(AndroidJavaClass jniUnityPlayerClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer")){
 					using(AndroidJavaObject jniCurrentActivity = jniUnityPlayerClass.GetStatic<AndroidJavaObject>("currentActivity")) {
-						using(AndroidJavaClass jniStoreAssets = new AndroidJavaClass("com.soomla.unity.StoreAssets")) {
-							jniStoreController.Call("storeOpening", jniCurrentActivity);
-						}
+						jniStoreController.Call("storeOpening", jniCurrentActivity);
 					}
 				}
 				AndroidJNI.PopLocalFrame(IntPtr.Zero);
