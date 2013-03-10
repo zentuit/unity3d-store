@@ -46,6 +46,9 @@ namespace com.soomla.unity
 		
 		public delegate void GoodBalanceChangedDelegate(VirtualGood virtualGood, int balance);
 		public static GoodBalanceChangedDelegate OnGoodBalanceChanged;
+
+		public delegate void MarketPurchaseCancelledDelegate(MarketItem marketItem);
+		public static MarketPurchaseCancelledDelegate OnMarketPurchaseCancelled;
 	}
 }
 

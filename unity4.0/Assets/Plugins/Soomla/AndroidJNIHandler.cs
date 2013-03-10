@@ -14,7 +14,15 @@ namespace com.soomla.unity
 			}
 		}
 		
-		public static T CallStatic<T>(AndroidJavaObject jniObject, string method, string arg0) {
+		public static void CallStaticVoid(AndroidJavaClass jniObject, string method, string arg0) {
+			if(!Application.isEditor){
+				jniObject.CallStatic(method, arg0);
+
+				checkExceptions();
+			}
+		}
+
+		public static T CallStatic<T>(AndroidJavaClass jniObject, string method, string arg0) {
 			if (!Application.isEditor) {
 				T retVal = jniObject.CallStatic<T>(method, arg0);
 
@@ -32,7 +40,25 @@ namespace com.soomla.unity
 			return default(T);
 		}
 		
-		public static T CallStatic<T>(AndroidJavaObject jniObject, string method, int arg0) {
+		public static T CallStatic<T>(AndroidJavaClass jniObject, string method, string arg0, int arg1) {
+			if (!Application.isEditor) {
+				T retVal = jniObject.CallStatic<T>(method, arg0, arg1);
+
+				checkExceptions();
+
+				if (retVal is AndroidJavaObject) {
+					if ((retVal as AndroidJavaObject).GetRawObject() == IntPtr.Zero) {
+						throw new VirtualItemNotFoundException();
+					}
+				}
+
+				return retVal;
+			}
+
+			return default(T);
+		}
+
+		public static T CallStatic<T>(AndroidJavaClass jniObject, string method, int arg0) {
 			if (!Application.isEditor) {
 				T retVal = jniObject.CallStatic<T>(method, arg0);
 				

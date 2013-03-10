@@ -104,6 +104,20 @@ namespace com.soomla.unity {
 			}
 			Events.OnMarketPurchaseProcessStarted(mi);
 		}
+
+		public void onMarketPurchaseCancelled(string message) {
+			Debug.Log("SOOMLA/UNITY onMarketPurchaseCancelled: " + message);
+
+			MarketItem mi = null;
+			try {
+				NonConsumableItem non = StoreInfo.GetNonConsumableItemByProductId(message);
+				mi = non.MarketItem;
+			} catch (VirtualItemNotFoundException e) {
+				VirtualCurrencyPack vcp = StoreInfo.GetPackByProductId(message);
+				mi = vcp.MarketItem;
+			}
+			Events.OnMarketPurchaseProcessStarted(mi);
+		}
 	
 		
 		public void onGoodsPurchaseProcessStarted(string message) {
