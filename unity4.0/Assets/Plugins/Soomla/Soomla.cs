@@ -70,7 +70,7 @@ namespace com.soomla.unity {
 	
 	
 		public void onVirtualGoodUnequipped(string message) {
-			Debug.Log("SOOMLA/UNITY onVirtualGoodUnEquiped:" + message);
+			Debug.Log("SOOMLA/UNITY onVirtualGoodUnEquipped:" + message);
 			
 			VirtualGood vg = StoreInfo.GetVirtualGoodByItemId(message);
 			Events.OnVirtualGoodUnEquipped(vg);
