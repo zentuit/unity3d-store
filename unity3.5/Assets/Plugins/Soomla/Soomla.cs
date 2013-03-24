@@ -62,7 +62,7 @@ public class Soomla : MonoBehaviour {
 	
 
 	public void onVirtualGoodEquipped(string message) {
-		Debug.Log("SOOMLA/UNITY onVirtualGoodEquipped:" + message);
+		Debug.Log("SOOMLA/UNITY onVirtualGoodEquiped:" + message);
 
 		VirtualGood vg = StoreInfo.GetVirtualGoodByItemId(message);
 		Events.OnVirtualGoodEquipped(vg);
@@ -70,7 +70,7 @@ public class Soomla : MonoBehaviour {
 	
 	
 	public void onVirtualGoodUnequipped(string message) {
-		Debug.Log("SOOMLA/UNITY onVirtualGoodUnEquipped:" + message);
+		Debug.Log("SOOMLA/UNITY onVirtualGoodUnEquiped:" + message);
 
 		VirtualGood vg = StoreInfo.GetVirtualGoodByItemId(message);
 		Events.OnVirtualGoodUnEquipped(vg);
