@@ -95,6 +95,48 @@ extern "C"{
 		return NO_ERR;
 	}
 	
+	int storeInventory_EquipVirtualGood(const char* itemId){
+        NSString* itemIdS = [NSString stringWithUTF8String:itemId];
+		@try {
+			[StoreInventory equipVirtualGoodWithItemId:itemIdS];
+		}
+		
+		@catch (VirtualItemNotFoundException* e) {
+            NSLog(@"Couldn't find a VirtualGood with itemId: %@.", itemIdS);
+			return EXCEPTION_ITEM_NOT_FOUND;
+        }
+
+		return NO_ERR;
+	}
+	
+	int storeInventory_UnEquipVirtualGood(const char* itemId){
+        NSString* itemIdS = [NSString stringWithUTF8String:itemId];
+		@try {
+			[StoreInventory unEquipVirtualGoodWithItemId:itemIdS];
+		}
+		
+		@catch (VirtualItemNotFoundException* e) {
+            NSLog(@"Couldn't find a VirtualGood with itemId: %@.", itemIdS);
+			return EXCEPTION_ITEM_NOT_FOUND;
+        }
+
+		return NO_ERR;
+	}
+	
+	int storeInventory_IsVirtualGoodEquipped(const char* itemId, bool* outResult){
+        NSString* itemIdS = [NSString stringWithUTF8String:itemId];
+		@try {
+			*outResult = [StoreInventory isVirtualGoodWithItemIdEquipped:itemIdS];
+		}
+		
+		@catch (VirtualItemNotFoundException* e) {
+            NSLog(@"Couldn't find a VirtualGood with itemId: %@.", itemIdS);
+			return EXCEPTION_ITEM_NOT_FOUND;
+        }
+
+		return NO_ERR;
+	}
+	
 	int storeInventory_NonConsumableItemExists(const char* productId, bool* outResult){
 	NSString* productIdS = [NSString stringWithUTF8String:productId];
 		@try {
@@ -104,7 +146,7 @@ extern "C"{
 		@catch (VirtualItemNotFoundException* e) {
 	    NSLog(@"Couldn't find a NonConsumableItem with itemId: %@.", productIdS);
 			return EXCEPTION_ITEM_NOT_FOUND;
-	}
+		}
 
 		return NO_ERR;
 	}
@@ -118,7 +160,7 @@ extern "C"{
 		@catch (VirtualItemNotFoundException* e) {
 	    NSLog(@"Couldn't find a NonConsumableItem with itemId: %@.", productIdS);
 			return EXCEPTION_ITEM_NOT_FOUND;
-	}
+		}
 
 		return NO_ERR;
 	}
@@ -132,7 +174,7 @@ extern "C"{
 		@catch (VirtualItemNotFoundException* e) {
 	    NSLog(@"Couldn't find a NonConsumableItem with itemId: %@.", productIdS);
 			return EXCEPTION_ITEM_NOT_FOUND;
-	}
+		}
 
 		return NO_ERR;
 	}

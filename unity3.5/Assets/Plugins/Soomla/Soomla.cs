@@ -31,7 +31,7 @@ public class Soomla : MonoBehaviour {
 		try {
 			NonConsumableItem non = StoreInfo.GetNonConsumableItemByProductId(message);
 			mi = non.MarketItem;
-		} catch (VirtualItemNotFoundException e) {
+		} catch {
 			VirtualCurrencyPack vcp = StoreInfo.GetPackByProductId(message);
 			mi = vcp.MarketItem;
 		}
@@ -45,7 +45,7 @@ public class Soomla : MonoBehaviour {
 		try {
 			NonConsumableItem non = StoreInfo.GetNonConsumableItemByProductId(message);
 			mi = non.MarketItem;
-		} catch (VirtualItemNotFoundException e) {
+		} catch {
 			VirtualCurrencyPack vcp = StoreInfo.GetPackByProductId(message);
 			mi = vcp.MarketItem;
 		}
@@ -62,7 +62,7 @@ public class Soomla : MonoBehaviour {
 	
 
 	public void onVirtualGoodEquipped(string message) {
-		Debug.Log("SOOMLA/UNITY onVirtualGoodEquiped:" + message);
+		Debug.Log("SOOMLA/UNITY onVirtualGoodEquipped:" + message);
 
 		VirtualGood vg = StoreInfo.GetVirtualGoodByItemId(message);
 		Events.OnVirtualGoodEquipped(vg);
@@ -70,7 +70,7 @@ public class Soomla : MonoBehaviour {
 	
 	
 	public void onVirtualGoodUnequipped(string message) {
-		Debug.Log("SOOMLA/UNITY onVirtualGoodUnEquiped:" + message);
+		Debug.Log("SOOMLA/UNITY onVirtualGoodUnEquipped:" + message);
 
 		VirtualGood vg = StoreInfo.GetVirtualGoodByItemId(message);
 		Events.OnVirtualGoodUnEquipped(vg);
@@ -98,7 +98,7 @@ public class Soomla : MonoBehaviour {
 		try {
 			NonConsumableItem non = StoreInfo.GetNonConsumableItemByProductId(message);
 			mi = non.MarketItem;
-		} catch (VirtualItemNotFoundException e) {
+		} catch {
 			VirtualCurrencyPack vcp = StoreInfo.GetPackByProductId(message);
 			mi = vcp.MarketItem;
 		}
@@ -112,7 +112,7 @@ public class Soomla : MonoBehaviour {
 		try {
 			NonConsumableItem non = StoreInfo.GetNonConsumableItemByProductId(message);
 			mi = non.MarketItem;
-		} catch (VirtualItemNotFoundException e) {
+		} catch {
 			VirtualCurrencyPack vcp = StoreInfo.GetPackByProductId(message);
 			mi = vcp.MarketItem;
 		}

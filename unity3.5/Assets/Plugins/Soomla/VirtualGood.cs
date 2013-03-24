@@ -48,7 +48,7 @@ namespace com.soomla.unity{
 				if (categoryId > -1) {
 					this.Category = StoreInfo.GetVirtualCategoryById(categoryId);
 				}
-			} catch (VirtualItemNotFoundException e) {
+			} catch {
 				Debug.Log("Couldn't find category with id: " + categoryId);
 			}
 		}

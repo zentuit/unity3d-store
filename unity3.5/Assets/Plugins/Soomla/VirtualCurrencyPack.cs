@@ -50,7 +50,7 @@ namespace com.soomla.unity{
 			string currencyItemId = jsonVcp[JSONConsts.CURRENCYPACK_CURRENCYITEMID].str;
 			try {
 				this.Currency = StoreInfo.GetVirtualCurrencyByItemId(currencyItemId);
-			} catch (VirtualItemNotFoundException e) {
+			} catch {
 				Debug.Log("Couldn't find the associated currency. itemId: " + currencyItemId);
 			}
 		}

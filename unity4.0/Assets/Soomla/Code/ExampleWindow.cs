@@ -46,11 +46,15 @@ namespace com.soomla.unity.example
 			ExampleLocalStoreInfo.Init();
 			
 			// some examples
+			try {
 			Debug.Log("start currency: " + StoreInventory.GetCurrencyBalance("currency_muffin"));
 			Debug.Log("remove currency: " + StoreInventory.RemoveCurrencyAmount("currency_muffin",50));
 			Debug.Log("middle currency: " + StoreInventory.GetCurrencyBalance("currency_muffin"));
 			Debug.Log("add currency: " + StoreInventory.AddCurrencyAmount("currency_muffin",4000));
 			Debug.Log("end currency:" + StoreInventory.GetCurrencyBalance("currency_muffin"));
+			} catch (VirtualItemNotFoundException ex){
+				Debug.Log (ex.Message);
+			}
 		}
 		
 		public static void StoreOpening() {

@@ -34,10 +34,10 @@
         UnitySendMessage("Soomla", "onBillingNotSupported", "");
     } else if ([notification.name isEqualToString:EVENT_MARKET_PURCHASE_STARTED]) {
         AppStoreItem* asi = [notification.userInfo objectForKey:@"AppStoreItem"];
-	UnitySendMessage("Soomla", "onMarketPurchaseProcessStarted", [asi.productId UTF8String]);
+        UnitySendMessage("Soomla", "onMarketPurchaseProcessStarted", [asi.productId UTF8String]);
     } else if ([notification.name isEqualToString:EVENT_MARKET_PURCHASE_CANCELLED]) {
-	AppStoreItem* asi = [notification.userInfo objectForKey:@"AppStoreItem"];
-	UnitySendMessage("Soomla", "onMarketPurchaseCancelled", [asi.productId UTF8String]);
+        AppStoreItem* asi = [notification.userInfo objectForKey:@"AppStoreItem"];
+        UnitySendMessage("Soomla", "onMarketPurchaseCancelled", [asi.productId UTF8String]);
     }  else if ([notification.name isEqualToString:EVENT_CLOSING_STORE]) {
         UnitySendMessage("Soomla", "onClosingStore", "");
     }  else if ([notification.name isEqualToString:EVENT_UNEXPECTED_ERROR_IN_STORE]) {

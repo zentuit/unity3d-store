@@ -31,7 +31,7 @@ namespace com.soomla.unity {
 			try {
 				NonConsumableItem non = StoreInfo.GetNonConsumableItemByProductId(message);
 				mi = non.MarketItem;
-			} catch (VirtualItemNotFoundException e) {
+			} catch {
 				VirtualCurrencyPack vcp = StoreInfo.GetPackByProductId(message);
 				mi = vcp.MarketItem;
 			}
@@ -45,7 +45,7 @@ namespace com.soomla.unity {
 			try {
 				NonConsumableItem non = StoreInfo.GetNonConsumableItemByProductId(message);
 				mi = non.MarketItem;
-			} catch (VirtualItemNotFoundException e) {
+			} catch {
 				VirtualCurrencyPack vcp = StoreInfo.GetPackByProductId(message);
 				mi = vcp.MarketItem;
 			}
@@ -62,7 +62,7 @@ namespace com.soomla.unity {
 	
 	
 		public void onVirtualGoodEquipped(string message) {
-			Debug.Log("SOOMLA/UNITY onVirtualGoodEquiped:" + message);
+			Debug.Log("SOOMLA/UNITY onVirtualGoodEquipped:" + message);
 			
 			VirtualGood vg = StoreInfo.GetVirtualGoodByItemId(message);
 			Events.OnVirtualGoodEquipped(vg);
@@ -98,21 +98,21 @@ namespace com.soomla.unity {
 			try {
 				NonConsumableItem non = StoreInfo.GetNonConsumableItemByProductId(message);
 				mi = non.MarketItem;
-			} catch (VirtualItemNotFoundException e) {
+			} catch {
 				VirtualCurrencyPack vcp = StoreInfo.GetPackByProductId(message);
 				mi = vcp.MarketItem;
 			}
 			Events.OnMarketPurchaseProcessStarted(mi);
 		}
-
+		
 		public void onMarketPurchaseCancelled(string message) {
 			Debug.Log("SOOMLA/UNITY onMarketPurchaseCancelled: " + message);
-
+			
 			MarketItem mi = null;
 			try {
 				NonConsumableItem non = StoreInfo.GetNonConsumableItemByProductId(message);
 				mi = non.MarketItem;
-			} catch (VirtualItemNotFoundException e) {
+			} catch {
 				VirtualCurrencyPack vcp = StoreInfo.GetPackByProductId(message);
 				mi = vcp.MarketItem;
 			}
