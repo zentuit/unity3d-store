@@ -116,7 +116,7 @@ namespace com.soomla.unity {
 				VirtualCurrencyPack vcp = StoreInfo.GetPackByProductId(message);
 				mi = vcp.MarketItem;
 			}
-			Events.OnMarketPurchaseProcessStarted(mi);
+			Events.OnMarketPurchaseCancelled(mi);
 		}
 	
 		

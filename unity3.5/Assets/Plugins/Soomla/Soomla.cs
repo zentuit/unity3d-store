@@ -116,7 +116,7 @@ public class Soomla : MonoBehaviour {
 			VirtualCurrencyPack vcp = StoreInfo.GetPackByProductId(message);
 			mi = vcp.MarketItem;
 		}
-		Events.OnMarketPurchaseProcessStarted(mi);
+		Events.OnMarketPurchaseCancelled(mi);
 	}
 	
 		
