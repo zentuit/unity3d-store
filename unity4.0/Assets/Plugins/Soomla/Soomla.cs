@@ -12,7 +12,7 @@ namespace com.soomla.unity {
 				instance = this;
 				GameObject.DontDestroyOnLoad(this.gameObject);
 			} else {					//Destroying unused instances.
-				GameObject.Destroy(this);
+				GameObject.Destroy(this.gameObject);
 			}
 		}
 		
