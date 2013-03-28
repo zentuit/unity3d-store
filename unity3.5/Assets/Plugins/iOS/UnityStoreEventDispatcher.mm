@@ -24,10 +24,10 @@
         UnitySendMessage("Soomla", "onVirtualGoodPurchased", [vg.itemId UTF8String]);
     } else if ([notification.name isEqualToString:EVENT_VIRTUAL_GOOD_EQUIPPED]) {
         VirtualGood* vg = [notification.userInfo objectForKey:@"VirtualGood"];
-        UnitySendMessage("Soomla", "onVirtualGoodEquiped", [vg.itemId UTF8String]);
+        UnitySendMessage("Soomla", "onVirtualGoodEquipped", [vg.itemId UTF8String]);
     } else if ([notification.name isEqualToString:EVENT_VIRTUAL_GOOD_UNEQUIPPED]) {
         VirtualGood* vg = [notification.userInfo objectForKey:@"VirtualGood"];
-        UnitySendMessage("Soomla", "onVirtualGoodUnequiped", [vg.itemId UTF8String]);
+        UnitySendMessage("Soomla", "onVirtualGoodUnequipped", [vg.itemId UTF8String]);
     } else if ([notification.name isEqualToString:EVENT_BILLING_SUPPORTED]) {
         UnitySendMessage("Soomla", "onBillingSupported", "");
     } else if ([notification.name isEqualToString:EVENT_BILLING_NOT_SUPPORTED]) {
