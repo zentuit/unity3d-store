@@ -34,7 +34,8 @@ namespace com.soomla.unity{
 								using(AndroidJavaObject jniCurrencyValueKeysIter = jniCurrencyValueKeys.Call<AndroidJavaObject>("iterator")) {
 									while(jniCurrencyValueKeysIter.Call<bool>("hasNext")) {
 										string key = jniCurrencyValueKeysIter.Call<string>("next");
-										int price = jniCurrencyValue.Call<int>("get", key);
+										string priceStr = jniCurrencyValueValsIter.Call<AndroidJavaObject>("next").Call<string>("toString");
+										int price = int.Parse(priceStr);
 										currencyValue[key] = price;
 									}
 								}
