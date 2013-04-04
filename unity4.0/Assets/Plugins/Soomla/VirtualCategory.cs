@@ -15,9 +15,9 @@ namespace com.soomla.unity{
     		private readonly string name;
     		private readonly int value;
 
-		    public static readonly EquippingModel NONE = new EquippingModel (1, "none");
-		    public static readonly EquippingModel SINGLE = new EquippingModel (2, "single");
-		    public static readonly EquippingModel MULTIPLE = new EquippingModel (3, "multiple");        
+		    public static readonly EquippingModel NONE = new EquippingModel (0, "none");
+		    public static readonly EquippingModel SINGLE = new EquippingModel (1, "single");
+		    public static readonly EquippingModel MULTIPLE = new EquippingModel (2, "multiple");        
 		
 		    private EquippingModel(int value, string name){
 		        this.name = name;
