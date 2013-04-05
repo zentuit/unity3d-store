@@ -27,21 +27,22 @@ namespace com.soomla.unity{
 			if (pmType == "balance") {
 				List<Dictionary<string, int>> currencyValuePerBalance = new List<Dictionary<string, int>>();
 				using(AndroidJavaObject jniCurrencyValuePerBalance = jniPriceModel.Call<AndroidJavaObject>("getCurrencyValuePerBalance")) {
-					for (int i=0; i<jniCurrencyValuePerBalance.Call<int>("size"); i++) {
+					int size = jniCurrencyValuePerBalance.Call<int>("size");
+					for (int i=0; i<size; i++) {
+						Dictionary<string, int> currencyValue = new Dictionary<string, int>();
 						using(AndroidJavaObject jniCurrencyValue = jniCurrencyValuePerBalance.Call<AndroidJavaObject>("get", i)) {
 							using(AndroidJavaObject jniCurrencyValueKeys = jniCurrencyValue.Call<AndroidJavaObject>("keySet")) {
-								Dictionary<string, int> currencyValue = new Dictionary<string, int>();
 								using(AndroidJavaObject jniCurrencyValueKeysIter = jniCurrencyValueKeys.Call<AndroidJavaObject>("iterator")) {
 									while(jniCurrencyValueKeysIter.Call<bool>("hasNext")) {
 										string key = jniCurrencyValueKeysIter.Call<string>("next");
-										string priceStr = jniCurrencyValueKeysIter.Call<AndroidJavaObject>("next").Call<string>("toString");
+										string priceStr = jniCurrencyValue.Call<AndroidJavaObject>("get", key).Call<string>("toString");
 										int price = int.Parse(priceStr);
 										currencyValue[key] = price;
 									}
 								}
-								currencyValuePerBalance.Add(currencyValue);
 							}
 						}
+						currencyValuePerBalance.Add(currencyValue);
 					}
 				}
 				pm = new BalanceDrivenPriceModel(currencyValuePerBalance);
@@ -49,16 +50,12 @@ namespace com.soomla.unity{
 				Dictionary<string, int> currencyValue = new Dictionary<string, int>();
 				using(AndroidJavaObject jniCurrencyValue = jniPriceModel.Call<AndroidJavaObject>("getCurrencyValue")) {
 					using(AndroidJavaObject jniCurrencyValueKeys = jniCurrencyValue.Call<AndroidJavaObject>("keySet")) {
-						using(AndroidJavaObject jniCurrencyValueVals = jniCurrencyValue.Call<AndroidJavaObject>("values")) {
-							using(AndroidJavaObject jniCurrencyValueKeysIter = jniCurrencyValueKeys.Call<AndroidJavaObject>("iterator")) {
-								using(AndroidJavaObject jniCurrencyValueValsIter = jniCurrencyValueVals.Call<AndroidJavaObject>("iterator")) {
-									while(jniCurrencyValueKeysIter.Call<bool>("hasNext")) {
-										string key = jniCurrencyValueKeysIter.Call<string>("next");
-										string priceStr = jniCurrencyValueValsIter.Call<AndroidJavaObject>("next").Call<string>("toString");
-										int price = int.Parse(priceStr);
-										currencyValue[key] = price;
-									}
-								}
+						using(AndroidJavaObject jniCurrencyValueKeysIter = jniCurrencyValueKeys.Call<AndroidJavaObject>("iterator")) {
+							while(jniCurrencyValueKeysIter.Call<bool>("hasNext")) {
+								string key = jniCurrencyValueKeysIter.Call<string>("next");
+								string priceStr = jniCurrencyValue.Call<AndroidJavaObject>("get", key).Call<string>("toString");
+								int price = int.Parse(priceStr);
+								currencyValue[key] = price;
 							}
 						}
 					}
