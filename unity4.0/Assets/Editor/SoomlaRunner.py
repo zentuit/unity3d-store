@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import sys
+import sys, os.path
 import shutil
 
 from mod_pbxproj import XcodeProject
