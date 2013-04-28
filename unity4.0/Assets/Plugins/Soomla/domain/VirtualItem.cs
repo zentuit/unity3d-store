@@ -5,13 +5,13 @@ namespace com.soomla.unity
 	/// <summary>
 	/// This class is the parent of all virtual items in the application.
 	/// </summary>
-	public abstract class AbstractVirtualItem
+	public abstract class VirtualItem
 	{
 		public string Name;
 		public string Description;
 		public string ItemId;
 		
-		protected AbstractVirtualItem (string name, string description, string itemId)
+		protected VirtualItem (string name, string description, string itemId)
 		{
 			this.Name = name;
 			this.Description = description;
@@ -19,13 +19,13 @@ namespace com.soomla.unity
 		}
 		
 #if UNITY_ANDROID
-		protected AbstractVirtualItem(AndroidJavaObject jniVirtualItem) {
+		protected VirtualItem(AndroidJavaObject jniVirtualItem) {
 			this.Name = jniVirtualItem.Call<string>("getName");
 			this.Description = jniVirtualItem.Call<string>("getDescription");
 			this.ItemId = jniVirtualItem.Call<string>("getItemId");
 		}
-#elif UNITY_IOS
-		protected AbstractVirtualItem(JSONObject jsonItem) {
+#endif
+		protected VirtualItem(JSONObject jsonItem) {
 			this.Name = jsonItem[JSONConsts.ITEM_NAME].str;
 			this.Description = jsonItem[JSONConsts.ITEM_DESCRIPTION].str;
 			this.ItemId = jsonItem[JSONConsts.ITEM_ITEMID].str;
@@ -39,7 +39,7 @@ namespace com.soomla.unity
 			
 			return obj;
 		}
-#endif
+
 	}
 }
 

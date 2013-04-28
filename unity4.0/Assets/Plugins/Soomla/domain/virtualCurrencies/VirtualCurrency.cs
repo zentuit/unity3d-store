@@ -17,7 +17,8 @@ namespace com.soomla.unity{
 		public AndroidJavaObject toAndroidJavaObject() {
 			return new AndroidJavaObject("com.soomla.store.domain.data.VirtualCurrency", this.Name, this.Description, this.ItemId);
 		}
-#elif UNITY_IOS
+#endif
+		
 		public VirtualCurrency(JSONObject jsonVc)
 			: base(jsonVc)
 		{
@@ -26,7 +27,6 @@ namespace com.soomla.unity{
 		public override JSONObject toJSONObject() {
 			return base.toJSONObject();
 		}
-#endif
 		
 		public VirtualCurrency(string name, string description, string itemId)
 			: base(name, description, itemId)
