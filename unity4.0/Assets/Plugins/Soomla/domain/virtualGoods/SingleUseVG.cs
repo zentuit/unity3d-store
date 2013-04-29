@@ -19,42 +19,54 @@ using System.Collections;
 
 namespace com.soomla.unity{	
 	
+	
+
 	/// <summary>
-	/// This is an abstract representation of the application's virtual good.
-	/// Your game's virtual economy revolves around virtual goods. This class defines the abstract
-	/// and most common virtual good while the descendants of this class defines specific definitions of VirtualGood.
+	/// SingleUse virtual goods are the most common type of VirtualGood.
+	///
+	/// The SingleUseVG's characteristics are:
+	///  1. Can be purchased unlimited number of times.
+	///  2. Has a balance and saved in the database. Its balance goes up when you "give" it or "buy" it. The balance goes
+	///      down when it's taken or refunded (in case of an unfriendly refund).
+	///
+	/// - Usage Examples: 'Hat', 'Sword'
+	///
+	/// This VirtualItem is purchasable.
+ 	/// In case you purchase this item in Google Play or the App Store(PurchaseWithMarket), You need to define the item in Google
+ 	/// Play Developer Console or in iTunesConnect. (https://play.google.com/apps/publish) (https://itunesconnect.apple.com)
 	/// </summary>
-	public abstract class VirtualGood : PurchasableVirtualItem{
+	public class SingleUseVG : VirtualGood{
 		
-		public VirtualGood(string name, string description, string itemId, PurchaseType purchaseType)
+		/// <summary>
+		/// Initializes a new instance of the <see cref="com.soomla.unity.SingleUseVG"/> class.
+		/// </summary>
+		/// <param name='name'>
+		/// see parent
+		/// </param>
+		/// <param name='description'>
+		/// see parent
+		/// </param>
+		/// <param name='itemId'>
+		/// see parent
+		/// </param>
+		/// <param name='purchaseType'>
+		/// see parent
+		/// </param>
+		public SingleUseVG(string name, string description, string itemId, PurchaseType purchaseType)
 			: base(name, description, itemId, purchaseType)
 		{
 		}
 		
 #if UNITY_ANDROID
-		public VirtualGood(AndroidJavaObject jniVirtualGood) 
-			: base(jniVirtualGood)
+		public SingleUseVG(AndroidJavaObject jniSingleUseVG) 
+			: base(jniSingleUseVG)
 		{
-			// Virtual Category
-			using(AndroidJavaObject jniVirtualCategory = jniVirtualGood.Call<AndroidJavaObject>("getCategory")) {
-				this.Category = new VirtualCategory(jniVirtualCategory);
-			}
-
-			// Price Model
-			using(AndroidJavaObject jniPriceModel = jniVirtualGood.Call<AndroidJavaObject>("getPriceModel")) {
-				this.PriceModel = AbstractPriceModel.CreatePriceModel(jniPriceModel);
-			}
-		}
-		
-		public AndroidJavaObject toAndroidJavaObject(AndroidJavaObject jniUnityStoreAssets, AndroidJavaObject jniVirtualCategory) {
-			return new AndroidJavaObject("com.soomla.store.domain.data.VirtualGood", this.Name, this.Description, 
-				this.PriceModel.toAndroidJavaObject(jniUnityStoreAssets), this.ItemId, jniVirtualCategory);
 		}
 #endif
 		/// <summary>
 		/// see parent
 		/// </summary>
-		public VirtualGood(JSONObject jsonVg)
+		public SingleUseVG(JSONObject jsonVg)
 			: base(jsonVg)
 		{
 		}

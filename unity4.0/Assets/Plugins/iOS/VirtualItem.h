@@ -29,10 +29,42 @@
 @property (retain, nonatomic) NSString* description;
 @property (retain, nonatomic) NSString* itemId;
 
+
 - (id)init;
-- (id)initWithName:(NSString*)name andDescription:(NSString*)description
-    andItemId:(NSString*)itemId;
+
+/** Constructor
+ *
+ * oName is the name of the virtual item.
+ * oDescription is the description of the virtual item. If you use SOOMLA's storefront, This will show up
+ *                       in the store in the description section.
+ * oItemId is the itemId of the virtual item.
+ */
+- (id)initWithName:(NSString*)oName andDescription:(NSString*)oDescription andItemId:(NSString*)oItemId;
+
+/** Constructor
+ *
+ * Generates an instance of VirtualItem from a NSDictionary.
+ * dict is a NSDictionary representation of the wanted VirtualItem.
+ */
 - (id)initWithDictionary:(NSDictionary*)dict;
+
+/**
+ * Converts the current VirtualItem to a NSDictionary.
+ */
 - (NSDictionary*)toDictionary;
+
+/**
+ * By performing this action, you give your user a curtain amount of the specific VirtualItem.
+ * The giving process is different from the "buy" process. You just give your user something and you get
+ * nothing in return.
+ * amount is the amount of the specific item to be given.
+ */
+- (void)giveAmount:(int)amount;
+
+/**
+ * By performing this action, you take curtain amount of the specific VirtualItem from your user.
+ * amount is the amount of the specific item to be taken.
+ */
+- (void)takeAmount:(int)amount;
 
 @end

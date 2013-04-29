@@ -1,65 +1,71 @@
+/*
+ * Copyright (C) 2012 Soomla Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 using UnityEngine;
 using System.Collections;
 
 
 namespace com.soomla.unity{	
-
+	
 	/// <summary>
-	/// This is a representation of the application's virtual good.
-	/// Virtual goods are bought with one or more VirtualCurrency. The price is determined by the PriceModel.
+	/// This is an abstract representation of the application's virtual good.
+	/// Your game's virtual economy revolves around virtual goods. This class defines the abstract
+	/// and most common virtual good while the descendants of this class defines specific definitions of VirtualGood.
 	/// </summary>
-	public class VirtualGood : AbstractVirtualItem{
-		public AbstractPriceModel PriceModel;
-		public VirtualCategory Category;
+	public abstract class VirtualGood : PurchasableVirtualItem{
 		
-		public VirtualGood(string name, string description, AbstractPriceModel priceModel, string itemId, VirtualCategory category)
-			: base(name, description, itemId)
+		/// <summary>
+		/// Initializes a new instance of the <see cref="com.soomla.unity.VirtualGood"/> class.
+		/// </summary>
+		/// <param name='name'>
+		/// see parent
+		/// </param>
+		/// <param name='description'>
+		/// see parent
+		/// </param>
+		/// <param name='itemId'>
+		/// see parent
+		/// </param>
+		/// <param name='purchaseType'>
+		/// see parent
+		/// </param>
+		public VirtualGood(string name, string description, string itemId, PurchaseType purchaseType)
+			: base(name, description, itemId, purchaseType)
 		{
-			this.PriceModel = priceModel;
-			this.Category = category;
 		}
 		
 #if UNITY_ANDROID
 		public VirtualGood(AndroidJavaObject jniVirtualGood) 
 			: base(jniVirtualGood)
 		{
-			// Virtual Category
-			using(AndroidJavaObject jniVirtualCategory = jniVirtualGood.Call<AndroidJavaObject>("getCategory")) {
-				this.Category = new VirtualCategory(jniVirtualCategory);
-			}
-
-			// Price Model
-			using(AndroidJavaObject jniPriceModel = jniVirtualGood.Call<AndroidJavaObject>("getPriceModel")) {
-				this.PriceModel = AbstractPriceModel.CreatePriceModel(jniPriceModel);
-			}
 		}
-		
-		public AndroidJavaObject toAndroidJavaObject(AndroidJavaObject jniUnityStoreAssets, AndroidJavaObject jniVirtualCategory) {
-			return new AndroidJavaObject("com.soomla.store.domain.data.VirtualGood", this.Name, this.Description, 
-				this.PriceModel.toAndroidJavaObject(jniUnityStoreAssets), this.ItemId, jniVirtualCategory);
-		}
-#elif UNITY_IOS
+#endif
+		/// <summary>
+		/// see parent
+		/// </summary>
 		public VirtualGood(JSONObject jsonVg)
 			: base(jsonVg)
 		{
-			this.PriceModel = AbstractPriceModel.CreatePriceModel((JSONObject)jsonVg[JSONConsts.GOOD_PRICE_MODEL]);
-			int categoryId = System.Convert.ToInt32(((JSONObject)jsonVg[JSONConsts.GOOD_CATEGORY_ID]).n);
-			try {
-				if (categoryId > -1) {
-					this.Category = StoreInfo.GetVirtualCategoryById(categoryId);
-				}
-			} catch {
-				Debug.Log("Couldn't find category with id: " + categoryId);
-			}
 		}
-		
+
+		/// <summary>
+		/// see parent
+		/// </summary>
 		public override JSONObject toJSONObject() {
-			JSONObject obj = base.toJSONObject();
-			obj.AddField(JSONConsts.GOOD_PRICE_MODEL, this.PriceModel.toJSONObject());
-			obj.AddField(JSONConsts.GOOD_CATEGORY_ID, this.Category.Id);
-			
-			return obj;
+			return base.toJSONObject();
 		}
-#endif
+
 	}
 }

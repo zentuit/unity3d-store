@@ -20,23 +20,61 @@ using System.Collections;
 namespace com.soomla.unity{	
 	
 	/// <summary>
-	/// A Lifetime virtual good is a special time that allows you to offer virtual goods that are bought only once.
+	/// An Equippable virtual good is a special type of Lifetime Virtual good.
+	/// In addition to the fact that this virtual good can be purchased once, it can be equipped by your users.
+	/// - Equipping means that the user decides to currently use a specific virtual good.
 	///
-	/// The LifetimeVG's characteristics are:
-	///  1. Can only be purchased once.
-	///  2. Your users can't have more than one of this item. In other words, (0 <= [LifetimeVG's balance] <= 1) == true.
+	/// The EquippableVG's characteristics are:
+	///  1. Can be purchased only once.
+	///  2. Can be equipped by the user.
+	///  3. Inherits the definition of LifetimeVG.
 	///
-	/// - Example usage: 'No Ads', 'Double Coins'
+	/// There are 3 ways to equip an EquippableVG:
+	///  1. LOCAL    - The current EquippableVG's equipping status doesn't affect any other EquippableVG.
+	///  2. CATEGORY - In the containing category, if this EquippableVG is equipped, all other EquippableVGs are unequipped.
+	///  3. GLOBAL   - In the whole game, if this EquippableVG is equipped, all other EquippableVGs are unequipped.
+	///
+	/// - Example Usage: different characters (play with a specific character),
+	///                  'binoculars' (users might only want to take them at night)
 	///
 	/// This VirtualItem is purchasable.
  	/// In case you purchase this item in Google Play or the App Store(PurchaseWithMarket), You need to define the item in Google
  	/// Play Developer Console or in iTunesConnect. (https://play.google.com/apps/publish) (https://itunesconnect.apple.com)
 	/// </summary>
-	public abstract class LifetimeVG : VirtualGood{
+	public class EquippableVG : VirtualGood{
+		
+		public sealed class EquippingModel {
+
+    		private readonly string name;
+    		private readonly int value;
+
+		    public static readonly EquippingModel LOCAL = new EquippingModel (0, "local");
+		    public static readonly EquippingModel CATEGORY = new EquippingModel (1, "category");
+		    public static readonly EquippingModel GLOBAL = new EquippingModel (2, "global");        
+		
+		    private EquippingModel(int value, string name){
+		        this.name = name;
+		        this.value = value;
+		    }
+		
+		    public override string ToString(){
+		        return name;
+		    }
+			
+			public int toInt() {
+				return value;
+			}
+		
+		}
+		
+		public EquippingModel Equipping;
 		
 		/// <summary>
-		/// Initializes a new instance of the <see cref="com.soomla.unity.LifetimeVG"/> class.
+		/// Initializes a new instance of the <see cref="com.soomla.unity.EquippableVG"/> class.
 		/// </summary>
+		/// <param name='equippingModel'>
+		/// The way this EquippableVG is equipped.
+		/// </param>
 		/// <param name='name'>
 		/// see parent
 		/// </param>
@@ -49,44 +87,48 @@ namespace com.soomla.unity{
 		/// <param name='purchaseType'>
 		/// see parent
 		/// </param>
-		public LifetimeVG(string name, string description, string itemId, PurchaseType purchaseType)
+		public EquippableVG(EquippingModel equippingModel, string name, string description, string itemId, PurchaseType purchaseType)
 			: base(name, description, itemId, purchaseType)
 		{
+			this.Equipping = equippingModel;
 		}
 		
 #if UNITY_ANDROID
-		public VirtualGood(AndroidJavaObject jniVirtualGood) 
-			: base(jniVirtualGood)
+		public EquippableVG(AndroidJavaObject jniEquippableVG) 
+			: base(jniEquippableVG)
 		{
-			// Virtual Category
-			using(AndroidJavaObject jniVirtualCategory = jniVirtualGood.Call<AndroidJavaObject>("getCategory")) {
-				this.Category = new VirtualCategory(jniVirtualCategory);
-			}
-
-			// Price Model
-			using(AndroidJavaObject jniPriceModel = jniVirtualGood.Call<AndroidJavaObject>("getPriceModel")) {
-				this.PriceModel = AbstractPriceModel.CreatePriceModel(jniPriceModel);
-			}
-		}
-		
-		public AndroidJavaObject toAndroidJavaObject(AndroidJavaObject jniUnityStoreAssets, AndroidJavaObject jniVirtualCategory) {
-			return new AndroidJavaObject("com.soomla.store.domain.data.VirtualGood", this.Name, this.Description, 
-				this.PriceModel.toAndroidJavaObject(jniUnityStoreAssets), this.ItemId, jniVirtualCategory);
 		}
 #endif
 		/// <summary>
 		/// see parent
 		/// </summary>
-		public LifetimeVG(JSONObject jsonVg)
-			: base(jsonVg)
+		public EquippableVG(JSONObject jsonItem)
+			: base(jsonItem)
 		{
+			int emOrdinal = System.Convert.ToInt32(((JSONObject)jsonItem[JSONConsts.EQUIPPABLE_EQUIPPING]).n);
+			this.Equipping = EquippingModel.CATEGORY;
+			switch(emOrdinal){
+				case 0:
+					this.Equipping = EquippingModel.LOCAL;
+					break;
+				case 1:
+					this.Equipping = EquippingModel.CATEGORY;
+					break;
+				default:
+					this.Equipping = EquippingModel.GLOBAL;
+					break;
+			}
 		}
 
 		/// <summary>
 		/// see parent
 		/// </summary>
-		public override JSONObject toJSONObject() {
-			return base.toJSONObject();
+		public override JSONObject toJSONObject() 
+		{
+			JSONObject obj = base.toJSONObject();
+			obj.AddField(JSONConsts.EQUIPPABLE_EQUIPPING, this.Equipping.toInt());
+			
+			return obj;
 		}
 
 	}

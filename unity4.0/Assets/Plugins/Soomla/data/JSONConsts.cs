@@ -33,7 +33,7 @@ namespace com.soomla.unity
 	    public const string VGP_GOOD_AMOUNT          = "good_amount";
 	
 	    // VGU = UpgradeVG
-	    public const string VGU_LEVEL                = "level";
+	    public const string VGU_NEXT_ITEMID          = "next_itemId";
 	    public const string VGU_GOOD_ITEMID          = "good_itemId";
 	    public const string VGU_PREV_ITEMID          = "prev_itemId";
 	

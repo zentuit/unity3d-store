@@ -14,46 +14,49 @@
  * limitations under the License.
  */
 
-#import "VirtualItem.h"
+#import "PurchasableVirtualItem.h"
 
 @class VirtualCurrency;
-@class VirtualCategory;
-@class AppStoreItem;
 
 /**
- * This class represents a pack of the game's virtual currency.
- * For example: If you have a "Coin" as a virtual currency, you might
- * want to sell packs of "Coins". e.g. "10 Coins Set" or "Super Saver Pack".
- * The currency pack usually has an AppStoreItem related to it. As a developer,
- * you'll define the app store's item in Itunes Connect.
+ * Every game has its virtualCurrencies. Here you represent a pack of a specific VirtualCurrency.
+ * For example: If you have a "Coin" as a virtual currency, you will
+ * sell packs of "Coins". e.g. "10 Coins Set" or "Super Saver Pack".
+ *
+ * This VirtualItem is purchasable.
+ * In case you purchase this item in the App Store (PurchaseWithMarket), You need to define the app store item in
+ * iTunes Connect. ( https://itunesconnect.apple.com )
  */
-@interface VirtualCurrencyPack : VirtualItem{
+@interface VirtualCurrencyPack : PurchasableVirtualItem{
     int     currencyAmount;
-    VirtualCurrency* currency;
-    AppStoreItem* appstoreItem;
+    NSString* currencyItemId;
 }
 
-
 @property int     currencyAmount;
-@property (retain, nonatomic) VirtualCurrency* currency;
-@property (retain, nonatomic) AppStoreItem* appstoreItem;
+@property (retain, nonatomic) NSString* currencyItemId;
+
+/** Constructor
+ *
+ * oName see parent
+ * oDescription see parent
+ * oItemId see parent
+ * oCurrencyAmount is the amount of currency in the pack.
+ * oCurrencyItemId is the itemId of the currency associated with this pack.
+ * oPurchaseType see parent
+ */
+- (id)initWithName:(NSString*)oName andDescription:(NSString*)oDescription
+     andItemId:(NSString*)oItemId andCurrencyAmount:(int)oCurrencyAmount andCurrency:(NSString*)oCurrencyItemId
+     andPurchaseType:(PurchaseType*)oPurchaseType;
+
+/** Constructor
+ *
+ * see parent
+ */
+- (id)initWithDictionary:(NSDictionary*)dict;
 
 /**
-* oName is the name of the virtual currency pack.
-* oDescription is the description of the virtual currency pack. This will show up
-*                in the store in the description section.
-* oItemId is the id of the virtual currency pack.
-* productId is the product id on Google Market..
-* oPrice is the actual $$ cost of the virtual currency pack.
-* oCurrencyAmout is the amount of currency in the pack.
-* oCurrency is the currency associated with this pack.
-* oCategory is the category this currency pack is associated with.
-*/
-- (id)initWithName:(NSString*)oName andDescription:(NSString*)oDescription
-    andItemId:(NSString*)oItemId andPrice:(double)oPrice
-    andProductId:(NSString*)productId andCurrencyAmount:(int)oCurrencyAmount andCurrency:(VirtualCurrency*)oCurrency;
-
-- (id)initWithDictionary:(NSDictionary*)dict;
+ * see parent
+ */
 - (NSDictionary*)toDictionary;
 
 @end

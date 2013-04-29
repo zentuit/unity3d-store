@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 namespace com.soomla.unity {
 	public class Soomla : MonoBehaviour {
 		
+		private const string TAG = "SOOMLA Soomla";
 		private static Soomla instance = null;
 		
 		void Awake(){
@@ -24,148 +25,137 @@ namespace com.soomla.unity {
 			return instance;
 		}
 		
-		public void onMarketPurchase(string message) {
-			Debug.Log ("SOOMLA/UNITY onMarketPurchase:" + message);
-			
-			MarketItem mi = null;
-			try {
-				NonConsumableItem non = StoreInfo.GetNonConsumableItemByProductId(message);
-				mi = non.MarketItem;
-			} catch {
-				VirtualCurrencyPack vcp = StoreInfo.GetPackByProductId(message);
-				mi = vcp.MarketItem;
-			}
-			Events.OnMarketPurchase(mi);
-		}
-		
-		public static void onMarketRefund(string message) {
-			Debug.Log("SOOMLA/UNITY onMarketRefund:" + message);
-			
-			MarketItem mi = null;
-			try {
-				NonConsumableItem non = StoreInfo.GetNonConsumableItemByProductId(message);
-				mi = non.MarketItem;
-			} catch {
-				VirtualCurrencyPack vcp = StoreInfo.GetPackByProductId(message);
-				mi = vcp.MarketItem;
-			}
-			Events.OnMarketRefund(mi);
-		}
-	
-		
-		public void onVirtualGoodPurchased(string message) {
-			Debug.Log("SOOMLA/UNITY onVirtualGoodPurchased:" + message);
-			
-			VirtualGood vg = StoreInfo.GetVirtualGoodByItemId(message);
-			Events.OnVirtualGoodPurchased(vg);
-		}
-	
-	
-		public void onVirtualGoodEquipped(string message) {
-			Debug.Log("SOOMLA/UNITY onVirtualGoodEquipped:" + message);
-			
-			VirtualGood vg = StoreInfo.GetVirtualGoodByItemId(message);
-			Events.OnVirtualGoodEquipped(vg);
-		}
-	
-	
-		public void onVirtualGoodUnequipped(string message) {
-			Debug.Log("SOOMLA/UNITY onVirtualGoodUnEquipped:" + message);
-			
-			VirtualGood vg = StoreInfo.GetVirtualGoodByItemId(message);
-			Events.OnVirtualGoodUnEquipped(vg);
-		}
-	
-	
 		public void onBillingSupported(string message) {
-			Debug.Log("SOOMLA/UNITY onBillingSupported");
+			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onBillingSupported");
 			
 			Events.OnBillingSupported();
 		}
 	
 		
 		public void onBillingNotSupported(string message) {
-			Debug.Log("SOOMLA/UNITY onBillingNotSupported");
+			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onBillingNotSupported");
 			
 			Events.OnBillingNotSupported();
 		}
-	
-		
-		public void onMarketPurchaseProcessStarted(string message) {
-			Debug.Log("SOOMLA/UNITY onMarketPurchaseProcessStarted: " + message);
-			
-			MarketItem mi = null;
-			try {
-				NonConsumableItem non = StoreInfo.GetNonConsumableItemByProductId(message);
-				mi = non.MarketItem;
-			} catch {
-				VirtualCurrencyPack vcp = StoreInfo.GetPackByProductId(message);
-				mi = vcp.MarketItem;
-			}
-			Events.OnMarketPurchaseProcessStarted(mi);
-		}
-		
-		public void onMarketPurchaseCancelled(string message) {
-			Debug.Log("SOOMLA/UNITY onMarketPurchaseCancelled: " + message);
-			
-			MarketItem mi = null;
-			try {
-				NonConsumableItem non = StoreInfo.GetNonConsumableItemByProductId(message);
-				mi = non.MarketItem;
-			} catch {
-				VirtualCurrencyPack vcp = StoreInfo.GetPackByProductId(message);
-				mi = vcp.MarketItem;
-			}
-			Events.OnMarketPurchaseCancelled(mi);
-		}
-	
-		
-		public void onGoodsPurchaseProcessStarted(string message) {
-			Debug.Log("SOOMLA/UNITY onGoodsPurchaseProcessStarted");
-			
-			Events.OnGoodsPurchaseProcessStarted();
-		}
-	
 		
 		public void onClosingStore(string message) {
-			Debug.Log("SOOMLA/UNITY onClosingStore");
+			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onClosingStore");
 			
 			Events.OnClosingStore();
 		}
-	
 		
-		public void onUnexpectedErrorInStore(string message) {
-			Debug.Log("SOOMLA/UNITY onUnexpectedErrorInStore");
+		public void onCurrencyBalanceChanged(string message) {
+			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onCurrencyBalanceChanged:" + message);
 			
-			Events.OnUnexpectedErrorInStore();
+			string[] vars = Regex.Split(message, "#SOOM#");
+			
+			VirtualCurrency vc = (VirtualCurrency)StoreInfo.GetItemByItemId(vars[0]);
+			int balance = int.Parse(vars[1]);
+			int amountAdded = int.Parse(vars[2]);
+			Events.OnCurrencyBalanceChanged(vc, balance, amountAdded);
+		}
+		
+		public void onGoodBalanceChanged(string message) {
+			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onGoodBalanceChanged:" + message);
+			
+			string[] vars = Regex.Split(message, "#SOOM#");
+			
+			VirtualGood vg = (VirtualGood)StoreInfo.GetItemByItemId(vars[0]);
+			int balance = int.Parse(vars[1]);
+			int amountAdded = int.Parse(vars[2]);
+			Events.OnGoodBalanceChanged(vg, balance, amountAdded);
+		}
+		
+		public void onGoodEquipped(string message) {
+			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onVirtualGoodEquipped:" + message);
+			
+			EquippableVG vg = (EquippableVG)StoreInfo.GetItemByItemId(message);
+			Events.OnGoodEquipped(vg);
 		}
 	
+		public void onGoodUnequipped(string message) {
+			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onVirtualGoodUnEquipped:" + message);
+			
+			EquippableVG vg = (EquippableVG)StoreInfo.GetItemByItemId(message);
+			Events.OnGoodUnEquipped(vg);
+		}
+		
+		public void onGoodUpgrade(string message) {
+			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onGoodUpgrade:" + message);
+			
+			string[] vars = Regex.Split(message, "#SOOM#");
+			
+			VirtualGood vg = (VirtualGood)StoreInfo.GetItemByItemId(vars[0]);
+			UpgradeVG vgu = (UpgradeVG)StoreInfo.GetItemByItemId(vars[1]);
+			Events.OnGoodUpgrade(vg, vgu);
+		}
+		
+		public void onItemPurchased(string message) {
+			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onItemPurchased:" + message);
+			
+			PurchasableVirtualItem pvi = (PurchasableVirtualItem)StoreInfo.GetItemByItemId(message);
+			Events.OnItemPurchased(pvi);
+		}
+		
+		public void onItemPurchaseStarted(string message) {
+			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onItemPurchaseStarted:" + message);
+			
+			PurchasableVirtualItem pvi = (PurchasableVirtualItem)StoreInfo.GetItemByItemId(message);
+			Events.OnItemPurchaseStarted(pvi);
+		}
 		
 		public void onOpeningStore(string message) {
-			Debug.Log("SOOMLA/UNITY onOpeningStore");
+			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onOpeningStore");
 			
 			Events.OnOpeningStore();
 		}
 		
-		public void onCurrencyBalanceChanged(string message) {
-			Debug.Log("SOOMLA/UNITY onCurrencyBalanceChanged:" + message);
+		public void onMarketPurchaseCancelled(string message) {
+			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onMarketPurchaseCancelled: " + message);
 			
-			string[] vars = Regex.Split(message, "#SOOM#");
+			PurchasableVirtualItem pvi = (PurchasableVirtualItem)StoreInfo.GetItemByItemId(message);
+			Events.OnMarketPurchaseCancelled(pvi);
+		}
+
+		public void onMarketPurchase(string message) {
+			Debug.Log ("SOOMLA/UNITY onMarketPurchase:" + message);
 			
-			VirtualCurrency vc = StoreInfo.GetVirtualCurrencyByItemId(vars[0]);
-			int balance = int.Parse(vars[1]);
-			Events.OnCurrencyBalanceChanged(vc, balance);
+			PurchasableVirtualItem pvi = (PurchasableVirtualItem)StoreInfo.GetItemByItemId(message);
+			Events.OnMarketPurchase(pvi);
 		}
 		
-		public void onGoodBalanceChanged(string message) {
-			Debug.Log("SOOMLA/UNITY onGoodBalanceChanged:" + message);
+		public void onMarketPurchaseStarted(string message) {
+			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onMarketPurchaseStarted: " + message);
 			
-			string[] vars = Regex.Split(message, "#SOOM#");
-			
-			VirtualGood vg = StoreInfo.GetVirtualGoodByItemId(vars[0]);
-			int balance = int.Parse(vars[1]);
-			Events.OnGoodBalanceChanged(vg, balance);
+			PurchasableVirtualItem pvi = (PurchasableVirtualItem)StoreInfo.GetItemByItemId(message);
+			Events.OnMarketPurchaseStarted(pvi);
 		}
 		
+		public static void onMarketRefund(string message) {
+			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onMarketRefund:" + message);
+			
+			PurchasableVirtualItem pvi = (PurchasableVirtualItem)StoreInfo.GetItemByItemId(message);
+			Events.OnMarketPurchaseStarted(pvi);
+		}
+		
+		public static void onRestoreTransactions(string message) {
+			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onRestoreTransactions:" + message);
+			
+			bool success = Convert.ToBoolean(int.Parse(message));
+			Events.OnRestoreTransactions(success);
+		}
+		
+		public static void onRestoreTransactionsStarted(string message) {
+			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onRestoreTransactionsStarted");
+			
+			Events.OnRestoreTransactionsStarted();
+		}
+
+		public void onUnexpectedErrorInStore(string message) {
+			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onUnexpectedErrorInStore");
+			
+			Events.OnUnexpectedErrorInStore();
+		}
+
 	}
 }

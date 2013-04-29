@@ -1,26 +1,73 @@
+/*
+ * Copyright (C) 2012 Soomla Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 using UnityEngine;
 using System.Collections;
 
 namespace com.soomla.unity{	
 
+/**
+ * Every game has its virtualCurrencies. Here you represent a pack of a specific VirtualCurrency.
+ * For example: If you have a "Coin" as a virtual currency, you will
+ * sell packs of "Coins". e.g. "10 Coins Set" or "Super Saver Pack".
+ *
+ * This VirtualItem is purchasable.
+ * In case you purchase this item in Google Play (PurchaseWithMarket), You need to define the google item in Google
+ * Play Developer Console. (https://play.google.com/apps/publish)
+ */
 	/// <summary>
-	/// This class represents a pack of the game's virtual currency.
- 	/// For example: If you have a "Coin" as a virtual currency, you might
-	/// want to sell packs of "Coins". e.g. "10 Coins Set" or "Super Saver Pack".
- 	/// The currency pack usually has a google item related to it. As a developer,
- 	/// you'll define the Play/Appstore item in Google/Apple's in-app purchase dashboard.
+	/// Every game has its virtualCurrencies. Here you represent a pack of a specific VirtualCurrency.
+ 	/// For example: If you have a "Coin" as a virtual currency, you will
+ 	/// sell packs of "Coins". e.g. "10 Coins Set" or "Super Saver Pack".
+	///
+ 	/// This VirtualItem is purchasable.
+ 	/// In case you purchase this item in Google Play or the App Store(PurchaseWithMarket), You need to define the item in Google
+ 	/// Play Developer Console or in iTunesConnect. (https://play.google.com/apps/publish) (https://itunesconnect.apple.com)
 	/// </summary>
-	public class VirtualCurrencyPack : AbstractVirtualItem{
-		public MarketItem MarketItem;
-		public int CurrencyAmount;
-		public VirtualCurrency Currency;
+	public class VirtualCurrencyPack : PurchasableVirtualItem {
+//		private static string TAG = "SOOMLA VirtualCurrencyPack";
 		
-		public VirtualCurrencyPack(string name, string description, string itemId, string productId, double price, int currencyAmount, VirtualCurrency currency)
-			: base(name, description, itemId)
+		public int CurrencyAmount;
+		public string CurrencyItemId;
+		
+		/// <summary>
+		/// Initializes a new instance of the <see cref="com.soomla.unity.VirtualCurrencyPack"/> class.
+		/// </summary>
+		/// <param name='name'>
+		/// see parent
+		/// </param>
+		/// <param name='description'>
+		/// see parent
+		/// </param>
+		/// <param name='itemId'>
+		/// see parent
+		/// </param>
+		/// <param name='currencyAmount'>
+		/// The amount of currency in the pack.
+		/// </param>
+		/// <param name='currencyItemId'>
+		/// The itemId of the currency associated with this pack.
+		/// </param>
+		/// <param name='purchaseType'>
+		/// see parent
+		/// </param>
+		public VirtualCurrencyPack(string name, string description, string itemId, int currencyAmount, string currencyItemId, PurchaseType purchaseType)
+			: base(name, description, itemId, purchaseType)
 		{
-			this.MarketItem = new MarketItem(productId, MarketItem.Consumable.CONSUMABLE, price);
 			this.CurrencyAmount = currencyAmount;
-			this.Currency = currency;
+			this.CurrencyItemId = currencyItemId;
 		}
 		
 #if UNITY_ANDROID
@@ -28,45 +75,31 @@ namespace com.soomla.unity{
 			: base(jniVirtualCurrencyPack)
 		{
 			this.CurrencyAmount = jniVirtualCurrencyPack.Call<int>("getCurrencyAmount");
-			// Google Market Item
-			AndroidJavaObject jniGoogleMarketItem = jniVirtualCurrencyPack.Call<AndroidJavaObject>("getGoogleItem");
-			this.MarketItem = new MarketItem(jniGoogleMarketItem);
+
 			// Virtual Currency
-			AndroidJavaObject jniVirtualCurrency = jniVirtualCurrencyPack.Call<AndroidJavaObject>("getVirtualCurrency");
-			this.Currency = new VirtualCurrency(jniVirtualCurrency);
-		}
-		
-		public AndroidJavaObject toAndroidJavaObject(AndroidJavaObject jniVirtualCurrency) {
-			return new AndroidJavaObject("com.soomla.store.domain.data.VirtualCurrencyPack", this.Name, this.Description, 
-				this.ItemId, this.MarketItem.ProductId, this.MarketItem.Price, this.CurrencyAmount, jniVirtualCurrency);
-		}
-#elif UNITY_IOS
-		public VirtualCurrencyPack(JSONObject jsonVcp)
-			: base(jsonVcp)
-		{
-			this.CurrencyAmount = System.Convert.ToInt32(((JSONObject)jsonVcp[JSONConsts.CURRENCYPACK_AMOUNT]).n);
-			this.MarketItem = new MarketItem(jsonVcp);
-			
-			string currencyItemId = jsonVcp[JSONConsts.CURRENCYPACK_CURRENCYITEMID].str;
-			try {
-				this.Currency = StoreInfo.GetVirtualCurrencyByItemId(currencyItemId);
-			} catch {
-				Debug.Log("Couldn't find the associated currency. itemId: " + currencyItemId);
-			}
-		}
-		
-		public override JSONObject toJSONObject() {
-			JSONObject obj = base.toJSONObject();
-			JSONObject miJson = this.MarketItem.toJSONObject();
-			for(int i=0; i<miJson.list.Count; i++) {
-				string key = (string)miJson.keys[i];
-				obj.AddField(key, miJson[key]);
-			}
-			obj.AddField(JSONConsts.CURRENCYPACK_AMOUNT, this.CurrencyAmount);
-			obj.AddField(JSONConsts.CURRENCYPACK_CURRENCYITEMID, this.Currency.ItemId);
-			
-			return obj;
+			CurrencyItemId = jniVirtualCurrencyPack.Call<string>("getCurrencyItemId");
 		}
 #endif
+		/// <summary>
+		/// see parent
+		/// </summary>
+		public VirtualCurrencyPack(JSONObject jsonItem)
+			: base(jsonItem)
+		{
+			this.CurrencyAmount = System.Convert.ToInt32(((JSONObject)jsonItem[JSONConsts.CURRENCYPACK_CURRENCYAMOUNT]).n);
+			
+			CurrencyItemId = jsonItem[JSONConsts.CURRENCYPACK_CURRENCYITEMID].str;
+		}
+		
+		/// <summary>
+		/// see parent
+		/// </summary>
+		public override JSONObject toJSONObject() {
+			JSONObject obj = base.toJSONObject();
+			obj.AddField(JSONConsts.CURRENCYPACK_CURRENCYAMOUNT, this.CurrencyAmount);
+			obj.AddField(JSONConsts.CURRENCYPACK_CURRENCYITEMID, this.CurrencyItemId);
+			return obj;
+		}
+
 	}
 }

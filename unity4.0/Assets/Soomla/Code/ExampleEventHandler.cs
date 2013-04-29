@@ -9,37 +9,45 @@ namespace com.soomla.unity.example
 		{
 			Events.OnMarketPurchase += onMarketPurchase;
 			Events.OnMarketRefund += onMarketRefund;
-			Events.OnVirtualGoodPurchased += onVirtualGoodPurchased;
-			Events.OnVirtualGoodEquipped += onVirtualGoodEquipped;
-			Events.OnVirtualGoodUnEquipped += onVirtualGoodUnequipped;
+			Events.OnItemPurchased += onItemPurchased;
+			Events.OnGoodEquipped += onGoodEquipped;
+			Events.OnGoodUnEquipped += onGoodUnequipped;
+			Events.OnGoodUpgrade += onGoodUpgrade;
 			Events.OnBillingSupported += onBillingSupported;
 			Events.OnBillingNotSupported += onBillingNotSupported;
-			Events.OnMarketPurchaseProcessStarted += onMarketPurchaseProcessStarted;
-			Events.OnGoodsPurchaseProcessStarted += onGoodsPurchaseProcessStarted;
+			Events.OnMarketPurchaseStarted += onMarketPurchaseStarted;
+			Events.OnItemPurchaseStarted += onItemPurchaseStarted;
 			Events.OnClosingStore += onClosingStore;
 			Events.OnOpeningStore += onOpeningStore;
 			Events.OnUnexpectedErrorInStore += onUnexpectedErrorInStore;
 			Events.OnCurrencyBalanceChanged += onCurrencyBalanceChanged;
 			Events.OnGoodBalanceChanged += onGoodBalanceChanged;
+			Events.OnMarketPurchaseCancelled += onMarketPurchaseCancelled;
+			Events.OnRestoreTransactionsStarted += onRestoreTransactionsStarted;
+			Events.OnRestoreTransactions += onRestoreTransactions;
 		}
 		
-		public void onMarketPurchase(MarketItem marketItem) {
+		public void onMarketPurchase(PurchasableVirtualItem pvi) {
 			
 		}
 		
-		public void onMarketRefund(MarketItem marketItem) {
+		public void onMarketRefund(PurchasableVirtualItem pvi) {
 
 		}
 		
-		public void onVirtualGoodPurchased(VirtualGood good) {
+		public void onItemPurchased(PurchasableVirtualItem pvi) {
 
 		}
 		
-		public void onVirtualGoodEquipped(VirtualGood good) {
+		public void onGoodEquipped(EquippableVG good) {
 			
 		}
 		
-		public void onVirtualGoodUnequipped(VirtualGood good) {
+		public void onGoodUnequipped(EquippableVG good) {
+			
+		}
+		
+		public void onGoodUpgrade(VirtualGood good, UpgradeVG currentUpgrade) {
 			
 		}
 		
@@ -51,11 +59,15 @@ namespace com.soomla.unity.example
 			
 		}
 		
-		public void onMarketPurchaseProcessStarted(MarketItem marketItem) {
+		public void onMarketPurchaseStarted(PurchasableVirtualItem pvi) {
 			
 		}
 		
-		public void onGoodsPurchaseProcessStarted() {
+		public void onItemPurchaseStarted(PurchasableVirtualItem pvi) {
+			
+		}
+		
+		public void onMarketPurchaseCancelled(PurchasableVirtualItem pvi) {
 			
 		}
 		
@@ -71,12 +83,20 @@ namespace com.soomla.unity.example
 			
 		}
 		
-		public void onCurrencyBalanceChanged(VirtualCurrency virtualCurrency, int balance) {
+		public void onCurrencyBalanceChanged(VirtualCurrency virtualCurrency, int balance, int amountAdded) {
 			ExampleLocalStoreInfo.UpdateBalances();
 		}
 		
-		public void onGoodBalanceChanged(VirtualGood good, int balance) {
+		public void onGoodBalanceChanged(VirtualGood good, int balance, int amountAdded) {
 			ExampleLocalStoreInfo.UpdateBalances();
+		}
+		
+		public void onRestoreTransactionsStarted() {
+			
+		}
+		
+		public void onRestoreTransactions(bool success) {
+			
 		}
 	}
 }

@@ -21,9 +21,9 @@ namespace com.soomla.unity.example
 		public static List<VirtualCurrencyPack> VirtualCurrencyPacks = null;
 		
 		public static void UpdateBalances() {
-			CurrencyBalance = StoreInventory.GetCurrencyBalance(VirtualCurrencies[0].ItemId);
+			CurrencyBalance = StoreInventory.GetItemBalance(VirtualCurrencies[0].ItemId);
 			foreach(VirtualGood vg in VirtualGoods){
-				GoodsBalances[vg.ItemId] = StoreInventory.GetGoodBalance(vg.ItemId);
+				GoodsBalances[vg.ItemId] = StoreInventory.GetItemBalance(vg.ItemId);
 			}
 		}
 		

@@ -14,43 +14,24 @@
  * limitations under the License.
  */
 
-#import "VirtualItem.h"
-
-@class PriceModel;
-@class VirtualCategory;
+#import "PurchasableVirtualItem.h"
 
 /**
- * This is a representation of the application's virtual good.
- * Virtual goods are bought with one or more VirtualCurrencies. The price
- * is determined by the PriceModel.
+ * This is an abstract representation of the application's virtual good.
+ * Your game's virtual economy revolves around virtual goods. This class defines the abstract
+ * and most common virtual good while the descendants of this class defines specific definitions of VirtualGood.
  */
-@interface VirtualGood : VirtualItem{
-    @private
-    PriceModel* priceModel;
-    VirtualCategory* category;
+@interface VirtualGood : PurchasableVirtualItem{
 }
 
-@property (retain, nonatomic) PriceModel* priceModel;
-@property (retain, nonatomic) VirtualCategory* category;
-
-/**
- * oName is the name of the virtual good.
- * oDescription is the description of the virtual good. This will show up
- *                in the store in the description section.
- * oPriceModel is the way the price of the current virtual good is calculated.
- * oItemId is the id of the virtual good.
- * oCategory is the category this virtual good is associated with.
+/** Constructor
+ *
+ * oName see parent
+ * oDescription see parent
+ * oItemId see parent
+ * oPurchaseType see parent
  */
 - (id)initWithName:(NSString*)oName andDescription:(NSString*)oDescription
-    andItemId:(NSString*)oItemId andPriceModel:(PriceModel*)oPriceModel
-       andCategory:(VirtualCategory*)oCategory;
-
-- (id)initWithDictionary:(NSDictionary*)dict;
-- (NSDictionary*)toDictionary;
-/**
- * The currency value is calculated in the price model so we return the current price of the
- * virtual good as defined in its price model.
- */
-- (NSDictionary*)currencyValues;
+         andItemId:(NSString*)oItemId andPurchaseType:(PurchaseType*)oPurchaseType;
 
 @end

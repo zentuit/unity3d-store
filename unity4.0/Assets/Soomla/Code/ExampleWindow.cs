@@ -47,11 +47,11 @@ namespace com.soomla.unity.example
 			
 			// some examples
 			try {
-			Debug.Log("start currency: " + StoreInventory.GetCurrencyBalance("currency_muffin"));
-			Debug.Log("remove currency: " + StoreInventory.RemoveCurrencyAmount("currency_muffin",50));
-			Debug.Log("middle currency: " + StoreInventory.GetCurrencyBalance("currency_muffin"));
-			Debug.Log("add currency: " + StoreInventory.AddCurrencyAmount("currency_muffin",4000));
-			Debug.Log("end currency:" + StoreInventory.GetCurrencyBalance("currency_muffin"));
+			Debug.Log("start currency: " + StoreInventory.GetItemBalance("currency_muffin"));
+			StoreInventory.TakeItem("currency_muffin",50);
+			Debug.Log("middle currency: " + StoreInventory.GetItemBalance("currency_muffin"));
+			StoreInventory.GiveItem("currency_muffin",4000);
+			Debug.Log("end currency:" + StoreInventory.GetItemBalance("currency_muffin"));
 			} catch (VirtualItemNotFoundException ex){
 				Debug.Log (ex.Message);
 			}
@@ -185,7 +185,7 @@ namespace com.soomla.unity.example
 				if(GUI.Button(new Rect(0,y,Screen.width,productSize),"") && !isDragging){
 					Debug.Log("SOOMLA/UNITY wants to buy: " + vg.Name);
 					try {
-						StoreController.BuyVirtualGood(vg.ItemId);
+						StoreInventory.BuyItem(vg.ItemId);
 					} catch (Exception e) {
 						Debug.Log ("SOOMLA/UNITY " + e.Message);
 					}
@@ -203,7 +203,7 @@ namespace com.soomla.unity.example
 				GUI.Label(new Rect(productSize,y,Screen.width,productSize/3f),vg.Name);
 				GUI.skin.label.font = (Font)Resources.Load("SoomlaStore/Description" + fontSuffix);
 				GUI.Label(new Rect(productSize + 10f,y+productSize/3f,Screen.width-productSize-15f,productSize/3f),vg.Description);
-				GUI.Label(new Rect(Screen.width/2f,y+productSize*2/3f,Screen.width,productSize/3f),"price:" + vg.PriceModel.GetCurrenctPrice(vg)[ExampleLocalStoreInfo.VirtualCurrencies[0].ItemId]);
+				GUI.Label(new Rect(Screen.width/2f,y+productSize*2/3f,Screen.width,productSize/3f),"price:" + ((PurchaseWithVirtualItem)vg.PurchaseType).Amount);
 				GUI.Label(new Rect(Screen.width*3/4f,y+productSize*2/3f,Screen.width,productSize/3f), "Balance:" + ExampleLocalStoreInfo.GoodsBalances[vg.ItemId]);
 				GUI.skin.label.alignment = TextAnchor.UpperRight;
 				GUI.skin.label.font = (Font)Resources.Load("SoomlaStore/Buy" + fontSuffix);
@@ -265,9 +265,9 @@ namespace com.soomla.unity.example
 				GUI.color = backupColor;
 				//We draw a button so we can detect a touch and then draw an image on top of it.
 				if(GUI.Button(new Rect(0,y,Screen.width,productSize),"") && !isDragging){
-					Debug.Log("SOOMLA/UNITY Wants to buy: " + cp.Name + " productId: " + cp.MarketItem.ProductId);
+					Debug.Log("SOOMLA/UNITY Wants to buy: " + cp.Name);
 					try {
-						StoreController.BuyMarketItem(cp.MarketItem.ProductId);
+						StoreInventory.BuyItem(cp.ItemId);
 					} catch (Exception e) {
 						Debug.Log ("SOOMLA/UNITY " + e.Message);
 					}
@@ -282,7 +282,7 @@ namespace com.soomla.unity.example
 				GUI.Label(new Rect(productSize,y,Screen.width,productSize/3f),cp.Name);
 				GUI.skin.label.font = (Font)Resources.Load("SoomlaStore/Description" + fontSuffix);
 				GUI.Label(new Rect(productSize + 10f,y+productSize/3f,Screen.width-productSize-15f,productSize/3f),cp.Description);
-				GUI.Label(new Rect(Screen.width*3/4f,y+productSize*2/3f,Screen.width,productSize/3f),"price:" + cp.MarketItem.Price);
+				GUI.Label(new Rect(Screen.width*3/4f,y+productSize*2/3f,Screen.width,productSize/3f),"price:" + ((PurchaseWithMarket)cp.PurchaseType).MarketItem.Price);
 				GUI.skin.label.alignment = TextAnchor.UpperRight;
 				GUI.skin.label.font = (Font)Resources.Load("SoomlaStore/Buy" + fontSuffix);
 				GUI.Label(new Rect(0,y,Screen.width-10,productSize),"Click to buy");

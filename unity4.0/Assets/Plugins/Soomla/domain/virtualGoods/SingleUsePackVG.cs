@@ -20,60 +20,35 @@ using System.Collections;
 namespace com.soomla.unity{	
 	
 	/// <summary>
-	/// An Equippable virtual good is a special type of Lifetime Virtual good.
-	/// In addition to the fact that this virtual good can be purchased once, it can be equipped by your users.
-	/// - Equipping means that the user decides to currently use a specific virtual good.
+	/// SingleUsePacks are just bundles of SingleUse virtual goods.
+	/// This kind of virtual good can be used to let your users buy more than one SingleUseVG at once.
 	///
-	/// The EquippableVG's characteristics are:
-	///  1. Can be purchased only once.
-	///  2. Can be equipped by the user.
-	///  3. Inherits the definition of LifetimeVG.
+	/// The SingleUsePackVG's characteristics are:
+	///  1. Can be purchased unlimited number of times.
+	///  2. Doesn't Have a balance in the database. The SingleUseVG there's associated with this pack has its own balance. When
+	///      your users buy a SingleUsePackVG, the balance of the associated SingleUseVG goes up in the amount that this pack
+	///      represents (mGoodAmount).
 	///
-	/// There are 3 ways to equip an EquippableVG:
-	///  1. LOCAL    - The current EquippableVG's equipping status doesn't affect any other EquippableVG.
-	///  2. CATEGORY - In the containing category, if this EquippableVG is equipped, all other EquippableVGs are unequipped.
-	///  3. GLOBAL   - In the whole game, if this EquippableVG is equipped, all other EquippableVGs are unequipped.
-	///
-	/// - Example Usage: different characters (play with a specific character),
-	///                  'binoculars' (users might only want to take them at night)
+	///  - Usage Examples: 'Box Of Chocolates', '10 Swords'
 	///
 	/// This VirtualItem is purchasable.
  	/// In case you purchase this item in Google Play or the App Store(PurchaseWithMarket), You need to define the item in Google
  	/// Play Developer Console or in iTunesConnect. (https://play.google.com/apps/publish) (https://itunesconnect.apple.com)
 	/// </summary>
-	public abstract class EquippableVG : VirtualGood{
+	public class SingleUsePackVG : VirtualGood{
 		
-		public sealed class EquippingModel {
-
-    		private readonly string name;
-    		private readonly int value;
-
-		    public static readonly EquippingModel LOCAL = new EquippingModel (0, "local");
-		    public static readonly EquippingModel CATEGORY = new EquippingModel (1, "category");
-		    public static readonly EquippingModel GLOBAL = new EquippingModel (2, "global");        
-		
-		    private EquippingModel(int value, string name){
-		        this.name = name;
-		        this.value = value;
-		    }
-		
-		    public override string ToString(){
-		        return name;
-		    }
-			
-			public int toInt() {
-				return value;
-			}
-		
-		}
-		
-		public EquippingModel Equipping;
+//		private static string TAG = "SOOMLA SingleUsePackVG";
+		public string GoodItemId;
+		public int GoodAmount;
 		
 		/// <summary>
-		/// Initializes a new instance of the <see cref="com.soomla.unity.EquippableVG"/> class.
+		/// Initializes a new instance of the <see cref="com.soomla.unity.SingleUsePackVG"/> class.
 		/// </summary>
-		/// <param name='equippingModel'>
-		/// The way this EquippableVG is equipped.
+		/// <param name='goodItemId'>
+		/// The itemId of the SingleUseVG associated with this pack.
+		/// </param>
+		/// <param name='amount'>
+		/// The number of SingleUseVGs in the pack.
 		/// </param>
 		/// <param name='name'>
 		/// see parent
@@ -87,51 +62,29 @@ namespace com.soomla.unity{
 		/// <param name='purchaseType'>
 		/// see parent
 		/// </param>
-		public EquippableVG(EquippingModel equippingModel, string name, string description, string itemId, PurchaseType purchaseType)
+		public SingleUsePackVG(string goodItemId, int amount, string name, string description, string itemId, PurchaseType purchaseType)
 			: base(name, description, itemId, purchaseType)
 		{
-			this.Equipping = equippingModel;
+			this.GoodItemId = goodItemId;
+			this.GoodAmount = amount;
 		}
 		
 #if UNITY_ANDROID
-		public VirtualGood(AndroidJavaObject jniVirtualGood) 
-			: base(jniVirtualGood)
+		public SingleUsePackVG(AndroidJavaObject jniSingleUsePackVG) 
+			: base(jniSingleUsePackVG)
 		{
-			// Virtual Category
-			using(AndroidJavaObject jniVirtualCategory = jniVirtualGood.Call<AndroidJavaObject>("getCategory")) {
-				this.Category = new VirtualCategory(jniVirtualCategory);
-			}
-
-			// Price Model
-			using(AndroidJavaObject jniPriceModel = jniVirtualGood.Call<AndroidJavaObject>("getPriceModel")) {
-				this.PriceModel = AbstractPriceModel.CreatePriceModel(jniPriceModel);
-			}
-		}
-		
-		public AndroidJavaObject toAndroidJavaObject(AndroidJavaObject jniUnityStoreAssets, AndroidJavaObject jniVirtualCategory) {
-			return new AndroidJavaObject("com.soomla.store.domain.data.VirtualGood", this.Name, this.Description, 
-				this.PriceModel.toAndroidJavaObject(jniUnityStoreAssets), this.ItemId, jniVirtualCategory);
+			GoodItemId = jniSingleUsePackVG.Call<string>("getGoodItemId");
+			GoodAmount = jniSingleUsePackVG.Call<int>("getGoodAmount");
 		}
 #endif
 		/// <summary>
 		/// see parent
 		/// </summary>
-		public EquippableVG(JSONObject jsonItem)
+		public SingleUsePackVG(JSONObject jsonItem)
 			: base(jsonItem)
 		{
-			int emOrdinal = System.Convert.ToInt32(((JSONObject)jsonItem[JSONConsts.EQUIPPABLE_EQUIPPING]).n);
-			this.Equipping = EquippingModel.CATEGORY;
-			switch(emOrdinal){
-				case 0:
-					this.Equipping = EquippingModel.LOCAL;
-					break;
-				case 1:
-					this.Equipping = EquippingModel.CATEGORY;
-					break;
-				default:
-					this.Equipping = EquippingModel.GLOBAL;
-					break;
-			}
+			GoodItemId = jsonItem[JSONConsts.VGP_GOOD_ITEMID].str;
+	        this.GoodAmount = System.Convert.ToInt32(((JSONObject)jsonItem[JSONConsts.VGP_GOOD_AMOUNT]).n);
 		}
 
 		/// <summary>
@@ -139,10 +92,11 @@ namespace com.soomla.unity{
 		/// </summary>
 		public override JSONObject toJSONObject() 
 		{
-			JSONObject obj = base.toJSONObject();
-			obj.AddField(JSONConsts.EQUIPPABLE_EQUIPPING, this.Equipping.toInt());
-			
-			return obj;
+			JSONObject jsonObject = base.toJSONObject();
+	        jsonObject.AddField(JSONConsts.VGP_GOOD_ITEMID, GoodItemId);
+	        jsonObject.AddField(JSONConsts.VGP_GOOD_AMOUNT, GoodAmount);
+	
+	        return jsonObject;
 		}
 
 	}

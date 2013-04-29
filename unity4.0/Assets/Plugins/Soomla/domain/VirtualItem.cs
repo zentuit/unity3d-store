@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2012 Soomla Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 using UnityEngine;
 
 namespace com.soomla.unity
@@ -7,10 +22,24 @@ namespace com.soomla.unity
 	/// </summary>
 	public abstract class VirtualItem
 	{
+		private const string TAG = "SOOMLA VirtualItem";
+		
 		public string Name;
 		public string Description;
 		public string ItemId;
 		
+		/// <summary>
+		/// Initializes a new instance of the <see cref="com.soomla.unity.VirtualItem"/> class.
+		/// </summary>
+		/// <param name='name'> 
+		/// The name of the virtual item.
+		/// </param>
+		/// <param name='description'> 
+		/// The description of the virtual item. If you use SOOMLA's storefront, This will show up in the store in the description section.
+		/// </param>
+		/// <param name='itemId'>
+		/// The itemId of the virtual item.
+		/// </param>
 		protected VirtualItem (string name, string description, string itemId)
 		{
 			this.Name = name;
@@ -25,12 +54,24 @@ namespace com.soomla.unity
 			this.ItemId = jniVirtualItem.Call<string>("getItemId");
 		}
 #endif
+		/// <summary>
+		/// Initializes a new instance of the <see cref="com.soomla.unity.VirtualItem"/> class.
+		/// </summary>
+		/// <param name='jsonItem'>
+		/// A JSONObject representation of the wanted <see cref="com.soomla.unity.VirtualItem"/>.
+		/// </param>
 		protected VirtualItem(JSONObject jsonItem) {
 			this.Name = jsonItem[JSONConsts.ITEM_NAME].str;
 			this.Description = jsonItem[JSONConsts.ITEM_DESCRIPTION].str;
 			this.ItemId = jsonItem[JSONConsts.ITEM_ITEMID].str;
 		}
 		
+		/// <summary>
+		/// Converts the current <see cref="com.soomla.unity.VirtualItem"/> to a JSONObject.
+		/// </summary>
+		/// <returns>
+		/// A JSONObject representation of the current <see cref="com.soomla.unity.VirtualItem"/>.
+		/// </returns>
 		public virtual JSONObject toJSONObject() {
 			JSONObject obj = new JSONObject(JSONObject.Type.OBJECT);
 			obj.AddField(JSONConsts.ITEM_NAME, this.Name);
@@ -39,7 +80,73 @@ namespace com.soomla.unity
 			
 			return obj;
 		}
-
+		
+		public static VirtualItem factoryItemFromJSONObject(JSONObject jsonItem) {
+			string className = jsonItem["className"].str;
+			switch(className) {
+			case "SingleUseVG":
+				return new SingleUseVG((JSONObject)jsonItem[@"item"]);
+			case "LifetimeVG":
+				return new LifetimeVG((JSONObject)jsonItem[@"item"]);
+			case "EquippableVG":
+				return new EquippableVG((JSONObject)jsonItem[@"item"]);
+			case "SingleUsePackVG":
+				return new SingleUsePackVG((JSONObject)jsonItem[@"item"]);
+			case "VirtualCurrency":
+				return new VirtualCurrency((JSONObject)jsonItem[@"item"]);
+			case "VirtualCurrencyPack":
+				return new VirtualCurrencyPack((JSONObject)jsonItem[@"item"]);
+			case "NonConsumableItem":
+				return new NonConsumableItem((JSONObject)jsonItem[@"item"]);
+			}
+			
+			return null;
+		}
+		
+#if UNITY_ANDROID
+		public static VirtualItem factoryItemFromJNI(AndroidJavaObject jniItem) {
+			StoreUtils.LogDebug(TAG, "Trying to create VirtualItem with itemId: " + jniItem.Call<string>("getItemId"));
+			
+			System.IntPtr cls = AndroidJNI.FindClass("com/soomla/store/domain/virtualGoods/SingleUseVG");
+			if (AndroidJNI.IsInstanceOf(jniItem.GetRawObject(), cls)) {
+				return new SingleUseVG(jniItem);
+			} else {
+				cls = AndroidJNI.FindClass("com/soomla/store/domain/virtualGoods/LifetimeVG");
+				if (AndroidJNI.IsInstanceOf(jniItem.GetRawObject(), cls)) {
+					return new LifetimeVG(jniItem);
+				} else {
+					cls = AndroidJNI.FindClass("com/soomla/store/domain/virtualGoods/EquippableVG");
+					if (AndroidJNI.IsInstanceOf(jniItem.GetRawObject(), cls)) {
+						return new EquippableVG(jniItem);
+					} else {
+						cls = AndroidJNI.FindClass("com/soomla/store/domain/virtualGoods/SingleUsePackVG");
+						if (AndroidJNI.IsInstanceOf(jniItem.GetRawObject(), cls)) {
+							return new SingleUsePackVG(jniItem);
+						} else {
+							cls = AndroidJNI.FindClass("com/soomla/store/domain/virtualCurrencies/VirtualCurrency");
+							if (AndroidJNI.IsInstanceOf(jniItem.GetRawObject(), cls)) {
+								return new VirtualCurrency(jniItem);
+							} else {
+								cls = AndroidJNI.FindClass("com/soomla/store/domain/virtualCurrencies/VirtualCurrencyPack");
+								if (AndroidJNI.IsInstanceOf(jniItem.GetRawObject(), cls)) {
+									return new VirtualCurrencyPack(jniItem);
+								} else {
+									cls = AndroidJNI.FindClass("com/soomla/store/domain/NonConsumableItem");
+									if (AndroidJNI.IsInstanceOf(jniItem.GetRawObject(), cls)) {
+										return new NonConsumableItem(jniItem);
+									} else {
+										StoreUtils.LogError(TAG, "Couldn't determine what type of class is the given jniItem.");
+									}	
+								}	
+							}
+						}	
+					}
+				}
+			}
+			
+			return null;
+		}
+#endif
 	}
 }
 
