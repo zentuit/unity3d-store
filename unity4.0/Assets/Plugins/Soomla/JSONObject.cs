@@ -148,6 +148,7 @@ public class JSONObject : Nullable {
 	public void AddField(bool val) { Add(new JSONObject(val)); }
 	public void AddField(float val) { Add(new JSONObject(val)); }
 	public void AddField(int val) { Add(new JSONObject(val)); }
+	public void AddField(string val) { Add(new JSONObject(val)); }
 	public void Add(JSONObject obj) {
 		if(obj) {		//Don't do anything if the object is null
 			if(type != JSONObject.Type.ARRAY) {
@@ -278,8 +279,8 @@ public class JSONObject : Nullable {
 			} else str += "null";
 			break;
 		case JSONObject.Type.ARRAY:
+			str = "[";
 			if(list.Count > 0) {
-				str = "[";
 #if(READABLE)
 				str += "\n"; //for a bit more readability
 				depth++;
@@ -300,8 +301,8 @@ public class JSONObject : Nullable {
 				str = str.Substring(0, str.Length - 1);
 #endif
 				str = str.Substring(0, str.Length - 1);
-				str += "]";
 			}
+			str += "]";
 			break;
 		case Type.BOOL:
 			if(b)

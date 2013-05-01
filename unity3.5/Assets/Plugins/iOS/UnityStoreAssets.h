@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 #import "IStoreAsssets.h"
 
-@interface UnityStoreAssets : NSObject <IStoreAsssets>{
+@interface UnityStoreAssets : NSObject <IStoreAsssets> {
 	int version;
 	NSMutableArray* virtualCurrenciesArray;
 	NSMutableArray* virtualGoodsArray;
@@ -10,6 +10,6 @@
 	NSMutableArray* nonConsumablesArray;
 }
 
-- (void)setVersion:(int)oVersion;
+- (id)initWithStoreAssetsJSON:(NSString*)storeAssetsJSON andVersion:(int)oVersion;
 
 @end

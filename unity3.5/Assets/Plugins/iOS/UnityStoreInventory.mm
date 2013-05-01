@@ -3,92 +3,68 @@
 #import "VirtualCurrency.h"
 #import "VirtualGood.h"
 #import "VirtualCurrencyPack.h"
-#import "StaticPriceModel.h"
 #import "StoreInventory.h"
 #import "StoreController.h"
 #import "VirtualItemNotFoundException.h"
 #import "UnityCommons.h"
+#import "InsufficientFundsException.h"
 
 extern "C"{
 	
-	int storeInventory_GetCurrencyBalance(const char* itemId, int* outBalance){
+	int storeInventory_BuyItem(const char* itemId) {
         NSString* itemIdS = [NSString stringWithUTF8String:itemId];
 		@try {
-			*outBalance = [StoreInventory getCurrencyBalance: itemIdS];
+			[StoreInventory buyItemWithItemId: itemIdS];
 		}
 		
 		@catch (VirtualItemNotFoundException* e) {
-            NSLog(@"Couldn't find a VirtualCurrency with itemId: %@.", itemIdS);
+            NSLog(@"Couldn't find a VirtualItem with itemId: %@.", itemIdS);
+			return EXCEPTION_ITEM_NOT_FOUND;
+        }
+		@catch (InsufficientFundsException* e) {
+            NSLog(@"Not enough funds to purchase VirtualItem with itemId: %@.", itemIdS);
+			return EXCEPTION_INSUFFICIENT_FUNDS;
+        }
+		
+		return NO_ERR;
+	}
+	
+	int storeInventory_GetItemBalance(const char* itemId, int* outBalance){
+        NSString* itemIdS = [NSString stringWithUTF8String:itemId];
+		@try {
+			*outBalance = [StoreInventory getItemBalance:itemIdS];
+		}
+		
+		@catch (VirtualItemNotFoundException* e) {
+            NSLog(@"Couldn't find a VirtualItem with itemId: %@.", itemIdS);
 			return EXCEPTION_ITEM_NOT_FOUND;
         }
 
 		return NO_ERR;
 	}
 	
-	int storeInventory_AddCurrencyAmount(const char* itemId, int amount, int* outBalance){
+	int storeInventory_GiveItem(const char* itemId, int amount){
         NSString* itemIdS = [NSString stringWithUTF8String:itemId];
 		@try {
-			*outBalance = [StoreInventory addAmount: amount toCurrency: itemIdS];
+			[StoreInventory giveAmount:amount ofItem: itemIdS];
 		}
 		
 		@catch (VirtualItemNotFoundException* e) {
-            NSLog(@"Couldn't find a VirtualCurrency with itemId: %@.", itemIdS);
+            NSLog(@"Couldn't find a VirtualItem with itemId: %@.", itemIdS);
 			return EXCEPTION_ITEM_NOT_FOUND;
         }
 
 		return NO_ERR;
 	}
 	
-	int storeInventory_RemoveCurrencyAmount(const char* itemId, int amount, int* outBalance){
+	int storeInventory_TakeItem(const char* itemId, int amount){
         NSString* itemIdS = [NSString stringWithUTF8String:itemId];
 		@try {
-			*outBalance = [StoreInventory removeAmount: amount fromCurrency: itemIdS];
+			[StoreInventory takeAmount:amount ofItem: itemIdS];
 		}
 		
 		@catch (VirtualItemNotFoundException* e) {
-            NSLog(@"Couldn't find a VirtualCurrency with itemId: %@.", itemIdS);
-			return EXCEPTION_ITEM_NOT_FOUND;
-        }
-
-		return NO_ERR;
-	}
-	
-	int storeInventory_GetGoodBalance(const char* itemId, int* outBalance){
-        NSString* itemIdS = [NSString stringWithUTF8String:itemId];
-		@try {
-			*outBalance = [StoreInventory getGoodBalance: itemIdS];
-		}
-		
-		@catch (VirtualItemNotFoundException* e) {
-            NSLog(@"Couldn't find a VirtualGood with itemId: %@.", itemIdS);
-			return EXCEPTION_ITEM_NOT_FOUND;
-        }
-
-		return NO_ERR;
-	}
-	
-	int storeInventory_AddGoodAmount(const char* itemId, int amount, int* outBalance){
-        NSString* itemIdS = [NSString stringWithUTF8String:itemId];        
-		@try {
-			*outBalance = [StoreInventory addAmount: amount toGood: itemIdS];
-		}
-		
-		@catch (VirtualItemNotFoundException* e) {
-            NSLog(@"Couldn't find a VirtualGood with itemId: %@.", itemIdS);
-			return EXCEPTION_ITEM_NOT_FOUND;
-        }
-
-		return NO_ERR;
-	}
-	
-	int storeInventory_RemoveGoodAmount(const char* itemId, int amount, int* outBalance){
-        NSString* itemIdS = [NSString stringWithUTF8String:itemId];
-		@try {
-			*outBalance = [StoreInventory removeAmount: amount fromGood: itemIdS];
-		}
-		
-		@catch (VirtualItemNotFoundException* e) {
-            NSLog(@"Couldn't find a VirtualGood with itemId: %@.", itemIdS);
+            NSLog(@"Couldn't find a VirtualItem with itemId: %@.", itemIdS);
 			return EXCEPTION_ITEM_NOT_FOUND;
         }
 
@@ -137,42 +113,98 @@ extern "C"{
 		return NO_ERR;
 	}
 	
-	int storeInventory_NonConsumableItemExists(const char* productId, bool* outResult){
-	NSString* productIdS = [NSString stringWithUTF8String:productId];
+	int storeInventory_GetGoodUpgradeLevel(const char* itemId, int* outResult){
+        NSString* itemIdS = [NSString stringWithUTF8String:itemId];
 		@try {
-			*outResult = [StoreInventory nonConsumableItemExists:productIdS];
+			*outResult = [StoreInventory goodUpgradeLevel:itemIdS];
+		}
+		
+		@catch (VirtualItemNotFoundException* e) {
+            NSLog(@"Couldn't find a VirtualGood with itemId: %@.", itemIdS);
+			return EXCEPTION_ITEM_NOT_FOUND;
+        }
+
+		return NO_ERR;
+	}
+	
+	int storeInventory_GetGoodCurrentUpgrade(const char* itemId, const char** outResult){
+        NSString* itemIdS = [NSString stringWithUTF8String:itemId];
+		@try {
+			*outResult = [[StoreInventory goodCurrentUpgrade:itemIdS] UTF8String];
+		}
+		
+		@catch (VirtualItemNotFoundException* e) {
+            NSLog(@"Couldn't find a VirtualGood with itemId: %@.", itemIdS);
+			return EXCEPTION_ITEM_NOT_FOUND;
+        }
+
+		return NO_ERR;
+	}
+	
+	int storeInventory_UpgradeGood(const char* itemId){
+        NSString* itemIdS = [NSString stringWithUTF8String:itemId];
+		@try {
+			[StoreInventory upgradeVirtualGood:itemIdS];
+		}
+		
+		@catch (VirtualItemNotFoundException* e) {
+            NSLog(@"Couldn't find a VirtualGood with itemId: %@.", itemIdS);
+			return EXCEPTION_ITEM_NOT_FOUND;
+        }
+
+		return NO_ERR;
+	}
+	
+	int storeInventory_RemoveGoodUpgrades(const char* itemId){
+        NSString* itemIdS = [NSString stringWithUTF8String:itemId];
+		@try {
+			[StoreInventory removeUpgrades:itemIdS];
+		}
+		
+		@catch (VirtualItemNotFoundException* e) {
+            NSLog(@"Couldn't find a VirtualGood with itemId: %@.", itemIdS);
+			return EXCEPTION_ITEM_NOT_FOUND;
+        }
+
+		return NO_ERR;
+	}
+	
+	int storeInventory_NonConsumableItemExists(const char* itemId, bool* outResult){
+		NSString* itemIdS = [NSString stringWithUTF8String:itemId];
+		@try {
+			*outResult = [StoreInventory nonConsumableItemExists:itemIdS];
 		}
 
 		@catch (VirtualItemNotFoundException* e) {
-	    NSLog(@"Couldn't find a NonConsumableItem with itemId: %@.", productIdS);
+	    NSLog(@"Couldn't find a NonConsumableItem with itemId: %@.", itemIdS);
 			return EXCEPTION_ITEM_NOT_FOUND;
 		}
 
 		return NO_ERR;
 	}
 
-	int storeInventory_AddNonConsumableItem(const char* productId){
-	NSString* productIdS = [NSString stringWithUTF8String:productId];
+	int storeInventory_AddNonConsumableItem(const char* itemId){
+	NSString* itemIdS = [NSString stringWithUTF8String:itemId];
 		@try {
-			[StoreInventory addNonConsumableItem:productIdS];
+			[StoreInventory addNonConsumableItem:itemIdS];
 		}
 
 		@catch (VirtualItemNotFoundException* e) {
-	    NSLog(@"Couldn't find a NonConsumableItem with itemId: %@.", productIdS);
+	    NSLog(@"Couldn't find a NonConsumableItem with itemId: %@.", itemIdS);
 			return EXCEPTION_ITEM_NOT_FOUND;
 		}
 
 		return NO_ERR;
 	}
 
-	int storeInventory_RemoveNonConsumableItem(const char* productId){
-	NSString* productIdS = [NSString stringWithUTF8String:productId];
+	int storeInventory_RemoveNonConsumableItem(const char* itemId){
+	NSString* itemIdS = [NSString stringWithUTF8String:itemId];
 		@try {
-			[StoreInventory removeNonConsumableItem:productIdS];
+			[StoreInventory removeNonConsumableItem:itemIdS];
 		}
 
 		@catch (VirtualItemNotFoundException* e) {
-	    NSLog(@"Couldn't find a NonConsumableItem with itemId: %@.", productIdS);
+	    NSLog(@"Couldn't find a NonConsumableItem with itemId: %@.", itemIdS);
 			return EXCEPTION_ITEM_NOT_FOUND;
 		}
 

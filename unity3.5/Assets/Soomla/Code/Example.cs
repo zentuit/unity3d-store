@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using com.soomla.unity;
 using System;
-using com.soomla.unity.example;
 
+using com.soomla.unity.example;
 public class Example : MonoBehaviour {
 	
  	// Use this for initialization
@@ -12,5 +12,3 @@ public class Example : MonoBehaviour {
 		ExampleWindow.OpenWindow();
 	}
 }
-
-	
