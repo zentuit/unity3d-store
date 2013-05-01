@@ -14,9 +14,33 @@ namespace com.soomla.unity
 			}
 		}
 		
+		public static void CallVoid(AndroidJavaObject jniObject, string method, AndroidJavaObject arg0, string arg1) {
+			if(!Application.isEditor){
+				jniObject.Call(method, arg0, arg1);
+				
+				checkExceptions();
+			}
+		}
+		
 		public static void CallStaticVoid(AndroidJavaClass jniObject, string method, string arg0) {
 			if(!Application.isEditor){
 				jniObject.CallStatic(method, arg0);
+
+				checkExceptions();
+			}
+		}
+		
+		public static void CallStaticVoid(AndroidJavaClass jniObject, string method, string arg0, string arg1) {
+			if(!Application.isEditor){
+				jniObject.CallStatic(method, arg0, arg1);
+
+				checkExceptions();
+			}
+		}
+		
+		public static void CallStaticVoid(AndroidJavaClass jniObject, string method, string arg0, int arg1) {
+			if(!Application.isEditor){
+				jniObject.CallStatic(method, arg0, arg1);
 
 				checkExceptions();
 			}
@@ -79,7 +103,7 @@ namespace com.soomla.unity
 		public static void checkExceptions ()
 		{
 			IntPtr jException = AndroidJNI.ExceptionOccurred();
-			if (jException != IntPtr.Zero) {				
+			if (jException != IntPtr.Zero) {
 				using(AndroidJavaObject exception = new AndroidJavaObject(jException)) {
 					AndroidJNI.ExceptionClear();
 					

@@ -1,9 +1,9 @@
 using UnityEngine;
 using System.Collections;
 using System;
+using com.soomla.unity;
 
-namespace com.soomla.unity.example
-{
+namespace com.soomla.unity.example {
 	public class ExampleWindow : MonoBehaviour
 	{
 		private static ExampleWindow instance = null;

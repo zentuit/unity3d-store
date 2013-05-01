@@ -34,7 +34,7 @@ namespace com.soomla.unity
 		/// <returns>
 		/// The virtual currencies.
 		/// </returns>
-	    VirtualCurrency[] GetVirtualCurrencies();
+	    VirtualCurrency[] GetCurrencies();
 	
 
 		/// <summary>
@@ -43,7 +43,7 @@ namespace com.soomla.unity
 		/// <returns>
 		/// The virtual goods.
 		/// </returns>
-	    VirtualGood[] GetVirtualGoods();
+	    VirtualGood[] GetGoods();
 	
 		/// <summary>
 		/// An array of all virtual currency packs served by your store.
@@ -51,7 +51,7 @@ namespace com.soomla.unity
 		/// <returns>
 		/// The virtual currency packs.
 		/// </returns>
-	    VirtualCurrencyPack[] GetVirtualCurrencyPacks();
+	    VirtualCurrencyPack[] GetCurrencyPacks();
 	
 		/// <summary>
 		/// An array of all virtual categories served by your store.
@@ -59,7 +59,7 @@ namespace com.soomla.unity
 		/// <returns>
 		/// The virtual categories.
 		/// </returns>
-	    VirtualCategory[] GetVirtualCategories();
+	    VirtualCategory[] GetCategories();
 	
 		/// <summary>
 		/// You can define NON-CONSUMABLE items that you'd like to use for your needs.

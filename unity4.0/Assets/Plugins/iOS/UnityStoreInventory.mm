@@ -127,7 +127,7 @@ extern "C"{
 		return NO_ERR;
 	}
 	
-	int storeInventory_GetGoodCurrentUpgrade(const char* itemId, char** outResult){
+	int storeInventory_GetGoodCurrentUpgrade(const char* itemId, const char** outResult){
         NSString* itemIdS = [NSString stringWithUTF8String:itemId];
 		@try {
 			*outResult = [[StoreInventory goodCurrentUpgrade:itemIdS] UTF8String];

@@ -10,21 +10,18 @@ namespace com.soomla.unity
 	/// </summary>
 	public class StoreController
 	{
+		private const string TAG = "SOOMLA StoreController";
 #if UNITY_IOS
 		[DllImport ("__Internal")]
 		private static extern void storeController_Init(string customSecret);
 		[DllImport ("__Internal")]
 		private static extern int storeController_BuyMarketItem(string productId);
 		[DllImport ("__Internal")]
-		private static extern int storeController_BuyVirtualGood(string itemId);
-		[DllImport ("__Internal")]
-		private static extern int storeController_EquipVirtualGood(string itemId);
-		[DllImport ("__Internal")]
-		private static extern int storeController_UnEquipVirtualGood(string itemId);
-		[DllImport ("__Internal")]
 		private static extern void storeController_StoreOpening();
 		[DllImport ("__Internal")]
 		private static extern void storeController_StoreClosing();
+		[DllImport ("__Internal")]
+		private static extern void storeController_RestoreTransactions();
 		[DllImport ("__Internal")]
 		private static extern void storeController_SetSoomSec(string soomSec);
 #endif
@@ -36,7 +33,7 @@ namespace com.soomla.unity
 		
 		public static void Initialize(IStoreAssets storeAssets) {
 			if (string.IsNullOrEmpty(Soomla.GetInstance().publicKey) || string.IsNullOrEmpty(Soomla.GetInstance().customSecret) || string.IsNullOrEmpty(Soomla.GetInstance().soomSec)) {
-				Debug.Log("SOOMLA/UNITY MISSING publickKey or customSecret or soomSec !!! Stopping here !!");
+				StoreUtils.LogError(TAG, "SOOMLA/UNITY MISSING publickKey or customSecret or soomSec !!! Stopping here !!");
 				throw new ExitGUIException();
 			}
 			//init SOOM_SEC
@@ -70,43 +67,18 @@ namespace com.soomla.unity
 		}
 		
 		
-		public static void BuyMarketItem(string packProductId) {
+		public static void BuyMarketItem(string productId) {
 #if UNITY_ANDROID
 			AndroidJNI.PushLocalFrame(100);
-			AndroidJNIHandler.CallVoid(jniStoreController, "buyGoogleMarketItem", packProductId);
+			using(AndroidJavaObject jniPurchasableItem = AndroidJNIHandler.CallStatic<AndroidJavaObject>(
+				new AndroidJavaClass("com.soomla.unity.StoreInfo"),"getPurchasableItem", productId)) {
+				AndroidJNIHandler.CallVoid(jniStoreController, "buyWithGooglePlay", 
+					jniPurchasableItem.Call<AndroidJavaObject>("getPurchaseType").Call<AndroidJavaObject>("getGoogleMarketItem"), 
+					"");
+			}
 			AndroidJNI.PopLocalFrame(IntPtr.Zero);
 #elif UNITY_IOS
-			storeController_BuyMarketItem(packProductId);
-#endif
-		}
-		
-		public static void BuyVirtualGood(string goodItemId) {
-#if UNITY_ANDROID
-			AndroidJNI.PushLocalFrame(100);
-			AndroidJNIHandler.CallVoid(jniStoreController, "buyVirtualGood", goodItemId);
-			AndroidJNI.PopLocalFrame(IntPtr.Zero);
-#elif UNITY_IOS
-			storeController_BuyVirtualGood(goodItemId);
-#endif
-		}
-		
-		public static void EquipVirtualGood(string goodItemId) {
-#if UNITY_ANDROID
-			AndroidJNI.PushLocalFrame(100);
-			AndroidJNIHandler.CallVoid(jniStoreController, "equipVirtualGood", goodItemId);
-			AndroidJNI.PopLocalFrame(IntPtr.Zero);
-#elif UNITY_IOS
-			storeController_EquipVirtualGood(goodItemId);
-#endif
-		}
-		
-		public static void UnEquipVirtualGood(string goodItemId) {
-#if UNITY_ANDROID
-			AndroidJNI.PushLocalFrame(100);
-			AndroidJNIHandler.CallVoid(jniStoreController, "unequipVirtualGood", goodItemId);
-			AndroidJNI.PopLocalFrame(IntPtr.Zero);
-#elif UNITY_IOS
-			storeController_UnEquipVirtualGood(goodItemId);
+			storeController_BuyMarketItem(productId);
 #endif
 		}
 		
@@ -134,6 +106,18 @@ namespace com.soomla.unity
 				AndroidJNI.PopLocalFrame(IntPtr.Zero);
 #elif UNITY_IOS
 				storeController_StoreClosing();
+#endif
+			}
+		}
+		
+		public static void RestoreTransactions() {
+			if(!Application.isEditor){
+#if UNITY_ANDROID
+				AndroidJNI.PushLocalFrame(100);
+				jniStoreController.Call("restoreTransactions");
+				AndroidJNI.PopLocalFrame(IntPtr.Zero);
+#elif UNITY_IOS
+				storeController_RestoreTransactions();
 #endif
 			}
 		}
