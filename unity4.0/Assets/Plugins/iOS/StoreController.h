@@ -66,5 +66,8 @@
  * Initiate the restoreTransactions process
  */
 - (void)restoreTransactions;
-
+/**
+ * Answers the question: "Were transactions already restored for this game?"
+ */
+- (BOOL)transactionsAlreadyRestored;
 @end

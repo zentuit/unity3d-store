@@ -5,11 +5,18 @@
 Haven't you ever wanted an in-app purchase one liner that looks like this ?!
 
 ```cs
-    StoreController.BuyMarketItem("[Product id here]");
+    StoreInventory.BuyItem("[itemId]");
 ```
 
 unity3d-store
 ---
+**The new Virtual Economy model V3 is merged into master. The new model has many new features and it works better than the old one. Old applications may break if they use in this new model so already published games with unity3d-store from before May 1st, 2013 needs to clone the project with tag 'v0.23' and not 'v1.0'.**
+
+Want to learn more about modelV3? Try these:  
+* [Economy Model Objects - android-store](https://github.com/soomla/android-store/wiki/Economy-Model-Objects)  
+* [Handling Store Operations - android-store](https://github.com/soomla/android-store/wiki/Handling-Store-Operations)
+(The same model objects from android-store exist in unity3d-store)
+
 The unity3d-store is the Unity3D flavour of The SOOMLA Project. This project uses [android-store](https://github.com/soomla/android-store) and [ios-store](https://github.com/soomla/ios-store) in order to provide game developers with in-app billing for their **Unity3D** projects.
     
 **Before you start**, we suggest that you go over the information in ios-store and android-store so you get acquainted with the SOOMLA framework:

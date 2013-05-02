@@ -23,6 +23,8 @@ namespace com.soomla.unity
 		[DllImport ("__Internal")]
 		private static extern void storeController_RestoreTransactions();
 		[DllImport ("__Internal")]
+		private static extern void storeController_TransactionsAlreadyRestored(out bool outResult);
+		[DllImport ("__Internal")]
 		private static extern void storeController_SetSoomSec(string soomSec);
 #endif
 		
@@ -120,6 +122,20 @@ namespace com.soomla.unity
 				storeController_RestoreTransactions();
 #endif
 			}
+		}
+		
+		public static bool TransactionsAlreadyRestored() {
+			bool restored = false;
+			if(!Application.isEditor){
+#if UNITY_ANDROID
+				AndroidJNI.PushLocalFrame(100);
+				restored = jniStoreController.Call<bool>("transactionsAlreadyRestored");
+				AndroidJNI.PopLocalFrame(IntPtr.Zero);
+#elif UNITY_IOS
+				storeController_TransactionsAlreadyRestored(out restored);
+#endif
+			}
+			return restored;
 		}
 		
 	}
