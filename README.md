@@ -29,37 +29,35 @@ The unity3d-store is the Unity3D flavour of The SOOMLA Project. This project use
 
 We've created a unitypackage and an example project:
 
-####unity3d-store v0.23 (release version)
+####unity3d-store v1.0 (release version)
 
-- The **debug** version can be used for debugging (well... duh!). It'll print out various log messages that can help you understand how to fix things. If you want to ask a question, we'll need you to run with this unitypackage and show us the log.  
-- On Android, there's another difference between **debug** and **release** versions. The difference is that when you run the **debug** you'll be able to test actual purchases (without even providing a valid public key) while with the **release** version you'll actually have to provide a valid public key and upload the app binary to the dev console and do all the rest of Google's requirements.
-- Also on Android: when you're on **debug** mode, purchases are NOT verified. Don't release your product using the debug mode.
+[Unity 4.0 - unity3d-store v1.0](http://bit.ly/ZC1P7r)  
+[Unity 3.5 - unity3d-store v1.0](http://bit.ly/10YZMx7)
 
-[Unity 4.0 - unity3d-store v0.23 debug](http://goo.gl/WolpW)  
-[Unity 4.0 - unity3d-store v0.23 release](http://goo.gl/eRTIo)
-
-[Unity 3.5 - unity3d-store v0.23 debug](http://goo.gl/vhsQ6)  
-[Unity 3.5 - unity3d-store v0.23 release](http://goo.gl/PYnpI)
-
-####unity3d-store v0.23 example
+####unity3d-store v1.0 example
 
 - The example project is mostly what you have in this Github repo. You can either download it or clone unity3d-store.
 
-[Unity 4.0 - unity3d-store v0.23 example](http://goo.gl/RNPdu)
+[Unity 4.0 - unity3d-store v1.0 example](http://bit.ly/ZC1EJk)  
+[Unity 3.5 - unity3d-store v1.0 example](http://bit.ly/10uMqkx)
 
-[Unity 3.5 - unity3d-store v0.23 example](http://goo.gl/5NT4a)
+## Debugging
 
-## Debug
+The download packages and the code in the repo uses the "release" versions of android-store and ios-store. Also, Unity debug messages will only be printed out if you build the project with _Development Build_ checked.
+
+If you want to see full debug messages from android-store and ios-store you'll have to use the debug builds of those libraries. You can find those builds in the repo, in the folder _soomla-native_ ([android](https://github.com/soomla/unity3d-store/blob/master/soomla-native/android/Soomla_debug.jar)  [ios](https://github.com/soomla/unity3d-store/blob/master/soomla-native/ios/release/libSoomlaIOSStore.a)).
+
+**Test purchases on Android** will not work (even in the debug library) if you won't switch its Test Mode on. In order to do that, check the box next to "Android Test Mode" in the Soomla prefab when it's added to your scene. (The example project works with test purchases. Make sure it's running on Test Mode)
 
 
-## Getting Started (with debug & release)
+## Getting Started
 
-1. Download the unity3d-store unityproject file you want and double-click it. It'll import all the necessary files into your project.
+1. Download the unity3d-store unityproject file you want and double-click on it. It'll import all the necessary files into your project.
 2. Drag the "Soomla" Prefab into your scene. You should see it listed in the "Hierarchy" panel.
 3. Click on the "Soomla" Prefab you just added and in the "Inspector" panel change the values for "Custom Secret", "Public Key" and "Soom Sec":
-    - "Custom Secret" - is an encryption secret you provide that will be used to secure your data.
-    - "Public Key" - is the public key given to you from Google. (iOS doesn't have a public key).
-    - "Soom Sec" - is a special secret SOOMLA uses to increase your data protection.  
+    - _Custom Secret_ - is an encryption secret you provide that will be used to secure your data.
+    - _Public Key_ - is the public key given to you from Google. (iOS doesn't have a public key).
+    - _Soom Sec_ - is a special secret SOOMLA uses to increase your data protection.  
     **Choose both secrets wisely. You can't change them after you launch your game!**
 4. Create your own implementation of _IStoreAssets_ in order to describe your specific game's assets ([example](https://github.com/soomla/unity3d-store/blob/master/unity4.0/Assets/Soomla/Code/MuffinRushAssets.cs)). Initialize _StoreController_ with the class you just created:
 
@@ -91,43 +89,47 @@ We've created a unitypackage and an example project:
 
 And that's it ! You have storage and in-app purchasing capabilities... ALL-IN-ONE.
 
-What's next? In App Purchasing.
----
+## What's next? In App Purchasing.
 
-unity3d-store provides you with VirtualCurrencyPacks. VirtualCurrencyPack is a representation of a "bag" of currency units that you want to let your users purchase in Google Play or App Store. You define VirtualCurrencyPacks in your game specific assets file which is your implementation of `IStoreAssets` ([example](https://github.com/soomla/unity3d-store/blob/master/unity4.0/Assets/Soomla/Code/MuffinRushAssets.cs)). After you do that you can call _StoreController_ to make actual purchases and unity3d-store will take care of the rest.
+When we implemented modelV3, we were thinking about ways people buy things inside apps. We figured many ways you can let your users purchase stuff in your game and we designed the new modelV3 to support 2 of them: PurchaseWithMarket and PurchaseWithVirtualItem.
 
-Example:
+**PurchaseWithMarket** is a PurchaseType that allows users to purchase a VirtualItem with Google Play or the App Store.  
+**PurchaseWithVirtualItem** is a PurchaseType that lets your users purchase a VirtualItem with a different VirtualItem. For Example: Buying 1 Sword with 100 Gems.
 
-Lets say you have a VirtualCurrencyPack you call `TEN_COINS_PACK` and a VirtualCurrency you call `COIN_CURRENCY`:
+In order to define the way your various virtual items (Goods, Coins ...) are purchased, you'll need to create your implementation of IStoreAsset (the same one from step 4 in the "Getting Started" above).
 
+Here is an example:
+
+Lets say you have a _VirtualCurrencyPack_ you call `TEN_COINS_PACK` and a _VirtualCurrency_ you call `COIN_CURRENCY`:
 
 ```cs
 VirtualCurrencyPack TEN_COINS_PACK = new VirtualCurrencyPack(
-        "10 Coins",                // name
-        "A pack of 10 coins",      // description
-        "10_coins",                // item id
-        "com.soomla.ten_coin_pack",// product id in Google Market AND App Store !
-        1.99,                      // actual price in $$
-        10,                        // number of currency units in the pack
-        COIN_CURRENCY);            // the associated currency
+	            "10 Coins",                    // name
+	            "A pack of 10 coins",      // description
+	            "10_coins",                    // item id
+				10,								// number of currencies in the pack
+	            COIN_CURRENCY_ITEM_ID,         // the currency associated with this pack
+	            new PurchaseWithMarket("com.soomla.ten_coin_pack", 1.99)
+		);
 ```
      
-Now you can use _StoreController_ to call Google Play or the App Store's in-app purchasing mechanism:
+Now you can use _StoreInventory_ to buy your new VirtualCurrencyPack:
 
 ```cs
-StoreController.BuyMarketItem(TEN_COINS_PACK.MarketItem.ProductId);
+StoreInventory.buyItem(TEN_COINS_PACK.ItemId);
 ```
     
-And that's it! unity3d-store knows how to contact Google Play or the App Store for you and redirect the user to the purchasing mechanism.
-Don't forget to subscribe to store events in order to get the notified of successful or failed purchases (see [Event Handling](https://github.com/soomla/unity3d-store#event-handling)).
+And that's it! unity3d-store knows how to contact Google Play or the App Store for you and will redirect your users to their purchasing system to complete the transaction. Don't forget to subscribe to store events in order to get the notified of successful or failed purchases (see [Event Handling](https://github.com/soomla/unity3d-store#event-handling)).
 
 
 Storage & Meta-Data
 ---
 
-When you initialize _StoreController_, it automatically initializes two other classes: _StoreInventory_ and _StoreInfo_.
-- _StoreInventory_ is a convenience class to let you perform operations on VirtualCurrencies and VirtualGoods. Use it to fetch/change the balances of VirtualItems in your game (using their ItemIds!)
-- _StoreInfo_ is where all meta data information about your specific game can be retrieved. It is initialized with your implementation of `IStoreAssets` and you can use it to retrieve information about your specific game.
+
+When you initialize _StoreController_, it automatically initializes two other classes: _StoreInventory_ and _StoreInfo_:  
+* _StoreInventory_ is a convenience class to let you perform operations on VirtualCurrencies and VirtualGoods. Use it to fetch/change the balances of VirtualItems in your game (using their ItemIds!)  
+* _StoreInfo_ is where all meta data information about your specific game can be retrieved. It is initialized with your implementation of `IStoreAssets` and you can use it to retrieve information about your specific game.
+
 **ATTENTION: because we're using JNI (Android) and DllImport (iOS) you should make as little calls as possible to _StoreInfo_. Look in the example project for the way we created a sort of a cache to hold your game's information in order to not make too many calls to _StoreInfo_. We update this cache using an event handler. (see [ExampleLocalStoreInfo](https://github.com/soomla/unity3d-store/blob/master/unity4.0/Assets/Soomla/Code/ExampleLocalStoreInfo.cs) and [ExampleEventHandler](https://github.com/soomla/unity3d-store/blob/master/unity4.0/Assets/Soomla/Code/ExampleEventHandler.cs)).**
 
 The on-device storage is encrypted and kept in a SQLite database. SOOMLA is preparing a cloud-based storage service that will allow this SQLite to be synced to a cloud-based repository that you'll define.
@@ -140,28 +142,28 @@ The on-device storage is encrypted and kept in a SQLite database. SOOMLA is prep
     VirtualCurrency coin = StoreInfo.GetVirtualCurrencyByItemId("currency_coin");
     ``` 
 
-* Add 10 coins to the virtual currency with itemId "currency_coin":
+* Give the user 10 pieces of a virtual currency with itemId "currency_coin":
 
     ```cs
-    StoreInventory.AddCurrencyAmount("currency_coin", 10);
+    StoreInventory.GiveItem("currency_coin", 10);
     ```
     
-* Remove 10 virtual goods with itemId "green_hat":
+* Take 10 virtual goods with itemId "green_hat":
 
     ```cs
-    StoreInventory.RemoveGoodAmount("green_hat", 10);
+    StoreInventory.TakeItem("green_hat", 10);
     ```
     
 * Get the current balance of green hats (virtual goods with itemId "green_hat"):
 
     ```cs
-    int greenHatsBalance = StoreInventory.GetGoodBalance("green_hat");
+    int greenHatsBalance = StoreInventory.GetItemBalance("green_hat");
     ```
 
 Event Handling
 ---
 
-SOOMLA lets you create your own event handler and add it to _StoreEventHandlers_. That way you'll be able to get notifications on various events and implement your own application specific behaviour to those events.
+SOOMLA lets you subscribe to store events, get notified and implement your own application specific behaviour to those events.
 
 > Your behaviour is an addition to the default behaviour implemented by SOOMLA. You don't replace SOOMLA's behaviour.
 
@@ -172,8 +174,8 @@ For example, if you want to 'listen' to a MerketPurchase event:
 ```cs
 Events.OnMarketPurchase += onMarketPurchase;
     
-public void onMarketPurchase(MarketItem marketItem) {
-    Debug.Log("Going to purchase an item with productId: " + marketItem.ProductId);
+public void onMarketPurchase(PurchasableVirtualItem pvi) {
+    Debug.Log("Going to purchase an item with productId: " + pvi.ItemId);
 }
 ```
 
