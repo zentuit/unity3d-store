@@ -23,6 +23,8 @@ namespace com.soomla.unity
 		[DllImport ("__Internal")]
 		private static extern void storeController_RestoreTransactions();
 		[DllImport ("__Internal")]
+		private static extern void storeController_TransactionsAlreadyRestored(out bool outResult);
+		[DllImport ("__Internal")]
 		private static extern void storeController_SetSoomSec(string soomSec);
 #endif
 		
@@ -32,12 +34,27 @@ namespace com.soomla.unity
 #endif
 		
 		public static void Initialize(IStoreAssets storeAssets) {
-			if (string.IsNullOrEmpty(Soomla.GetInstance().publicKey) || string.IsNullOrEmpty(Soomla.GetInstance().customSecret) || string.IsNullOrEmpty(Soomla.GetInstance().soomSec)) {
-				StoreUtils.LogError(TAG, "SOOMLA/UNITY MISSING publickKey or customSecret or soomSec !!! Stopping here !!");
+			if (string.IsNullOrEmpty(Soomla.GetInstance().customSecret) || string.IsNullOrEmpty(Soomla.GetInstance().soomSec)) {
+				StoreUtils.LogError(TAG, "SOOMLA/UNITY MISSING customSecret or soomSec !!! Stopping here !!");
+				throw new ExitGUIException();
+			}
+			
+			if (Soomla.GetInstance().customSecret==Soomla.ONLY_ONCE_DEFAULT || Soomla.GetInstance().soomSec==Soomla.ONLY_ONCE_DEFAULT) {
+				StoreUtils.LogError(TAG, "SOOMLA/UNITY You have to change customSecret and soomSec !!! Stopping here !!");
 				throw new ExitGUIException();
 			}
 			//init SOOM_SEC
 #if UNITY_ANDROID
+			if (string.IsNullOrEmpty(Soomla.GetInstance().androidPublicKey)) {
+				StoreUtils.LogError(TAG, "SOOMLA/UNITY MISSING publickKey !!! Stopping here !!");
+				throw new ExitGUIException();
+			}
+			
+			if (Soomla.GetInstance().androidPublicKey==Soomla.AND_PUB_KEY_DEFAULT) {
+				StoreUtils.LogError(TAG, "SOOMLA/UNITY You have to change android publicKey !!! Stopping here !!");
+				throw new ExitGUIException();
+			}
+			
 			AndroidJNI.PushLocalFrame(100);
 			using(AndroidJavaClass jniStoreAssets = new AndroidJavaClass("com.soomla.unity.StoreAssets")) {
 				jniStoreAssets.CallStatic("setSoomSec", Soomla.GetInstance().soomSec);
@@ -53,7 +70,7 @@ namespace com.soomla.unity
 			using(AndroidJavaObject jniStoreAssetsInstance = new AndroidJavaObject("com.soomla.unity.StoreAssets")) {
 				using(AndroidJavaClass jniStoreControllerClass = new AndroidJavaClass("com.soomla.store.StoreController")) {
 					jniStoreController = jniStoreControllerClass.CallStatic<AndroidJavaObject>("getInstance");
-					jniStoreController.Call("initialize", jniStoreAssetsInstance, Soomla.GetInstance().publicKey, Soomla.GetInstance().customSecret);
+					jniStoreController.Call("initialize", jniStoreAssetsInstance, Soomla.GetInstance().androidPublicKey, Soomla.GetInstance().customSecret);
 				}
 			}
 			//init EventHandler
@@ -61,6 +78,9 @@ namespace com.soomla.unity
 				jniEventHandler.CallStatic("initialize");
 			}
 			AndroidJNI.PopLocalFrame(IntPtr.Zero);
+			
+			// setting test mode on Android
+			SetAndroidTestMode(Soomla.GetInstance().androidTestMode);
 #elif UNITY_IOS
 			storeController_Init(Soomla.GetInstance().customSecret);
 #endif
@@ -121,6 +141,28 @@ namespace com.soomla.unity
 #endif
 			}
 		}
+		
+		public static bool TransactionsAlreadyRestored() {
+			bool restored = false;
+			if(!Application.isEditor){
+#if UNITY_ANDROID
+				AndroidJNI.PushLocalFrame(100);
+				restored = jniStoreController.Call<bool>("transactionsAlreadyRestored");
+				AndroidJNI.PopLocalFrame(IntPtr.Zero);
+#elif UNITY_IOS
+				storeController_TransactionsAlreadyRestored(out restored);
+#endif
+			}
+			return restored;
+		}
+
+#if UNITY_ANDROID
+		public static void SetAndroidTestMode(bool testMode) {
+				AndroidJNI.PushLocalFrame(100);
+				jniStoreController.Call("setTestMode", testMode);
+				AndroidJNI.PopLocalFrame(IntPtr.Zero);
+		}
+#endif
 		
 	}
 }

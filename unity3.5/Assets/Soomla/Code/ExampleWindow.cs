@@ -282,7 +282,7 @@ public class ExampleWindow : MonoBehaviour
 			GUI.Label(new Rect(productSize,y,Screen.width,productSize/3f),cp.Name);
 			GUI.skin.label.font = (Font)Resources.Load("SoomlaStore/Description" + fontSuffix);
 			GUI.Label(new Rect(productSize + 10f,y+productSize/3f,Screen.width-productSize-15f,productSize/3f),cp.Description);
-			GUI.Label(new Rect(Screen.width*3/4f,y+productSize*2/3f,Screen.width,productSize/3f),"price:" + ((PurchaseWithMarket)cp.PurchaseType).MarketItem.Price);
+			GUI.Label(new Rect(Screen.width*3/4f,y+productSize*2/3f,Screen.width,productSize/3f),"price:" + ((PurchaseWithMarket)cp.PurchaseType).MarketItem.Price.ToString("0.00"));
 			GUI.skin.label.alignment = TextAnchor.UpperRight;
 			GUI.skin.label.font = (Font)Resources.Load("SoomlaStore/Buy" + fontSuffix);
 			GUI.Label(new Rect(0,y,Screen.width-10,productSize),"Click to buy");
