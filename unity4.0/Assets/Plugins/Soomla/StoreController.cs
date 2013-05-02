@@ -78,6 +78,9 @@ namespace com.soomla.unity
 				jniEventHandler.CallStatic("initialize");
 			}
 			AndroidJNI.PopLocalFrame(IntPtr.Zero);
+			
+			// setting test mode on Android
+			SetAndroidTestMode(Soomla.GetInstance().androidTestMode);
 #elif UNITY_IOS
 			storeController_Init(Soomla.GetInstance().customSecret);
 #endif
@@ -152,14 +155,14 @@ namespace com.soomla.unity
 			}
 			return restored;
 		}
-		
-		public static void setAndroidTestMode(bool testMode) {
+
 #if UNITY_ANDROID
+		public static void SetAndroidTestMode(bool testMode) {
 				AndroidJNI.PushLocalFrame(100);
 				jniStoreController.Call("setTestMode", testMode);
 				AndroidJNI.PopLocalFrame(IntPtr.Zero);
-#endif
 		}
+#endif
 		
 	}
 }
