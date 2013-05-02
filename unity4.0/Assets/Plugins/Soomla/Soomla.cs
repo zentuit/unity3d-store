@@ -5,6 +5,9 @@ using System.Text.RegularExpressions;
 namespace com.soomla.unity {
 	public class Soomla : MonoBehaviour {
 		
+		public static string AND_PUB_KEY_DEFAULT = "YOUR GOOGLE PLAY PUBLIC KEY";
+		public static string ONLY_ONCE_DEFAULT = "SET ONLY ONCE";
+		
 		private const string TAG = "SOOMLA Soomla";
 		private static Soomla instance = null;
 		
@@ -17,9 +20,10 @@ namespace com.soomla.unity {
 			}
 		}
 		
-		public string customSecret = "SET ONLY ONCE";
-		public string publicKey = "YOUR GOOGLE PLAY PUBLIC KEY";
-		public string soomSec = "SET ONLY ONCE";
+		public string customSecret = ONLY_ONCE_DEFAULT;
+		public string androidPublicKey = AND_PUB_KEY_DEFAULT;
+		public bool androidTestMode = false;
+		public string soomSec = ONLY_ONCE_DEFAULT;
 		
 		public static Soomla GetInstance(){
 			return instance;

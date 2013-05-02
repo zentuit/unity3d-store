@@ -23,14 +23,13 @@ The unity3d-store is the Unity3D flavour of The SOOMLA Project. This project use
 - ios-store [project](https://github.com/soomla/ios-store) [wiki](https://github.com/soomla/ios-store/wiki)
 - android-store [project](https://github.com/soomla/android-store) [wiki](https://github.com/soomla/android-store/wiki)
 
->Soon, SOOMLA is going to provide developers with storefront capabilities through [Store Designer](http://designer.soom.la).
+>If you also want to create a **storefront** you can do that using SOOMLA's [Store Designer](http://designer.soom.la).
 
-Download
----
+## Download
 
-We've created 2 unitypackages and one example project:
+We've created a unitypackage and an example project:
 
-####unity3d-store v0.23 debug & release
+####unity3d-store v0.23 (release version)
 
 - The **debug** version can be used for debugging (well... duh!). It'll print out various log messages that can help you understand how to fix things. If you want to ask a question, we'll need you to run with this unitypackage and show us the log.  
 - On Android, there's another difference between **debug** and **release** versions. The difference is that when you run the **debug** you'll be able to test actual purchases (without even providing a valid public key) while with the **release** version you'll actually have to provide a valid public key and upload the app binary to the dev console and do all the rest of Google's requirements.
@@ -50,8 +49,10 @@ We've created 2 unitypackages and one example project:
 
 [Unity 3.5 - unity3d-store v0.23 example](http://goo.gl/5NT4a)
 
-Getting Started (with debug & release)
----
+## Debug
+
+
+## Getting Started (with debug & release)
 
 1. Download the unity3d-store unityproject file you want and double-click it. It'll import all the necessary files into your project.
 2. Drag the "Soomla" Prefab into your scene. You should see it listed in the "Hierarchy" panel.
