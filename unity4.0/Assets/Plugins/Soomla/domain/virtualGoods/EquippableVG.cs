@@ -97,6 +97,21 @@ namespace com.soomla.unity{
 		public EquippableVG(AndroidJavaObject jniEquippableVG) 
 			: base(jniEquippableVG)
 		{
+			int emOrdinal = jniEquippableVG.Call<AndroidJavaObject>("getEquippingModel").Call<int>("ordinal");
+			switch(emOrdinal){
+				case 0:
+					this.Equipping = EquippingModel.LOCAL;
+					break;
+				case 1:
+					this.Equipping = EquippingModel.CATEGORY;
+					break;
+				case 2:
+					this.Equipping = EquippingModel.GLOBAL;
+					break;
+				default:
+					this.Equipping = EquippingModel.CATEGORY;
+					break;
+			}
 		}
 #endif
 		/// <summary>

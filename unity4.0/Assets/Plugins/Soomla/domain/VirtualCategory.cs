@@ -48,18 +48,6 @@ namespace com.soomla.unity{
 #if UNITY_ANDROID
 		public VirtualCategory(AndroidJavaObject jniVirtualCategory) {
 			this.Name = jniVirtualCategory.Call<string>("getName");
-//			int emOrdinal = jniVirtualCategory.Call<AndroidJavaObject>("getEquippingModel").Call<int>("ordinal");
-//			switch(emOrdinal){
-//				case 0:
-//					this.Equipping = EquippingModel.NONE;
-//					break;
-//				case 1:
-//					this.Equipping = EquippingModel.SINGLE;
-//					break;
-//				default:
-//					this.Equipping = EquippingModel.MULTIPLE;
-//					break;
-//			}
 			
 			using(AndroidJavaObject jniItemIds = jniVirtualCategory.CallStatic<AndroidJavaObject>("getGoodsItemIds")) {
 				for(int i=0; i<jniItemIds.Call<int>("size"); i++) {
