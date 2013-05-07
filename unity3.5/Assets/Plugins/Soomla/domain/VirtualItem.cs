@@ -104,44 +104,32 @@ namespace com.soomla.unity
 		}
 		
 #if UNITY_ANDROID
+		private static bool isInstanceOf(AndroidJavaObject jniItem, string classJniStr) {
+			System.IntPtr cls = AndroidJNI.FindClass(classJniStr);
+			return AndroidJNI.IsInstanceOf(jniItem.GetRawObject(), cls);
+		}
+		
 		public static VirtualItem factoryItemFromJNI(AndroidJavaObject jniItem) {
 			StoreUtils.LogDebug(TAG, "Trying to create VirtualItem with itemId: " + jniItem.Call<string>("getItemId"));
 			
-			System.IntPtr cls = AndroidJNI.FindClass("com/soomla/store/domain/virtualGoods/SingleUseVG");
-			if (AndroidJNI.IsInstanceOf(jniItem.GetRawObject(), cls)) {
+			if (isInstanceOf(jniItem, "com/soomla/store/domain/virtualGoods/SingleUseVG")) {
 				return new SingleUseVG(jniItem);
+			} else if (isInstanceOf(jniItem, "com/soomla/store/domain/virtualGoods/LifetimeVG")) {
+				return new LifetimeVG(jniItem);
+			} else if (isInstanceOf(jniItem, "com/soomla/store/domain/virtualGoods/EquippableVG")) {
+				return new EquippableVG(jniItem);
+			} else if (isInstanceOf(jniItem, "com/soomla/store/domain/virtualGoods/SingleUsePackVG")) {
+				return new SingleUsePackVG(jniItem);
+			} else if (isInstanceOf(jniItem, "com/soomla/store/domain/virtualGoods/UpgradeVG")) {
+				return new UpgradeVG(jniItem);
+			} else if (isInstanceOf(jniItem, "com/soomla/store/domain/virtualCurrencies/VirtualCurrency")) {
+				return new VirtualCurrency(jniItem);
+			} else if (isInstanceOf(jniItem, "com/soomla/store/domain/virtualCurrencies/VirtualCurrencyPack")) {
+				return new VirtualCurrencyPack(jniItem);
+			} else if (isInstanceOf(jniItem, "com/soomla/store/domain/NonConsumableItem")) {
+				return new NonConsumableItem(jniItem);
 			} else {
-				cls = AndroidJNI.FindClass("com/soomla/store/domain/virtualGoods/LifetimeVG");
-				if (AndroidJNI.IsInstanceOf(jniItem.GetRawObject(), cls)) {
-					return new LifetimeVG(jniItem);
-				} else {
-					cls = AndroidJNI.FindClass("com/soomla/store/domain/virtualGoods/EquippableVG");
-					if (AndroidJNI.IsInstanceOf(jniItem.GetRawObject(), cls)) {
-						return new EquippableVG(jniItem);
-					} else {
-						cls = AndroidJNI.FindClass("com/soomla/store/domain/virtualGoods/SingleUsePackVG");
-						if (AndroidJNI.IsInstanceOf(jniItem.GetRawObject(), cls)) {
-							return new SingleUsePackVG(jniItem);
-						} else {
-							cls = AndroidJNI.FindClass("com/soomla/store/domain/virtualCurrencies/VirtualCurrency");
-							if (AndroidJNI.IsInstanceOf(jniItem.GetRawObject(), cls)) {
-								return new VirtualCurrency(jniItem);
-							} else {
-								cls = AndroidJNI.FindClass("com/soomla/store/domain/virtualCurrencies/VirtualCurrencyPack");
-								if (AndroidJNI.IsInstanceOf(jniItem.GetRawObject(), cls)) {
-									return new VirtualCurrencyPack(jniItem);
-								} else {
-									cls = AndroidJNI.FindClass("com/soomla/store/domain/NonConsumableItem");
-									if (AndroidJNI.IsInstanceOf(jniItem.GetRawObject(), cls)) {
-										return new NonConsumableItem(jniItem);
-									} else {
-										StoreUtils.LogError(TAG, "Couldn't determine what type of class is the given jniItem.");
-									}	
-								}	
-							}
-						}	
-					}
-				}
+				StoreUtils.LogError(TAG, "Couldn't determine what type of class is the given jniItem.");
 			}
 			
 			return null;
