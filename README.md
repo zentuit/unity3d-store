@@ -1,5 +1,4 @@
 
-
 *This project is a part of [The SOOMLA Project](http://project.soom.la) which is a series of open source initiatives with a joint goal to help mobile game developers get better stores and more in-app purchases.*
 
 Haven't you ever wanted an in-app purchase one liner that looks like this ?!
@@ -23,7 +22,7 @@ The unity3d-store is the Unity3D flavour of The SOOMLA Project. This project use
 - ios-store [project](https://github.com/soomla/ios-store) [wiki](https://github.com/soomla/ios-store/wiki)
 - android-store [project](https://github.com/soomla/android-store) [wiki](https://github.com/soomla/android-store/wiki)
 
->If you also want to create a **storefront** you can do that using SOOMLA's [Store Designer](http://designer.soom.la).
+>If you also want to create a **storefront** you can do that using SOOMLA's [In-App Purchase Store Designer](http://soom.la).
 
 ## Download
 
@@ -189,7 +188,7 @@ Fork -> Clone -> Implement -> Test -> Pull-Request. We have great RESPECT for co
 SOOMLA, Elsewhere ...
 ---
 
-+ [Website](http://project.soom.la/)
++ [SOOMLA Website](http://soom.la/)
 + [On Facebook](https://www.facebook.com/pages/The-SOOMLA-Project/389643294427376).
 + [On AngelList](https://angel.co/the-soomla-project)
 + [IAP Unity](http://soom.la/IAP-Unity) Plugin
