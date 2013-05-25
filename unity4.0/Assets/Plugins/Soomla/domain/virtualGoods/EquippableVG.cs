@@ -141,7 +141,7 @@ namespace com.soomla.unity{
 		public override JSONObject toJSONObject() 
 		{
 			JSONObject obj = base.toJSONObject();
-			obj.AddField(JSONConsts.EQUIPPABLE_EQUIPPING, this.Equipping.toInt());
+			obj.AddField(JSONConsts.EQUIPPABLE_EQUIPPING, this.Equipping.toInt().ToString());
 			
 			return obj;
 		}
