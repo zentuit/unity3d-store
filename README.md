@@ -1,4 +1,3 @@
-
 *This project is a part of [The SOOMLA Project](http://project.soom.la) which is a series of open source initiatives with a joint goal to help mobile game developers get better stores and more in-app purchases.*
 
 Haven't you ever wanted an in-app purchase one liner that looks like this ?!
@@ -30,15 +29,15 @@ We've created a unitypackage and an example project:
 
 ####unity3d-store v1.0 (release version)
 
-[Unity 4.0 - unity3d-store v1.0](http://bit.ly/ZC1P7r)  
-[Unity 3.5 - unity3d-store v1.0](http://bit.ly/10YZMx7)
+[Unity 4.0 - unity3d-store v1.01](http://bit.ly/127zOI7)  
+[Unity 3.5 - unity3d-store v1.01](http://bit.ly/1ak5yaX)
 
 ####unity3d-store v1.0 example
 
 - The example project is mostly what you have in this Github repo. You can either download it or clone unity3d-store.
 
-[Unity 4.0 - unity3d-store v1.0 example](http://bit.ly/ZC1EJk)  
-[Unity 3.5 - unity3d-store v1.0 example](http://bit.ly/10uMqkx)
+[Unity 4.0 - unity3d-store v1.01 example](http://bit.ly/110opUd)  
+[Unity 3.5 - unity3d-store v1.01 example](http://bit.ly/13Sx7Ia)
 
 ## Debugging
 
