@@ -120,17 +120,17 @@ namespace com.soomla.unity{
 		public EquippableVG(JSONObject jsonItem)
 			: base(jsonItem)
 		{
-			int emOrdinal = System.Convert.ToInt32(((JSONObject)jsonItem[JSONConsts.EQUIPPABLE_EQUIPPING]).n);
+			string equippingStr = jsonItem[JSONConsts.EQUIPPABLE_EQUIPPING].str;
 			this.Equipping = EquippingModel.CATEGORY;
-			switch(emOrdinal){
-				case 0:
+			switch(equippingStr){
+				case "local":
 					this.Equipping = EquippingModel.LOCAL;
 					break;
-				case 1:
-					this.Equipping = EquippingModel.CATEGORY;
+				case "global":
+					this.Equipping = EquippingModel.GLOBAL;
 					break;
 				default:
-					this.Equipping = EquippingModel.GLOBAL;
+					this.Equipping = EquippingModel.CATEGORY;
 					break;
 			}
 		}
@@ -141,7 +141,7 @@ namespace com.soomla.unity{
 		public override JSONObject toJSONObject() 
 		{
 			JSONObject obj = base.toJSONObject();
-			obj.AddField(JSONConsts.EQUIPPABLE_EQUIPPING, this.Equipping.toInt().ToString());
+			obj.AddField(JSONConsts.EQUIPPABLE_EQUIPPING, this.Equipping.ToString());
 			
 			return obj;
 		}
