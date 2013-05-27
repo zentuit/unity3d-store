@@ -72,7 +72,7 @@ extern "C"{
 	}
 	
 	void storeController_TransactionsAlreadyRestored(bool* outResult){
-		*outResult = [StoreController transactionsAlreadyRestored];
+		*outResult = [[StoreController getInstance] transactionsAlreadyRestored];
 	}
 	
 }
