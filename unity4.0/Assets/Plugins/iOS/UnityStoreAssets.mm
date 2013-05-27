@@ -16,6 +16,8 @@
 
 @implementation UnityStoreAssets
 
+@synthesize virtualCategoriesArray, virtualCurrenciesArray, virtualCurrencyPacksArray, virtualGoodsArray, nonConsumablesArray;
+
 static NSString* TAG = @"SOOMLA UnityStoreAssets";
 
 - (id)initWithStoreAssetsJSON:(NSString*)storeAssetsJSON andVersion:(int)oVersion{
@@ -34,19 +36,21 @@ static NSString* TAG = @"SOOMLA UnityStoreAssets";
 
         NSDictionary* storeInfo = [storeAssetsJSON objectFromJSONString];
         
-        NSMutableArray* currencies = [[NSMutableArray alloc] init];
+        NSMutableArray* currencies = [[[NSMutableArray alloc] init] autorelease];
         NSArray* currenciesDicts = [storeInfo objectForKey:JSON_STORE_CURRENCIES];
         for(NSDictionary* currencyDict in currenciesDicts){
             VirtualCurrency* o = [[VirtualCurrency alloc] initWithDictionary: currencyDict];
             [currencies addObject:o];
+            [o release];
         }
         virtualCurrenciesArray = currencies;
         
-        NSMutableArray* currencyPacks = [[NSMutableArray alloc] init];
+        NSMutableArray* currencyPacks = [[[NSMutableArray alloc] init] autorelease];
         NSArray* currencyPacksDicts = [storeInfo objectForKey:JSON_STORE_CURRENCYPACKS];
         for(NSDictionary* currencyPackDict in currencyPacksDicts){
             VirtualCurrencyPack* o = [[VirtualCurrencyPack alloc] initWithDictionary: currencyPackDict];
             [currencyPacks addObject:o];
+            [o release];
         }
         virtualCurrencyPacksArray = currencyPacks;
         
@@ -57,14 +61,16 @@ static NSString* TAG = @"SOOMLA UnityStoreAssets";
         NSArray* eqGoods = [goodsDict objectForKey:JSON_STORE_GOODS_EQ];
         NSArray* upGoods = [goodsDict objectForKey:JSON_STORE_GOODS_UP];
         NSArray* paGoods = [goodsDict objectForKey:JSON_STORE_GOODS_PA];
-        NSMutableArray* goods = [[NSMutableArray alloc] init];
+        NSMutableArray* goods = [[[NSMutableArray alloc] init] autorelease];
         for(NSDictionary* gDict in suGoods){
             SingleUseVG* g = [[SingleUseVG alloc] initWithDictionary: gDict];
 			[goods addObject:g];
+            [g release];
         }
         for(NSDictionary* gDict in ltGoods){
             LifetimeVG* g = [[LifetimeVG alloc] initWithDictionary: gDict];
 			[goods addObject:g];
+            [g release];
         }
         for(NSDictionary* gDict in eqGoods){
             EquippableVG* g = [[EquippableVG alloc] initWithDictionary: gDict];
@@ -73,26 +79,30 @@ static NSString* TAG = @"SOOMLA UnityStoreAssets";
         for(NSDictionary* gDict in upGoods){
             UpgradeVG* g = [[UpgradeVG alloc] initWithDictionary: gDict];
 			[goods addObject:g];
+            [g release];
         }
         for(NSDictionary* gDict in paGoods){
             SingleUsePackVG* g = [[SingleUsePackVG alloc] initWithDictionary: gDict];
 			[goods addObject:g];
+            [g release];
         }
         virtualGoodsArray = goods;
         
-        NSMutableArray* categories = [[NSMutableArray alloc] init];
+        NSMutableArray* categories = [[[NSMutableArray alloc] init] autorelease];
         NSArray* categoriesDicts = [storeInfo objectForKey:JSON_STORE_CATEGORIES];
         for(NSDictionary* categoryDict in categoriesDicts){
             VirtualCategory* c = [[VirtualCategory alloc] initWithDictionary: categoryDict];
             [categories addObject:c];
+            [c release];
         }
         virtualCategoriesArray = categories;
         
-        NSMutableArray* nonConsumables = [[NSMutableArray alloc] init];
+        NSMutableArray* nonConsumables = [[[NSMutableArray alloc] init] autorelease];
         NSArray* nonConsumableItemsDict = [storeInfo objectForKey:JSON_STORE_NONCONSUMABLES];
         for(NSDictionary* nonConsumableItemDict in nonConsumableItemsDict){
             NonConsumableItem* non = [[NonConsumableItem alloc] initWithDictionary:nonConsumableItemDict];
             [nonConsumables addObject:non];
+            [non release];
         }
         nonConsumablesArray = nonConsumables;
         

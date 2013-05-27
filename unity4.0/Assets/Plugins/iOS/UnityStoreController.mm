@@ -9,7 +9,6 @@
 #import "JSONKit.h"
 #import "VirtualItemNotFoundException.h"
 #import "NotEnoughGoodsException.h"
-#import "InsufficientFundsException.h"
 #import "UnityCommons.h"
 #import "StoreConfig.h"
 #import "NonConsumableItem.h"
