@@ -43,5 +43,7 @@ namespace com.soomla.unity
 		
 		public static Action OnUnexpectedErrorInStore = delegate {};
 		
+		public static Action OnStoreControllerInitialized = delegate {};
+		
 	}
 }

@@ -24,6 +24,7 @@ namespace com.soomla.unity {
 		public string androidPublicKey = AND_PUB_KEY_DEFAULT;
 		public bool androidTestMode = false;
 		public string soomSec = ONLY_ONCE_DEFAULT;
+
 		
 		public static Soomla GetInstance(){
 			return instance;
@@ -157,6 +158,12 @@ namespace com.soomla.unity {
 
 		public void onUnexpectedErrorInStore(string message) {
 			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onUnexpectedErrorInStore");
+			
+			Events.OnUnexpectedErrorInStore();
+		}
+		
+		public void onStoreControllerInitialized(string message) {
+			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onStoreControllerInitialized");
 			
 			Events.OnUnexpectedErrorInStore();
 		}

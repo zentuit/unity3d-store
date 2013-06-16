@@ -25,6 +25,7 @@ namespace com.soomla.unity.example
 			Events.OnMarketPurchaseCancelled += onMarketPurchaseCancelled;
 			Events.OnRestoreTransactionsStarted += onRestoreTransactionsStarted;
 			Events.OnRestoreTransactions += onRestoreTransactions;
+			Events.OnStoreControllerInitialized += onRestoreTransactions;
 		}
 		
 		public void onMarketPurchase(PurchasableVirtualItem pvi) {
@@ -96,6 +97,10 @@ namespace com.soomla.unity.example
 		}
 		
 		public void onRestoreTransactions(bool success) {
+			
+		}
+		
+		public void onStoreControllerInitialized(bool success) {
 			
 		}
 	}
