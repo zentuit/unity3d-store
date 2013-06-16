@@ -33,8 +33,8 @@ extern "C"{
     }
 	
 	void storeController_Init(const char* secret){
+		storeEventDispatcher = [[UnityStoreEventDispatcher alloc] init];
 		[[StoreController getInstance] initializeWithStoreAssets:storeAssets andCustomSecret:[NSString stringWithUTF8String:secret]];
-        storeEventDispatcher = [[UnityStoreEventDispatcher alloc] init];
 	}
 	
 	int storeController_BuyMarketItem(const char* productId) {
