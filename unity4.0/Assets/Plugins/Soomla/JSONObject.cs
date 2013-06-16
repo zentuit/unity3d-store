@@ -288,7 +288,7 @@ public class JSONObject : Nullable {
 			str = "\"" + this.str + "\"";
 			break;
 		case Type.NUMBER:
-			str += n;
+			str += n.ToString("0.00");
 			break;
 		case JSONObject.Type.OBJECT:
 			if(list.Count > 0) {
