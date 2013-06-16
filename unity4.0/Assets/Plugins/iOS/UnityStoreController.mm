@@ -6,7 +6,6 @@
 #import "AppStoreItem.h"
 #import "VirtualCurrencyPack.h"
 #import "StoreController.h"
-#import "JSONKit.h"
 #import "VirtualItemNotFoundException.h"
 #import "NotEnoughGoodsException.h"
 #import "UnityCommons.h"

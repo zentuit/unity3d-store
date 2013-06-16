@@ -10,7 +10,6 @@
 #import "EquippableVG.h"
 #import "SingleUsePackVG.h"
 #import "UpgradeVG.h"
-#import "JSONKit.h"
 #import "StoreUtils.h"
 
 
@@ -34,7 +33,7 @@ static NSString* TAG = @"SOOMLA UnityStoreAssets";
    
     @try {
 
-        NSDictionary* storeInfo = [storeAssetsJSON objectFromJSONString];
+        NSDictionary* storeInfo = [StoreUtils jsonStringToDict:storeAssetsJSON];
         
         NSMutableArray* currencies = [[[NSMutableArray alloc] init] autorelease];
         NSArray* currenciesDicts = [storeInfo objectForKey:JSON_STORE_CURRENCIES];

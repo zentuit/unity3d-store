@@ -62,7 +62,11 @@ namespace com.soomla.unity
 		/// </param>
 		protected VirtualItem(JSONObject jsonItem) {
 			this.Name = jsonItem[JSONConsts.ITEM_NAME].str;
-			this.Description = jsonItem[JSONConsts.ITEM_DESCRIPTION].str;
+			if (jsonItem[JSONConsts.ITEM_DESCRIPTION]) {
+				this.Description = jsonItem[JSONConsts.ITEM_DESCRIPTION].str;
+			} else {
+				this.Description = "";
+			}
 			this.ItemId = jsonItem[JSONConsts.ITEM_ITEMID].str;
 		}
 		

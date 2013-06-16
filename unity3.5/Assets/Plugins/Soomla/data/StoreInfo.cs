@@ -108,9 +108,7 @@ namespace com.soomla.unity
 			storeAssetsObj.AddField(JSONConsts.STORE_GOODS, goods);
 			storeAssetsObj.AddField(JSONConsts.STORE_NONCONSUMABLES, nonConsumables);
 			
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
 			string storeAssetsJSON = storeAssetsObj.print();
-#endif
 			
 #if UNITY_ANDROID && !UNITY_EDITOR
 			StoreUtils.LogDebug(TAG, "pushing data to StoreAssets on java side");

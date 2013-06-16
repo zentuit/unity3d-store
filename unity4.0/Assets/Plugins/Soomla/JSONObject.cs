@@ -57,6 +57,14 @@ public class JSONObject : Nullable {
 	public JSONObject(string str) {	//create a new JSONObject from a string (this will also create any children, and parse the whole string)
 		//Debug.Log(str);
 		if(str != null) {
+			str = str.Trim();
+			
+			// TODO: take a look at this replacements again ...
+//			str = rgx.Replace(str, @"");
+//			str = str.Replace(@"[ ", @"[");
+//			str = str.Replace(@"{ ", @"{");
+//			str = str.Replace("\" ,", "\",");
+//			str = str.Replace(", \"", ",\"");
 #if(READABLE)
 			str = str.Replace("\\n", "");
 			str = str.Replace("\\t", "");
@@ -76,7 +84,12 @@ public class JSONObject : Nullable {
 					type = Type.NULL;
 				} else if(str[0] == '"') {
 					type = Type.STRING;
-					this.str = str.Substring(1, str.Length - 2);
+					if(str.Length > 2) {
+						this.str = str.Substring(1, str.Length - 2);
+					} else {
+						this.str = "";
+					}
+					
 				} else {
 					try {
 						n = System.Convert.ToDouble(str);
@@ -111,6 +124,9 @@ public class JSONObject : Nullable {
 						bool openquote = false;
 						bool inProp = false;
 						for(int i = 1; i < str.Length; i++) {
+							if(str[i] == ' ') {
+								continue;
+							}
 							if(str[i] == '\\') {
 								i++;
 								continue;
@@ -123,13 +139,38 @@ public class JSONObject : Nullable {
 								if(str[i] == ':' && !inProp) {
 									inProp = true;
 									try {
-										keys.Add(str.Substring(token_tmp + 2, i - token_tmp - 3));
+										int begin = token_tmp + 1;
+										
+										while(str[begin] == ' ') {
+											begin++;
+										}
+										
+										int tmp_i = i-1;
+										while(str[tmp_i] == ' ') {
+											tmp_i--;
+										}
+										int length = tmp_i - begin + 1;
+										keys.Add(str.Substring(begin + 1, length - 2)); // -2 b/c of the ""
 									} catch { Debug.Log(i + " - " + str.Length + " - " + str); }
 									token_tmp = i;
 								}
 								if(str[i] == ',') {
 									inProp = false;
-									list.Add(new JSONObject(str.Substring(token_tmp + 1, i - token_tmp - 1)));
+									int begin = (str[token_tmp]==':' ||
+												 str[token_tmp]==',' ||
+												 str[token_tmp]=='{' ||
+												 str[token_tmp]=='[') ? token_tmp+1 : token_tmp;
+									
+									while(str[begin] == ' ') {
+										begin++;
+									}
+									
+									int tmp_i = i-1;
+									while(str[tmp_i] == ' ') {
+										tmp_i--;
+									}
+									int length = tmp_i - begin + 1;
+									list.Add(new JSONObject(str.Substring(begin, length)));
 									token_tmp = i;
 								}
 								if(str[i] == ']' || str[i] == '}')
