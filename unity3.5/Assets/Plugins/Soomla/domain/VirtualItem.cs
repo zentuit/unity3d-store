@@ -102,8 +102,10 @@ namespace com.soomla.unity
 				return new VirtualCurrencyPack((JSONObject)jsonItem[@"item"]);
 			case "NonConsumableItem":
 				return new NonConsumableItem((JSONObject)jsonItem[@"item"]);
+			case "UpgradeVG":
+				return new UpgradeVG((JSONObject)jsonItem[@"item"]);
 			}
-			
+
 			return null;
 		}
 		
