@@ -105,7 +105,7 @@ namespace com.soomla.unity
 			case "UpgradeVG":
 				return new UpgradeVG((JSONObject)jsonItem[@"item"]);
 			}
-
+			
 			return null;
 		}
 		
