@@ -23,6 +23,11 @@ namespace com.soomla.unity
 	    public const string CATEGORY_GOODSITEMIDS    = "goods_itemIds";
 	
 	    public const string MARKETITEM_PRODUCT_ID    = "productId";
+#if UNITY_IOS && !UNITY_EDITOR
+		public const string MARKETITEM_IOS_ID    	 = "iosId";
+#elif UNITY_ANDROID && !UNITY_EDITOR
+		public const string MARKETITEM_ANDROID_ID    = "androidId";
+#endif
 	    public const string MARKETITEM_CONSUMABLE    = "consumable";
 	    public const string MARKETITEM_PRICE         = "price";
 	

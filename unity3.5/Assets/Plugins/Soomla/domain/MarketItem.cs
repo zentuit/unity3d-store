@@ -83,7 +83,17 @@ namespace com.soomla.unity{
 		/// Initializes a new instance of the <see cref="com.soomla.unity.MarketItem"/> class.
 		/// </summary>
 		public MarketItem(JSONObject jsonObject) {
-			ProductId = jsonObject[JSONConsts.MARKETITEM_PRODUCT_ID].str;
+			string keyToLook = "";
+#if UNITY_IOS && !UNITY_EDITOR
+			keyToLook = JSONConsts.MARKETITEM_IOS_ID;
+#elif UNITY_ANDROID && !UNITY_EDITOR
+			keyToLook = JSONConsts.MARKETITEM_ANDROID_ID;
+#endif
+			if (!string.IsNullOrEmpty(keyToLook) && jsonObject.HasField(keyToLook)) {
+				ProductId = jsonObject[keyToLook].str;
+			} else {
+				ProductId = jsonObject[JSONConsts.MARKETITEM_PRODUCT_ID].str;
+			}
 			Price = jsonObject[JSONConsts.MARKETITEM_PRICE].n;
 			int cOrdinal = System.Convert.ToInt32(((JSONObject)jsonObject[JSONConsts.MARKETITEM_CONSUMABLE]).n);
 			if (cOrdinal == 0) {
