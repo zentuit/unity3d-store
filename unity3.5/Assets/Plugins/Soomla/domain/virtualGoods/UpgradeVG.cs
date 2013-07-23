@@ -39,7 +39,7 @@ namespace com.soomla.unity{
  	/// In case you purchase this item in Google Play or the App Store(PurchaseWithMarket), You need to define the item in Google
  	/// Play Developer Console or in iTunesConnect. (https://play.google.com/apps/publish) (https://itunesconnect.apple.com)
 	/// </summary>
-	public class UpgradeVG : VirtualGood{
+	public class UpgradeVG : LifetimeVG{
 		
 //		private static string TAG = "SOOMLA UpgradeVG";
 		public string GoodItemId;
