@@ -120,14 +120,14 @@ namespace com.soomla.unity
 			
 			if (isInstanceOf(jniItem, "com/soomla/store/domain/virtualGoods/SingleUseVG")) {
 				return new SingleUseVG(jniItem);
-			} else if (isInstanceOf(jniItem, "com/soomla/store/domain/virtualGoods/LifetimeVG")) {
-				return new LifetimeVG(jniItem);
 			} else if (isInstanceOf(jniItem, "com/soomla/store/domain/virtualGoods/EquippableVG")) {
 				return new EquippableVG(jniItem);
-			} else if (isInstanceOf(jniItem, "com/soomla/store/domain/virtualGoods/SingleUsePackVG")) {
-				return new SingleUsePackVG(jniItem);
 			} else if (isInstanceOf(jniItem, "com/soomla/store/domain/virtualGoods/UpgradeVG")) {
 				return new UpgradeVG(jniItem);
+			} else if (isInstanceOf(jniItem, "com/soomla/store/domain/virtualGoods/LifetimeVG")) {
+				return new LifetimeVG(jniItem);
+			} else if (isInstanceOf(jniItem, "com/soomla/store/domain/virtualGoods/SingleUsePackVG")) {
+				return new SingleUsePackVG(jniItem);
 			} else if (isInstanceOf(jniItem, "com/soomla/store/domain/virtualCurrencies/VirtualCurrency")) {
 				return new VirtualCurrency(jniItem);
 			} else if (isInstanceOf(jniItem, "com/soomla/store/domain/virtualCurrencies/VirtualCurrencyPack")) {
