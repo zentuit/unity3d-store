@@ -91,7 +91,7 @@ namespace com.soomla.unity
 #if UNITY_ANDROID && !UNITY_EDITOR
 			AndroidJNI.PushLocalFrame(100);
 			using(AndroidJavaObject jniPurchasableItem = AndroidJNIHandler.CallStatic<AndroidJavaObject>(
-				new AndroidJavaClass("com.soomla.unity.StoreInfo"),"getPurchasableItem", productId)) {
+				new AndroidJavaClass("com.soomla.store.data.StoreInfo"),"getPurchasableItem", productId)) {
 				AndroidJNIHandler.CallVoid(jniStoreController, "buyWithGooglePlay", 
 					jniPurchasableItem.Call<AndroidJavaObject>("getPurchaseType").Call<AndroidJavaObject>("getGoogleMarketItem"), 
 					"");
