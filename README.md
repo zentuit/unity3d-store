@@ -8,7 +8,7 @@ Haven't you ever wanted an in-app purchase one liner that looks like this ?!
 
 unity3d-store
 ---
-**The new Virtual Economy model V3 is merged into master. The new model has many new features and it works better than the old one. Old applications may break if they use in this new model so already published games with unity3d-store from before May 1st, 2013 needs to clone the project with tag 'v0.23' and not 'v1.0'.**
+**September 29th, 2013:** iOS Server Side Verification is now implemented into unity3d-store. The server is a complementary server provided by [SOOMLA](http://soom.la) to help you get your in-game purchases a bit more secured. This feature is not enabled by default. In order to enable Server Side verification go to the Soomla prefab and set  **ios Server Side Verification -> true**.
 
 Want to learn more about modelV3? Try these:  
 * [Economy Model Objects - android-store](https://github.com/soomla/android-store/wiki/Economy-Model-Objects)  
@@ -27,17 +27,17 @@ The unity3d-store is the Unity3D flavour of The SOOMLA Project. This project use
 
 We've created a unitypackage and an example project:
 
-####unity3d-store v1.04 (release version)
+####unity3d-store v1.1 (release version)
 
-[Unity 4.0 - unity3d-store v1.04](http://bit.ly/1fbMmP1)  
-[Unity 3.5 - unity3d-store v1.04](http://bit.ly/17eos2E)
+[Unity 4.0 - unity3d-store v1.1](http://bit.ly/15NxJgK)  
+[Unity 3.5 - unity3d-store v1.1](http://bit.ly/1fLd2fd)
 
-####unity3d-store v1.04 example
+####unity3d-store v1.1 example
 
 - The example project is mostly what you have in this Github repo. You can either download it or clone unity3d-store.
 
-[Unity 4.0 - unity3d-store v1.04 example](http://bit.ly/1fbMj5T)  
-[Unity 3.5 - unity3d-store v1.04 example](http://bit.ly/1df7TcZ)
+[Unity 4.0 - unity3d-store v1.1 example](http://bit.ly/1c84M6l)  
+[Unity 3.5 - unity3d-store v1.1 example](http://bit.ly/19jIopL)
 
 ## Debugging
 
