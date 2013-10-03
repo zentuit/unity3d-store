@@ -24,6 +24,7 @@ namespace com.soomla.unity {
 		public string androidPublicKey = AND_PUB_KEY_DEFAULT;
 		public bool androidTestMode = false;
 		public string soomSec = ONLY_ONCE_DEFAULT;
+		public bool iosServerSideVerification = false;
 
 		
 		public static Soomla GetInstance(){

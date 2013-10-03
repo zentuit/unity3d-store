@@ -69,9 +69,9 @@ namespace com.soomla.unity
 		            suGoods.Add(g.toJSONObject());
 		        } else if (g is EquippableVG) {
 		            eqGoods.Add(g.toJSONObject());
-		        } else if (g is UpgradeVG) {
-					upGoods.Add(g.toJSONObject());
-		        } else if (g is LifetimeVG) {
+			    } else if (g is UpgradeVG) {
+			    upGoods.Add(g.toJSONObject());
+			} else if (g is LifetimeVG) {
 		            ltGoods.Add(g.toJSONObject());
 		        } else if (g is SingleUsePackVG) {
 		            paGoods.Add(g.toJSONObject());

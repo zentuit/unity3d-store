@@ -32,6 +32,10 @@ extern "C"{
         SOOM_SEC = [[NSString stringWithUTF8String:soomSec] retain];
     }
 	
+    void storeController_SetSSV(bool ssv) {
+		VERIFY_PURCHASES = ssv;
+    }
+
 	void storeController_Init(const char* secret){
 		storeEventDispatcher = [[UnityStoreEventDispatcher alloc] init];
 		[[StoreController getInstance] initializeWithStoreAssets:storeAssets andCustomSecret:[NSString stringWithUTF8String:secret]];

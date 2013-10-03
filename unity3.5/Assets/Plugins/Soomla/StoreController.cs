@@ -26,6 +26,8 @@ namespace com.soomla.unity
 		private static extern void storeController_TransactionsAlreadyRestored(out bool outResult);
 		[DllImport ("__Internal")]
 		private static extern void storeController_SetSoomSec(string soomSec);
+		[DllImport ("__Internal")]
+		private static extern void storeController_SetSSV(bool ssv);
 #endif
 		
 #if UNITY_ANDROID && !UNITY_EDITOR
@@ -61,6 +63,7 @@ namespace com.soomla.unity
 			}
 			AndroidJNI.PopLocalFrame(IntPtr.Zero);
 #elif UNITY_IOS && !UNITY_EDITOR
+			storeController_SetSSV(Soomla.GetInstance().iosServerSideVerification);
 			storeController_SetSoomSec(Soomla.GetInstance().soomSec);
 #endif
 			
