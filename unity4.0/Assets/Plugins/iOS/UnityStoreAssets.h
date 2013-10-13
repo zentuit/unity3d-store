@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
-#import "IStoreAsssets.h"
+#import "IStoreAssets.h"
 
-@interface UnityStoreAssets : NSObject <IStoreAsssets> {
+@interface UnityStoreAssets : NSObject <IStoreAssets> {
 	int version;
 	NSMutableArray* virtualCurrenciesArray;
 	NSMutableArray* virtualGoodsArray;
