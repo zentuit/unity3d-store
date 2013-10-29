@@ -70,15 +70,15 @@ namespace com.soomla.unity
 			StoreInfo.Initialize(storeAssets);
 #if UNITY_ANDROID && !UNITY_EDITOR
 			AndroidJNI.PushLocalFrame(100);
+			//init EventHandler
+			using(AndroidJavaClass jniEventHandler = new AndroidJavaClass("com.soomla.unity.EventHandler")) {
+				jniEventHandler.CallStatic("initialize");
+			}
 			using(AndroidJavaObject jniStoreAssetsInstance = new AndroidJavaObject("com.soomla.unity.StoreAssets")) {
 				using(AndroidJavaClass jniStoreControllerClass = new AndroidJavaClass("com.soomla.store.StoreController")) {
 					jniStoreController = jniStoreControllerClass.CallStatic<AndroidJavaObject>("getInstance");
 					jniStoreController.Call("initialize", jniStoreAssetsInstance, Soomla.GetInstance().androidPublicKey, Soomla.GetInstance().customSecret);
 				}
-			}
-			//init EventHandler
-			using(AndroidJavaClass jniEventHandler = new AndroidJavaClass("com.soomla.unity.EventHandler")) {
-				jniEventHandler.CallStatic("initialize");
 			}
 			AndroidJNI.PopLocalFrame(IntPtr.Zero);
 			
