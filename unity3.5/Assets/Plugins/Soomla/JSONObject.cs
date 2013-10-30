@@ -173,8 +173,12 @@ public class JSONObject : Nullable {
 									list.Add(new JSONObject(str.Substring(begin, length)));
 									token_tmp = i;
 								}
-								if(str[i] == ']' || str[i] == '}')
-									list.Add(new JSONObject(str.Substring(token_tmp + 1, i - token_tmp - 1)));
+								if(str[i] == ']' || str[i] == '}') {
+									string s_tmp = str.Substring(token_tmp + 1, i - token_tmp - 1);
+									if (s_tmp.Length > 0) {
+										list.Add(new JSONObject(s_tmp));
+									}
+								}
 							}
 							if(str[i] == ']' || str[i] == '}')
 								depth--;
