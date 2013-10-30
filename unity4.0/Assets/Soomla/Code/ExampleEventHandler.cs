@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace com.soomla.unity.example
 {
@@ -101,7 +102,18 @@ namespace com.soomla.unity.example
 		}
 		
 		public void onStoreControllerInitialized() {
+			ExampleLocalStoreInfo.Init();
 			
+			// some usage examples for add/remove currency
+            // some examples
+            if (ExampleLocalStoreInfo.VirtualCurrencies.Count>0) {
+                try {
+                    StoreInventory.GiveItem(ExampleLocalStoreInfo.VirtualCurrencies[0].ItemId,4000);
+                    StoreUtils.LogDebug("SOOMLA ExampleEventHandler", "Currency balance:" + StoreInventory.GetItemBalance(ExampleLocalStoreInfo.VirtualCurrencies[0].ItemId));
+                } catch (VirtualItemNotFoundException ex){
+                    StoreUtils.LogError("SOOMLA ExampleEventHandler", ex.Message);
+                }
+            }
 		}
 	}
 }

@@ -43,18 +43,8 @@ public class ExampleWindow : MonoBehaviour
 	void Start () {
 		StoreController.Initialize(new MuffinRushAssets());
 		handler = new ExampleEventHandler();
-		ExampleLocalStoreInfo.Init();
 		
-		// some examples
-		try {
-		Debug.Log("start currency: " + StoreInventory.GetItemBalance("currency_muffin"));
-		StoreInventory.TakeItem("currency_muffin",50);
-		Debug.Log("middle currency: " + StoreInventory.GetItemBalance("currency_muffin"));
-		StoreInventory.GiveItem("currency_muffin",4000);
-		Debug.Log("end currency:" + StoreInventory.GetItemBalance("currency_muffin"));
-		} catch (VirtualItemNotFoundException ex){
-			Debug.Log (ex.Message);
-		}
+		// Initialization of 'ExampleLocalStoreInfo' and some example usages in ExampleEventHandler.onStoreControllerInitialized
 	}
 	
 	public static void StoreOpening() {
