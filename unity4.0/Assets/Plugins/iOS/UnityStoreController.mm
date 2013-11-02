@@ -14,22 +14,23 @@
 #import "StoreInfo.h"
 #import "PurchaseWithMarket.h"
 
-UnityStoreAssets * storeAssets;
+#import "ObscuredNSUserDefaults.h"
+
 UnityStoreEventDispatcher * storeEventDispatcher;
 extern UIViewController* UnityGetGLViewController();
 
 extern "C"{
-	    
-	void storeAssets_Init(int version, const char* storeAssetsJSON){
-		NSString* storeAssetsJSONS = [NSString stringWithUTF8String:storeAssetsJSON];
-		storeAssets = [[UnityStoreAssets alloc] initWithStoreAssetsJSON:storeAssetsJSONS andVersion:version];
-	}
 	    
     void storeController_SetSoomSec(const char* soomSec) {
         if (SOOM_SEC) {
             [SOOM_SEC release];
         }
         SOOM_SEC = [[NSString stringWithUTF8String:soomSec] retain];
+        [ObscuredNSUserDefaults setString:@"https://highway-dev.soom.la:3002/" forKey:@"II#PHW9"];
+        [ObscuredNSUserDefaults setString:@"https://driveway-dev.soom.la:3002/" forKey:@"II#OIS2"];
+        [ObscuredNSUserDefaults setInt:0 forKey:@"KL#G87"];
+        [ObscuredNSUserDefaults setInt:0 forKey:@"KL#G78"];
+        VERIFY_URL = @"https://verify-dev.soom.la:3002/verify_ios?platform=unity4";
     }
 	
     void storeController_SetSSV(bool ssv) {
@@ -38,7 +39,7 @@ extern "C"{
 
 	void storeController_Init(const char* secret){
 		storeEventDispatcher = [[UnityStoreEventDispatcher alloc] init];
-		[[StoreController getInstance] initializeWithStoreAssets:storeAssets andCustomSecret:[NSString stringWithUTF8String:secret]];
+		[[StoreController getInstance] initializeWithStoreAssets:[UnityStoreAssets getInstance] andCustomSecret:[NSString stringWithUTF8String:secret]];
 	}
 	
 	int storeController_BuyMarketItem(const char* productId) {

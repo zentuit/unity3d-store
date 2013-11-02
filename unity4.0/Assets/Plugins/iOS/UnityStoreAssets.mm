@@ -12,23 +12,34 @@
 #import "UpgradeVG.h"
 #import "StoreUtils.h"
 
+extern "C"{
+	void storeAssets_Init(int version, const char* storeAssetsJSON){
+		NSString* storeAssetsJSONS = [NSString stringWithUTF8String:storeAssetsJSON];
+		[UnityStoreAssets createFromJSON:storeAssetsJSONS andVersion:version];
+	}
+}
 
 @implementation UnityStoreAssets
 
-@synthesize virtualCategoriesArray, virtualCurrenciesArray, virtualCurrencyPacksArray, virtualGoodsArray, nonConsumablesArray;
+static int version;
+static NSMutableArray* virtualCurrenciesArray;
+static NSMutableArray* virtualGoodsArray;
+static NSMutableArray* virtualCurrencyPacksArray;
+static NSMutableArray* virtualCategoriesArray;
+static NSMutableArray* nonConsumablesArray;
 
 static NSString* TAG = @"SOOMLA UnityStoreAssets";
 
-- (id)initWithStoreAssetsJSON:(NSString*)storeAssetsJSON andVersion:(int)oVersion{
-	self = [super init];
-	if(self){
-		version = oVersion;
-		[self createFromJSON:storeAssetsJSON];
-	}
-	return self;
++ (UnityStoreAssets*)getInstance {
+    static UnityStoreAssets* instance = nil;
+    if (!instance) {
+        instance = [[UnityStoreAssets alloc] init];
+    }
+    
+    return instance;
 }
 
-- (BOOL)createFromJSON:(NSString*)storeAssetsJSON {
++ (BOOL)createFromJSON:(NSString*)storeAssetsJSON andVersion:(int)oVersion {
     LogDebug(TAG, ([NSString stringWithFormat:@"the storeAssets json is %@", storeAssetsJSON]));
    
     @try {
@@ -42,6 +53,10 @@ static NSString* TAG = @"SOOMLA UnityStoreAssets";
             [currencies addObject:o];
             [o release];
         }
+        if (virtualCurrenciesArray) {
+            [virtualCurrenciesArray release];
+            virtualCurrenciesArray = nil;
+        }
         virtualCurrenciesArray = currencies;
         
         NSMutableArray* currencyPacks = [[[NSMutableArray alloc] init] autorelease];
@@ -50,6 +65,10 @@ static NSString* TAG = @"SOOMLA UnityStoreAssets";
             VirtualCurrencyPack* o = [[VirtualCurrencyPack alloc] initWithDictionary: currencyPackDict];
             [currencyPacks addObject:o];
             [o release];
+        }
+        if (virtualCurrencyPacksArray) {
+            [virtualCurrencyPacksArray release];
+            virtualCurrencyPacksArray = nil;
         }
         virtualCurrencyPacksArray = currencyPacks;
         
@@ -85,6 +104,10 @@ static NSString* TAG = @"SOOMLA UnityStoreAssets";
 			[goods addObject:g];
             [g release];
         }
+        if (virtualGoodsArray) {
+            [virtualGoodsArray release];
+            virtualGoodsArray = nil;
+        }
         virtualGoodsArray = goods;
         
         NSMutableArray* categories = [[[NSMutableArray alloc] init] autorelease];
@@ -93,6 +116,10 @@ static NSString* TAG = @"SOOMLA UnityStoreAssets";
             VirtualCategory* c = [[VirtualCategory alloc] initWithDictionary: categoryDict];
             [categories addObject:c];
             [c release];
+        }
+        if (virtualCategoriesArray) {
+            [virtualCategoriesArray release];
+            virtualCategoriesArray = nil;
         }
         virtualCategoriesArray = categories;
         
@@ -103,7 +130,13 @@ static NSString* TAG = @"SOOMLA UnityStoreAssets";
             [nonConsumables addObject:non];
             [non release];
         }
+        if (nonConsumablesArray) {
+            [nonConsumablesArray release];
+            nonConsumablesArray = nil;
+        }
         nonConsumablesArray = nonConsumables;
+        
+        version = oVersion;
         
         return YES;
     } @catch (NSException* ex) {
@@ -138,11 +171,16 @@ static NSString* TAG = @"SOOMLA UnityStoreAssets";
 }
 
 - (void)dealloc {
-    [virtualCurrenciesArray release];
-    [virtualGoodsArray release];
-    [virtualCurrencyPacksArray release];
-    [virtualCategoriesArray release];
-    [nonConsumablesArray release];
+//    [virtualCurrenciesArray release];
+//    virtualCurrenciesArray = nil;
+//    [virtualGoodsArray release];
+//    virtualGoodsArray = nil;
+//    [virtualCurrencyPacksArray release];
+//    virtualCurrencyPacksArray = nil;
+//    [virtualCategoriesArray release];
+//    virtualCategoriesArray = nil;
+//    [nonConsumablesArray release];
+//    nonConsumablesArray = nil;
     [super dealloc];
 }
 
