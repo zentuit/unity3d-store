@@ -10,6 +10,13 @@
 
 @implementation UnityStoreEventDispatcher
 
++ (void)initialize {
+    static UnityStoreEventDispatcher* instance = nil;
+    if (!instance) {
+        instance = [[UnityStoreEventDispatcher alloc] init];
+    }
+}
+
 - (id) init {
     if (self = [super init]) {
         [EventHandling observeAllEventsWithObserver:self withSelector:@selector(handleEvent:)];
