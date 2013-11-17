@@ -113,12 +113,12 @@ public class EventHandler {
 
     @Subscribe
     public void onStoreControllerInitializedEvent(StoreControllerInitializedEvent storeControllerInitializedEvent) {
-        UnityPlayer.UnitySendMessage("Soomla", "onUnexpectedStoreError", "");
+        UnityPlayer.UnitySendMessage("Soomla", "onStoreControllerInitialized", "");
     }
 
     @Subscribe
     public void onUnexpectedStoreError(UnexpectedStoreErrorEvent unexpectedStoreErrorEvent) {
-        UnityPlayer.UnitySendMessage("Soomla", "onStoreControllerInitialized", "");
+        UnityPlayer.UnitySendMessage("Soomla", "onUnexpectedStoreError", "");
     }
 
 }

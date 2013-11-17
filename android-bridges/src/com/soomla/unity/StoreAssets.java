@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import com.soomla.store.IStoreAssets;
 import com.soomla.store.StoreConfig;
-import com.soomla.store.StoreController;
 import com.soomla.store.StoreUtils;
 import com.soomla.store.data.JSONConsts;
 import com.soomla.store.domain.NonConsumableItem;
@@ -138,49 +137,9 @@ public class StoreAssets implements IStoreAssets {
         return nonConsumables.toArray(new NonConsumableItem[nonConsumables.size()]);
     }
 
-//    public static VirtualCategory createVirtualCategory(String name, int id, int em) {
-//        VirtualCategory.EquippingModel equippingModel = VirtualCategory.EquippingModel.MULTIPLE;
-//        if (em == 0) {
-//            equippingModel = VirtualCategory.EquippingModel.NONE;
-//        } else if (em == 1) {
-//            equippingModel = VirtualCategory.EquippingModel.SINGLE;
-//        }
-//
-//        return new VirtualCategory(name, id, equippingModel);
-//    }
-
-//    public static GoogleMarketItem createGoogleMarketItem(String id, int managed, double price) {
-//        if (managed == 0) {
-//            return new GoogleMarketItem(id, Managed.MANAGED, price);
-//        } else if (managed == 1) {
-//            return new GoogleMarketItem(id, Managed.UNMANAGED, price);
-//        } else if (managed == 2) {
-//            return new GoogleMarketItem(id, Managed.SUBSCRIPTION, price);
-//        } else {
-//            return new GoogleMarketItem(id, Managed.UNMANAGED, price);
-//        }
-//    }
-
-//    public static HashMap<String, Integer> createStringIntegerHashMap() {
-//        return new HashMap<String, Integer>();
-//    }
-
-//    public static ArrayList<HashMap<String, Integer>> createStringIntegerHashMapArrayList() {
-//        return new ArrayList<HashMap<String, Integer>>();
-//    }
-
-//    public static void voidPutIntoStringIntegerHashMap(HashMap<String, Integer> map, String key, int value) {
-//        map.put(key, value);
-//    }
-
     public static void setSoomSec(String soomSec) {
         StoreConfig.SOOM_SEC = soomSec;
     }
-
-//    public static void setVersion(int version) {
-//        StoreAssets.version = version;
-//    }
-
 
     private static String TAG = "SOOMLA StoreAssets (unity)";
 }
