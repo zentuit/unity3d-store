@@ -30,6 +30,7 @@ extern "C"{
 
     void storeController_SetSSV(bool ssv, const char* verifyUrl) {
 		VERIFY_PURCHASES = ssv;
+
         if (VERIFY_URL) {
             [VERIFY_URL release];
         }

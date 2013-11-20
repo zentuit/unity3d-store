@@ -27,7 +27,7 @@ namespace com.soomla.unity
 		[DllImport ("__Internal")]
 		private static extern void storeController_SetSoomSec(string soomSec);
 		[DllImport ("__Internal")]
-		private static extern void storeController_SetSSV(bool ssv);
+		private static extern void storeController_SetSSV(bool ssv, string verifyUrl);
 #endif
 		
 #if UNITY_ANDROID && !UNITY_EDITOR
@@ -63,7 +63,7 @@ namespace com.soomla.unity
 			}
 			AndroidJNI.PopLocalFrame(IntPtr.Zero);
 #elif UNITY_IOS && !UNITY_EDITOR
-			storeController_SetSSV(Soomla.GetInstance().iosServerSideVerification);
+			storeController_SetSSV(Soomla.GetInstance().iosServerSideVerification, "https://verify.soom.la/verify_ios?platform=unity3");
 			storeController_SetSoomSec(Soomla.GetInstance().soomSec);
 #endif
 			
