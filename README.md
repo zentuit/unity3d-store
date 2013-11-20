@@ -43,7 +43,7 @@ We've created a unitypackage and an example project:
 
 The download packages and the code in the repo uses the "release" versions of android-store and ios-store. Also, Unity debug messages will only be printed out if you build the project with _Development Build_ checked.
 
-If you want to see full debug messages from android-store and ios-store you'll have to use the debug builds of those libraries. You can find those builds in the repo, in the folder _soomla-native/compilations_ ([android](https://github.com/soomla/unity3d-store/blob/master/soomla-native/compilations/android/Soomla_debug.jar)  [ios](https://github.com/soomla/unity3d-store/blob/master/soomla-native/compilations/ios/debug/libSoomlaIOSStore.a)).
+If you want to see full debug messages from android-store and ios-store you'll have to use the debug builds of those libraries. You can find those builds in the repo, in the folder _soomla-native/compilations_ ( [android](https://github.com/soomla/unity3d-store/blob/master/soomla-native/compilations/android/Soomla_debug.jar)  [ios](https://github.com/soomla/unity3d-store/blob/master/soomla-native/compilations/ios/debug/libSoomlaIOSStore.a) ).
 
 **Test purchases on Android** will not work (even in the debug library) if you won't switch its Test Mode on. In order to do that, check the box next to "Android Test Mode" in the Soomla prefab when it's added to your scene. (The example project works with test purchases. Make sure it's running on Test Mode)
 
