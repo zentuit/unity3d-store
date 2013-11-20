@@ -1,0 +1,4 @@
+rm -rf ../../unity3d-store/soomla-native/ios/*
+
+xcodebuild -configuration Debug -sdk iphoneos build CONFIGURATION_BUILD_DIR=../../../soomla-native/compilations/ios/debug
+xcodebuild -configuration Release -sdk iphoneos build CONFIGURATION_BUILD_DIR=../../../soomla-native/compilations/ios/release

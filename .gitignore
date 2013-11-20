@@ -2,19 +2,14 @@
 
 unity3_preps.py
 prepare_platforms
-for_packaging
-SoomlaIOSStore
-android-bridges/*
-!android-bridges/*/
-android-bridges/.idea
-android-bridges/out
-android-bridges/gen
-android-bridges/bin
-android-bridges/res
-android-bridges/libs
-android-bridges/config
-android-bridges/META-INF/
-android-bridges/src/com/soomla/store
-android-bridges/src/com/soomla/billing
-android-bridges/src/com/android
+for_deploy_pack
+soomla-native/projects/android-store/out
+soomla-native/projects/android-store/gen
+soomla-native/projects/android-store/bin
+soomla-native/projects/android-store/build_all
+soomla-native/projects/android-store/local.properties
+soomla-native/projects/android-store/module_soomla.xml
+soomla-native/projects/android-store/soomla.properties
+soomla-native/projects/android-store/soomla.xml
+
 
