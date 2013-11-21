@@ -321,7 +321,7 @@ public class JSONObject : Nullable {
 #endif
 				str = str.Substring(0, str.Length - 1);
 				str += "}";
-			} else str += "null";
+			} else str += "{}";
 			break;
 		case JSONObject.Type.ARRAY:
 			str = "[";
