@@ -13,9 +13,9 @@
     <file path="/StoreAssets.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1367508393986" ignored="false" />
     <file path="/StoreInfo.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1367240010620" ignored="false" />
     <file path="/build.xml" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1358069093305" ignored="false" />
-    <file path="/a.dummy" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1380787900745" ignored="false" />
+    <file path="/a.dummy" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385843544425" ignored="false" />
     <file path="/AndroidBus.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1358092068262" ignored="false" />
-    <file path="/StoreConfig.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1378729061970" ignored="false" />
+    <file path="/StoreConfig.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385312008628" ignored="false" />
     <file path="$PROJECT_DIR$/../../android-store/SoomlaAndroidStore/src/com/soomla/store/StoreConfig.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1380798305752" ignored="false" />
     <file path="$PROJECT_DIR$/../../unity-storefront/Java Source/src/com/soomla/store/StoreInventory.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1362858964208" ignored="false" />
     <file path="$PROJECT_DIR$/../../unity-storefront/Java Source/src/com/soomla/store/StoreController.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1362858964208" ignored="false" />
@@ -26,7 +26,7 @@
     <file path="$PROJECT_DIR$/../../android-store/SoomlaAndroidStore/src/com/soomla/store/data/StoreInfo.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1371121660402" ignored="false" />
     <file path="/EquippableVG.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1371122989002" ignored="false" />
     <file path="$PROJECT_DIR$/../../android-store/SoomlaAndroidStore/src/com/soomla/store/IStoreAssets.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1366818898665" ignored="false" />
-    <file path="/Dummy.txt" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1380787456410" ignored="false" />
+    <file path="/Dummy.txt" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385833808574" ignored="false" />
     <file path="$PROJECT_DIR$/../../android-store/SoomlaAndroidExample/src/com/soomla/example/StoreExampleActivity.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1367068782442" ignored="false" />
     <file path="$PROJECT_DIR$/../../android-store/SoomlaAndroidExample/src/com/soomla/example/MuffinRushAssets.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1367145643878" ignored="false" />
     <file path="$PROJECT_DIR$/../../android-store/SoomlaAndroidExample/src/com/soomla/example/StorePacksActivity.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1367069292051" ignored="false" />
@@ -37,7 +37,7 @@
     <file path="/Security.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1380787613153" ignored="false" />
     <file path="/StoreUtils.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1366875333909" ignored="false" />
     <file path="/AndroidManifest.xml" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1366876908971" ignored="false" />
-    <file path="/StoreController.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1380787652904" ignored="false" />
+    <file path="/StoreController.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385846810220" ignored="false" />
     <file path="$PROJECT_DIR$/../../android-store/SoomlaAndroidStore/src/com/soomla/store/data/JSONConsts.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1366883048023" ignored="false" />
     <file path="/SingleUsePackVG.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1371123837759" ignored="false" />
     <file path="$PROJECT_DIR$/../../android-store/SoomlaAndroidStore/src/com/soomla/store/domain/PurchasableVirtualItem.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1367217742151" ignored="false" />
@@ -66,7 +66,7 @@
     <file path="/JSONConsts.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1367217874041" ignored="false" />
     <file path="$PROJECT_DIR$/../../android-store/SoomlaAndroidStore/src/com/soomla/store/data/StoreDatabase.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1367225599563" ignored="false" />
     <file path="$PROJECT_DIR$/${source.dir}/src/com/soomla/store/StoreConfig.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1367399589012" ignored="false" />
-    <file path="/fragment.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1381091864937" ignored="false" />
+    <file path="/fragment.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385311585037" ignored="false" />
     <file path="$PROJECT_DIR$/../../android-viper/SoomlaAndroidViper/.idea/workspace.xml" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1371129726885" ignored="false" />
     <file path="/a.xml" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1378740113084" ignored="false" />
     <file path="$PROJECT_DIR$/../../android-viper/SoomlaAndroidViper/AndroidManifest.xml" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1371109926295" ignored="false" />
@@ -98,7 +98,6 @@
     <file path="$PROJECT_DIR$/../../unity-storefront/Java Source/src/com/soomla/store/StoreConfig.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1378729062278" ignored="false" />
     <file path="$PROJECT_DIR$/../../android-store/SoomlaAndroidStore/src/com/soomla/billing/Security.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1380787617132" ignored="false" />
     <file path="$PROJECT_DIR$/../../android-store/SoomlaAndroidStore/src/com/soomla/store/purchaseTypes/PurchaseWithMarket.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1380787737631" ignored="false" />
-    <file path="$PROJECT_DIR$/src/com/soomla/store/purchaseTypes/PurchaseWithMarket.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1380787894247" ignored="false" />
     <file path="$USER_HOME$/Downloads/Saga/gen/com/example/storefront/saga/BuildConfig.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1381090953709" ignored="false" />
     <file path="$USER_HOME$/Downloads/Saga/src/com/example/storefront/saga/Saga.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1381091051239" ignored="false" />
     <file path="$USER_HOME$/Downloads/DressUp/res/drawable/shape_no_fill.xml" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1381091601105" ignored="false" />
@@ -110,6 +109,85 @@
     <file path="$USER_HOME$/Downloads/DressUp/res/layout/main.xml" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1381091601105" ignored="false" />
     <file path="$USER_HOME$/Downloads/GoldDigger/gen/com/soomla/example/golddigger/BuildConfig.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1381091871612" ignored="false" />
     <file path="/soomla.xml" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1384937922892" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../back-of-generator/templates/android/storefront-native/src/com/soomla/store/storefront/StorefrontJS.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385309309906" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../back-of-generator/templates/android/storefront-native/src/com/soomla/store/storefront/StorefrontActivity.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385309309906" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../back-of-generator/templates/android/storefront-native/src/com/soomla/store/storefront/StorefrontController.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385309309906" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../back-of-generator/templates/android/storefront-native/src/com/soomla/store/storefront/StorefrontWebView.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385309309906" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../engine-storefront/unity/Java Source/src/com/soomla/store/storefront/StorefrontJS.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385309315324" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../engine-storefront/unity/Java Source/src/com/soomla/store/storefront/StorefrontWebView.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385309315324" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../engine-storefront/unity/Java Source/src/com/soomla/unity/Storefront.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385309315325" ignored="false" />
+    <file path="$USER_HOME$/Downloads/AAASSS/gen/com/example/storefront/aaasss/R.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385311593832" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../engine-storefront/unity/Java Source/src/com/soomla/store/StoreConfig.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834602379" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidStore/src/com/soomla/store/IStoreAssets.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidStore/src/com/soomla/store/StoreController.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385835124898" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidExample/res/layout/listview.xml" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidExample/AndroidManifest.xml" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834602379" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidExample/src/com/soomla/example/MuffinRushAssets.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidExample/src/com/soomla/example/ExampleEventHandler.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidStore/src/com/soomla/billing/Consts.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385835124898" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidStore/src/com/soomla/store/StoreInventory.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidStore/src/com/soomla/store/BusProvider.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidExample/src/com/soomla/example/StoreGoodsActivity.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385835124898" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidStore/src/com/soomla/billing/Security.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidExample/src/com/soomla/example/StorePacksActivity.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385835124898" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidStore/src/com/soomla/store/StoreConfig.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidStore/src/com/soomla/store/SoomlaApp.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidExample/src/com/soomla/example/StoreExampleActivity.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidStore/src/com/soomla/store/events/GoodBalanceChangedEvent.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidStore/src/com/soomla/store/data/StorageManager.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidStore/src/com/soomla/store/events/CurrencyBalanceChangedEvent.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidStore/src/com/soomla/store/data/KeyValueStorage.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidStore/src/com/soomla/store/data/StoreInfo.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604438" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidStore/src/com/soomla/store/events/OpeningStoreEvent.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidStore/src/com/soomla/store/events/BillingSupportedEvent.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidStore/src/com/soomla/store/events/ClosingStoreEvent.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidStore/src/com/soomla/store/data/KeyValDatabase.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604438" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidStore/src/com/soomla/store/events/BillingNotSupportedEvent.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidStore/src/com/soomla/store/events/UnexpectedStoreErrorEvent.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidExample/gen/com/soomla/example/BuildConfig.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834609851" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidExample/gen/com/soomla/example/Manifest.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidExample/gen/com/soomla/example/R.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidExample/gen/com/android/vending/billing/IInAppBillingService.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834687293" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidStore/src/com/soomla/billing/IabHelper.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidStore/src/com/soomla/store/StoreActivity.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidStore/src/com/soomla/store/data/JSONConsts.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidStore/src/com/soomla/store/data/VirtualGoodsStorage.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidStore/src/com/soomla/store/data/ObscuredSharedPreferences.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidStore/src/com/soomla/billing/Purchase.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidStore/src/com/soomla/billing/Inventory.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidStore/src/com/soomla/store/data/NonConsumableItemsStorage.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604438" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidStore/src/com/soomla/billing/IabResult.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidStore/src/com/soomla/store/data/StorefrontInfo.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604438" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidStore/src/com/soomla/store/data/VirtualCurrencyStorage.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604438" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidStore/src/com/soomla/store/domain/GoogleMarketItem.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../engine-storefront/unity/Java Source/src/com/soomla/store/domain/virtualGoods/EquippableVG.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidStore/src/com/soomla/store/domain/VirtualItem.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidStore/src/com/soomla/store/domain/NonConsumableItem.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidStore/src/com/soomla/store/StoreUtils.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidStore/src/com/soomla/store/events/GoodUnEquippedEvent.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidStore/src/com/soomla/store/events/PlayPurchaseEvent.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidStore/src/com/soomla/store/events/PlayPurchaseStartedEvent.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidStore/src/com/soomla/store/events/PlayRefundEvent.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidStore/src/com/soomla/store/events/TransactionRestoredEvent.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../engine-storefront/unity/Java Source/src/com/soomla/store/StoreInventory.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidStore/src/com/soomla/store/events/ItemPurchaseStartedEvent.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidStore/src/com/soomla/store/events/GoodUpgradeEvent.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../engine-storefront/unity/Java Source/src/com/soomla/store/SoomlaApp.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../engine-storefront/unity/Java Source/src/com/soomla/store/BusProvider.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../engine-storefront/unity/Java Source/src/com/soomla/store/StoreController.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidStore/src/com/soomla/store/events/ItemPurchasedEvent.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../engine-storefront/unity/Java Source/src/com/soomla/store/StoreUtils.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../engine-storefront/unity/Java Source/src/com/soomla/billing/util/AESObfuscator.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../engine-storefront/unity/Java Source/src/com/soomla/store/IStoreAssets.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidStore/src/com/soomla/store/purchaseTypes/PurchaseWithMarket.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../engine-storefront/unity/Java Source/src/com/soomla/billing/Security.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidStore/src/com/soomla/store/events/PlayPurchaseCancelledEvent.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidStore/src/com/soomla/store/events/GoodEquippedEvent.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidStore/src/com/android/vending/billing/IInAppBillingService.aidl" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidStore/src/com/soomla/store/events/StoreControllerInitializedEvent.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../engine-storefront/unity/Java Source/src/com/soomla/store/data/ObscuredSharedPreferences.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../engine-storefront/unity/Java Source/src/com/soomla/store/data/StorageManager.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604437" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidStore/src/com/soomla/store/data/VirtualItemStorage.java" changelist="1db99edc-b749-4d6b-a2ce-11235020fd0d" time="1385834604438" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -125,6 +203,42 @@
   </component>
   <component name="DebuggerManager">
     <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
+    <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
+      <breakpoint>
+        <option name="NOTIFY_CAUGHT" value="true" />
+        <option name="NOTIFY_UNCAUGHT" value="true" />
+        <option name="ENABLED" value="false" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint>
+        <option name="NOTIFY_CAUGHT" value="true" />
+        <option name="NOTIFY_UNCAUGHT" value="true" />
+        <option name="ENABLED" value="false" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+    </breakpoint_any>
     <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint url="file://$PROJECT_DIR$/src/com/soomla/unity/StoreAssets.java" line="28" class="com.soomla.unity.StoreAssets" package="com.soomla.unity">
         <option name="ENABLED" value="true" />
@@ -172,42 +286,6 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </line_breakpoints>
-    <breakpoint_any>
-      <breakpoint>
-        <option name="NOTIFY_CAUGHT" value="true" />
-        <option name="NOTIFY_UNCAUGHT" value="true" />
-        <option name="ENABLED" value="false" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint>
-        <option name="NOTIFY_CAUGHT" value="true" />
-        <option name="NOTIFY_UNCAUGHT" value="true" />
-        <option name="ENABLED" value="false" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-    </breakpoint_any>
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -217,19 +295,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="module_soomla.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/module_soomla.xml">
+      <file leaf-file-name="StoreController.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/soomla/store/StoreController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="68" column="28" selection-start="2627" selection-end="2627" vertical-scroll-proportion="0.0">
+            <state line="51" column="44" selection-start="2155" selection-end="2155" vertical-scroll-proportion="0.5202312">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="soomla.xml" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/soomla.xml">
+      <file leaf-file-name="StoreAssets.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/soomla/unity/StoreAssets.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="114" column="66" selection-start="4248" selection-end="4248" vertical-scroll-proportion="0.37532133">
+            <state line="17" column="48" selection-start="612" selection-end="624" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -245,8 +323,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/com/soomla/store/domain/virtualGoods/SingleUsePackVG.java" />
-        <option value="$PROJECT_DIR$/src/com/soomla/store/domain/GoogleMarketItem.java" />
         <option value="$PROJECT_DIR$/src/com/soomla/store/domain/PurchasableVirtualItem.java" />
         <option value="$PROJECT_DIR$/src/com/soomla/store/domain/virtualGoods/UpgradeVG.java" />
         <option value="$PROJECT_DIR$/src/com/soomla/store/data/JSONConsts.java" />
@@ -261,12 +337,14 @@
         <option value="$PROJECT_DIR$/src/com/soomla/store/StoreConfig.java" />
         <option value="$PROJECT_DIR$/module_soomla.xml" />
         <option value="$PROJECT_DIR$/soomla.xml" />
+        <option value="$PROJECT_DIR$/src/com/soomla/billing/Consts.java" />
+        <option value="$PROJECT_DIR$/src/com/soomla/store/StoreController.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
     <option name="y" value="22" />
-    <option name="width" value="1398" />
+    <option name="width" value="1395" />
     <option name="height" value="878" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
@@ -295,6 +373,16 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope">
+        <subPane subId="Project Files">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
       <pane id="PackagesPane">
         <subPane>
           <PATH>
@@ -344,15 +432,83 @@
               <option name="myItemId" value="com" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="soomla" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="unity" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
-        </subPane>
-      </pane>
-      <pane id="Scope">
-        <subPane subId="Project Files">
           <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Soomla" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android-store" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="soomla" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="store" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Soomla" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android-store" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="soomla" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="billing" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Soomla" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="android-store" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="com" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -369,7 +525,7 @@
     <property name="recentsLimit" value="5" />
     <property name="MemberChooser.sorted" value="false" />
     <property name="GenerateAntBuildDialog.generateSingleFile" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/soomla.xml" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../android-store/SoomlaAndroidExample" />
     <property name="GenerateAntBuildDialog.inclineRuntiemClasspath" value="false" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
@@ -582,29 +738,29 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1398" height="878" extended-state="6" />
-    <editor active="true" />
+    <frame x="0" y="22" width="1395" height="878" extended-state="6" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.5672823" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.47361478" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21497406" sideWeight="0.5672823" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.60113424" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.69525063" sideWeight="0.4127683" order="12" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.43271768" sideWeight="0.5872317" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.44063324" sideWeight="0.54850745" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.43271768" sideWeight="0.5872317" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6437995" sideWeight="0.54850745" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32849604" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="PlantUML" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.28328404" sideWeight="0.5672823" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.283914" sideWeight="0.35620052" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.47361478" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Android Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32893" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -693,6 +849,20 @@
     </buildFile>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/module_soomla.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/soomla.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="114" column="66" selection-start="4248" selection-end="4248" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/config/StoreConfig.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="24" column="0" selection-start="797" selection-end="797" vertical-scroll-proportion="0.14563107" />
@@ -701,13 +871,6 @@
     <entry file="file://$PROJECT_DIR$/META-INF/MANIFEST.MF">
       <provider selected="true" editor-type-id="text-editor">
         <state line="3" column="112" selection-start="46" selection-end="46" vertical-scroll-proportion="0.05232558" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/soomla/unity/StoreAssets.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="72" column="43" selection-start="3524" selection-end="3524" vertical-scroll-proportion="1.1917808">
-          <folding />
-        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/soomla/unity/EventHandler.java">
@@ -719,49 +882,69 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/soomla/store/StoreConfig.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="54" column="0" selection-start="2349" selection-end="2349" vertical-scroll-proportion="0.83682007">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/android/vending/billing/IMarketBillingService.aidl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="29" selection-start="650" selection-end="650" vertical-scroll-proportion="0.32876712">
-          <folding />
-        </state>
+        <state line="54" column="0" selection-start="2349" selection-end="2349" vertical-scroll-proportion="0.83682007" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/local.properties">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/project.properties">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/ant.properties">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="49" selection-start="853" selection-end="853" vertical-scroll-proportion="0.4520548">
+        <state line="22" column="49" selection-start="853" selection-end="853" vertical-scroll-proportion="0.4520548" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/soomla.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="114" column="66" selection-start="4248" selection-end="4248" vertical-scroll-proportion="1.3909953">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/module_soomla.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="68" column="28" selection-start="2627" selection-end="2627" vertical-scroll-proportion="0.0">
+        <state line="68" column="28" selection-start="2627" selection-end="2627" vertical-scroll-proportion="0.11137441">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/soomla.xml">
+    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="114" column="66" selection-start="4248" selection-end="4248" vertical-scroll-proportion="0.37532133">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/soomla/billing/Consts.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="28" column="10" selection-start="982" selection-end="982" vertical-scroll-proportion="-0.84931505">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/soomla/unity/StoreAssets.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="48" selection-start="612" selection-end="624" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/soomla/store/purchaseTypes/PurchaseWithMarket.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="55" column="81" selection-start="1981" selection-end="1981" vertical-scroll-proportion="0.33333334">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/soomla/store/StoreController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="51" column="44" selection-start="2155" selection-end="2155" vertical-scroll-proportion="0.5202312">
           <folding />
         </state>
       </provider>

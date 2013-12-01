@@ -22,7 +22,6 @@ namespace com.soomla.unity {
 		
 		public string customSecret = ONLY_ONCE_DEFAULT;
 		public string androidPublicKey = AND_PUB_KEY_DEFAULT;
-		public bool androidTestMode = false;
 		public string soomSec = ONLY_ONCE_DEFAULT;
 		public bool iosServerSideVerification = false;
 

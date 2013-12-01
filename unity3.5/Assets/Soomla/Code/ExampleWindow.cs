@@ -44,7 +44,7 @@ public class ExampleWindow : MonoBehaviour
 		handler = new ExampleEventHandler();
 		
 		StoreController.Initialize(new MuffinRushAssets());
-		
+
 		// Initialization of 'ExampleLocalStoreInfo' and some example usages in ExampleEventHandler.onStoreControllerInitialized
 	}
 	

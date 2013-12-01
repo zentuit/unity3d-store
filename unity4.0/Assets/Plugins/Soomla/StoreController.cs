@@ -77,13 +77,11 @@ namespace com.soomla.unity
 			using(AndroidJavaObject jniStoreAssetsInstance = new AndroidJavaObject("com.soomla.unity.StoreAssets")) {
 				using(AndroidJavaClass jniStoreControllerClass = new AndroidJavaClass("com.soomla.store.StoreController")) {
 					jniStoreController = jniStoreControllerClass.CallStatic<AndroidJavaObject>("getInstance");
-					jniStoreController.Call("initialize", jniStoreAssetsInstance, Soomla.GetInstance().androidPublicKey, Soomla.GetInstance().customSecret);
+					jniStoreController.Call<bool>("initialize", jniStoreAssetsInstance, Soomla.GetInstance().androidPublicKey, Soomla.GetInstance().customSecret);
 				}
 			}
 			AndroidJNI.PopLocalFrame(IntPtr.Zero);
 			
-			// setting test mode on Android
-			SetAndroidTestMode(Soomla.GetInstance().androidTestMode);
 #elif UNITY_IOS && !UNITY_EDITOR
 			storeController_Init(Soomla.GetInstance().customSecret);
 #endif
@@ -109,11 +107,7 @@ namespace com.soomla.unity
 			if(!Application.isEditor){
 #if UNITY_ANDROID && !UNITY_EDITOR
 				AndroidJNI.PushLocalFrame(100);
-				using(AndroidJavaClass jniUnityPlayerClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer")){
-					using(AndroidJavaObject jniCurrentActivity = jniUnityPlayerClass.GetStatic<AndroidJavaObject>("currentActivity")) {
-						jniStoreController.Call("storeOpening", jniCurrentActivity);
-					}
-				}
+				jniStoreController.Call("storeOpening");
 				AndroidJNI.PopLocalFrame(IntPtr.Zero);
 #elif UNITY_IOS && !UNITY_EDITOR
 				storeController_StoreOpening();
@@ -158,14 +152,6 @@ namespace com.soomla.unity
 			}
 			return restored;
 		}
-
-#if UNITY_ANDROID && !UNITY_EDITOR
-		public static void SetAndroidTestMode(bool testMode) {
-				AndroidJNI.PushLocalFrame(100);
-				jniStoreController.Call("setTestMode", testMode);
-				AndroidJNI.PopLocalFrame(IntPtr.Zero);
-		}
-#endif
 		
 	}
 }

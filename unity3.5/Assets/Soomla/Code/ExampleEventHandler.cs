@@ -103,7 +103,7 @@ namespace com.soomla.unity.example
 		
 		public void onStoreControllerInitialized() {
 			ExampleLocalStoreInfo.Init();
-	
+			
 			// some usage examples for add/remove currency
             // some examples
             if (ExampleLocalStoreInfo.VirtualCurrencies.Count>0) {
