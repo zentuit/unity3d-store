@@ -8,9 +8,10 @@ Haven't you ever wanted an in-app purchase one liner that looks like this ?!
 
 unity3d-store
 ---
+**December 1st, 2013:** Android In-App Billing V3 is now integrated into unity3d-store. You can now test purchases using test users and you don't need to set Android Test Mode anymore.  
 **October 3rd, 2013:** iOS Server Side Verification is now implemented into unity3d-store. The server is a complimentary server provided by [SOOMLA](http://soom.la) to help you get your in-game purchases a bit more secured. This feature is not enabled by default. In order to enable Server Side verification go to the Soomla prefab and set  **ios Server Side Verification -> true**.
 
-Want to learn more about modelV3? Try these:  
+The current virtual economny model is called **modelV3**. Want to learn more about it? Try these:   
 * [Economy Model Objects - android-store](https://github.com/soomla/android-store/wiki/Economy-Model-Objects)  
 * [Handling Store Operations - android-store](https://github.com/soomla/android-store/wiki/Handling-Store-Operations)
 (The same model objects from android-store exist in unity3d-store)
@@ -44,8 +45,6 @@ We've created a unitypackage and an example project:
 The download packages and the code in the repo uses the "release" versions of android-store and ios-store. Also, Unity debug messages will only be printed out if you build the project with _Development Build_ checked.
 
 If you want to see full debug messages from android-store and ios-store you'll have to use the debug builds of those libraries. You can find those builds in the repo, in the folder _soomla-native/compilations_ ( [android](https://github.com/soomla/unity3d-store/blob/master/soomla-native/compilations/android/Soomla_debug.jar)  [ios](https://github.com/soomla/unity3d-store/blob/master/soomla-native/compilations/ios/debug/libSoomlaIOSStore.a) ).
-
-**Test purchases on Android** will not work (even in the debug library) if you won't switch its Test Mode on. In order to do that, check the box next to "Android Test Mode" in the Soomla prefab when it's added to your scene. (The example project works with test purchases. Make sure it's running on Test Mode)
 
 
 ## Getting Started
