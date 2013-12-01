@@ -3,7 +3,7 @@
 Haven't you ever wanted an in-app purchase one liner that looks like this ?!
 
 ```cs
-    StoreInventory.BuyItem("[itemId]");
+StoreInventory.BuyItem("[itemId]");
 ```
 
 unity3d-store
@@ -12,17 +12,13 @@ unity3d-store
 **October 3rd, 2013:** iOS Server Side Verification is now implemented into unity3d-store. The server is a complimentary server provided by [SOOMLA](http://soom.la) to help you get your in-game purchases a bit more secured. This feature is not enabled by default. In order to enable Server Side verification go to the Soomla prefab and set  **ios Server Side Verification -> true**.
 
 The current virtual economny model is called **modelV3**. Want to learn more about it? Try these:   
-* [Economy Model Objects - android-store](https://github.com/soomla/android-store/wiki/Economy-Model-Objects)  
-* [Handling Store Operations - android-store](https://github.com/soomla/android-store/wiki/Handling-Store-Operations)
+* [Economy Model Objects](https://github.com/soomla/unity3d-store/wiki/Economy-Model-Objects)  
+* [Handling Store Operations](https://github.com/soomla/unity3d-store/wiki/Handling-Store-Operations)
 (The same model objects from android-store exist in unity3d-store)
 
 The unity3d-store is the Unity3D flavour of The SOOMLA Project. This project uses [android-store](https://github.com/soomla/android-store) and [ios-store](https://github.com/soomla/ios-store) in order to provide game developers with in-app billing for their **Unity3D** projects.
-    
-**Before you start**, we suggest that you go over the information in ios-store and android-store so you get acquainted with the SOOMLA framework:
-- ios-store [project](https://github.com/soomla/ios-store) [wiki](https://github.com/soomla/ios-store/wiki)
-- android-store [project](https://github.com/soomla/android-store) [wiki](https://github.com/soomla/android-store/wiki)
 
->If you also want to create a **storefront** you can do that using SOOMLA's [In-App Purchase Store Designer](http://soom.la).
+>If you also want to create a **Storefront** you can do that using SOOMLA's [In-App Purchase Store Designer](http://soom.la).
 
 ## Download
 
