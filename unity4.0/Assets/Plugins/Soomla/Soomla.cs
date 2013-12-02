@@ -136,13 +136,6 @@ namespace com.soomla.unity {
 			Events.OnMarketPurchaseStarted(pvi);
 		}
 		
-		public void onMarketRefund(string message) {
-			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onMarketRefund:" + message);
-			
-			PurchasableVirtualItem pvi = (PurchasableVirtualItem)StoreInfo.GetItemByItemId(message);
-			Events.OnMarketPurchaseStarted(pvi);
-		}
-		
 		public void onRestoreTransactions(string message) {
 			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onRestoreTransactions:" + message);
 			
