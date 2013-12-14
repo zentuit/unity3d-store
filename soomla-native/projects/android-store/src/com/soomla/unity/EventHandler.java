@@ -10,6 +10,7 @@ public class EventHandler {
 
     public static void initialize() {
         mLocalEventHandler = new EventHandler();
+
     }
 
     public EventHandler() {
@@ -93,6 +94,11 @@ public class EventHandler {
     @Subscribe
     public void onMarketPurchaseStarted(PlayPurchaseStartedEvent playPurchaseStartedEvent) {
         UnityPlayer.UnitySendMessage("Soomla", "onMarketPurchaseStarted", playPurchaseStartedEvent.getPurchasableVirtualItem().getItemId());
+    }
+
+    @Subscribe
+    public void onMarketRefund(PlayRefundEvent playRefundEvent) {
+        UnityPlayer.UnitySendMessage("Soomla", "onMarketRefund", playRefundEvent.getPurchasableVirtualItem().getItemId());
     }
 
     @Subscribe

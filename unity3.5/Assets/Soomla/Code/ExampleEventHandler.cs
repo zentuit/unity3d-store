@@ -9,6 +9,7 @@ namespace com.soomla.unity.example
 		public ExampleEventHandler ()
 		{
 			Events.OnMarketPurchase += onMarketPurchase;
+			Events.OnMarketRefund += onMarketRefund;
 			Events.OnItemPurchased += onItemPurchased;
 			Events.OnGoodEquipped += onGoodEquipped;
 			Events.OnGoodUnEquipped += onGoodUnequipped;
@@ -30,6 +31,10 @@ namespace com.soomla.unity.example
 		
 		public void onMarketPurchase(PurchasableVirtualItem pvi) {
 			
+		}
+		
+		public void onMarketRefund(PurchasableVirtualItem pvi) {
+
 		}
 		
 		public void onItemPurchased(PurchasableVirtualItem pvi) {
