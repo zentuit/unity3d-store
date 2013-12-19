@@ -86,7 +86,7 @@ And that's it ! You have storage and in-app purchasing capabilities... ALL-IN-ON
 
 Update your AndroidManifest.xml to include these permissions, SoomlaApp and IabActivity:
 
-    ```xml
+```xml
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="com.android.vending.BILLING"/>
 
@@ -95,7 +95,7 @@ Update your AndroidManifest.xml to include these permissions, SoomlaApp and IabA
         <activity android:name="com.soomla.store.StoreController$IabActivity"
                   android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"/>
     </application>
-    ```
+```
 
 ## What's next? In App Purchasing.
 
