@@ -82,6 +82,21 @@ If you want to see full debug messages from android-store and ios-store you'll h
 
 And that's it ! You have storage and in-app purchasing capabilities... ALL-IN-ONE.
 
+### Unity & Android
+
+Update your AndroidManifest.xml to include these permissions, SoomlaApp and IabActivity:
+
+    ```xml
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="com.android.vending.BILLING"/>
+
+    <application ...
+    	       android:name="com.soomla.store.SoomlaApp">
+        <activity android:name="com.soomla.store.StoreController$IabActivity"
+                  android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"/>
+    </application>
+    ```
+
 ## What's next? In App Purchasing.
 
 When we implemented modelV3, we were thinking about ways that people buy things inside apps. We figured out many ways you can let your users purchase stuff in your game and we designed the new modelV3 to support 2 of them: PurchaseWithMarket and PurchaseWithVirtualItem.
