@@ -110,21 +110,15 @@ namespace com.soomla.unity
 #endif
 			}
 		}
-		
+
+#if UNITY_IOS && !UNITY_EDITOR		
 		public static bool TransactionsAlreadyRestored() {
 			bool restored = false;
-			if(!Application.isEditor){
-#if UNITY_ANDROID && !UNITY_EDITOR
-				AndroidJNI.PushLocalFrame(100);
-				restored = jniStoreController.Call<bool>("transactionsAlreadyRestored");
-				AndroidJNI.PopLocalFrame(IntPtr.Zero);
-#elif UNITY_IOS && !UNITY_EDITOR
-				storeController_TransactionsAlreadyRestored(out restored);
-#endif
-			}
+			storeController_TransactionsAlreadyRestored(out restored);
 			return restored;
 		}
-		
+#endif
+				
 #if UNITY_ANDROID && !UNITY_EDITOR
 		public static void StartIabServiceInBg() {
 			AndroidJNI.PushLocalFrame(100);
