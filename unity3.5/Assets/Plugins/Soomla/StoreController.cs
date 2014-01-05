@@ -17,10 +17,6 @@ namespace com.soomla.unity
 		[DllImport ("__Internal")]
 		private static extern int storeController_BuyMarketItem(string productId);
 		[DllImport ("__Internal")]
-		private static extern void storeController_StoreOpening();
-		[DllImport ("__Internal")]
-		private static extern void storeController_StoreClosing();
-		[DllImport ("__Internal")]
 		private static extern void storeController_RestoreTransactions();
 		[DllImport ("__Internal")]
 		private static extern void storeController_TransactionsAlreadyRestored(out bool outResult);
@@ -103,30 +99,6 @@ namespace com.soomla.unity
 #endif
 		}
 		
-		public static void StoreOpening() {
-			if(!Application.isEditor){
-#if UNITY_ANDROID && !UNITY_EDITOR
-				AndroidJNI.PushLocalFrame(100);
-				jniStoreController.Call("storeOpening");
-				AndroidJNI.PopLocalFrame(IntPtr.Zero);
-#elif UNITY_IOS && !UNITY_EDITOR
-				storeController_StoreOpening();
-#endif
-			}
-		}
-		
-		public static void StoreClosing() {
-			if(!Application.isEditor){
-#if UNITY_ANDROID && !UNITY_EDITOR
-				AndroidJNI.PushLocalFrame(100);
-				jniStoreController.Call("storeClosing");
-				AndroidJNI.PopLocalFrame(IntPtr.Zero);
-#elif UNITY_IOS && !UNITY_EDITOR
-				storeController_StoreClosing();
-#endif
-			}
-		}
-		
 		public static void RestoreTransactions() {
 			if(!Application.isEditor){
 #if UNITY_ANDROID && !UNITY_EDITOR
@@ -152,6 +124,20 @@ namespace com.soomla.unity
 			}
 			return restored;
 		}
+		
+#if UNITY_ANDROID && !UNITY_EDITOR
+		public static void StartIabServiceInBg() {
+			AndroidJNI.PushLocalFrame(100);
+			AndroidJNIHandler.CallVoid(jniStoreController, "startIabServiceInBg");
+			AndroidJNI.PopLocalFrame(IntPtr.Zero);
+		}
+		
+		public static void StopIabServiceInBg() {
+			AndroidJNI.PushLocalFrame(100);
+			AndroidJNIHandler.CallVoid(jniStoreController, "stopIabServiceInBg");
+			AndroidJNI.PopLocalFrame(IntPtr.Zero);
+		}
+#endif
 		
 	}
 }

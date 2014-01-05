@@ -18,8 +18,6 @@ namespace com.soomla.unity.example
 			Events.OnBillingNotSupported += onBillingNotSupported;
 			Events.OnMarketPurchaseStarted += onMarketPurchaseStarted;
 			Events.OnItemPurchaseStarted += onItemPurchaseStarted;
-			Events.OnClosingStore += onClosingStore;
-			Events.OnOpeningStore += onOpeningStore;
 			Events.OnUnexpectedErrorInStore += onUnexpectedErrorInStore;
 			Events.OnCurrencyBalanceChanged += onCurrencyBalanceChanged;
 			Events.OnGoodBalanceChanged += onGoodBalanceChanged;
@@ -27,6 +25,10 @@ namespace com.soomla.unity.example
 			Events.OnRestoreTransactionsStarted += onRestoreTransactionsStarted;
 			Events.OnRestoreTransactions += onRestoreTransactions;
 			Events.OnStoreControllerInitialized += onStoreControllerInitialized;
+#if UNITY_ANDROID && !UNITY_EDITOR
+			Events.OnIabServiceStarted += onIabServiceStarted;
+			Events.OnIabServiceStopped += onIabServiceStopped;
+#endif
 		}
 		
 		public void onMarketPurchase(PurchasableVirtualItem pvi) {
@@ -73,15 +75,7 @@ namespace com.soomla.unity.example
 			
 		}
 		
-		public void onClosingStore() {
-			
-		}
-		
 		public void onUnexpectedErrorInStore() {
-			
-		}
-		
-		public void onOpeningStore() {
 			
 		}
 		
@@ -115,6 +109,15 @@ namespace com.soomla.unity.example
                 }
             }
 		}
+		
+#if UNITY_ANDROID && !UNITY_EDITOR
+		public void onIabServiceStarted() {
+			
+		}
+		public void onIabServiceStopped() {
+			
+		}
+#endif
 	}
 }
 

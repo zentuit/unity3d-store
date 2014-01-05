@@ -63,14 +63,6 @@ extern "C"{
 		return NO_ERR;
 	}
 
-	void storeController_StoreOpening() {
-		[[StoreController getInstance] storeOpening];
-	}
-
-	void storeController_StoreClosing() {
-		[[StoreController getInstance] storeClosing];
-	}
-
 	void storeController_RestoreTransactions() {
 		[[StoreController getInstance] restoreTransactions];
 	}

@@ -28,11 +28,6 @@
  *
  * This is the only class you need to initialize in order to use the SOOMLA SDK.
  *
- * In addition to initializing this class, you'll also have to call
- * StoreController::storeOpening and StoreController::storeClosing when you open the store window or close it. These two
- * calls initializes important components that support billing and storage information (see implementation below).
- * IMPORTANT: if you use the SOOMLA's storefront, then DON'T call these 2 functions.
- *
  */
 @interface StoreController : NSObject <SKProductsRequestDelegate, SKPaymentTransactionObserver>{
     @private
@@ -57,14 +52,6 @@
  * appStoreItem is the item to purchase. This item has to be defined EXACTLY the same in iTunes Connect.
  */
 - (BOOL)buyInAppStoreWithAppStoreItem:(AppStoreItem*)appStoreItem;
-/**
- * Call this function when you open the actual store window
- */
-- (void)storeOpening;
-/**
- * Call this function when you close the actual store window.
- */
-- (void)storeClosing;
 /**
  * Initiate the restoreTransactions process
  */

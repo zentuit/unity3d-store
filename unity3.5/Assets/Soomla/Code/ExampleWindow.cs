@@ -2,8 +2,8 @@ using UnityEngine;
 using System.Collections;
 using System;
 using com.soomla.unity;
-
 using com.soomla.unity.example;
+
 public class ExampleWindow : MonoBehaviour
 {
 	private static ExampleWindow instance = null;
@@ -46,20 +46,6 @@ public class ExampleWindow : MonoBehaviour
 		StoreController.Initialize(new MuffinRushAssets());
 
 		// Initialization of 'ExampleLocalStoreInfo' and some example usages in ExampleEventHandler.onStoreControllerInitialized
-	}
-	
-	public static void StoreOpening() {
-		
-		// We have to notify StoreController when the store is going to be shown !
-		StoreController.StoreOpening();
-		
-	}
-	
-	public static void StoreClosing() {
-		
-		// We have to notify StoreController when the store is going to be hidden !
-		StoreController.StoreClosing();
-		
 	}
 	
 	public static void OpenWindow(){
@@ -138,7 +124,9 @@ public class ExampleWindow : MonoBehaviour
 		//drawing button and testing if it has been clicked
 		if(GUI.Button(new Rect(Screen.width*2/6,Screen.height*5f/8f,Screen.width*2/6,Screen.width*2/6),(Texture2D)Resources.Load("SoomlaStore/images/soomla_logo_new"))){
 			guiState = GUIState.GOODS;
-			StoreOpening();
+#if UNITY_ANDROID && !UNITY_EDITOR
+			StoreController.StartIabServiceInBg();
+#endif
 		}
 		//set alignment to backup
 		GUI.skin.label.alignment = backupAlignment;
@@ -215,7 +203,9 @@ public class ExampleWindow : MonoBehaviour
 		float width = buttonHeight*180/95;
 		if(GUI.Button(new Rect(Screen.width*2f/7f-width/2f,Screen.height*7f/8f+borderSize,width,buttonHeight), "back")){
 			guiState = GUIState.WELCOME;
-			StoreClosing();
+#if UNITY_ANDROID && !UNITY_EDITOR
+			StoreController.StopIabServiceInBg();
+#endif
 		}
 		GUI.DrawTexture(new Rect(Screen.width*2f/7f-width/2f,Screen.height*7f/8f+borderSize,width,buttonHeight),(Texture2D)Resources.Load("SoomlaStore/images/back"));
 		width = buttonHeight*227/94;

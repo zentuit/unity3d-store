@@ -33,9 +33,6 @@
 	else if ([notification.name isEqualToString:EVENT_BILLING_SUPPORTED]) {
 	    UnitySendMessage("Soomla", "onBillingSupported", "");
 	}
-	else if ([notification.name isEqualToString:EVENT_CLOSING_STORE]) {
-	    UnitySendMessage("Soomla", "onClosingStore", "");
-	}
 	else if ([notification.name isEqualToString:EVENT_CURRENCY_BALANCE_CHANGED]) {
 	    NSDictionary* userInfo = [notification userInfo];
 	    VirtualCurrency* vc = [userInfo objectForKey:DICT_ELEMENT_CURRENCY];
@@ -70,9 +67,6 @@
 	else if ([notification.name isEqualToString:EVENT_ITEM_PURCHASE_STARTED]) {
 		PurchasableVirtualItem* pvi = [notification.userInfo objectForKey:DICT_ELEMENT_PURCHASABLE];
         UnitySendMessage("Soomla", "onItemPurchaseStarted", [pvi.itemId UTF8String]);
-    }
-	else if ([notification.name isEqualToString:EVENT_OPENING_STORE]) {
-        UnitySendMessage("Soomla", "onOpeningStore", "");
     }
 	else if ([notification.name isEqualToString:EVENT_APPSTORE_PURCHASE_CANCELLED]) {
         PurchasableVirtualItem* pvi = [notification.userInfo objectForKey:DICT_ELEMENT_PURCHASABLE];

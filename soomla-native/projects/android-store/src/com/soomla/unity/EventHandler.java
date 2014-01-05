@@ -28,8 +28,13 @@ public class EventHandler {
     }
 
     @Subscribe
-    public void onClosingStore(ClosingStoreEvent closingStoreEvent) {
-        UnityPlayer.UnitySendMessage("Soomla", "onClosingStore", "");
+    public void onIabServiceStartedEvent(IabServiceStartedEvent iabServiceStartedEvent) {
+        UnityPlayer.UnitySendMessage("Soomla", "onIabServiceStarted", "");
+    }
+
+    @Subscribe
+    public void onIabServiceStoppedEvent(IabServiceStoppedEvent iabServiceStoppedEvent) {
+        UnityPlayer.UnitySendMessage("Soomla", "onIabServiceStopped", "");
     }
 
     @Subscribe
@@ -73,11 +78,6 @@ public class EventHandler {
     @Subscribe
     public void onItemPurchaseStarted(ItemPurchaseStartedEvent itemPurchaseStartedEvent) {
         UnityPlayer.UnitySendMessage("Soomla", "onItemPurchaseStarted", itemPurchaseStartedEvent.getPurchasableVirtualItem().getItemId());
-    }
-
-    @Subscribe
-    public void onOpeningStore(OpeningStoreEvent openingStoreEvent) {
-        UnityPlayer.UnitySendMessage("Soomla", "onOpeningStore", "");
     }
 
     @Subscribe

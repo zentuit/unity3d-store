@@ -43,12 +43,6 @@ public class Soomla : MonoBehaviour {
 		Events.OnBillingNotSupported();
 	}
 	
-	public void onClosingStore(string message) {
-		StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onClosingStore");
-		
-		Events.OnClosingStore();
-	}
-	
 	public void onCurrencyBalanceChanged(string message) {
 		StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onCurrencyBalanceChanged:" + message);
 		
@@ -109,12 +103,6 @@ public class Soomla : MonoBehaviour {
 		Events.OnItemPurchaseStarted(pvi);
 	}
 	
-	public void onOpeningStore(string message) {
-		StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onOpeningStore");
-		
-		Events.OnOpeningStore();
-	}
-	
 	public void onMarketPurchaseCancelled(string message) {
 		StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onMarketPurchaseCancelled: " + message);
 		
@@ -167,5 +155,19 @@ public class Soomla : MonoBehaviour {
 		
 		Events.OnStoreControllerInitialized();
 	}
+	
+#if UNITY_ANDROID && !UNITY_EDITOR
+		public void onIabServiceStarted(string message) {
+			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onIabServiceStarted");
+			
+			Events.OnIabServiceStarted();
+		}
+		
+		public void onIabServiceStopped(string message) {
+			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onIabServiceStopped");
+			
+			Events.OnIabServiceStopped();
+		}
+#endif
 
 }

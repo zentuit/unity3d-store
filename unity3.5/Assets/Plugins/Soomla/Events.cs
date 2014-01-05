@@ -10,9 +10,7 @@ namespace com.soomla.unity
 		public static Action OnBillingNotSupported = delegate {};
 		
 		public static Action OnBillingSupported = delegate {};
-		
-		public static Action OnClosingStore = delegate {};
-		
+				
 		public static Action<VirtualCurrency, int, int> OnCurrencyBalanceChanged = delegate {};
 		
 		public static Action<VirtualGood, int, int> OnGoodBalanceChanged = delegate {};
@@ -26,9 +24,7 @@ namespace com.soomla.unity
 		public static Action<PurchasableVirtualItem> OnItemPurchased = delegate {};
 		
 		public static Action<PurchasableVirtualItem> OnItemPurchaseStarted = delegate {};
-		
-		public static Action OnOpeningStore = delegate {};
-		
+				
 		public static Action<PurchasableVirtualItem> OnMarketPurchaseCancelled = delegate {};	
 		
 		public static Action<PurchasableVirtualItem> OnMarketPurchase = delegate {};
@@ -44,6 +40,12 @@ namespace com.soomla.unity
 		public static Action OnUnexpectedErrorInStore = delegate {};
 		
 		public static Action OnStoreControllerInitialized = delegate {};
+
+#if UNITY_ANDROID && !UNITY_EDITOR
+		public static Action OnIabServiceStarted = delegate {};
+		
+		public static Action OnIabServiceStopped = delegate {};
+#endif
 		
 	}
 }
