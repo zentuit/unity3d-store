@@ -62,27 +62,13 @@ If you want to see full debug messages from android-store and ios-store you'll h
     
     > Initialize _StoreController_ in the "Start()" function of a 'MonoBehaviour' and **NOT** in the "Awake()" function. SOOMLA has its own 'MonoBehaviour' and it needs to be "Awakened" before you initialize.
 
-5. Now, that you have _StoreController_ loaded, just decide when you want to show/hide your store's UI to the user and let _StoreController_ know about it:
-
-  When you show the store call:
-
-    ```cs
-    StoreController.storeOpening();
-    ```
-
-  When you hide the store call:
-
-    ```cs
-    StoreController.storeClosing();
-    ```
-    
-    > Don't forget to make these calls. _StoreController_ has to know that you opened/closed your in-app purchase store. Just to make it clear: the in-app purchase store is where you sell virtual goods (and not Google Play or App Store).
-
-6. You'll need an event handler in order to be notified about in-app purchasing related events. refer to the [Event Handling](https://github.com/soomla/unity3d-store#event-handling) section for more information.
+5. You'll need an event handler in order to be notified about in-app purchasing related events. refer to the [Event Handling](https://github.com/soomla/unity3d-store#event-handling) section for more information.
 
 And that's it ! You have storage and in-app purchasing capabilities... ALL-IN-ONE.
 
 ### Unity & Android
+
+#### AndroidManifest.xml
 
 Update your AndroidManifest.xml to include these permissions, SoomlaApp and IabActivity:
 
@@ -96,6 +82,21 @@ Update your AndroidManifest.xml to include these permissions, SoomlaApp and IabA
                   android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"/>
     </application>
 ```
+
+#### Starting IAB Service in background
+
+If you have your own storefront implemented inside your game, it's recommended that you open the IAB Service in the background when the store opens and close it when the store is closed.
+
+```cs
+// Start Iab Service
+StoreController.StartIabServiceInBg();
+
+// Stop Iab Service
+StoreController.StartIabServiceInBg();
+```
+
+Don't forget to close the Iab Service when your store is closed. You don't have to do this at all, this is just an optimization.
+
 
 ## What's next? In App Purchasing.
 
