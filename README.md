@@ -92,7 +92,7 @@ If you have your own storefront implemented inside your game, it's recommended t
 StoreController.StartIabServiceInBg();
 
 // Stop Iab Service
-StoreController.StartIabServiceInBg();
+StoreController.StopIabServiceInBg();
 ```
 
 Don't forget to close the Iab Service when your store is closed. You don't have to do this at all, this is just an optimization.
