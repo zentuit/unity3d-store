@@ -122,13 +122,13 @@ namespace com.soomla.unity
 #if UNITY_ANDROID && !UNITY_EDITOR
 		public static void StartIabServiceInBg() {
 			AndroidJNI.PushLocalFrame(100);
-			AndroidJNIHandler.CallVoid(jniStoreController, "startIabServiceInBg");
+			jniStoreController.Call("startIabServiceInBg");
 			AndroidJNI.PopLocalFrame(IntPtr.Zero);
 		}
 		
 		public static void StopIabServiceInBg() {
 			AndroidJNI.PushLocalFrame(100);
-			AndroidJNIHandler.CallVoid(jniStoreController, "stopIabServiceInBg");
+			jniStoreController.Call("stopIabServiceInBg");
 			AndroidJNI.PopLocalFrame(IntPtr.Zero);
 		}
 #endif
