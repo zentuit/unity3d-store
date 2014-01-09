@@ -12,6 +12,9 @@ public class PostProcessScriptStarter : MonoBehaviour {
    		//psi.FileName = Appilcation.dataPath + "/Editor/PostprocessBuildPlayerScriptForSoomla";
 		//psi.UseShellExecute = false;
     	//psi.RedirectStandardOutput = false;
+		
+		Process.Start("chmod", "755 " + Appilcation.dataPath + "/Editor/PostprocessBuildPlayerScriptForSoomla");
+		
 		Process proc = new System.Diagnostics.Process();
 		proc.StartInfo.UseShellExecute = false;
 		proc.StartInfo.RedirectStandardOutput = true;
