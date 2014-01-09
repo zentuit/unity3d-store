@@ -148,6 +148,7 @@ namespace com.soomla.unity {
 			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onUnexpectedErrorInStore");
 			
 			Events.OnUnexpectedErrorInStore();
+			Events.OnUnexpectedErrorInStoreWithMessage(message);
 		}
 		
 		public void onStoreControllerInitialized(string message) {
