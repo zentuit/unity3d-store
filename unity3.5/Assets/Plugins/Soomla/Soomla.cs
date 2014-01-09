@@ -147,7 +147,7 @@ public class Soomla : MonoBehaviour {
 	public void onUnexpectedErrorInStore(string message) {
 		StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onUnexpectedErrorInStore");
 		
-		Events.OnUnexpectedErrorInStore();
+		Events.OnUnexpectedErrorInStore(message);
 	}
 	
 	public void onStoreControllerInitialized(string message) {
