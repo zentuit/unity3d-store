@@ -7,13 +7,13 @@ using System.Diagnostics;
 public class PostProcessScriptStarter : MonoBehaviour {
 	[PostProcessBuild]
 	public static void OnPostprocessBuild(BuildTarget target, string pathToBuiltProject) {
-		if (target == BuildTarget.iPhone) {
+#if UNITY_IOS
 			//ProcessStartInfo psi = new ProcessStartInfo();
 			//psi.FileName = Appilcation.dataPath + "/Editor/PostprocessBuildPlayerScriptForSoomla";
 			//psi.UseShellExecute = false;
 			//psi.RedirectStandardOutput = false;
 			
-			Process.Start("chmod", "755 " + Appilcation.dataPath + "/Editor/PostprocessBuildPlayerScriptForSoomla");
+			Process.Start("chmod", "755 " + Application.dataPath + "/Editor/PostprocessBuildPlayerScriptForSoomla");
 			
 			Process proc = new System.Diagnostics.Process();
 			proc.StartInfo.UseShellExecute = false;
@@ -29,6 +29,6 @@ public class PostProcessScriptStarter : MonoBehaviour {
 			UnityEngine.Debug.Log("out: " + output);
 			UnityEngine.Debug.Log("error: " + err);
 //			UnityEngine.Debug.Log(pathToBuiltProject);
-		}
+#endif
     }
 }
