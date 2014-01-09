@@ -37,9 +37,7 @@ namespace com.soomla.unity
 		
 		public static Action OnRestoreTransactionsStarted = delegate {};
 		
-		public static Action OnUnexpectedErrorInStore = delegate {};
-		
-		public static Action<string> OnUnexpectedErrorInStoreWithMessage = delegate {};
+		public static Action<string> OnUnexpectedErrorInStore = delegate {};
 		
 		public static Action OnStoreControllerInitialized = delegate {};
 

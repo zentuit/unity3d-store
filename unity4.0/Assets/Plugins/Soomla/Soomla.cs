@@ -147,8 +147,7 @@ namespace com.soomla.unity {
 		public void onUnexpectedErrorInStore(string message) {
 			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onUnexpectedErrorInStore");
 			
-			Events.OnUnexpectedErrorInStore();
-			Events.OnUnexpectedErrorInStoreWithMessage(message);
+			Events.OnUnexpectedErrorInStore(message);
 		}
 		
 		public void onStoreControllerInitialized(string message) {

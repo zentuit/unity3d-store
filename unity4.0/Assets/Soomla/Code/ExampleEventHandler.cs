@@ -75,7 +75,7 @@ namespace com.soomla.unity.example
 			
 		}
 		
-		public void onUnexpectedErrorInStore() {
+		public void onUnexpectedErrorInStore(string message) {
 			
 		}
 		
