@@ -24,17 +24,17 @@ The unity3d-store is the Unity3D flavour of The SOOMLA Project. This project use
 
 We've created a unitypackage and an example project:
 
-####unity3d-store v1.2.2 (release version)
+####unity3d-store v1.3.0 (release version)
 
-[Unity 4.0 - unity3d-store v1.2.2](http://bit.ly/1a7ahx8)  
-[Unity 3.5 - unity3d-store v1.2.2](http://bit.ly/1a7am3S)
+[Unity 4.0 - unity3d-store v1.3.0](http://bit.ly/1hmfwOa)  
+[Unity 3.5 - unity3d-store v1.3.0](http://bit.ly/1mJXER5)
 
-####unity3d-store v1.2.2 example
+####unity3d-store v1.3.0 example
 
 - The example project is mostly what you have in this Github repo. You can either download it or clone unity3d-store.
 
-[Unity 4.0 - unity3d-store v1.2.2 example](http://bit.ly/1cOCaK4)  
-[Unity 3.5 - unity3d-store v1.2.2 example](http://bit.ly/KCIZc0)
+[Unity 4.0 - unity3d-store v1.3.0 example](http://bit.ly/1jpzL1g)  
+[Unity 3.5 - unity3d-store v1.3.0 example](http://bit.ly/1jpzM5k)
 
 ## Debugging
 
@@ -46,13 +46,13 @@ If you want to see full debug messages from android-store and ios-store you'll h
 ## Getting Started
 
 1. Download the unity3d-store unityproject file you want and double-click on it. It'll import all the necessary files into your project.
-2. Drag the "Soomla" Prefab into your scene. You should see it listed in the "Hierarchy" panel.
-3. Click on the "Soomla" Prefab you just added and in the "Inspector" panel change the values for "Custom Secret", "Public Key" and "Soom Sec":
+2. Drag the "SoomlaEvents" Prefab from `../Assets/Soomla/Prefabs` into your scene. You should see it listed in the "Hierarchy" panel.
+3. On the menu bar click "Soomla -> Edit Settings" and change the values for "Custom Secret", "Public Key" and "Soom Sec":
     - _Custom Secret_ - is an encryption secret you provide that will be used to secure your data.
     - _Public Key_ - is the public key given to you from Google. (iOS doesn't have a public key).
     - _Soom Sec_ - is a special secret SOOMLA uses to increase your data protection.  
     **Choose both secrets wisely. You can't change them after you launch your game!**
-4. Create your own implementation of _IStoreAssets_ in order to describe your specific game's assets ([example](https://github.com/soomla/unity3d-store/blob/master/unity4.0/Assets/Soomla/Code/MuffinRushAssets.cs)). Initialize _StoreController_ with the class you just created:
+4. Create your own implementation of _IStoreAssets_ in order to describe your specific game's assets ([example](https://github.com/soomla/unity3d-store/blob/master/unity4.0/Assets/Examples/MuffinRush/MuffinRushAssets.cs)). Initialize _StoreController_ with the class you just created:
 
     ```cs
        StoreController.Initialize(new YourStoreAssetsImplementation());
@@ -67,21 +67,6 @@ If you want to see full debug messages from android-store and ios-store you'll h
 And that's it ! You have storage and in-app purchasing capabilities... ALL-IN-ONE.
 
 ### Unity & Android
-
-#### AndroidManifest.xml
-
-Update your AndroidManifest.xml to include these permissions, SoomlaApp and IabActivity:
-
-```xml
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="com.android.vending.BILLING"/>
-
-    <application ...
-    	       android:name="com.soomla.store.SoomlaApp">
-        <activity android:name="com.soomla.store.StoreController$IabActivity"
-                  android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"/>
-    </application>
-```
 
 #### Starting IAB Service in background
 
