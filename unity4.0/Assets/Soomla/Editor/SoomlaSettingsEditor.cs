@@ -109,7 +109,7 @@ public class SoomlaSettingsEditor : Editor
     private void AboutGUI()
     {
         EditorGUILayout.HelpBox("SOOMLA SDK Info", MessageType.None);
-		SelectableLabelField(frameworkVersion, "1.2.2");
+		SelectableLabelField(frameworkVersion, "1.3.0");
 		SelectableLabelField(buildVersion, "1");
         EditorGUILayout.Space();
     }
