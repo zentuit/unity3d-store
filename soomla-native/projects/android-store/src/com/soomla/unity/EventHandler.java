@@ -19,27 +19,27 @@ public class EventHandler {
 
     @Subscribe
     public void onBillingSupported(BillingSupportedEvent billingSupportedEvent) {
-        UnityPlayer.UnitySendMessage("Soomla", "onBillingSupported", "");
+        UnityPlayer.UnitySendMessage("StoreEvents", "onBillingSupported", "");
     }
 
     @Subscribe
     public void onBillingNotSupported(BillingNotSupportedEvent billingNotSupportedEvent) {
-        UnityPlayer.UnitySendMessage("Soomla", "onBillingNotSupported", "");
+        UnityPlayer.UnitySendMessage("StoreEvents", "onBillingNotSupported", "");
     }
 
     @Subscribe
     public void onIabServiceStartedEvent(IabServiceStartedEvent iabServiceStartedEvent) {
-        UnityPlayer.UnitySendMessage("Soomla", "onIabServiceStarted", "");
+        UnityPlayer.UnitySendMessage("StoreEvents", "onIabServiceStarted", "");
     }
 
     @Subscribe
     public void onIabServiceStoppedEvent(IabServiceStoppedEvent iabServiceStoppedEvent) {
-        UnityPlayer.UnitySendMessage("Soomla", "onIabServiceStopped", "");
+        UnityPlayer.UnitySendMessage("StoreEvents", "onIabServiceStopped", "");
     }
 
     @Subscribe
     public void onCurrencyBalanceChanged(CurrencyBalanceChangedEvent currencyBalanceChangedEvent) {
-        UnityPlayer.UnitySendMessage("Soomla", "onCurrencyBalanceChanged",
+        UnityPlayer.UnitySendMessage("StoreEvents", "onCurrencyBalanceChanged",
                 currencyBalanceChangedEvent.getCurrency().getItemId() + "#SOOM#" +
                 currencyBalanceChangedEvent.getBalance() + "#SOOM#" +
                 currencyBalanceChangedEvent.getAmountAdded());
@@ -47,7 +47,7 @@ public class EventHandler {
 
     @Subscribe
     public void onGoodBalanceChanged(GoodBalanceChangedEvent goodBalanceChangedEvent) {
-        UnityPlayer.UnitySendMessage("Soomla", "onGoodBalanceChanged",
+        UnityPlayer.UnitySendMessage("StoreEvents", "onGoodBalanceChanged",
                 goodBalanceChangedEvent.getGood().getItemId() + "#SOOM#" +
                         goodBalanceChangedEvent.getBalance() + "#SOOM#" +
                         goodBalanceChangedEvent.getAmountAdded());
@@ -55,71 +55,71 @@ public class EventHandler {
 
     @Subscribe
     public void onGoodEquipped(GoodEquippedEvent goodEquippedEvent) {
-        UnityPlayer.UnitySendMessage("Soomla", "onGoodEquipped", goodEquippedEvent.getGood().getItemId());
+        UnityPlayer.UnitySendMessage("StoreEvents", "onGoodEquipped", goodEquippedEvent.getGood().getItemId());
     }
 
     @Subscribe
     public void onGoodUnequipped(GoodUnEquippedEvent goodUnEquippedEvent) {
-        UnityPlayer.UnitySendMessage("Soomla", "onGoodUnequipped", goodUnEquippedEvent.getGood().getItemId());
+        UnityPlayer.UnitySendMessage("StoreEvents", "onGoodUnequipped", goodUnEquippedEvent.getGood().getItemId());
     }
 
     @Subscribe
     public void onGoodUpgrade(GoodUpgradeEvent goodUpgradeEvent) {
-        UnityPlayer.UnitySendMessage("Soomla", "onGoodUpgrade",
+        UnityPlayer.UnitySendMessage("StoreEvents", "onGoodUpgrade",
                 goodUpgradeEvent.getGood().getItemId()  + "#SOOM#" +
                 goodUpgradeEvent.getCurrentUpgrade().getItemId());
     }
 
     @Subscribe
     public void onItemPurchased(ItemPurchasedEvent itemPurchasedEvent) {
-        UnityPlayer.UnitySendMessage("Soomla", "onItemPurchased", itemPurchasedEvent.getPurchasableVirtualItem().getItemId());
+        UnityPlayer.UnitySendMessage("StoreEvents", "onItemPurchased", itemPurchasedEvent.getPurchasableVirtualItem().getItemId());
     }
 
     @Subscribe
     public void onItemPurchaseStarted(ItemPurchaseStartedEvent itemPurchaseStartedEvent) {
-        UnityPlayer.UnitySendMessage("Soomla", "onItemPurchaseStarted", itemPurchaseStartedEvent.getPurchasableVirtualItem().getItemId());
+        UnityPlayer.UnitySendMessage("StoreEvents", "onItemPurchaseStarted", itemPurchaseStartedEvent.getPurchasableVirtualItem().getItemId());
     }
 
     @Subscribe
     public void onMarketPurchaseCancelled(PlayPurchaseCancelledEvent playPurchaseCancelledEvent) {
-        UnityPlayer.UnitySendMessage("Soomla", "onMarketPurchaseCancelled",
+        UnityPlayer.UnitySendMessage("StoreEvents", "onMarketPurchaseCancelled",
                 playPurchaseCancelledEvent.getPurchasableVirtualItem().getItemId());
     }
 
     @Subscribe
     public void onMarketPurchase(PlayPurchaseEvent playPurchaseEvent) {
-        UnityPlayer.UnitySendMessage("Soomla", "onMarketPurchase", playPurchaseEvent.getPurchasableVirtualItem().getItemId());
+        UnityPlayer.UnitySendMessage("StoreEvents", "onMarketPurchase", playPurchaseEvent.getPurchasableVirtualItem().getItemId());
     }
 
     @Subscribe
     public void onMarketPurchaseStarted(PlayPurchaseStartedEvent playPurchaseStartedEvent) {
-        UnityPlayer.UnitySendMessage("Soomla", "onMarketPurchaseStarted", playPurchaseStartedEvent.getPurchasableVirtualItem().getItemId());
+        UnityPlayer.UnitySendMessage("StoreEvents", "onMarketPurchaseStarted", playPurchaseStartedEvent.getPurchasableVirtualItem().getItemId());
     }
 
     @Subscribe
     public void onMarketRefund(PlayRefundEvent playRefundEvent) {
-        UnityPlayer.UnitySendMessage("Soomla", "onMarketRefund", playRefundEvent.getPurchasableVirtualItem().getItemId());
+        UnityPlayer.UnitySendMessage("StoreEvents", "onMarketRefund", playRefundEvent.getPurchasableVirtualItem().getItemId());
     }
 
     @Subscribe
     public void onRestoreTransactions(RestoreTransactionsEvent restoreTransactionsEvent) {
-        UnityPlayer.UnitySendMessage("Soomla", "onRestoreTransactions", (restoreTransactionsEvent.isSuccess() ? 1 : 0) + "");
+        UnityPlayer.UnitySendMessage("StoreEvents", "onRestoreTransactions", (restoreTransactionsEvent.isSuccess() ? 1 : 0) + "");
     }
 
     @Subscribe
     public void onRestoreTransactionsStarted(RestoreTransactionsStartedEvent restoreTransactionsStartedEvent) {
-        UnityPlayer.UnitySendMessage("Soomla", "onRestoreTransactionsStarted", "");
+        UnityPlayer.UnitySendMessage("StoreEvents", "onRestoreTransactionsStarted", "");
     }
 
     @Subscribe
     public void onStoreControllerInitializedEvent(StoreControllerInitializedEvent storeControllerInitializedEvent) {
-        UnityPlayer.UnitySendMessage("Soomla", "onStoreControllerInitialized", "");
+        UnityPlayer.UnitySendMessage("StoreEvents", "onStoreControllerInitialized", "");
     }
 
     @Subscribe
     public void onUnexpectedStoreError(UnexpectedStoreErrorEvent unexpectedStoreErrorEvent) {
         String msg = unexpectedStoreErrorEvent.getMessage();
-        UnityPlayer.UnitySendMessage("Soomla", "onUnexpectedErrorInStore", (msg == null ? "" : msg));
+        UnityPlayer.UnitySendMessage("StoreEvents", "onUnexpectedErrorInStore", (msg == null ? "" : msg));
     }
 
 }
