@@ -7,6 +7,17 @@ namespace Soomla {
 
 		private const string TAG = "SOOMLA StoreEvents";
 		
+		private static Soomla instance = null;
+		
+		void Awake(){
+			if(instance == null){ 	// making sure we only initialize one instance.
+				instance = this;
+				GameObject.DontDestroyOnLoad(this.gameObject);
+			} else {				// Destroying unused instances.
+				GameObject.Destroy(this.gameObject);
+			}
+		}
+				
 		public void onBillingSupported(string message) {
 			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onBillingSupported");
 			
