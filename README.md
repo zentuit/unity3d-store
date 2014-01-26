@@ -38,7 +38,7 @@ We've created a unitypackage and an example project:
 
 ## Debugging
 
-The download packages and the code in the repo uses the "release" versions of android-store and ios-store. Also, Unity debug messages will only be printed out if you build the project with _Development Build_ checked.
+The download packages and the code in the repo use the "release" versions of android-store and ios-store. Also, Unity debug messages will only be printed out if you build the project with _Development Build_ checked.
 
 If you want to see full debug messages from android-store and ios-store you'll have to use the debug builds of those libraries. You can find those builds in the repo, in the folder _soomla-native/compilations_ ( [android](https://github.com/soomla/unity3d-store/blob/master/soomla-native/compilations/android/Soomla_debug.jar)  [ios](https://github.com/soomla/unity3d-store/blob/master/soomla-native/compilations/ios/debug/libSoomlaIOSStore.a) ).
 
@@ -46,7 +46,7 @@ If you want to see full debug messages from android-store and ios-store you'll h
 ## Getting Started
 
 1. Download the unity3d-store unityproject file you want and double-click on it. It'll import all the necessary files into your project.
-2. Drag the "SoomlaEvents" Prefab from `../Assets/Soomla/Prefabs` into your scene. You should see it listed in the "Hierarchy" panel.
+2. Drag the "StoreEvents" Prefab from `../Assets/Soomla/Prefabs` into your scene. You should see it listed in the "Hierarchy" panel.
 3. On the menu bar click "Soomla -> Edit Settings" and change the values for "Custom Secret", "Public Key" and "Soom Sec":
     - _Custom Secret_ - is an encryption secret you provide that will be used to secure your data.
     - _Public Key_ - is the public key given to you from Google. (iOS doesn't have a public key).
