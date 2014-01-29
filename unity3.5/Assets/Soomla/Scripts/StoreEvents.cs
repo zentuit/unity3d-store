@@ -7,7 +7,7 @@ public class StoreEvents : MonoBehaviour {
 
 	private const string TAG = "SOOMLA StoreEvents";
 
-	private static Soomla instance = null;
+	private static StoreEvents instance = null;
 	
 	void Awake(){
 		if(instance == null){ 	// making sure we only initialize one instance.
