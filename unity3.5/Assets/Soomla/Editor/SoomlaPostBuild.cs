@@ -21,7 +21,7 @@ public class PostProcessScriptStarter : MonoBehaviour {
 		proc.StartInfo.FileName = buildToolsDir + "/PostprocessBuildPlayerScriptForSoomla";
 		proc.StartInfo.Arguments = Application.dataPath.Replace(" ", "_;@#") + " " + pathToBuiltProject.Replace(" ", "_;@#");
 		proc.Start();
-		//		string output = proc.StandardOutput.ReadToEnd();
+		string output = proc.StandardOutput.ReadToEnd();
 		string err = proc.StandardError.ReadToEnd();
 		proc.WaitForExit();
 		//		UnityEngine.Debug.Log("out: " + output);
