@@ -19,14 +19,14 @@ using System.Collections;
 namespace Soomla{
 
 /**
- * This class represents an item in Google Play.
+ * This class represents an item in the mobile market (App Store, Google Play ...).
  * Every PurchasableVirtualItem with PurchaseType of PurchaseWithMarket has an instance of this class which is a
- * representation of the same currency pack as an item on Google Play.
+ * representation of the same currency pack as an item on the mobile market.
  */
 	/// <summary>
-	/// This class represents an item in Google Play or the App Store.
+	/// This class represents an item in the mobile market.
 	/// Every PurchasableVirtualItem with PurchaseType of PurchaseWithMarket has an instance of this class which is a
-	/// representation of the same currency pack as an item on Google Play or App Store.
+	/// representation of the same currency pack as an item on the mobile market.
 	/// </summary>
 	public class MarketItem {
 		
@@ -39,18 +39,22 @@ namespace Soomla{
 		public string ProductId;
 		public Consumable consumable;
 		public double Price;
+
+		public string MarketPrice;
+		public string MarketTitle;
+		public string MarketDescription;
 		
 		/// <summary>
 		/// Initializes a new instance of the <see cref="com.soomla.unity.MarketItem"/> class.
 		/// </summary>
 		/// <param name='productId'>
-		/// The Id of the current item in Google Play or App Store.
+		/// The Id of the current item in the mobile market.
 		/// </param>
 		/// <param name='consumable'>
-		/// the Consumable type of the current item in Google Play or App Store.
+		/// the Consumable type of the current item in the mobile market.
 		/// </param>
 		/// <param name='price'>
-		/// The actual $$ cost of the current item in Google Play or App Store.
+		/// The actual $$ cost of the current item in the mobile market.
 		/// </param>
 		public MarketItem(string productId, Consumable consumable, double price){
 			this.ProductId = productId;

@@ -18,7 +18,8 @@ using System;
 namespace Soomla
 {
 	/// <summary>
-	/// This type of Purchase is used to let users purchase PurchasableVirtualItems in the platform's market (App Store or Google Play) (with real $$).
+	/// This type of Purchase is used to let users purchase PurchasableVirtualItems in the platform's mobile market
+	/// (App Store, Google Play ...) (with real $$).
 	/// </summary>
 	public class PurchaseWithMarket : PurchaseType
 	{

@@ -54,7 +54,7 @@ namespace Soomla
 			using(AndroidJavaObject jniPurchaseType = jniVirtualItem.Call<AndroidJavaObject>("getPurchaseType")) {
 				System.IntPtr cls = AndroidJNI.FindClass("com/soomla/store/purchaseTypes/PurchaseWithMarket");
 				if (AndroidJNI.IsInstanceOf(jniPurchaseType.GetRawObject(), cls)) {
-					using(AndroidJavaObject jniMarketItem = jniPurchaseType.Call<AndroidJavaObject>("getGoogleMarketItem")) {
+					using(AndroidJavaObject jniMarketItem = jniPurchaseType.Call<AndroidJavaObject>("getMarketItem")) {
 						PurchaseType = new PurchaseWithMarket(jniMarketItem.Call<string>("getProductId"), jniMarketItem.Call<double>("getPrice"));
 					}
 				} else {

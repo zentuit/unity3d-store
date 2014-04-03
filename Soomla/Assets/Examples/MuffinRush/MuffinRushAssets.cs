@@ -35,7 +35,7 @@ namespace Soomla.Example {
 	    public const string TENMUFF_PACK_PRODUCT_ID      = "android.test.refunded";
 	    public const string FIFTYMUFF_PACK_PRODUCT_ID    = "android.test.canceled";
 	    public const string FOURHUNDMUFF_PACK_PRODUCT_ID = "android.test.purchased";
-	    public const string THOUSANDMUFF_PACK_PRODUCT_ID = "com.soomla.SoomlaiOSExample.second_test";
+	    public const string THOUSANDMUFF_PACK_PRODUCT_ID = "2500_pack";
 	    public const string NO_ADDS_NONCONS_PRODUCT_ID   = "no_ads";
 			   	     
 	    public const string MUFFINCAKE_ITEM_ID   = "fruit_cake";
@@ -125,7 +125,7 @@ namespace Soomla.Example {
 	    );
 		
 		
-	    /** Google MANAGED Items **/
+	    /** Market MANAGED Items **/
 	
 	    public static NonConsumableItem NO_ADDS_NONCONS  = new NonConsumableItem(
             "No Ads",

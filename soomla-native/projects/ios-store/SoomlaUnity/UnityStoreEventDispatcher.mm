@@ -1,7 +1,7 @@
 
 #import "UnityStoreEventDispatcher.h"
 #import "EventHandling.h"
-#import "AppStoreItem.h"
+#import "MarketItem.h"
 #import "VirtualGood.h"
 #import "VirtualCurrency.h"
 #import "EquippableVG.h"
@@ -68,24 +68,35 @@
 		PurchasableVirtualItem* pvi = [notification.userInfo objectForKey:DICT_ELEMENT_PURCHASABLE];
         UnitySendMessage("StoreEvents", "onItemPurchaseStarted", [pvi.itemId UTF8String]);
     }
-	else if ([notification.name isEqualToString:EVENT_APPSTORE_PURCHASE_CANCELLED]) {
+	else if ([notification.name isEqualToString:EVENT_MARKET_PURCHASE_CANCELLED]) {
         PurchasableVirtualItem* pvi = [notification.userInfo objectForKey:DICT_ELEMENT_PURCHASABLE];
         UnitySendMessage("StoreEvents", "onMarketPurchaseCancelled", [pvi.itemId UTF8String]);
     }
-	else if ([notification.name isEqualToString:EVENT_APPSTORE_PURCHASED]) {
+	else if ([notification.name isEqualToString:EVENT_MARKET_PURCHASED]) {
         PurchasableVirtualItem* pvi = [notification.userInfo objectForKey:DICT_ELEMENT_PURCHASABLE];
         UnitySendMessage("StoreEvents", "onMarketPurchase", [pvi.itemId UTF8String]);
     }
-    else if ([notification.name isEqualToString:EVENT_APPSTORE_PURCHASE_STARTED]) {
+    else if ([notification.name isEqualToString:EVENT_MARKET_PURCHASE_STARTED]) {
 	    PurchasableVirtualItem* pvi = [notification.userInfo objectForKey:DICT_ELEMENT_PURCHASABLE];
 	    UnitySendMessage("StoreEvents", "onMarketPurchaseStarted", [pvi.itemId UTF8String]);
 	}
-    else if ([notification.name isEqualToString:EVENT_TRANSACTION_RESTORED]) {
+    else if ([notification.name isEqualToString:EVENT_RESTORE_TRANSACTIONS_FINISHED]) {
 		NSNumber* successNum = [notification.userInfo objectForKey:DICT_ELEMENT_SUCCESS];
         UnitySendMessage("StoreEvents", "onRestoreTransactions", [[NSString stringWithFormat:@"%d", [successNum intValue]] UTF8String]);
     }
-    else if ([notification.name isEqualToString:EVENT_TRANSACTION_RESTORE_STARTED]) {
+    else if ([notification.name isEqualToString:EVENT_RESTORE_TRANSACTIONS_STARTED]) {
         UnitySendMessage("StoreEvents", "onRestoreTransactionsStarted", "");
+    }
+    else if ([notification.name isEqualToString:EVENT_MARKET_ITEMS_REFRESHED]) {
+        NSArray* marketItems = [notification.userInfo objectForKey:DICT_ELEMENT_MARKET_ITEMS];
+        NSMutableString* marketItemsChanges = [NSMutableString string];
+        for(MarketItem* mi in marketItems) {
+            [marketItemsChanges appendString:[ NSString stringWithFormat:
+                                              @"{\"productId\":\"%@\",\"market_price\":\"%@\",\"market_title\":\"%@\",\"market_desc\":\"%@\"}#SOOM#",
+                                              mi.productId, [mi priceWithCurrencySymbol], mi.marketTitle, mi.marketDescription ]];
+        }
+        [marketItemsChanges deleteCharactersInRange:NSMakeRange([marketItemsChanges length]-6, 6)];
+        UnitySendMessage("StoreEvents", "onMarketItemsRefreshed", [marketItemsChanges UTF8String]);
     }
     else if ([notification.name isEqualToString:EVENT_UNEXPECTED_ERROR_IN_STORE]) {
         UnitySendMessage("StoreEvents", "onUnexpectedErrorInStore", "");

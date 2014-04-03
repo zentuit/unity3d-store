@@ -24,8 +24,8 @@ namespace Soomla{
  * sell packs of "Coins". e.g. "10 Coins Set" or "Super Saver Pack".
  *
  * This VirtualItem is purchasable.
- * In case you purchase this item in Google Play (PurchaseWithMarket), You need to define the google item in Google
- * Play Developer Console. (https://play.google.com/apps/publish)
+ * In case you purchase this item in the mobile market (PurchaseWithMarket), You need to define the item in the
+ * Developer Console.
  */
 	/// <summary>
 	/// Every game has its virtualCurrencies. Here you represent a pack of a specific VirtualCurrency.
@@ -33,8 +33,8 @@ namespace Soomla{
  	/// sell packs of "Coins". e.g. "10 Coins Set" or "Super Saver Pack".
 	///
  	/// This VirtualItem is purchasable.
- 	/// In case you purchase this item in Google Play or the App Store(PurchaseWithMarket), You need to define the item in Google
- 	/// Play Developer Console or in iTunesConnect. (https://play.google.com/apps/publish) (https://itunesconnect.apple.com)
+	/// In case you purchase this item in the mobile market (PurchaseWithMarket), You need to define the item in the 
+	/// Developer Console.
 	/// </summary>
 	public class VirtualCurrencyPack : PurchasableVirtualItem {
 //		private static string TAG = "SOOMLA VirtualCurrencyPack";

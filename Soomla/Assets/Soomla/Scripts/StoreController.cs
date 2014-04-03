@@ -19,6 +19,8 @@ namespace Soomla
 		[DllImport ("__Internal")]
 		private static extern void storeController_RestoreTransactions();
 		[DllImport ("__Internal")]
+		private static extern void storeController_RefreshInventory();
+		[DllImport ("__Internal")]
 		private static extern void storeController_TransactionsAlreadyRestored(out bool outResult);
 		[DllImport ("__Internal")]
 		private static extern void storeController_SetSoomSec(string soomSec);
@@ -88,8 +90,8 @@ namespace Soomla
 			AndroidJNI.PushLocalFrame(100);
 			using(AndroidJavaObject jniPurchasableItem = AndroidJNIHandler.CallStatic<AndroidJavaObject>(
 				new AndroidJavaClass("com.soomla.store.data.StoreInfo"),"getPurchasableItem", productId)) {
-				AndroidJNIHandler.CallVoid(jniStoreController, "buyWithGooglePlay", 
-					jniPurchasableItem.Call<AndroidJavaObject>("getPurchaseType").Call<AndroidJavaObject>("getGoogleMarketItem"), 
+				AndroidJNIHandler.CallVoid(jniStoreController, "buyWithMarket", 
+					jniPurchasableItem.Call<AndroidJavaObject>("getPurchaseType").Call<AndroidJavaObject>("getMarketItem"), 
 					"");
 			}
 			AndroidJNI.PopLocalFrame(IntPtr.Zero);
@@ -97,12 +99,24 @@ namespace Soomla
 			storeController_BuyMarketItem(productId);
 #endif
 		}
-		
+
+		public static void RefreshInventory() {
+			if(!Application.isEditor){
+#if UNITY_ANDROID && !UNITY_EDITOR
+				AndroidJNI.PushLocalFrame(100);
+				jniStoreController.Call("refreshInventory", true);
+				AndroidJNI.PopLocalFrame(IntPtr.Zero);
+#elif UNITY_IOS && !UNITY_EDITOR
+				storeController_RefreshInventory();
+#endif
+			}
+		}
+
 		public static void RestoreTransactions() {
 			if(!Application.isEditor){
 #if UNITY_ANDROID && !UNITY_EDITOR
 				AndroidJNI.PushLocalFrame(100);
-				jniStoreController.Call("restoreTransactions");
+				jniStoreController.Call("refreshInventory", false);
 				AndroidJNI.PopLocalFrame(IntPtr.Zero);
 #elif UNITY_IOS && !UNITY_EDITOR
 				storeController_RestoreTransactions();

@@ -119,17 +119,41 @@ namespace Soomla {
 			Events.OnMarketPurchaseStarted(pvi);
 		}
 		
-		public void onRestoreTransactions(string message) {
-			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onRestoreTransactions:" + message);
+		public void onRestoreTransactionsFinished(string message) {
+			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onRestoreTransactionsFinished:" + message);
 			
 			bool success = Convert.ToBoolean(int.Parse(message));
-			Events.OnRestoreTransactions(success);
+			Events.OnRestoreTransactionsFinished(success);
 		}
 		
 		public void onRestoreTransactionsStarted(string message) {
 			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onRestoreTransactionsStarted");
 			
 			Events.OnRestoreTransactionsStarted();
+		}
+
+		public void onMarketItemsRefreshed(string message) {
+			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onMarketItemsRefreshed: " + message);
+
+			string[] marketItemsChanges = Regex.Split(message, "#SOOM#");
+			foreach (string mic in marketItemsChanges) {
+				JSONObject micJSON = new JSONObject(mic);
+				string productId = micJSON["productId"].str;
+				string marketPrice = micJSON["market_price"].str;
+				string marketTitle = micJSON["market_title"].str;
+				string marketDescription = micJSON["market_desc"].str;
+				try {
+					PurchasableVirtualItem pvi = StoreInfo.GetPurchasableItemWithProductId(productId);
+					MarketItem mi = ((PurchaseWithMarket)pvi.PurchaseType).MarketItem;
+					mi.MarketPrice = marketPrice;
+					mi.MarketTitle = marketTitle;
+					mi.MarketDescription = marketDescription;
+				} catch (VirtualItemNotFoundException ex){
+					StoreUtils.LogDebug(TAG, ex.Message);
+				}
+			}
+		
+			Events.OnMarketItemsRefreshed();
 		}
 
 		public void onUnexpectedErrorInStore(string message) {

@@ -19,14 +19,14 @@ using UnityEngine;
 namespace Soomla
 {
 	/// <summary>
-	/// A representation of a non-consumable item in Google Play. These kinds of items are bought by the user once and kept for him forever.
+	/// A representation of a non-consumable item in the mobile market. These kinds of items are bought by the user once and kept for him forever.
 	/// 
-	/// Don't get confused... this is not a Lifetime VirtualGood. It's just a MANAGED item in Google Play.
+	/// Don't get confused... this is not a Lifetime VirtualGood. It's just a MANAGED item in the mobile market.
  	/// This item will be retrieved when you "restoreTransactions"
  	/// 
 	/// This VirtualItem is purchasable.
- 	/// In case you purchase this item in Google Play or the App Store(PurchaseWithMarket), You need to define the item in Google
- 	/// Play Developer Console or in iTunesConnect. (https://play.google.com/apps/publish) (https://itunesconnect.apple.com)
+	/// In case you purchase this item in the mobile market (PurchaseWithMarket), You need to define the item in the
+	/// Developer Console. (https://play.google.com/apps/publish) (https://itunesconnect.apple.com) ...
 	/// </summary>
 	public class NonConsumableItem : PurchasableVirtualItem
 	{		

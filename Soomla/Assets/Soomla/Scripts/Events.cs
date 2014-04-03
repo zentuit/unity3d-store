@@ -33,9 +33,11 @@ namespace Soomla
 		
 		public static Action<PurchasableVirtualItem> OnMarketRefund = delegate {};
 		
-		public static Action<bool> OnRestoreTransactions = delegate {};
+		public static Action<bool> OnRestoreTransactionsFinished = delegate {};
 		
 		public static Action OnRestoreTransactionsStarted = delegate {};
+
+		public static Action OnMarketItemsRefreshed = delegate {};
 		
 		public static Action<string> OnUnexpectedErrorInStore = delegate {};
 		

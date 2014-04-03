@@ -3,7 +3,7 @@
 #import "VirtualCategory.h"
 #import "VirtualCurrency.h"
 #import "VirtualGood.h"
-#import "AppStoreItem.h"
+#import "MarketItem.h"
 #import "VirtualCurrencyPack.h"
 #import "StoreController.h"
 #import "VirtualItemNotFoundException.h"
@@ -47,8 +47,8 @@ extern "C"{
 		@try {
 			PurchasableVirtualItem* pvi = [[StoreInfo getInstance] purchasableItemWithProductId:[NSString stringWithUTF8String:productId]];
 			if ([pvi.purchaseType isKindOfClass:[PurchaseWithMarket class]]) {
-				AppStoreItem* asi = ((PurchaseWithMarket*) pvi.purchaseType).appStoreItem;
-				[[StoreController getInstance] buyInAppStoreWithAppStoreItem:asi];
+				MarketItem* asi = ((PurchaseWithMarket*) pvi.purchaseType).marketItem;
+				[[StoreController getInstance] buyInMarketWithMarketItem:asi];
 			} else {
 				NSLog(@"The requested PurchasableVirtualItem is has no PurchaseWithMarket PurchaseType. productId: %@. Purchase is cancelled.", [NSString stringWithUTF8String:productId]);
 				return EXCEPTION_ITEM_NOT_FOUND;
@@ -65,6 +65,10 @@ extern "C"{
 
 	void storeController_RestoreTransactions() {
 		[[StoreController getInstance] restoreTransactions];
+	}
+    
+    void storeController_RefreshInventory() {
+		[[StoreController getInstance] refreshInventory];
 	}
 
 	void storeController_TransactionsAlreadyRestored(bool* outResult){

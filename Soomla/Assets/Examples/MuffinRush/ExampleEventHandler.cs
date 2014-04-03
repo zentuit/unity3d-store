@@ -23,7 +23,7 @@ namespace Soomla.Example
 			Events.OnGoodBalanceChanged += onGoodBalanceChanged;
 			Events.OnMarketPurchaseCancelled += onMarketPurchaseCancelled;
 			Events.OnRestoreTransactionsStarted += onRestoreTransactionsStarted;
-			Events.OnRestoreTransactions += onRestoreTransactions;
+			Events.OnRestoreTransactionsFinished += onRestoreTransactionsFinished;
 			Events.OnStoreControllerInitialized += onStoreControllerInitialized;
 #if UNITY_ANDROID && !UNITY_EDITOR
 			Events.OnIabServiceStarted += onIabServiceStarted;
@@ -91,7 +91,7 @@ namespace Soomla.Example
 			
 		}
 		
-		public void onRestoreTransactions(bool success) {
+		public void onRestoreTransactionsFinished(bool success) {
 			
 		}
 		

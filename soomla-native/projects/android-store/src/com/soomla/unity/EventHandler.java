@@ -1,6 +1,7 @@
 package com.soomla.unity;
 
 import com.soomla.store.BusProvider;
+import com.soomla.store.domain.MarketItem;
 import com.soomla.store.events.*;
 import com.squareup.otto.Subscribe;
 import com.unity3d.player.UnityPlayer;
@@ -81,34 +82,51 @@ public class EventHandler {
     }
 
     @Subscribe
-    public void onMarketPurchaseCancelled(PlayPurchaseCancelledEvent playPurchaseCancelledEvent) {
+    public void onMarketPurchaseCancelled(MarketPurchaseCancelledEvent playPurchaseCancelledEvent) {
         UnityPlayer.UnitySendMessage("StoreEvents", "onMarketPurchaseCancelled",
                 playPurchaseCancelledEvent.getPurchasableVirtualItem().getItemId());
     }
 
     @Subscribe
-    public void onMarketPurchase(PlayPurchaseEvent playPurchaseEvent) {
+    public void onMarketPurchase(MarketPurchaseEvent playPurchaseEvent) {
         UnityPlayer.UnitySendMessage("StoreEvents", "onMarketPurchase", playPurchaseEvent.getPurchasableVirtualItem().getItemId());
     }
 
     @Subscribe
-    public void onMarketPurchaseStarted(PlayPurchaseStartedEvent playPurchaseStartedEvent) {
+    public void onMarketPurchaseStarted(MarketPurchaseStartedEvent playPurchaseStartedEvent) {
         UnityPlayer.UnitySendMessage("StoreEvents", "onMarketPurchaseStarted", playPurchaseStartedEvent.getPurchasableVirtualItem().getItemId());
     }
 
     @Subscribe
-    public void onMarketRefund(PlayRefundEvent playRefundEvent) {
+    public void onMarketRefund(MarketRefundEvent playRefundEvent) {
         UnityPlayer.UnitySendMessage("StoreEvents", "onMarketRefund", playRefundEvent.getPurchasableVirtualItem().getItemId());
     }
 
     @Subscribe
-    public void onRestoreTransactions(RestoreTransactionsEvent restoreTransactionsEvent) {
-        UnityPlayer.UnitySendMessage("StoreEvents", "onRestoreTransactions", (restoreTransactionsEvent.isSuccess() ? 1 : 0) + "");
+    public void onRestoreTransactionsFinished(RestoreTransactionsFinishedEvent restoreTransactionsFinishedEvent) {
+        UnityPlayer.UnitySendMessage("StoreEvents", "onRestoreTransactionsFinished", (restoreTransactionsFinishedEvent.isSuccess() ? 1 : 0) + "");
     }
 
     @Subscribe
     public void onRestoreTransactionsStarted(RestoreTransactionsStartedEvent restoreTransactionsStartedEvent) {
         UnityPlayer.UnitySendMessage("StoreEvents", "onRestoreTransactionsStarted", "");
+    }
+
+    @Subscribe
+    public void onMarketItemsRefreshed(MarketItemsRefreshed marketItemsRefreshed) {
+        String marketItemsChanges = "";
+        for (MarketItem mi : marketItemsRefreshed.getMarketItems()) {
+            marketItemsChanges = "{" +
+                    "\"productId\":\"" + mi.getProductId() + "\"," +
+                    "\"market_price\":\"" + mi.getMarketPrice() + "\"," +
+                    "\"market_title\":\"" + mi.getMarketTitle() + "\"," +
+                    "\"market_desc\":\"" + mi.getMarketDescription() + "\"" +
+                    "}";
+            marketItemsChanges += "#SOOM#";
+        }
+        int index = marketItemsChanges.lastIndexOf("#SOOM#");
+        marketItemsChanges = marketItemsChanges.substring(0, index);
+        UnityPlayer.UnitySendMessage("StoreEvents", "onMarketItemsRefreshed", marketItemsChanges);
     }
 
     @Subscribe
