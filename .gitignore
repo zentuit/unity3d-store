@@ -3,18 +3,13 @@
 unity3_preps.py
 prepare_platforms
 for_deploy_pack
-soomla-native/projects/android-store/out
-soomla-native/projects/android-store/gen
-soomla-native/projects/android-store/bin
-soomla-native/projects/android-store/build_all
-soomla-native/projects/android-store/local.properties
-soomla-native/projects/android-store/module_soomla.xml
-soomla-native/projects/android-store/soomla.properties
-soomla-native/projects/android-store/soomla.xml
-soomla-native/projects/ios-store/SoomlaIOSStore.xcodeproj/xcuserdata
-soomla-native/projects/ios-store/SoomlaIOSStore.xcodeproj/project.xcworkspace/xcuserdata/refaelos.xcuserdatad/UserInterfaceState.xcuserstate
-soomla-native/projects/android-store/.idea/workspace.xml
-soomla-native/projects/ios-store/build
+
+soomla-native/projects/unity-android-store/.idea/artifacts
+soomla-native/projects/unity-android-store/.idea/workspace.xml
+soomla-native/projects/unity-android-store/local.properties
+soomla-native/projects/unity-android-store/out
+
+soomla-native/projects/unity-ios-store/build
 
 create_unity3.5.log
 create_unity4.0.log
