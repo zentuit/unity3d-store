@@ -11,6 +11,6 @@ soomla-native/projects/unity-android-store/out
 
 soomla-native/projects/unity-ios-store/build
 
-create_unity3.5.log
-create_unity4.0.log
 create_deploys
+create_unity.log
+
