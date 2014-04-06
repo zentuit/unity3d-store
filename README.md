@@ -8,7 +8,7 @@ StoreInventory.BuyItem("[itemId]");
 
 unity3d-store
 ---
-**April 6th, 2014:** v1.4.0 is released. Supporting new features in android-store and ios-store. see changes in [CHANGELOG]()
+**April 6th, 2014:** v1.4.0 is released. Supporting new features in android-store and ios-store. see changes in [CHANGELOG](changelog.md)
 **April 2nd, 2014:** We dropped support for Unity3.5 and simplified the directory structure a little bit.
 **December 1st, 2013:** Android In-App Billing V3 is now integrated into unity3d-store. You can now test purchases using test users and you don't need to set Android Test Mode anymore.  
 **October 3rd, 2013:** iOS Server Side Verification is now implemented into unity3d-store. The server is a complimentary server provided by [SOOMLA](http://soom.la) to help you get your in-game purchases a bit more secured. This feature is not enabled by default. In order to enable Server Side verification go to the Soomla prefab and set  **ios Server Side Verification -> true**.
