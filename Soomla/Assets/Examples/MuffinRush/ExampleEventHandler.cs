@@ -31,7 +31,7 @@ namespace Soomla.Example
 #endif
 		}
 		
-		public void onMarketPurchase(PurchasableVirtualItem pvi) {
+		public void onMarketPurchase(PurchasableVirtualItem pvi, string purchaseToken) {
 			
 		}
 		

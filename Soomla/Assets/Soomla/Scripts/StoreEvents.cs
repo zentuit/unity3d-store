@@ -100,9 +100,20 @@ namespace Soomla {
 
 		public void onMarketPurchase(string message) {
 			Debug.Log ("SOOMLA/UNITY onMarketPurchase:" + message);
+
+			string[] vars = Regex.Split(message, "#SOOM#");
 			
-			PurchasableVirtualItem pvi = (PurchasableVirtualItem)StoreInfo.GetItemByItemId(message);
-			StoreEvents.OnMarketPurchase(pvi);
+			PurchasableVirtualItem pvi = (PurchasableVirtualItem)StoreInfo.GetItemByItemId(vars[0]);
+			string payload = "";
+			string purchaseToken = "";
+			if (vars.Length > 1) {
+				payload = vars[1];
+			}
+			if (vars.Length > 2) {
+				purchaseToken = vars[2];
+			}
+
+			StoreEvents.OnMarketPurchase(pvi, purchaseToken);
 		}
 		
 		public void onMarketPurchaseStarted(string message) {
@@ -205,7 +216,7 @@ namespace Soomla {
 		
 		public static Action<PurchasableVirtualItem> OnMarketPurchaseCancelled = delegate {};	
 		
-		public static Action<PurchasableVirtualItem> OnMarketPurchase = delegate {};
+		public static Action<PurchasableVirtualItem, string> OnMarketPurchase = delegate {};
 		
 		public static Action<PurchasableVirtualItem> OnMarketPurchaseStarted = delegate {};
 		

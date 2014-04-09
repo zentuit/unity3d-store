@@ -89,7 +89,11 @@ public class EventHandler {
 
     @Subscribe
     public void onMarketPurchase(MarketPurchaseEvent playPurchaseEvent) {
-        UnityPlayer.UnitySendMessage("StoreEvents", "onMarketPurchase", playPurchaseEvent.getPurchasableVirtualItem().getItemId());
+        UnityPlayer.UnitySendMessage("StoreEvents", "onMarketPurchase",
+                playPurchaseEvent.getPurchasableVirtualItem().getItemId() + "#SOOM#" +
+                        playPurchaseEvent.getPayload() + "#SOOM#" +
+                        playPurchaseEvent.getToken()
+        );
     }
 
     @Subscribe
