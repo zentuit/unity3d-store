@@ -8,26 +8,26 @@ namespace Soomla.Example
 		
 		public ExampleEventHandler ()
 		{
-			Events.OnMarketPurchase += onMarketPurchase;
-			Events.OnMarketRefund += onMarketRefund;
-			Events.OnItemPurchased += onItemPurchased;
-			Events.OnGoodEquipped += onGoodEquipped;
-			Events.OnGoodUnEquipped += onGoodUnequipped;
-			Events.OnGoodUpgrade += onGoodUpgrade;
-			Events.OnBillingSupported += onBillingSupported;
-			Events.OnBillingNotSupported += onBillingNotSupported;
-			Events.OnMarketPurchaseStarted += onMarketPurchaseStarted;
-			Events.OnItemPurchaseStarted += onItemPurchaseStarted;
-			Events.OnUnexpectedErrorInStore += onUnexpectedErrorInStore;
-			Events.OnCurrencyBalanceChanged += onCurrencyBalanceChanged;
-			Events.OnGoodBalanceChanged += onGoodBalanceChanged;
-			Events.OnMarketPurchaseCancelled += onMarketPurchaseCancelled;
-			Events.OnRestoreTransactionsStarted += onRestoreTransactionsStarted;
-			Events.OnRestoreTransactionsFinished += onRestoreTransactionsFinished;
-			Events.OnStoreControllerInitialized += onStoreControllerInitialized;
+			StoreEvents.OnMarketPurchase += onMarketPurchase;
+			StoreEvents.OnMarketRefund += onMarketRefund;
+			StoreEvents.OnItemPurchased += onItemPurchased;
+			StoreEvents.OnGoodEquipped += onGoodEquipped;
+			StoreEvents.OnGoodUnEquipped += onGoodUnequipped;
+			StoreEvents.OnGoodUpgrade += onGoodUpgrade;
+			StoreEvents.OnBillingSupported += onBillingSupported;
+			StoreEvents.OnBillingNotSupported += onBillingNotSupported;
+			StoreEvents.OnMarketPurchaseStarted += onMarketPurchaseStarted;
+			StoreEvents.OnItemPurchaseStarted += onItemPurchaseStarted;
+			StoreEvents.OnUnexpectedErrorInStore += onUnexpectedErrorInStore;
+			StoreEvents.OnCurrencyBalanceChanged += onCurrencyBalanceChanged;
+			StoreEvents.OnGoodBalanceChanged += onGoodBalanceChanged;
+			StoreEvents.OnMarketPurchaseCancelled += onMarketPurchaseCancelled;
+			StoreEvents.OnRestoreTransactionsStarted += onRestoreTransactionsStarted;
+			StoreEvents.OnRestoreTransactionsFinished += onRestoreTransactionsFinished;
+			StoreEvents.OnStoreControllerInitialized += onStoreControllerInitialized;
 #if UNITY_ANDROID && !UNITY_EDITOR
-			Events.OnIabServiceStarted += onIabServiceStarted;
-			Events.OnIabServiceStopped += onIabServiceStopped;
+			StoreEvents.OnIabServiceStarted += onIabServiceStarted;
+			StoreEvents.OnIabServiceStopped += onIabServiceStopped;
 #endif
 		}
 		

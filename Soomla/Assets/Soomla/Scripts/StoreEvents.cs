@@ -21,14 +21,14 @@ namespace Soomla {
 		public void onBillingSupported(string message) {
 			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onBillingSupported");
 			
-			Events.OnBillingSupported();
+			StoreEvents.OnBillingSupported();
 		}
 	
 		
 		public void onBillingNotSupported(string message) {
 			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onBillingNotSupported");
 			
-			Events.OnBillingNotSupported();
+			StoreEvents.OnBillingNotSupported();
 		}
 		
 		public void onCurrencyBalanceChanged(string message) {
@@ -39,7 +39,7 @@ namespace Soomla {
 			VirtualCurrency vc = (VirtualCurrency)StoreInfo.GetItemByItemId(vars[0]);
 			int balance = int.Parse(vars[1]);
 			int amountAdded = int.Parse(vars[2]);
-			Events.OnCurrencyBalanceChanged(vc, balance, amountAdded);
+			StoreEvents.OnCurrencyBalanceChanged(vc, balance, amountAdded);
 		}
 		
 		public void onGoodBalanceChanged(string message) {
@@ -50,21 +50,21 @@ namespace Soomla {
 			VirtualGood vg = (VirtualGood)StoreInfo.GetItemByItemId(vars[0]);
 			int balance = int.Parse(vars[1]);
 			int amountAdded = int.Parse(vars[2]);
-			Events.OnGoodBalanceChanged(vg, balance, amountAdded);
+			StoreEvents.OnGoodBalanceChanged(vg, balance, amountAdded);
 		}
 		
 		public void onGoodEquipped(string message) {
 			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onVirtualGoodEquipped:" + message);
 			
 			EquippableVG vg = (EquippableVG)StoreInfo.GetItemByItemId(message);
-			Events.OnGoodEquipped(vg);
+			StoreEvents.OnGoodEquipped(vg);
 		}
 	
 		public void onGoodUnequipped(string message) {
 			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onVirtualGoodUnEquipped:" + message);
 			
 			EquippableVG vg = (EquippableVG)StoreInfo.GetItemByItemId(message);
-			Events.OnGoodUnEquipped(vg);
+			StoreEvents.OnGoodUnEquipped(vg);
 		}
 		
 		public void onGoodUpgrade(string message) {
@@ -74,62 +74,62 @@ namespace Soomla {
 			
 			VirtualGood vg = (VirtualGood)StoreInfo.GetItemByItemId(vars[0]);
 			UpgradeVG vgu = (UpgradeVG)StoreInfo.GetItemByItemId(vars[1]);
-			Events.OnGoodUpgrade(vg, vgu);
+			StoreEvents.OnGoodUpgrade(vg, vgu);
 		}
 		
 		public void onItemPurchased(string message) {
 			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onItemPurchased:" + message);
 			
 			PurchasableVirtualItem pvi = (PurchasableVirtualItem)StoreInfo.GetItemByItemId(message);
-			Events.OnItemPurchased(pvi);
+			StoreEvents.OnItemPurchased(pvi);
 		}
 		
 		public void onItemPurchaseStarted(string message) {
 			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onItemPurchaseStarted:" + message);
 			
 			PurchasableVirtualItem pvi = (PurchasableVirtualItem)StoreInfo.GetItemByItemId(message);
-			Events.OnItemPurchaseStarted(pvi);
+			StoreEvents.OnItemPurchaseStarted(pvi);
 		}
 		
 		public void onMarketPurchaseCancelled(string message) {
 			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onMarketPurchaseCancelled: " + message);
 			
 			PurchasableVirtualItem pvi = (PurchasableVirtualItem)StoreInfo.GetItemByItemId(message);
-			Events.OnMarketPurchaseCancelled(pvi);
+			StoreEvents.OnMarketPurchaseCancelled(pvi);
 		}
 
 		public void onMarketPurchase(string message) {
 			Debug.Log ("SOOMLA/UNITY onMarketPurchase:" + message);
 			
 			PurchasableVirtualItem pvi = (PurchasableVirtualItem)StoreInfo.GetItemByItemId(message);
-			Events.OnMarketPurchase(pvi);
+			StoreEvents.OnMarketPurchase(pvi);
 		}
 		
 		public void onMarketPurchaseStarted(string message) {
 			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onMarketPurchaseStarted: " + message);
 			
 			PurchasableVirtualItem pvi = (PurchasableVirtualItem)StoreInfo.GetItemByItemId(message);
-			Events.OnMarketPurchaseStarted(pvi);
+			StoreEvents.OnMarketPurchaseStarted(pvi);
 		}
 		
 		public void onMarketRefund(string message) {
 			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onMarketRefund:" + message);
 			
 			PurchasableVirtualItem pvi = (PurchasableVirtualItem)StoreInfo.GetItemByItemId(message);
-			Events.OnMarketPurchaseStarted(pvi);
+			StoreEvents.OnMarketPurchaseStarted(pvi);
 		}
 		
 		public void onRestoreTransactionsFinished(string message) {
 			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onRestoreTransactionsFinished:" + message);
 			
 			bool success = Convert.ToBoolean(int.Parse(message));
-			Events.OnRestoreTransactionsFinished(success);
+			StoreEvents.OnRestoreTransactionsFinished(success);
 		}
 		
 		public void onRestoreTransactionsStarted(string message) {
 			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onRestoreTransactionsStarted");
 			
-			Events.OnRestoreTransactionsStarted();
+			StoreEvents.OnRestoreTransactionsStarted();
 		}
 
 		public void onMarketItemsRefreshed(string message) {
@@ -153,34 +153,79 @@ namespace Soomla {
 				}
 			}
 		
-			Events.OnMarketItemsRefreshed();
+			StoreEvents.OnMarketItemsRefreshed();
 		}
 
 		public void onUnexpectedErrorInStore(string message) {
 			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onUnexpectedErrorInStore");
 			
-			Events.OnUnexpectedErrorInStore(message);
+			StoreEvents.OnUnexpectedErrorInStore(message);
 		}
 		
 		public void onStoreControllerInitialized(string message) {
 			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onStoreControllerInitialized");
 			
-			Events.OnStoreControllerInitialized();
+			StoreEvents.OnStoreControllerInitialized();
 		}
 		
 #if UNITY_ANDROID && !UNITY_EDITOR
 		public void onIabServiceStarted(string message) {
 			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onIabServiceStarted");
 			
-			Events.OnIabServiceStarted();
+			StoreEvents.OnIabServiceStarted();
 		}
 		
 		public void onIabServiceStopped(string message) {
 			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onIabServiceStopped");
 			
-			Events.OnIabServiceStopped();
+			StoreEvents.OnIabServiceStopped();
 		}
 #endif
+
+
+		public delegate void Action();
+		
+		public static Action OnBillingNotSupported = delegate {};
+		
+		public static Action OnBillingSupported = delegate {};
+		
+		public static Action<VirtualCurrency, int, int> OnCurrencyBalanceChanged = delegate {};
+		
+		public static Action<VirtualGood, int, int> OnGoodBalanceChanged = delegate {};
+		
+		public static Action<EquippableVG> OnGoodEquipped = delegate {};
+		
+		public static Action<EquippableVG> OnGoodUnEquipped = delegate {};
+		
+		public static Action<VirtualGood, UpgradeVG> OnGoodUpgrade = delegate {};
+		
+		public static Action<PurchasableVirtualItem> OnItemPurchased = delegate {};
+		
+		public static Action<PurchasableVirtualItem> OnItemPurchaseStarted = delegate {};
+		
+		public static Action<PurchasableVirtualItem> OnMarketPurchaseCancelled = delegate {};	
+		
+		public static Action<PurchasableVirtualItem> OnMarketPurchase = delegate {};
+		
+		public static Action<PurchasableVirtualItem> OnMarketPurchaseStarted = delegate {};
+		
+		public static Action<PurchasableVirtualItem> OnMarketRefund = delegate {};
+		
+		public static Action<bool> OnRestoreTransactionsFinished = delegate {};
+		
+		public static Action OnRestoreTransactionsStarted = delegate {};
+		
+		public static Action OnMarketItemsRefreshed = delegate {};
+		
+		public static Action<string> OnUnexpectedErrorInStore = delegate {};
+		
+		public static Action OnStoreControllerInitialized = delegate {};
+		
+		#if UNITY_ANDROID && !UNITY_EDITOR
+		public static Action OnIabServiceStarted = delegate {};
+		
+		public static Action OnIabServiceStopped = delegate {};
+		#endif
 
 	}
 }

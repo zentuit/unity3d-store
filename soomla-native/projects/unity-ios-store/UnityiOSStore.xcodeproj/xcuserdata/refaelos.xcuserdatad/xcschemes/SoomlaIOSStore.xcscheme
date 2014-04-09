@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "C0B3C5EE168C6D0C00161FAA"
-               BuildableName = "libSoomlaIOSStore.a"
+               BuildableName = "libUnityiOSStore.a"
                BlueprintName = "UnityiOSStore"
                ReferencedContainer = "container:UnityiOSStore.xcodeproj">
             </BuildableReference>
