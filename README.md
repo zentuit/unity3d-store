@@ -28,15 +28,15 @@ The unity3d-store is the Unity3D flavour of The SOOMLA Project. This project use
 
 We've created a unitypackage and an example project:
 
-####unity3d-store v1.4.0 (release version)
+####unity3d-store v1.4.1 (release version)
 
-[Unity 4.0 - unity3d-store v1.4.0](http://bit.ly/1e2oByE)  
+[Unity 4.x - unity3d-store v1.4.1](http://bit.ly/1ko3835)  
 
-####unity3d-store v1.4.0 example
+####unity3d-store v1.4.1 example
 
 - The example project is mostly what you have in this Github repo. You can either download it or clone unity3d-store.
 
-[Unity 4.0 - unity3d-store v1.4.0 example](http://bit.ly/1mSOB1R)
+[Unity 4.x - unity3d-store v1.4.1 example](http://bit.ly/1kQFXBk)
 
 ## Debugging
 
