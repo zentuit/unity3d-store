@@ -14,3 +14,5 @@ soomla-native/projects/unity-ios-store/build
 create_deploys
 create_unity.log
 
+soomla-native/projects/unity-ios-store/UnityiOSStore.xcodeproj/project.xcworkspace/xcshareddata/UnityiOSStore.xccheckout
+

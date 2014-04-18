@@ -110,7 +110,11 @@ namespace Soomla{
 	
 	        return jsonObject;
 		}
-		
+
+		public void save() 
+		{
+			save("UpgradeVG");
+		}
 	
 	}
 }

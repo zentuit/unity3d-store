@@ -78,5 +78,9 @@ namespace Soomla{
 			return base.toJSONObject();
 		}
 
+		public void save() 
+		{
+			save("SingleUseVG");
+		}
 	}
 }

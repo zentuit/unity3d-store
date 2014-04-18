@@ -6,11 +6,15 @@ import com.soomla.store.IStoreAssets;
 import com.soomla.store.StoreConfig;
 import com.soomla.store.StoreUtils;
 import com.soomla.store.data.JSONConsts;
+import com.soomla.store.data.StoreInfo;
 import com.soomla.store.domain.NonConsumableItem;
 import com.soomla.store.domain.VirtualCategory;
+import com.soomla.store.domain.VirtualItem;
 import com.soomla.store.domain.virtualCurrencies.VirtualCurrency;
 import com.soomla.store.domain.virtualCurrencies.VirtualCurrencyPack;
 import com.soomla.store.domain.virtualGoods.*;
+import com.soomla.store.exceptions.VirtualItemNotFoundException;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -104,6 +108,43 @@ public class StoreAssets implements IStoreAssets {
             StoreUtils.LogError(TAG, "Couldn't parse storeAssetsJSON (unity)");
         } catch (Exception ex) {
             StoreUtils.LogError(TAG, "An error occurred while trying to prepare storeAssets (unity) " + ex.getMessage());
+        }
+    }
+
+    public static void save(String type, String itemJSON) {
+        try {
+            JSONObject jsonObject = new JSONObject(itemJSON);
+
+
+            if (type.equals("EquippableVG")){
+                StoreInfo.save(new EquippableVG(jsonObject));
+
+            } else if (type.equals("LifetimeVG")){
+                StoreInfo.save(new LifetimeVG(jsonObject));
+
+            } else if (type.equals("SingleUsePackVG")){
+                StoreInfo.save(new SingleUsePackVG(jsonObject));
+
+            } else if (type.equals("SingleUseVG")){
+                StoreInfo.save(new SingleUseVG(jsonObject));
+
+            } else if (type.equals("UpgradeVG")){
+                StoreInfo.save(new UpgradeVG(jsonObject));
+
+            } else if (type.equals("VirtualCurrency")){
+                StoreInfo.save(new VirtualCurrency(jsonObject));
+
+            } else if (type.equals("VirtualCurrencyPack")){
+                StoreInfo.save(new VirtualCurrencyPack(jsonObject));
+
+            } else if (type.equals("NonConsumableItem")){
+                StoreInfo.save(new NonConsumableItem(jsonObject));
+            } else {
+                StoreUtils.LogError(TAG, "Don't understand what's the type of the item i need to save... type: " + type);
+            }
+
+        } catch (JSONException e) {
+            StoreUtils.LogError(TAG, "There was an error parsing item JSON in order to save.");
         }
     }
 

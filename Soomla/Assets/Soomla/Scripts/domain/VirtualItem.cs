@@ -17,11 +17,17 @@ using UnityEngine;
 
 namespace Soomla
 {
+
 	/// <summary>
 	/// This class is the parent of all virtual items in the application.
 	/// </summary>
 	public abstract class VirtualItem
 	{
+#if UNITY_IOS && !UNITY_EDITOR
+		[DllImport ("__Internal")]
+		private static extern int storeAssets_Save(string type, string viJSON);
+#endif
+
 		private const string TAG = "SOOMLA VirtualItem";
 		
 		public string Name;
@@ -141,6 +147,20 @@ namespace Soomla
 			return null;
 		}
 #endif
+
+		protected void save(string type) 
+		{
+			string viJSON = this.toJSONObject().print();
+			#if UNITY_IOS && !UNITY_EDITOR
+			storeAssets_Save(type, viJSON);
+			#elif UNITY_ANDROID && !UNITY_EDITOR
+			AndroidJNI.PushLocalFrame(100);
+			using(AndroidJavaClass jniStoreAssets = new AndroidJavaClass("com.soomla.unity.StoreAssets")) {
+				jniStoreAssets.CallStatic("save", type, viJSON);
+			}
+			AndroidJNI.PopLocalFrame(IntPtr.Zero);
+			#endif
+		}
 	}
 }
 

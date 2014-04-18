@@ -60,6 +60,10 @@ namespace Soomla{
 		public override JSONObject toJSONObject() {
 			return base.toJSONObject();
 		}
-		
+
+		public void save() 
+		{
+			save("VirtualCurrency");
+		}
 	}
 }

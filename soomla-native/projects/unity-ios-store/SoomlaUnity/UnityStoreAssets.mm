@@ -11,12 +11,47 @@
 #import "SingleUsePackVG.h"
 #import "UpgradeVG.h"
 #import "StoreUtils.h"
+#import "StoreInfo.h"
 
 extern "C"{
 	void storeAssets_Init(int version, const char* storeAssetsJSON){
 		NSString* storeAssetsJSONS = [NSString stringWithUTF8String:storeAssetsJSON];
 		[UnityStoreAssets createFromJSON:storeAssetsJSONS andVersion:version];
 	}
+    
+    void storeAssets_Save(const char* type, const char* viJSON) {
+        NSString* viJSONS = [NSString stringWithUTF8String:viJSON];
+        NSString* typeS = [NSString stringWithUTF8String:type];
+        NSDictionary* itemDict = [StoreUtils jsonStringToDict:viJSONS];
+        
+        if ([typeS isEqualToString:@"EquippableVG"]) {
+            [[StoreInfo getInstance] save:[[EquippableVG alloc] initWithDictionary:itemDict]];
+            
+        } else if ([typeS isEqualToString:@"LifetimeVG"]) {
+            [[StoreInfo getInstance] save:[[LifetimeVG alloc] initWithDictionary:itemDict]];
+            
+        } else if ([typeS isEqualToString:@"SingleUsePackVG"]) {
+            [[StoreInfo getInstance] save:[[SingleUsePackVG alloc] initWithDictionary:itemDict]];
+            
+        } else if ([typeS isEqualToString:@"SingleUseVG"]) {
+            [[StoreInfo getInstance] save:[[SingleUseVG alloc] initWithDictionary:itemDict]];
+            
+        } else if ([typeS isEqualToString:@"UpgradeVG"]) {
+            [[StoreInfo getInstance] save:[[UpgradeVG alloc] initWithDictionary:itemDict]];
+            
+        } else if ([typeS isEqualToString:@"VirtualCurrency"]) {
+            [[StoreInfo getInstance] save:[[VirtualCurrency alloc] initWithDictionary:itemDict]];
+            
+        } else if ([typeS isEqualToString:@"VirtualCurrencyPack"]) {
+            [[StoreInfo getInstance] save:[[VirtualCurrencyPack alloc] initWithDictionary:itemDict]];
+            
+        } else if ([typeS isEqualToString:@"NonConsumableItem"]) {
+            [[StoreInfo getInstance] save:[[NonConsumableItem alloc] initWithDictionary:itemDict]];
+
+        } else {
+            LogError(@"SOOMLA UnityStoreAssets", ([NSString stringWithFormat:@"Don't understand what's the type of the item i need to save... type: %@",typeS]));
+        }
+    }
 }
 
 @implementation UnityStoreAssets

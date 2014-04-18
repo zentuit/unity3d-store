@@ -1,4 +1,5 @@
-rm -rf ../../compilations/ios/*
+rm -rf ../../compilations/ios/debug
+rm -rf ../../compilations/ios/release
 
 xcodebuild -configuration Debug -sdk iphoneos build CREATING_UNIVERSAL_DIR=$PWD/../../../soomla-native/compilations/ios/debug
 xcodebuild -configuration Release -sdk iphoneos build CREATING_UNIVERSAL_DIR=$PWD/../../../soomla-native/compilations/ios/release

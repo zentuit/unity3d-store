@@ -146,5 +146,10 @@ namespace Soomla{
 			return obj;
 		}
 
+		public void save() 
+		{
+			save("EquippableVG");
+		}
+
 	}
 }
