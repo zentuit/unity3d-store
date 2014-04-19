@@ -33,15 +33,17 @@ namespace Soomla
 #endif
 
 		public static void Initialize(IStoreAssets storeAssets) {
-			if (string.IsNullOrEmpty(SoomSettings.CustomSecret) || string.IsNullOrEmpty(SoomSettings.SoomSecret)) {
-				StoreUtils.LogError(TAG, "SOOMLA/UNITY MISSING customSecret or soomSec !!! Stopping here !!");
+			if (string.IsNullOrEmpty(SoomSettings.CustomSecret)) {
+				StoreUtils.LogError(TAG, "SOOMLA/UNITY MISSING customSecret !!! Stopping here !!");
 				throw new ExitGUIException();
 			}
 
-			if (SoomSettings.CustomSecret==SoomSettings.ONLY_ONCE_DEFAULT || SoomSettings.SoomSecret==SoomSettings.ONLY_ONCE_DEFAULT) {
-				StoreUtils.LogError(TAG, "SOOMLA/UNITY You have to change customSecret and soomSec !!! Stopping here !!");
+			if (SoomSettings.CustomSecret==SoomSettings.ONLY_ONCE_DEFAULT) {
+				StoreUtils.LogError(TAG, "SOOMLA/UNITY You have to change customSecret !!! Stopping here !!");
 				throw new ExitGUIException();
 			}
+
+			SetupSoomSec();
 
 #if UNITY_ANDROID && !UNITY_EDITOR
 			if (string.IsNullOrEmpty(SoomSettings.AndroidPublicKey)) {
@@ -53,18 +55,12 @@ namespace Soomla
 				StoreUtils.LogError(TAG, "SOOMLA/UNITY You have to change android publicKey !!! Stopping here !!");
 				throw new ExitGUIException();
 			}
-
-			AndroidJNI.PushLocalFrame(100);
-			using(AndroidJavaClass jniStoreAssets = new AndroidJavaClass("com.soomla.unity.StoreAssets")) {
-				jniStoreAssets.CallStatic("setSoomSec", SoomSettings.SoomSecret);
-			}
-			AndroidJNI.PopLocalFrame(IntPtr.Zero);
 #elif UNITY_IOS && !UNITY_EDITOR
 			storeController_SetSSV(SoomSettings.IosSSV, "https://verify.soom.la/verify_ios?platform=unity4");
-			storeController_SetSoomSec(SoomSettings.SoomSecret);
 #endif
 			
 			StoreInfo.Initialize(storeAssets);
+
 #if UNITY_ANDROID && !UNITY_EDITOR
 			AndroidJNI.PushLocalFrame(100);
 			//init EventHandler
@@ -82,6 +78,28 @@ namespace Soomla
 #elif UNITY_IOS && !UNITY_EDITOR
 			storeController_Init(SoomSettings.CustomSecret);
 #endif
+		}
+
+		public static void SetupSoomSec() {
+			if (string.IsNullOrEmpty(SoomSettings.SoomSecret)) {
+				StoreUtils.LogError(TAG, "SOOMLA/UNITY MISSING soomSec !!! Stopping here !!");
+				throw new ExitGUIException();
+			}
+
+			if (SoomSettings.SoomSecret==SoomSettings.ONLY_ONCE_DEFAULT) {
+				StoreUtils.LogError(TAG, "SOOMLA/UNITY You have to change soomSec !!! Stopping here !!");
+				throw new ExitGUIException();
+			}
+			
+			#if UNITY_ANDROID && !UNITY_EDITOR
+			AndroidJNI.PushLocalFrame(100);
+			using(AndroidJavaClass jniStoreAssets = new AndroidJavaClass("com.soomla.unity.StoreAssets")) {
+				jniStoreAssets.CallStatic("setSoomSec", SoomSettings.SoomSecret);
+			}
+			AndroidJNI.PopLocalFrame(IntPtr.Zero);
+			#elif UNITY_IOS && !UNITY_EDITOR
+			storeController_SetSoomSec(SoomSettings.SoomSecret);
+			#endif
 		}
 		
 		
