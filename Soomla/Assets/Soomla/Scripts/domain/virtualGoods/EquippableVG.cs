@@ -146,7 +146,7 @@ namespace Soomla{
 			return obj;
 		}
 
-		public void save() 
+		public new void save() 
 		{
 			save("EquippableVG");
 		}

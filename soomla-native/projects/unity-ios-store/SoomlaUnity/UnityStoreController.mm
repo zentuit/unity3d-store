@@ -38,8 +38,8 @@ extern "C"{
     }
 
 	void storeController_Init(const char* secret){
-		
         [UnityStoreEventDispatcher initialize];
+        
 		[[StoreController getInstance] initializeWithStoreAssets:[UnityStoreAssets getInstance] andCustomSecret:[NSString stringWithUTF8String:secret]];
 	}
 

@@ -111,7 +111,7 @@ namespace Soomla{
 	        return jsonObject;
 		}
 
-		public void save() 
+		public new void save() 
 		{
 			save("UpgradeVG");
 		}
