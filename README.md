@@ -165,7 +165,7 @@ SOOMLA lets you subscribe to store events, get notified and implement your own a
 
 The 'Events' class is where all event go through. To handle various events, just add your specific behaviour to the delegates in the Events class.
 
-For example, if you want to 'listen' to a MerketPurchase event:
+For example, if you want to 'listen' to a MarketPurchase event:
 
 ```cs
 Events.OnMarketPurchase += onMarketPurchase;
