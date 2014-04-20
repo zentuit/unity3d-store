@@ -175,6 +175,20 @@ public void onMarketPurchase(PurchasableVirtualItem pvi) {
 }
 ```
 
+One thing you need to make sure is that you instantiate your EventHandler before StoreController.  
+So if you have:
+````
+private static Soomla.Example.ExampleEventHandler handler;
+````
+you'll need to do:
+````
+handler = new Soomla.Example.ExampleEventHandler();
+````
+before
+````
+Soomla.StoreController.Initialize(new Soomla.Example.MuffinRushAssets());
+````
+
 Contribution
 ---
 
