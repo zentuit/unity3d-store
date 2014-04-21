@@ -82,7 +82,7 @@
 	}
     else if ([notification.name isEqualToString:EVENT_RESTORE_TRANSACTIONS_FINISHED]) {
 		NSNumber* successNum = [notification.userInfo objectForKey:DICT_ELEMENT_SUCCESS];
-        UnitySendMessage("StoreEvents", "onRestoreTransactions", [[NSString stringWithFormat:@"%d", [successNum intValue]] UTF8String]);
+        UnitySendMessage("StoreEvents", "onRestoreTransactionsFinished", [[NSString stringWithFormat:@"%d", [successNum intValue]] UTF8String]);
     }
     else if ([notification.name isEqualToString:EVENT_RESTORE_TRANSACTIONS_STARTED]) {
         UnitySendMessage("StoreEvents", "onRestoreTransactionsStarted", "");
