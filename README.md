@@ -30,7 +30,7 @@ We've created a unitypackage and an example project:
 
 ####unity3d-store v1.4.3 (release version)
 
-[Unity 4.x - unity3d-store v1.4.3](http://bit.ly/1hh4rM6)  
+[Unity 4.x - unity3d-store v1.4.3](http://bit.ly/1nJLQxz)  
 
 ####unity3d-store v1.4.3 example
 
