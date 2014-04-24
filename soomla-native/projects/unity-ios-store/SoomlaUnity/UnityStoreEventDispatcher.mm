@@ -95,7 +95,9 @@
                                               @"{\"productId\":\"%@\",\"market_price\":\"%@\",\"market_title\":\"%@\",\"market_desc\":\"%@\"}#SOOM#",
                                               mi.productId, [mi priceWithCurrencySymbol], mi.marketTitle, mi.marketDescription ]];
         }
-        [marketItemsChanges deleteCharactersInRange:NSMakeRange([marketItemsChanges length]-6, 6)];
+		if ([marketItemsChanges length] > 6) {
+        	[marketItemsChanges deleteCharactersInRange:NSMakeRange([marketItemsChanges length]-6, 6)];
+		}
         UnitySendMessage("StoreEvents", "onMarketItemsRefreshed", [marketItemsChanges UTF8String]);
     }
     else if ([notification.name isEqualToString:EVENT_UNEXPECTED_ERROR_IN_STORE]) {
