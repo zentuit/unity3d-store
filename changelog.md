@@ -1,3 +1,16 @@
+### v1.4.3 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.4.1...v1.4.3)
+
+* Fixes
+  * Added "using System" so things will work corrctly on Android. Closes #201
+  * Refreshed items were not parsed correctly. Closes #207
+
+
+### v1.4.2 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.4.1...v1.4.2)
+
+* Fixes
+  * Fixed some build issues in native libraries.
+  * Fixed warnings for 'save' function in VirtualItems.
+
 ### v1.4.1 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.4.0...v1.4.1)
 
 * New Features
