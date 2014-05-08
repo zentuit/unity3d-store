@@ -1,3 +1,8 @@
+### v1.4.4 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.4.4...v1.4.4)
+
+* Fixes
+  * Correctly fetching products' details from market (android). Fixed #194
+  
 ### v1.4.3 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.4.1...v1.4.3)
 
 * Fixes
