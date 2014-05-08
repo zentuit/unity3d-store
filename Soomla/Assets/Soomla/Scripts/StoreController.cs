@@ -2,7 +2,6 @@ using UnityEngine;
 using System;
 using System.Runtime.InteropServices;
 
-
 namespace Soomla
 {
 	/// <summary>
@@ -10,27 +9,23 @@ namespace Soomla
 	/// </summary>
 	public class StoreController
 	{
-		private const string TAG = "SOOMLA StoreController";
-#if UNITY_IOS && !UNITY_EDITOR
-		[DllImport ("__Internal")]
-		private static extern void storeController_Init(string customSecret);
-		[DllImport ("__Internal")]
-		private static extern int storeController_BuyMarketItem(string productId);
-		[DllImport ("__Internal")]
-		private static extern void storeController_RestoreTransactions();
-		[DllImport ("__Internal")]
-		private static extern void storeController_RefreshInventory();
-		[DllImport ("__Internal")]
-		private static extern void storeController_TransactionsAlreadyRestored(out bool outResult);
-		[DllImport ("__Internal")]
-		private static extern void storeController_SetSoomSec(string soomSec);
-		[DllImport ("__Internal")]
-		private static extern void storeController_SetSSV(bool ssv, string verifyUrl);
-#endif
+		static StoreController _instance = null;
+		static StoreController instance {
+			get {
+				if(_instance == null) {
+				#if UNITY_EDITOR
+					_instance = new StoreController();
+				#elif UNITY_ANDROID
+					_instance = new StoreControllerAndroid();
+				#elif UNITY_IOS
+					_instance = new StoreControllerIOS();
+				#endif
+				}
+				return _instance;
+			}
+		}
 
-#if UNITY_ANDROID && !UNITY_EDITOR
-		private static AndroidJavaObject jniStoreController = null;
-#endif
+		protected const string TAG = "SOOMLA StoreController";
 
 		public static void Initialize(IStoreAssets storeAssets) {
 			if (string.IsNullOrEmpty(SoomSettings.CustomSecret)) {
@@ -43,44 +38,6 @@ namespace Soomla
 				throw new ExitGUIException();
 			}
 
-			SetupSoomSec();
-
-#if UNITY_ANDROID && !UNITY_EDITOR
-			if (string.IsNullOrEmpty(SoomSettings.AndroidPublicKey)) {
-				StoreUtils.LogError(TAG, "SOOMLA/UNITY MISSING publickKey !!! Stopping here !!");
-				throw new ExitGUIException();
-			}
-
-			if (SoomSettings.AndroidPublicKey==SoomSettings.AND_PUB_KEY_DEFAULT) {
-				StoreUtils.LogError(TAG, "SOOMLA/UNITY You have to change android publicKey !!! Stopping here !!");
-				throw new ExitGUIException();
-			}
-#elif UNITY_IOS && !UNITY_EDITOR
-			storeController_SetSSV(SoomSettings.IosSSV, "https://verify.soom.la/verify_ios?platform=unity4");
-#endif
-			
-			StoreInfo.Initialize(storeAssets);
-
-#if UNITY_ANDROID && !UNITY_EDITOR
-			AndroidJNI.PushLocalFrame(100);
-			//init EventHandler
-			using(AndroidJavaClass jniEventHandler = new AndroidJavaClass("com.soomla.unity.EventHandler")) {
-				jniEventHandler.CallStatic("initialize");
-			}
-			using(AndroidJavaObject jniStoreAssetsInstance = new AndroidJavaObject("com.soomla.unity.StoreAssets")) {
-				using(AndroidJavaClass jniStoreControllerClass = new AndroidJavaClass("com.soomla.store.StoreController")) {
-					jniStoreController = jniStoreControllerClass.CallStatic<AndroidJavaObject>("getInstance");
-					jniStoreController.Call<bool>("initialize", jniStoreAssetsInstance, SoomSettings.AndroidPublicKey, SoomSettings.CustomSecret);
-				}
-			}
-			AndroidJNI.PopLocalFrame(IntPtr.Zero);
-			
-#elif UNITY_IOS && !UNITY_EDITOR
-			storeController_Init(SoomSettings.CustomSecret);
-#endif
-		}
-
-		public static void SetupSoomSec() {
 			if (string.IsNullOrEmpty(SoomSettings.SoomSecret)) {
 				StoreUtils.LogError(TAG, "SOOMLA/UNITY MISSING soomSec !!! Stopping here !!");
 				throw new ExitGUIException();
@@ -90,80 +47,48 @@ namespace Soomla
 				StoreUtils.LogError(TAG, "SOOMLA/UNITY You have to change soomSec !!! Stopping here !!");
 				throw new ExitGUIException();
 			}
-			
-			#if UNITY_ANDROID && !UNITY_EDITOR
-			AndroidJNI.PushLocalFrame(100);
-			using(AndroidJavaClass jniStoreAssets = new AndroidJavaClass("com.soomla.unity.StoreAssets")) {
-				jniStoreAssets.CallStatic("setSoomSec", SoomSettings.SoomSecret);
-			}
-			AndroidJNI.PopLocalFrame(IntPtr.Zero);
-			#elif UNITY_IOS && !UNITY_EDITOR
-			storeController_SetSoomSec(SoomSettings.SoomSecret);
-			#endif
-		}
-		
-		
-		public static void BuyMarketItem(string productId) {
-#if UNITY_ANDROID && !UNITY_EDITOR
-			AndroidJNI.PushLocalFrame(100);
-			using(AndroidJavaObject jniPurchasableItem = AndroidJNIHandler.CallStatic<AndroidJavaObject>(
-				new AndroidJavaClass("com.soomla.store.data.StoreInfo"),"getPurchasableItem", productId)) {
-				AndroidJNIHandler.CallVoid(jniStoreController, "buyWithMarket", 
-					jniPurchasableItem.Call<AndroidJavaObject>("getPurchaseType").Call<AndroidJavaObject>("getMarketItem"), 
-					"");
-			}
-			AndroidJNI.PopLocalFrame(IntPtr.Zero);
-#elif UNITY_IOS && !UNITY_EDITOR
-			storeController_BuyMarketItem(productId);
-#endif
+
+			instance._setupSoomSec();
+			instance._initialize(storeAssets);
 		}
 
-		public static void RefreshInventory() {
-			if(!Application.isEditor){
-#if UNITY_ANDROID && !UNITY_EDITOR
-				AndroidJNI.PushLocalFrame(100);
-				jniStoreController.Call("refreshInventory", true);
-				AndroidJNI.PopLocalFrame(IntPtr.Zero);
-#elif UNITY_IOS && !UNITY_EDITOR
-				storeController_RefreshInventory();
-#endif
-			}
+		public static void BuyMarketItem(string productId) { instance._buyMarketItem(productId); }
+		public static void RefreshInventory() {	instance._refreshInventory(); }
+		public static void RestoreTransactions() { instance._restoreTransactions();	}
+		public static bool TransactionsAlreadyRestored() { return instance._transactionsAlreadyRestored(); }
+		public static void StartIabServiceInBg() { instance._startIabServiceInBg(); }
+		public static void StopIabServiceInBg() { instance._stopIabServiceInBg(); }
+
+		protected virtual void _initialize(IStoreAssets storeAssets) {
+			//implementation for unity editor here
 		}
 
-		public static void RestoreTransactions() {
-			if(!Application.isEditor){
-#if UNITY_ANDROID && !UNITY_EDITOR
-				AndroidJNI.PushLocalFrame(100);
-				jniStoreController.Call("refreshInventory", false);
-				AndroidJNI.PopLocalFrame(IntPtr.Zero);
-#elif UNITY_IOS && !UNITY_EDITOR
-				storeController_RestoreTransactions();
-#endif
-			}
+		protected virtual void _setupSoomSec() {
+			//implementation for unity editor here
 		}
 
-#if UNITY_IOS && !UNITY_EDITOR	
-		public static bool TransactionsAlreadyRestored() {
-			bool restored = false;
-			storeController_TransactionsAlreadyRestored(out restored);
-			return restored;
+		protected virtual void _buyMarketItem(string productId) {
+			//implementation for unity editor here
 		}
-#endif
-		
-#if UNITY_ANDROID && !UNITY_EDITOR
-		public static void StartIabServiceInBg() {
-			AndroidJNI.PushLocalFrame(100);
-			jniStoreController.Call("startIabServiceInBg");
-			AndroidJNI.PopLocalFrame(IntPtr.Zero);
+
+		protected virtual void _refreshInventory() {
+			//implementation for unity editor here
 		}
-		
-		public static void StopIabServiceInBg() {
-			AndroidJNI.PushLocalFrame(100);
-			jniStoreController.Call("stopIabServiceInBg");
-			AndroidJNI.PopLocalFrame(IntPtr.Zero);
+
+		protected virtual void _restoreTransactions() {
+			//implementation for unity editor here
 		}
-#endif
-		
+
+		protected virtual bool _transactionsAlreadyRestored() {
+			return true;
+		}
+
+		protected virtual void _startIabServiceInBg() {
+		}
+
+		protected virtual void _stopIabServiceInBg() {
+		}
+
 	}
 }
 
