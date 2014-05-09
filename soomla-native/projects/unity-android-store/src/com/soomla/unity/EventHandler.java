@@ -1,6 +1,7 @@
 package com.soomla.unity;
 
 import com.soomla.store.BusProvider;
+import com.soomla.store.StoreUtils;
 import com.soomla.store.domain.MarketItem;
 import com.soomla.store.events.*;
 import com.squareup.otto.Subscribe;
@@ -120,7 +121,7 @@ public class EventHandler {
     public void onMarketItemsRefreshed(MarketItemsRefreshed marketItemsRefreshed) {
         String marketItemsChanges = "";
         for (MarketItem mi : marketItemsRefreshed.getMarketItems()) {
-            marketItemsChanges = "{" +
+            marketItemsChanges += "{" +
                     "\"productId\":\"" + mi.getProductId() + "\"," +
                     "\"market_price\":\"" + mi.getMarketPrice() + "\"," +
                     "\"market_title\":\"" + mi.getMarketTitle() + "\"," +
