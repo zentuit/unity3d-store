@@ -13,13 +13,13 @@ namespace Soomla
 		static StoreController instance {
 			get {
 				if(_instance == null) {
-				#if UNITY_EDITOR
-					_instance = new StoreController();
-				#elif UNITY_ANDROID
-					_instance = new StoreControllerAndroid();
-				#elif UNITY_IOS
+					#if UNITY_ANDROID && !UNITY_EDITOR
+					_instance = new StoreControllerAndroid;
+					#elif UNITY_IOS && !UNITY_EDITOR
 					_instance = new StoreControllerIOS();
-				#endif
+					#else
+					_instance = new StoreController();
+					#endif
 				}
 				return _instance;
 			}
@@ -60,23 +60,18 @@ namespace Soomla
 		public static void StopIabServiceInBg() { instance._stopIabServiceInBg(); }
 
 		protected virtual void _initialize(IStoreAssets storeAssets) {
-			//implementation for unity editor here
 		}
 
 		protected virtual void _setupSoomSec() {
-			//implementation for unity editor here
 		}
 
 		protected virtual void _buyMarketItem(string productId) {
-			//implementation for unity editor here
 		}
 
 		protected virtual void _refreshInventory() {
-			//implementation for unity editor here
 		}
 
 		protected virtual void _restoreTransactions() {
-			//implementation for unity editor here
 		}
 
 		protected virtual bool _transactionsAlreadyRestored() {

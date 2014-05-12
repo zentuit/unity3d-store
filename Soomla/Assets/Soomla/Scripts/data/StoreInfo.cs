@@ -19,12 +19,12 @@ namespace Soomla
 		static StoreInfo instance {
 			get {
 				if(_instance == null) {
-					#if UNITY_EDITOR
-					_instance = new StoreInfo();
-					#elif UNITY_ANDROID
+					#if UNITY_ANDROID && !UNITY_EDITOR
 					_instance = new StoreInfoAndroid();
-					#elif UNITY_IOS
+					#elif UNITY_IOS && !UNITY_EDITOR
 					_instance = new StoreInfoIOS();
+					#else
+					_instance = new StoreInfo();
 					#endif
 				}
 				return _instance;

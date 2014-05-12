@@ -13,12 +13,12 @@ namespace Soomla
 		static StoreInventory instance {
 			get {
 				if(_instance == null) {
-					#if UNITY_EDITOR
-					_instance = new StoreInventory();
-					#elif UNITY_ANDROID
+					#if UNITY_ANDROID && !UNITY_EDITOR
 					_instance = new StoreInventoryAndroid();
-					#elif UNITY_IOS
+					#elif UNITY_IOS && !UNITY_EDITOR
 					_instance = new StoreInventoryIOS();
+					#else
+					_instance = new StoreInventory();
 					#endif
 				}
 				return _instance;
