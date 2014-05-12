@@ -55,7 +55,7 @@ namespace Soomla {
 
 		protected override void _refreshInventory() {
 			AndroidJNI.PushLocalFrame(100);
-			jniStoreController.Call("refreshInventory", false);
+			jniStoreController.Call("refreshInventory", true);
 			AndroidJNI.PopLocalFrame(IntPtr.Zero);
 		}
 

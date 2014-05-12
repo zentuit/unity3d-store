@@ -9,327 +9,141 @@ namespace Soomla
 	/// </summary>
 	public class StoreInventory
 	{
-		private const string TAG = "SOOMLA StoreInventory";
-		
-#if UNITY_IOS && !UNITY_EDITOR
-		[DllImport ("__Internal")]
-		private static extern int storeInventory_BuyItem(string itemId);
-		[DllImport ("__Internal")]
-		private static extern int storeInventory_GetItemBalance(string itemId, out int outBalance);
-		[DllImport ("__Internal")]
-		private static extern int storeInventory_GiveItem(string itemId, int amount);
-		[DllImport ("__Internal")]
-		private static extern int storeInventory_TakeItem(string itemId, int amount);
-		[DllImport ("__Internal")]
-		private static extern int storeInventory_EquipVirtualGood(string itemId);
-		[DllImport ("__Internal")]
-		private static extern int storeInventory_UnEquipVirtualGood(string itemId)	;
-		[DllImport ("__Internal")]
-		private static extern int storeInventory_IsVirtualGoodEquipped(string itemId, out bool outResult);
-		[DllImport ("__Internal")]
-		private static extern int storeInventory_GetGoodUpgradeLevel(string itemId, out int outResult);
-		[DllImport ("__Internal")]
-		private static extern int storeInventory_GetGoodCurrentUpgrade(string itemId, out IntPtr outResult);
-		[DllImport ("__Internal")]
-		private static extern int storeInventory_UpgradeGood(string itemId);
-		[DllImport ("__Internal")]
-		private static extern int storeInventory_RemoveGoodUpgrades(string itemId);
-		[DllImport ("__Internal")]
-		private static extern int storeInventory_NonConsumableItemExists(string itemId, out bool outResult);
-		[DllImport ("__Internal")]
-		private static extern int storeInventory_AddNonConsumableItem(string itemId);
-		[DllImport ("__Internal")]
-		private static extern int storeInventory_RemoveNonConsumableItem(string itemId);
-#endif
+		static StoreInventory _instance = null;
+		static StoreInventory instance {
+			get {
+				if(_instance == null) {
+					#if UNITY_EDITOR
+					_instance = new StoreInventory();
+					#elif UNITY_ANDROID
+					_instance = new StoreInventoryAndroid();
+					#elif UNITY_IOS
+					_instance = new StoreInventoryIOS();
+					#endif
+				}
+				return _instance;
+			}
+		}
+
+		protected const string TAG = "SOOMLA StoreInventory";
 		
 		public static void BuyItem(string itemId) {
-			if(!Application.isEditor){
-				StoreUtils.LogDebug(TAG, "SOOMLA/UNITY Calling BuyItem with: " + itemId);
-#if UNITY_ANDROID && !UNITY_EDITOR
-				AndroidJNI.PushLocalFrame(100);
-				using(AndroidJavaClass jniStoreInventory = new AndroidJavaClass("com.soomla.store.StoreInventory")) {
-					AndroidJNIHandler.CallStaticVoid(jniStoreInventory, "buy", itemId);
-				}
-				AndroidJNI.PopLocalFrame(IntPtr.Zero);
-#elif UNITY_IOS && !UNITY_EDITOR
-				int err = storeInventory_BuyItem(itemId);
-				
-				IOS_ErrorCodes.CheckAndThrowException(err);
-#endif
-			}
+			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY Calling BuyItem with: " + itemId);
+			instance._buyItem(itemId);
 		}
-		
-		
-		
-		
+
+		virtual protected void _buyItem(string itemId) {
+		}
+
+
+
 		/** Virtual Items **/
-		
-		
+
 		public static int GetItemBalance(string itemId) {
-			if(!Application.isEditor){
-				StoreUtils.LogDebug(TAG, "SOOMLA/UNITY Calling GetItemBalance with: " + itemId);
-#if UNITY_ANDROID && !UNITY_EDITOR
-				AndroidJNI.PushLocalFrame(100);
-				int balance = 0;
-				using(AndroidJavaClass jniStoreInventory = new AndroidJavaClass("com.soomla.store.StoreInventory")) {
-					balance = AndroidJNIHandler.CallStatic<int>(jniStoreInventory, "getVirtualItemBalance", itemId);
-				}
-				AndroidJNI.PopLocalFrame(IntPtr.Zero);
-				return balance;
-#elif UNITY_IOS && !UNITY_EDITOR
-				int balance = 0;
-				int err = storeInventory_GetItemBalance(itemId, out balance);
-				
-				IOS_ErrorCodes.CheckAndThrowException(err);
-				
-				return balance;
-#endif
-			}
+			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY Calling GetItemBalance with: " + itemId);
+			return instance._getItemBalance(itemId);
+		}
+		public static void GiveItem(string itemId, int amount) {
+			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY Calling GiveItem with itedId: " + itemId + " and amount: " + amount);
+			instance._giveItem(itemId, amount);
+		}
+		public static void TakeItem(string itemId, int amount) {
+			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY Calling TakeItem with itedId: " + itemId + " and amount: " + amount);
+			instance._takeItem(itemId, amount);
+		}
+
+		virtual protected int _getItemBalance(string itemId) {
 			return 0;
 		}
-		
-		public static void GiveItem(string itemId, int amount) {
-			if(!Application.isEditor){
-				StoreUtils.LogDebug(TAG, "SOOMLA/UNITY Calling GiveItem with itedId: " + itemId + " and amount: " + amount);
-#if UNITY_ANDROID && !UNITY_EDITOR
-				AndroidJNI.PushLocalFrame(100);
-				using(AndroidJavaClass jniStoreInventory = new AndroidJavaClass("com.soomla.store.StoreInventory")) {
-					AndroidJNIHandler.CallStaticVoid(jniStoreInventory, "giveVirtualItem", itemId, amount);
-				}
-				AndroidJNI.PopLocalFrame(IntPtr.Zero);
-#elif UNITY_IOS && !UNITY_EDITOR
-				int err = storeInventory_GiveItem(itemId, amount);
-				
-				IOS_ErrorCodes.CheckAndThrowException(err);
-#endif
-			}
+
+		virtual protected void _giveItem(string itemId, int amount) {
 		}
-		
-		public static void TakeItem(string itemId, int amount) {
-			if(!Application.isEditor){
-				StoreUtils.LogDebug(TAG, "SOOMLA/UNITY Calling TakeItem with itedId: " + itemId + " and amount: " + amount);
-#if UNITY_ANDROID && !UNITY_EDITOR
-				AndroidJNI.PushLocalFrame(100);
-				using(AndroidJavaClass jniStoreInventory = new AndroidJavaClass("com.soomla.store.StoreInventory")) {
-					AndroidJNIHandler.CallStaticVoid(jniStoreInventory, "takeVirtualItem", itemId, amount);
-				}
-				AndroidJNI.PopLocalFrame(IntPtr.Zero);
-#elif UNITY_IOS && !UNITY_EDITOR
-				int err = storeInventory_TakeItem(itemId, amount);
-				
-				IOS_ErrorCodes.CheckAndThrowException(err);
-#endif
-			}
+
+		virtual protected void _takeItem(string itemId, int amount) {
 		}
-				
-		
-		
-		
-		
+
+
+
 		/** Virtual Goods **/
 		
-		
 		public static void EquipVirtualGood(string goodItemId) {
-			if(!Application.isEditor){
-				StoreUtils.LogDebug(TAG, "SOOMLA/UNITY Calling EquipVirtualGood with: " + goodItemId);
-#if UNITY_ANDROID && !UNITY_EDITOR
-				AndroidJNI.PushLocalFrame(100);
-				using(AndroidJavaClass jniStoreInventory = new AndroidJavaClass("com.soomla.store.StoreInventory")) {
-					AndroidJNIHandler.CallStaticVoid(jniStoreInventory, "equipVirtualGood", goodItemId);
-				}
-				AndroidJNI.PopLocalFrame(IntPtr.Zero);
-#elif UNITY_IOS && !UNITY_EDITOR
-				int err = storeInventory_EquipVirtualGood(goodItemId);
-				
-				IOS_ErrorCodes.CheckAndThrowException(err);
-#endif
-			}
+			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY Calling EquipVirtualGood with: " + goodItemId);
+			instance._equipVirtualGood(goodItemId);
 		}
-		
 		public static void UnEquipVirtualGood(string goodItemId) {
-			if(!Application.isEditor){
-				StoreUtils.LogDebug(TAG, "SOOMLA/UNITY Calling UnEquipVirtualGood with: " + goodItemId);
-#if UNITY_ANDROID && !UNITY_EDITOR
-				AndroidJNI.PushLocalFrame(100);
-				using(AndroidJavaClass jniStoreInventory = new AndroidJavaClass("com.soomla.store.StoreInventory")) {
-					AndroidJNIHandler.CallStaticVoid(jniStoreInventory, "unEquipVirtualGood", goodItemId);
-				}
-				AndroidJNI.PopLocalFrame(IntPtr.Zero);
-#elif UNITY_IOS && !UNITY_EDITOR
-				int err = storeInventory_UnEquipVirtualGood(goodItemId);
-				
-				IOS_ErrorCodes.CheckAndThrowException(err);
-#endif
-			}
+			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY Calling UnEquipVirtualGood with: " + goodItemId);
+			instance._unEquipVirtualGood(goodItemId);
 		}
-		
 		public static bool IsVirtualGoodEquipped(string goodItemId) {
-			if(!Application.isEditor){
-				StoreUtils.LogDebug(TAG, "SOOMLA/UNITY Calling IsVirtualGoodEquipped with: " + goodItemId);
-#if UNITY_ANDROID && !UNITY_EDITOR
-				bool result = false;
-				AndroidJNI.PushLocalFrame(100);
-				using(AndroidJavaClass jniStoreInventory = new AndroidJavaClass("com.soomla.store.StoreInventory")) {
-					result = AndroidJNIHandler.CallStatic<bool>(jniStoreInventory, "isVirtualGoodEquipped", goodItemId);
-				}
-				AndroidJNI.PopLocalFrame(IntPtr.Zero);
-				return result;
-#elif UNITY_IOS && !UNITY_EDITOR
-				bool result = false;
-				int err = storeInventory_IsVirtualGoodEquipped(goodItemId, out result);
-				
-				IOS_ErrorCodes.CheckAndThrowException(err);
-				
-				return result;
-#endif
-			}
+			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY Calling IsVirtualGoodEquipped with: " + goodItemId);
+			return instance._isVertualGoodEquipped(goodItemId);
+		}
+		public static int GetGoodUpgradeLevel(string goodItemId) {
+			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY Calling GetGoodUpgradeLevel with: " + goodItemId);
+			return instance._getGoodUpgradeLevel(goodItemId);
+		}
+		public static string GetGoodCurrentUpgrade(string goodItemId) {
+			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY Calling GetGoodCurrentUpgrade with: " + goodItemId);
+			return instance._getGoodCurrentUpgrade(goodItemId);
+		}
+		public static void UpgradeGood(string goodItemId) {
+			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY Calling UpgradeGood with: " + goodItemId);
+			instance._upgradeGood(goodItemId);
+		}
+		public static void RemoveGoodUpgrades(string goodItemId) {
+			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY Calling RemoveGoodUpgrades with: " + goodItemId);
+			instance._removeGoodUpgrades(goodItemId);
+		}
+
+		virtual protected void _equipVirtualGood(string goodItemId) {
+		}
+
+		virtual protected void _unEquipVirtualGood(string goodItemId) {
+		}
+
+		virtual protected bool _isVertualGoodEquipped(string goodItemId) {
 			return false;
 		}
-		
-		public static int GetGoodUpgradeLevel(string goodItemId) {
-			if(!Application.isEditor){
-				StoreUtils.LogDebug(TAG, "SOOMLA/UNITY Calling GetGoodUpgradeLevel with: " + goodItemId);
-#if UNITY_ANDROID && !UNITY_EDITOR
-				int level = 0;
-				AndroidJNI.PushLocalFrame(100);
-				using(AndroidJavaClass jniStoreInventory = new AndroidJavaClass("com.soomla.store.StoreInventory")) {
-					level = AndroidJNIHandler.CallStatic<int>(jniStoreInventory, "getGoodUpgradeLevel", goodItemId);
-				}
-				AndroidJNI.PopLocalFrame(IntPtr.Zero);
-				return level;
-#elif UNITY_IOS && !UNITY_EDITOR
-				int level = 0;
-				int err = storeInventory_GetGoodUpgradeLevel(goodItemId, out level);
-				
-				IOS_ErrorCodes.CheckAndThrowException(err);
-				
-				return level;
-#endif
-			}
+
+		virtual protected int _getGoodUpgradeLevel(string goodItemId) {
 			return 0;
 		}
-		
-		public static string GetGoodCurrentUpgrade(string goodItemId) {
-			if(!Application.isEditor){
-				StoreUtils.LogDebug(TAG, "SOOMLA/UNITY Calling GetGoodCurrentUpgrade with: " + goodItemId);
-#if UNITY_ANDROID && !UNITY_EDITOR
-				string currentItemId = "";
-				AndroidJNI.PushLocalFrame(100);
-				using(AndroidJavaClass jniStoreInventory = new AndroidJavaClass("com.soomla.store.StoreInventory")) {
-					currentItemId = AndroidJNIHandler.CallStatic<string>(jniStoreInventory, "getGoodCurrentUpgrade", goodItemId);
-				}
-				AndroidJNI.PopLocalFrame(IntPtr.Zero);
-				return currentItemId;
-#elif UNITY_IOS && !UNITY_EDITOR				
-				IntPtr p = IntPtr.Zero;
-				int err = storeInventory_GetGoodCurrentUpgrade(goodItemId, out p);
-					
-				IOS_ErrorCodes.CheckAndThrowException(err);
-				
-				string result = Marshal.PtrToStringAnsi(p);
-				Marshal.FreeHGlobal(p);
-				
-				return result;
-#endif
-			}
+
+		virtual protected string _getGoodCurrentUpgrade(string goodItemId) {
 			return null;
 		}
-		
-		public static void UpgradeGood(string goodItemId) {
-			if(!Application.isEditor){
-				StoreUtils.LogDebug(TAG, "SOOMLA/UNITY Calling UpgradeGood with: " + goodItemId);
-#if UNITY_ANDROID && !UNITY_EDITOR
-				AndroidJNI.PushLocalFrame(100);
-				using(AndroidJavaClass jniStoreInventory = new AndroidJavaClass("com.soomla.store.StoreInventory")) {
-					AndroidJNIHandler.CallStaticVoid(jniStoreInventory, "upgradeVirtualGood", goodItemId);
-				}
-				AndroidJNI.PopLocalFrame(IntPtr.Zero);
-#elif UNITY_IOS && !UNITY_EDITOR				
-				int err = storeInventory_UpgradeGood(goodItemId);
-					
-				IOS_ErrorCodes.CheckAndThrowException(err);
-#endif
-			}
+
+		virtual protected void _upgradeGood(string goodItemId) {
 		}
-		
-		public static void RemoveGoodUpgrades(string goodItemId) {
-			if(!Application.isEditor){
-				StoreUtils.LogDebug(TAG, "SOOMLA/UNITY Calling RemoveGoodUpgrades with: " + goodItemId);
-#if UNITY_ANDROID && !UNITY_EDITOR
-				AndroidJNI.PushLocalFrame(100);
-				using(AndroidJavaClass jniStoreInventory = new AndroidJavaClass("com.soomla.store.StoreInventory")) {
-					AndroidJNIHandler.CallStaticVoid(jniStoreInventory, "removeUpgrades", goodItemId);
-				}
-				AndroidJNI.PopLocalFrame(IntPtr.Zero);
-#elif UNITY_IOS && !UNITY_EDITOR				
-				int err = storeInventory_RemoveGoodUpgrades(goodItemId);
-					
-				IOS_ErrorCodes.CheckAndThrowException(err);
-#endif
-			}
+
+		virtual protected void _removeGoodUpgrades(string goodItemId) {
 		}
-		
-		
-		
-		
+
+
+
 		/** NonConsumables **/
 		
-		
 		public static bool NonConsumableItemExists(string nonConsItemId) {
-			if(!Application.isEditor){
-				StoreUtils.LogDebug(TAG, "SOOMLA/UNITY Calling NonConsumableItemExists with: " + nonConsItemId);
-#if UNITY_ANDROID && !UNITY_EDITOR
-				bool result = false;
-				AndroidJNI.PushLocalFrame(100);
-				using(AndroidJavaClass jniStoreInventory = new AndroidJavaClass("com.soomla.store.StoreInventory")) {
-					result = AndroidJNIHandler.CallStatic<bool>(jniStoreInventory, "nonConsumableItemExists", nonConsItemId);
-				}
-				AndroidJNI.PopLocalFrame(IntPtr.Zero);
-				return result;
-#elif UNITY_IOS && !UNITY_EDITOR
-				bool result = false;
-				int err = storeInventory_NonConsumableItemExists(nonConsItemId, out result);
-				
-				IOS_ErrorCodes.CheckAndThrowException(err);
-				
-				return result;
-#endif
-			}
+			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY Calling NonConsumableItemExists with: " + nonConsItemId);
+			return instance._nonConsumableItemExists(nonConsItemId);
+		}
+		public static void AddNonConsumableItem(string nonConsItemId) {
+			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY Calling AddNonConsumableItem with: " + nonConsItemId);
+			instance._addNonConsumableItem(nonConsItemId);
+		}
+		public static void RemoveNonConsumableItem(string nonConsItemId) {
+			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY Calling RemoveNonConsumableItem with: " + nonConsItemId);
+			instance._removeNonConsumableItem(nonConsItemId);
+		}
+
+		virtual protected bool _nonConsumableItemExists(string nonConsItemId) {
 			return false;
 		}
-		
-		public static void AddNonConsumableItem(string nonConsItemId) {
-			if(!Application.isEditor){
-				StoreUtils.LogDebug(TAG, "SOOMLA/UNITY Calling AddNonConsumableItem with: " + nonConsItemId);
-#if UNITY_ANDROID && !UNITY_EDITOR
-				AndroidJNI.PushLocalFrame(100);
-				using(AndroidJavaClass jniStoreInventory = new AndroidJavaClass("com.soomla.store.StoreInventory")) {
-					AndroidJNIHandler.CallStaticVoid(jniStoreInventory, "addNonConsumableItem", nonConsItemId);
-				}
-				AndroidJNI.PopLocalFrame(IntPtr.Zero);
-#elif UNITY_IOS && !UNITY_EDITOR
-				int err = storeInventory_AddNonConsumableItem(nonConsItemId);
-				
-				IOS_ErrorCodes.CheckAndThrowException(err);
-#endif
-			}
+
+		virtual protected void _addNonConsumableItem(string nonConsItemId) {
 		}
-		
-		public static void RemoveNonConsumableItem(string nonConsItemId) {
-			if(!Application.isEditor){
-				StoreUtils.LogDebug(TAG, "SOOMLA/UNITY Calling RemoveNonConsumableItem with: " + nonConsItemId);
-#if UNITY_ANDROID && !UNITY_EDITOR
-				AndroidJNI.PushLocalFrame(100);
-				using(AndroidJavaClass jniStoreInventory = new AndroidJavaClass("com.soomla.store.StoreInventory")) {
-					AndroidJNIHandler.CallStaticVoid(jniStoreInventory, "removeNonConsumableItem", nonConsItemId);
-				}
-				AndroidJNI.PopLocalFrame(IntPtr.Zero);
-#elif UNITY_IOS && !UNITY_EDITOR
-				int err = storeInventory_RemoveNonConsumableItem(nonConsItemId);
-				
-				IOS_ErrorCodes.CheckAndThrowException(err);
-#endif
-			}
+
+		virtual protected void _removeNonConsumableItem(string nonConsItemId) {
 		}
 	}
 }
