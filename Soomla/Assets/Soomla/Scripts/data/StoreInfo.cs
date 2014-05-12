@@ -44,6 +44,10 @@ namespace Soomla
 		private static extern void storeAssets_Init(int version, string storeAssetsJSON);
 #endif
 			
+		/// <summary>
+		/// Initialize the specified storeAssets.
+		/// </summary>
+		/// <param name="storeAssets">Store assets.</param>
 		public static void Initialize(IStoreAssets storeAssets) {
 			
 //			StoreUtils.LogDebug(TAG, "Adding currency");
