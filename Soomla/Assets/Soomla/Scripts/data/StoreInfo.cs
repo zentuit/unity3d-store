@@ -13,36 +13,25 @@ namespace Soomla
 	/// - Virtual Categories definitions
 	/// - Virtual Non-Consumable items definitions
 	/// </summary>
-	public static class StoreInfo
+	public class StoreInfo
 	{
-		private const string TAG = "SOOMLA StoreInfo";
-		
-#if UNITY_IOS && !UNITY_EDITOR
-		[DllImport ("__Internal")]
-		private static extern int storeInfo_GetItemByItemId(string itemId, out IntPtr json);
-		[DllImport ("__Internal")]
-		private static extern int storeInfo_GetPurchasableItemWithProductId(string productId, out IntPtr json);
-		[DllImport ("__Internal")]
-		private static extern int storeInfo_GetCategoryForVirtualGood(string goodItemId, out IntPtr json);
-		[DllImport ("__Internal")]
-		private static extern int storeInfo_GetFirstUpgradeForVirtualGood(string goodItemId, out IntPtr json);
-		[DllImport ("__Internal")]
-		private static extern int storeInfo_GetLastUpgradeForVirtualGood(string goodItemId, out IntPtr json);
-		[DllImport ("__Internal")]
-		private static extern int storeInfo_GetUpgradesForVirtualGood(string goodItemId, out IntPtr json);
-		[DllImport ("__Internal")]
-		private static extern int storeInfo_GetVirtualCurrencies(out IntPtr json);
-		[DllImport ("__Internal")]
-		private static extern int storeInfo_GetVirtualGoods(out IntPtr json);
-		[DllImport ("__Internal")]
-		private static extern int storeInfo_GetVirtualCurrencyPacks(out IntPtr json);
-		[DllImport ("__Internal")]
-		private static extern int storeInfo_GetNonConsumableItems(out IntPtr json);
-		[DllImport ("__Internal")]
-		private static extern int storeInfo_GetVirtualCategories(out IntPtr json);
-		[DllImport ("__Internal")]
-		private static extern void storeAssets_Init(int version, string storeAssetsJSON);
-#endif
+		static StoreInfo _instance = null;
+		static StoreInfo instance {
+			get {
+				if(_instance == null) {
+					#if UNITY_EDITOR
+					_instance = new StoreInfo();
+					#elif UNITY_ANDROID
+					_instance = new StoreInfoAndroid();
+					#elif UNITY_IOS
+					_instance = new StoreInfoIOS();
+					#endif
+				}
+				return _instance;
+			}
+		}
+
+		protected const string TAG = "SOOMLA StoreInfo";
 			
 		public static void Initialize(IStoreAssets storeAssets) {
 			
@@ -105,345 +94,95 @@ namespace Soomla
 			storeAssetsObj.AddField(JSONConsts.STORE_NONCONSUMABLES, nonConsumables);
 			
 			string storeAssetsJSON = storeAssetsObj.print();
-			
-#if UNITY_ANDROID && !UNITY_EDITOR
-			StoreUtils.LogDebug(TAG, "pushing data to StoreAssets on java side");
-			using(AndroidJavaClass jniStoreAssets = new AndroidJavaClass("com.soomla.unity.StoreAssets")) {
-				jniStoreAssets.CallStatic("prepare", storeAssets.GetVersion(), storeAssetsJSON);
-			}
-			StoreUtils.LogDebug(TAG, "done! (pushing data to StoreAssets on java side)");
-#elif UNITY_IOS && !UNITY_EDITOR
-			StoreUtils.LogDebug(TAG, "pushing data to StoreAssets on ios side");
-			storeAssets_Init(storeAssets.GetVersion(), storeAssetsJSON);
-			StoreUtils.LogDebug(TAG, "done! (pushing data to StoreAssets on ios side)");
-#endif
+			instance._initialize(storeAssets.GetVersion(), storeAssetsJSON);
+		}
+
+		virtual protected void _initialize(int version, string storeAssetsJSON) {
 		}
 		
 		public static VirtualItem GetItemByItemId(string itemId) {
 			StoreUtils.LogDebug(TAG, "Trying to fetch an item with itemId: " + itemId);
-#if UNITY_ANDROID && !UNITY_EDITOR
-			VirtualItem vi = null;
-			AndroidJNI.PushLocalFrame(100);
-			using(AndroidJavaObject jniVirtualItem = AndroidJNIHandler.CallStatic<AndroidJavaObject>(
-				new AndroidJavaClass("com.soomla.store.data.StoreInfo"),"getVirtualItem", itemId)) {
-				vi = VirtualItem.factoryItemFromJNI(jniVirtualItem);
-			}
-			AndroidJNI.PopLocalFrame(IntPtr.Zero);
-			return vi;
-#elif UNITY_IOS && !UNITY_EDITOR
-			IntPtr p = IntPtr.Zero;
-			int err = storeInfo_GetItemByItemId(itemId, out p);
-				
-			IOS_ErrorCodes.CheckAndThrowException(err);
-			
-			string json = Marshal.PtrToStringAnsi(p);
-			Marshal.FreeHGlobal(p);
-			
-			StoreUtils.LogDebug(TAG, "Got json: " + json);
-			
-			JSONObject obj = new JSONObject(json);
-			return VirtualItem.factoryItemFromJSONObject(obj);
-#else
-			return null;
-#endif
+			return instance._getItemByItemId(itemId);
 		}
-		
 		public static PurchasableVirtualItem GetPurchasableItemWithProductId(string productId) {
-#if UNITY_ANDROID && !UNITY_EDITOR
-			VirtualItem vi = null;
-			AndroidJNI.PushLocalFrame(100);
-			using(AndroidJavaObject jniVirtualItem = AndroidJNIHandler.CallStatic<AndroidJavaObject>(
-				new AndroidJavaClass("com.soomla.store.data.StoreInfo"),"getPurchasableItem", productId)) {
-				vi = VirtualItem.factoryItemFromJNI(jniVirtualItem);
-			}
-			AndroidJNI.PopLocalFrame(IntPtr.Zero);
-			return (PurchasableVirtualItem)vi;
-#elif UNITY_IOS && !UNITY_EDITOR
-			IntPtr p = IntPtr.Zero;
-			int err = storeInfo_GetPurchasableItemWithProductId(productId, out p);
-				
-			IOS_ErrorCodes.CheckAndThrowException(err);
-			
-			string nonConsJson = Marshal.PtrToStringAnsi(p);
-			Marshal.FreeHGlobal(p);
-			
-			JSONObject obj = new JSONObject(nonConsJson);
-			return (PurchasableVirtualItem)VirtualItem.factoryItemFromJSONObject(obj);
-#else
-			return null;
-#endif
+			return instance._getPurchasableItemWithProductId(productId);
 		}
-		
 		public static VirtualCategory GetCategoryForVirtualGood(string goodItemId) {
-#if UNITY_ANDROID && !UNITY_EDITOR
-			VirtualCategory vc = null;
-			AndroidJNI.PushLocalFrame(100);
-			using(AndroidJavaObject jniVirtualVategory = AndroidJNIHandler.CallStatic<AndroidJavaObject>(
-				new AndroidJavaClass("com.soomla.store.data.StoreInfo"),"getCategory", goodItemId)) {
-				vc = new VirtualCategory(jniVirtualVategory);
-			}
-			AndroidJNI.PopLocalFrame(IntPtr.Zero);
-			return vc;
-#elif UNITY_IOS && !UNITY_EDITOR
-			IntPtr p = IntPtr.Zero;
-			int err = storeInfo_GetCategoryForVirtualGood(goodItemId, out p);
-				
-			IOS_ErrorCodes.CheckAndThrowException(err);
-			
-			string json = Marshal.PtrToStringAnsi(p);
-			Marshal.FreeHGlobal(p);
-			
-			JSONObject obj = new JSONObject(json);
-			return new VirtualCategory(obj);
-#else
-			return null;
-#endif
+			return instance._getCategoryForVirtualGood(goodItemId);
 		}
-		
 		public static UpgradeVG GetFirstUpgradeForVirtualGood(string goodItemId) {
-#if UNITY_ANDROID && !UNITY_EDITOR
-			UpgradeVG vgu = null;
-			AndroidJNI.PushLocalFrame(100);
-			using(AndroidJavaObject jniUpgradeVG = AndroidJNIHandler.CallStatic<AndroidJavaObject>(
-				new AndroidJavaClass("com.soomla.store.data.StoreInfo"),"getGoodFirstUpgrade", goodItemId)) {
-				vgu = new UpgradeVG(jniUpgradeVG);
-			}
-			AndroidJNI.PopLocalFrame(IntPtr.Zero);
-			return vgu;
-#elif UNITY_IOS && !UNITY_EDITOR
-			IntPtr p = IntPtr.Zero;
-			int err = storeInfo_GetFirstUpgradeForVirtualGood(goodItemId, out p);
-				
-			IOS_ErrorCodes.CheckAndThrowException(err);
-			
-			string json = Marshal.PtrToStringAnsi(p);
-			Marshal.FreeHGlobal(p);
-			
-			JSONObject obj = new JSONObject(json);
-			return new UpgradeVG(obj);
-#else
-			return null;
-#endif
+			return instance._getFirstUpgradeForVirtualGood(goodItemId);
 		}
-		
 		public static UpgradeVG GetLastUpgradeForVirtualGood(string goodItemId) {
-#if UNITY_ANDROID && !UNITY_EDITOR
-			UpgradeVG vgu = null;
-			AndroidJNI.PushLocalFrame(100);
-			using(AndroidJavaObject jniUpgradeVG = AndroidJNIHandler.CallStatic<AndroidJavaObject>(
-				new AndroidJavaClass("com.soomla.store.data.StoreInfo"),"getGoodLastUpgrade", goodItemId)) {
-				vgu = new UpgradeVG(jniUpgradeVG);
-			}
-			AndroidJNI.PopLocalFrame(IntPtr.Zero);
-			return vgu;
-#elif UNITY_IOS && !UNITY_EDITOR
-			IntPtr p = IntPtr.Zero;
-			int err = storeInfo_GetLastUpgradeForVirtualGood(goodItemId, out p);
-				
-			IOS_ErrorCodes.CheckAndThrowException(err);
-			
-			string json = Marshal.PtrToStringAnsi(p);
-			Marshal.FreeHGlobal(p);
-			
-			JSONObject obj = new JSONObject(json);
-			return new UpgradeVG(obj);
-#else
-			return null;
-#endif
+			return instance._getLastUpgradeForVirtualGood(goodItemId);
 		}
-			
 		public static List<UpgradeVG> GetUpgradesForVirtualGood(string goodItemId) {
 			StoreUtils.LogDebug(TAG, "Trying to fetch upgrades for " + goodItemId);
-			List<UpgradeVG> vgus = new List<UpgradeVG>();
-#if UNITY_ANDROID && !UNITY_EDITOR
-			AndroidJNI.PushLocalFrame(100);
-			using(AndroidJavaObject jniUpgradeVGs = new AndroidJavaClass("com.soomla.store.data.StoreInfo").CallStatic<AndroidJavaObject>("getGoodUpgrades")) {
-				for(int i=0; i<jniUpgradeVGs.Call<int>("size"); i++) {
-					using(AndroidJavaObject jnivgu = jniUpgradeVGs.Call<AndroidJavaObject>("get", i)) {
-						vgus.Add(new UpgradeVG(jnivgu));
-					}
-				}
-			}
-			AndroidJNI.PopLocalFrame(IntPtr.Zero);
-#elif UNITY_IOS && !UNITY_EDITOR
-			IntPtr p = IntPtr.Zero;
-			int err = storeInfo_GetUpgradesForVirtualGood(goodItemId, out p);
-
-			IOS_ErrorCodes.CheckAndThrowException(err);
-			
-			string upgradesJson = Marshal.PtrToStringAnsi(p);
-			Marshal.FreeHGlobal(p);
-			
-			StoreUtils.LogDebug(TAG, "Got json: " + upgradesJson);
-			
-			JSONObject upgradesArr = new JSONObject(upgradesJson);
-			foreach(JSONObject obj in upgradesArr.list) {
-				vgus.Add(new UpgradeVG(obj));
-			}
-#endif
-			return vgus;
+			return instance._getUpgradesForVirtualGood(goodItemId);
 		}
-		
 		public static List<VirtualCurrency> GetVirtualCurrencies() {
 			StoreUtils.LogDebug(TAG, "Trying to fetch currencies");
-			List<VirtualCurrency> vcs = new List<VirtualCurrency>();
-#if UNITY_ANDROID && !UNITY_EDITOR
-			AndroidJNI.PushLocalFrame(100);
-			using(AndroidJavaObject jniVirtualCurrencies = new AndroidJavaClass("com.soomla.store.data.StoreInfo").CallStatic<AndroidJavaObject>("getCurrencies")) {
-				for(int i=0; i<jniVirtualCurrencies.Call<int>("size"); i++) {
-					using(AndroidJavaObject jnivc = jniVirtualCurrencies.Call<AndroidJavaObject>("get", i)) {
-						vcs.Add(new VirtualCurrency(jnivc));
-					}
-				}
-			}
-			AndroidJNI.PopLocalFrame(IntPtr.Zero);
-#elif UNITY_IOS && !UNITY_EDITOR
-			IntPtr p = IntPtr.Zero;
-			int err = storeInfo_GetVirtualCurrencies(out p);
-				
-			IOS_ErrorCodes.CheckAndThrowException(err);
-			
-			string currenciesJson = Marshal.PtrToStringAnsi(p);
-			Marshal.FreeHGlobal(p);
-			
-			StoreUtils.LogDebug(TAG, "Got json: " + currenciesJson);
-			
-			JSONObject currenciesArr = new JSONObject(currenciesJson);
-			foreach(JSONObject obj in currenciesArr.list) {
-				vcs.Add(new VirtualCurrency(obj));
-			}
-#endif
-			return vcs;
+			return instance._getVirtualCurrencies();
 		}
-		
 		public static List<VirtualGood> GetVirtualGoods() {
 			StoreUtils.LogDebug(TAG, "Trying to fetch goods");
-			List<VirtualGood> virtualGoods = new List<VirtualGood>();
-#if UNITY_ANDROID && !UNITY_EDITOR
-			AndroidJNI.PushLocalFrame(100);
-			using(AndroidJavaObject jniVirtualGoods = new AndroidJavaClass("com.soomla.store.data.StoreInfo").CallStatic<AndroidJavaObject>("getGoods")) {
-				for(int i=0; i<jniVirtualGoods.Call<int>("size"); i++) {
-					AndroidJNI.PushLocalFrame(100);
-					using(AndroidJavaObject jniGood = jniVirtualGoods.Call<AndroidJavaObject>("get", i)) {
-						virtualGoods.Add((VirtualGood)VirtualItem.factoryItemFromJNI(jniGood));
-					}
-					AndroidJNI.PopLocalFrame(IntPtr.Zero);
-				}
-			}
-			AndroidJNI.PopLocalFrame(IntPtr.Zero);
-#elif UNITY_IOS && !UNITY_EDITOR
-			IntPtr p = IntPtr.Zero;
-			int err = storeInfo_GetVirtualGoods(out p);
-				
-			IOS_ErrorCodes.CheckAndThrowException(err);
-			
-			string goodsJson = Marshal.PtrToStringAnsi(p);
-			Marshal.FreeHGlobal(p);
-			
-			StoreUtils.LogDebug(TAG, "Got json: " + goodsJson);
-			
-			JSONObject goodsArr = new JSONObject(goodsJson);
-			foreach(JSONObject obj in goodsArr.list) {
-				virtualGoods.Add((VirtualGood)VirtualItem.factoryItemFromJSONObject(obj));
-			}
-#endif
-			return virtualGoods;
+			return instance._getVirtualGoods();
 		}
-		
 		public static List<VirtualCurrencyPack> GetVirtualCurrencyPacks() {
 			StoreUtils.LogDebug(TAG, "Trying to fetch packs");
-			List<VirtualCurrencyPack> vcps = new List<VirtualCurrencyPack>();
-#if UNITY_ANDROID && !UNITY_EDITOR
-			AndroidJNI.PushLocalFrame(100);
-			using(AndroidJavaObject jniVirtualCurrencyPacks = new AndroidJavaClass("com.soomla.store.data.StoreInfo").CallStatic<AndroidJavaObject>("getCurrencyPacks")) {
-				for(int i=0; i<jniVirtualCurrencyPacks.Call<int>("size"); i++) {
-					using(AndroidJavaObject jnivcp = jniVirtualCurrencyPacks.Call<AndroidJavaObject>("get", i)) {
-						vcps.Add(new VirtualCurrencyPack(jnivcp));
-					}
-				}
-			}
-			AndroidJNI.PopLocalFrame(IntPtr.Zero);
-#elif UNITY_IOS && !UNITY_EDITOR
-			IntPtr p = IntPtr.Zero;
-			int err = storeInfo_GetVirtualCurrencyPacks(out p);
-				
-			IOS_ErrorCodes.CheckAndThrowException(err);
-			
-			string packsJson = Marshal.PtrToStringAnsi(p);
-			Marshal.FreeHGlobal(p);
-			
-			StoreUtils.LogDebug(TAG, "Got json: " + packsJson);
-			
-			JSONObject packsArr = new JSONObject(packsJson);
-			foreach(JSONObject obj in packsArr.list) {
-				vcps.Add(new VirtualCurrencyPack(obj));
-			}
-#endif
-			return vcps;
+			return instance._getVirtualCurrencyPacks();
 		}
-		
 		public static List<NonConsumableItem> GetNonConsumableItems() {
 			StoreUtils.LogDebug(TAG, "Trying to fetch noncons");
-			List<NonConsumableItem> nonConsumableItems = new List<NonConsumableItem>();
-#if UNITY_ANDROID && !UNITY_EDITOR
-			AndroidJNI.PushLocalFrame(100);
-			using(AndroidJavaObject jniNonConsumableItems = new AndroidJavaClass("com.soomla.store.data.StoreInfo").CallStatic<AndroidJavaObject>("getNonConsumableItems")) {
-				for(int i=0; i<jniNonConsumableItems.Call<int>("size"); i++) {
-					using(AndroidJavaObject jniNon = jniNonConsumableItems.Call<AndroidJavaObject>("get", i)) {
-						nonConsumableItems.Add(new NonConsumableItem(jniNon));
-					}
-				}
-			}
-			AndroidJNI.PopLocalFrame(IntPtr.Zero);
-#elif UNITY_IOS && !UNITY_EDITOR
-			IntPtr p = IntPtr.Zero;
-			int err = storeInfo_GetNonConsumableItems(out p);
-				
-			IOS_ErrorCodes.CheckAndThrowException(err);
-			
-			string nonConsumableJson = Marshal.PtrToStringAnsi(p);
-			Marshal.FreeHGlobal(p);
-			
-			StoreUtils.LogDebug(TAG, "Got json: " + nonConsumableJson);
-			
-			JSONObject nonConsArr = new JSONObject(nonConsumableJson);
-			foreach(JSONObject obj in nonConsArr.list) {
-				nonConsumableItems.Add(new NonConsumableItem(obj));
-			}
-#endif
-			return nonConsumableItems;
+			return instance._getNonConsumableItems();
 		}
-		
 		public static List<VirtualCategory> GetVirtualCategories() {
 			StoreUtils.LogDebug(TAG, "Trying to fetch categories");
-			List<VirtualCategory> virtualCategories = new List<VirtualCategory>();
-#if UNITY_ANDROID && !UNITY_EDITOR
-			AndroidJNI.PushLocalFrame(100);
-			using(AndroidJavaObject jniVirtualCategories = new AndroidJavaClass("com.soomla.store.data.StoreInfo").CallStatic<AndroidJavaObject>("getCategories")) {
-				for(int i=0; i<jniVirtualCategories.Call<int>("size"); i++) {
-					using(AndroidJavaObject jniCat = jniVirtualCategories.Call<AndroidJavaObject>("get", i)) {
-						virtualCategories.Add(new VirtualCategory(jniCat));
-					}
-				}
-			}
-			AndroidJNI.PopLocalFrame(IntPtr.Zero);
-#elif UNITY_IOS && !UNITY_EDITOR
-			IntPtr p = IntPtr.Zero;
-			int err = storeInfo_GetVirtualCategories(out p);
-				
-			IOS_ErrorCodes.CheckAndThrowException(err);
-			
-			string categoriesJson = Marshal.PtrToStringAnsi(p);
-			Marshal.FreeHGlobal(p);
-			
-			StoreUtils.LogDebug(TAG, "Got json: " + categoriesJson);
-			
-			JSONObject categoriesArr = new JSONObject(categoriesJson);
-			foreach(JSONObject obj in categoriesArr.list) {
-				virtualCategories.Add(new VirtualCategory(obj));
-			}
-#endif
-			return virtualCategories;
+			return instance._getVirtualCategories();
+		}
+
+		virtual protected VirtualItem _getItemByItemId(string itemId) {
+			return null;
+		}
+
+		virtual protected PurchasableVirtualItem _getPurchasableItemWithProductId(string productId) {
+			return null;
+		}
+
+		virtual protected VirtualCategory _getCategoryForVirtualGood(string goodItemId) {
+			return null;
+		}
+
+		virtual protected UpgradeVG _getFirstUpgradeForVirtualGood(string goodItemId) {
+			return null;
+		}
+
+		virtual protected UpgradeVG _getLastUpgradeForVirtualGood(string goodItemId) {
+			return null;
+		}
+
+		virtual protected List<UpgradeVG> _getUpgradesForVirtualGood(string goodItemId) {
+			return new List<UpgradeVG>();
+		}
+
+		virtual protected List<VirtualCurrency> _getVirtualCurrencies() {
+			return new List<VirtualCurrency>();
+		}
+
+		virtual protected List<VirtualGood> _getVirtualGoods() {
+			return new List<VirtualGood>();
+		}
+
+		virtual protected List<VirtualCurrencyPack> _getVirtualCurrencyPacks() {
+			return new List<VirtualCurrencyPack>();
+		}
+		
+		virtual protected List<NonConsumableItem> _getNonConsumableItems() {
+			return new List<NonConsumableItem>();
+		}
+
+		virtual protected List<VirtualCategory> _getVirtualCategories() {
+			return new List<VirtualCategory>();
 		}
 	}
 }
