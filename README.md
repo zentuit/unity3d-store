@@ -54,7 +54,7 @@ If you want to see full debug messages from android-store and ios-store you'll h
     - _Public Key_ - is the public key given to you from Google. (iOS doesn't have a public key).
     - _Soom Sec_ - is a special secret SOOMLA uses to increase your data protection.  
     **Choose both secrets wisely. You can't change them after you launch your game!**
-4. Create your own implementation of _IStoreAssets_ in order to describe your specific game's assets ([example](https://github.com/soomla/unity3d-store/blob/master/unity4.0/Assets/Examples/MuffinRush/MuffinRushAssets.cs)). Initialize _StoreController_ with the class you just created:
+4. Create your own implementation of _IStoreAssets_ in order to describe your specific game's assets ([example](https://github.com/soomla/unity3d-store/blob/master/Soomla/Assets/Examples/MuffinRush/MuffinRushAssets.cs)). Initialize _StoreController_ with the class you just created:
 
     ```cs
        StoreController.Initialize(new YourStoreAssetsImplementation());
