@@ -21,15 +21,15 @@
     if (self = [super init]) {
         [EventHandling observeAllEventsWithObserver:self withSelector:@selector(handleEvent:)];
     }
-    
+
     return self;
 }
 
 - (void)handleEvent:(NSNotification*)notification{
-	
+
 	if ([notification.name isEqualToString:EVENT_BILLING_NOT_SUPPORTED]) {
 	        UnitySendMessage("StoreEvents", "onBillingNotSupported", "");
-	} 
+	}
 	else if ([notification.name isEqualToString:EVENT_BILLING_SUPPORTED]) {
 	    UnitySendMessage("StoreEvents", "onBillingSupported", "");
 	}
@@ -74,7 +74,8 @@
     }
 	else if ([notification.name isEqualToString:EVENT_MARKET_PURCHASED]) {
         PurchasableVirtualItem* pvi = [notification.userInfo objectForKey:DICT_ELEMENT_PURCHASABLE];
-        UnitySendMessage("StoreEvents", "onMarketPurchase", [pvi.itemId UTF8String]);
+        NSString* purchaseToken = [notification.userInfo objectForKey:DICT_ELEMENT_TOKEN];
+        UnitySendMessage("StoreEvents", "onMarketPurchase", [[NSString stringWithFormat:@"%@#SOOM#[iOS Purchase no payload]#SOOM#%@", pvi.itemId, purchaseToken] UTF8String]);
     }
     else if ([notification.name isEqualToString:EVENT_MARKET_PURCHASE_STARTED]) {
 	    PurchasableVirtualItem* pvi = [notification.userInfo objectForKey:DICT_ELEMENT_PURCHASABLE];
