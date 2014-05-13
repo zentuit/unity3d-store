@@ -23,7 +23,7 @@ namespace Soomla {
 	/// Example Inventory: { currency_coin: 100, green_hat: 3, blue_hat: 5 }
 	/// Say a blue_hat costs 200 currency_coins.
 	/// Suppose that you have a user that wants to buy a blue_hat.
-	/// You'll probably call StoreInventory.buy("blue_hat").
+	/// You'll probably call <c>StoreInventory.buy("blue_hat")</c>.
 	/// An <c>InsufficientFundsException</c> will be thrown.
 	/// You can catch this exception in order to notify the user that he 
 	/// doesn't have enough coins to buy a blue_hat.

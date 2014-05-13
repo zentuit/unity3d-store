@@ -121,7 +121,7 @@ namespace Soomla {
 		}
 
 		/// <summary>
-		/// Handles an <c>onGoodUpgrade</c> event, which is fired when a specific <c>EquippableVG</c> has 
+		/// Handles an <c>onGoodUpgrade</c> event, which is fired when a specific <c>UpgradeVG</c> has 
 		/// been upgraded/downgraded.
 		/// </summary>
 		/// <param name="message">Message that contains information about the good that has been 

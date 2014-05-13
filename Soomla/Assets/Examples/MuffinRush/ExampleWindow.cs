@@ -5,8 +5,8 @@ using Soomla;
 
 namespace Soomla.Example {
 
-	public class ExampleWindow : MonoBehaviour
-	{
+	public class ExampleWindow : MonoBehaviour {
+
 		private static ExampleWindow instance = null;
 		
 		private GUIState guiState = GUIState.WELCOME;
@@ -25,7 +25,10 @@ namespace Soomla.Example {
 		}
 		
 		private static bool isVisible = false;
-		
+
+		/// <summary>
+		/// Initialize game state before the game starts. 
+		/// </summary>
 		void Awake(){
 			if(instance == null){ 	//making sure we only initialize one instance.
 				instance = this;
@@ -35,20 +38,25 @@ namespace Soomla.Example {
 			}
 			
 			//FONT
-			if(Mathf.Max(Screen.width, Screen.height) > 640){ //using max to be certain we have the longest side of the screen, even if we are in portrait.
+			if(Mathf.Max(Screen.width, Screen.height) > 640){ //using max to be certain we have the longest side of 
+															  //the screen, even if we are in portrait.
 				fontSuffix = "_2X"; //a nice suffix to show the fonts are twice as big as the original
 			}
 		}
 		
-		// Use this for initialization
+		/// <summary>
+		/// Start this instance.
+		/// Use this for initialization
+		/// </summary>
 		void Start () {
 			handler = new ExampleEventHandler();
 			
 			StoreController.Initialize(new MuffinRushAssets());
 
-			// Initialization of 'ExampleLocalStoreInfo' and some example usages in ExampleEventHandler.onStoreControllerInitialized
+			// Initialization of 'ExampleLocalStoreInfo' and some example usages in 
+			// ExampleEventHandler.onStoreControllerInitialized
 		}
-		
+
 		public static void OpenWindow(){
 			instance.guiState = GUIState.WELCOME;
 			isVisible = true;
@@ -57,6 +65,7 @@ namespace Soomla.Example {
 		public static void CloseWindow(){
 			isVisible = false;
 		}
+
 		// Update is called once per frame
 		void Update () {
 			if(isVisible){

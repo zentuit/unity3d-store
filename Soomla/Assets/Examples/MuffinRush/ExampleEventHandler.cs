@@ -1,13 +1,15 @@
 using System;
 using System.Collections.Generic;
 
-namespace Soomla.Example
-{
-	public class ExampleEventHandler
-	{
-		
-		public ExampleEventHandler ()
-		{
+namespace Soomla.Example {
+	
+	public class ExampleEventHandler {
+
+		/// <summary>
+		/// Constructor.
+		/// Subscribes to available events.
+		/// </summary>
+		public ExampleEventHandler () {
 			StoreEvents.OnMarketPurchase += onMarketPurchase;
 			StoreEvents.OnMarketRefund += onMarketRefund;
 			StoreEvents.OnItemPurchased += onItemPurchased;
@@ -30,7 +32,12 @@ namespace Soomla.Example
 			StoreEvents.OnIabServiceStopped += onIabServiceStopped;
 #endif
 		}
-		
+
+		/// <summary>
+		/// Ons the market purchase.
+		/// </summary>
+		/// <param name="pvi">Pvi.</param>
+		/// <param name="purchaseToken">Purchase token.</param>
 		public void onMarketPurchase(PurchasableVirtualItem pvi, string purchaseToken) {
 			
 		}
