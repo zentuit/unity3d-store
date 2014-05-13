@@ -1,30 +1,31 @@
-/*
- * Copyright (C) 2012 Soomla Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+/// Copyright (C) 2012-2014 Soomla Inc.
+///
+/// Licensed under the Apache License, Version 2.0 (the "License");
+/// you may not use this file except in compliance with the License.
+/// You may obtain a copy of the License at
+///
+///      http://www.apache.org/licenses/LICENSE-2.0
+///
+/// Unless required by applicable law or agreed to in writing, software
+/// distributed under the License is distributed on an "AS IS" BASIS,
+/// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+/// See the License for the specific language governing permissions and
+/// limitations under the License.
+
 using UnityEngine;
 using System.Runtime.InteropServices;
 using System;
 
-namespace Soomla
-{
+namespace Soomla {
 
 	/// <summary>
-	/// This class is the parent of all virtual items in the application.
+	/// This is the parent class of all virtual items in the application.
+	/// Almost every entity in your virtual economy will be a virtual item. There are many types
+	/// of virtual items, each one will extend this class. Each one of the various types extends
+	/// <c>VirtualItem</c> and adds its own behavior to it.
 	/// </summary>
-	public abstract class VirtualItem
-	{
+	public abstract class VirtualItem {
+
 #if UNITY_IOS && !UNITY_EDITOR
 		[DllImport ("__Internal")]
 		private static extern int storeAssets_Save(string type, string viJSON);
@@ -37,17 +38,11 @@ namespace Soomla
 		public string ItemId;
 		
 		/// <summary>
-		/// Initializes a new instance of the <see cref="com.soomla.unity.VirtualItem"/> class.
+		/// Constructor.
 		/// </summary>
-		/// <param name='name'> 
-		/// The name of the virtual item.
-		/// </param>
-		/// <param name='description'> 
-		/// The description of the virtual item. If you use SOOMLA's storefront, This will show up in the store in the description section.
-		/// </param>
-		/// <param name='itemId'>
-		/// The itemId of the virtual item.
-		/// </param>
+		/// <param name="name">Name.</param>
+		/// <param name="description">Description.</param>
+		/// <param name="itemId">Item id.</param>
 		protected VirtualItem (string name, string description, string itemId)
 		{
 			this.Name = name;
@@ -63,11 +58,10 @@ namespace Soomla
 		}
 #endif
 		/// <summary>
-		/// Initializes a new instance of the <see cref="com.soomla.unity.VirtualItem"/> class.
+		/// Constructor.
+		/// Generates an instance of <c>VirtualItem</c> from the given <c>JSONObject</c>.
 		/// </summary>
-		/// <param name='jsonItem'>
-		/// A JSONObject representation of the wanted <see cref="com.soomla.unity.VirtualItem"/>.
-		/// </param>
+		/// <param name="jsonItem">A JSONObject representation of the wanted <c>VirtualItem</c>.</param>
 		protected VirtualItem(JSONObject jsonItem) {
 			this.Name = jsonItem[JSONConsts.ITEM_NAME].str;
 			if (jsonItem[JSONConsts.ITEM_DESCRIPTION]) {
@@ -79,11 +73,9 @@ namespace Soomla
 		}
 		
 		/// <summary>
-		/// Converts the current <see cref="com.soomla.unity.VirtualItem"/> to a JSONObject.
+		/// Converts the current <c>VirtualItem</c> to a JSONObject.
 		/// </summary>
-		/// <returns>
-		/// A JSONObject representation of the current <see cref="com.soomla.unity.VirtualItem"/>.
-		/// </returns>
+		/// <returns>A <c>JSONObject</c> representation of the current <c>VirtualItem</c>.</returns>
 		public virtual JSONObject toJSONObject() {
 			JSONObject obj = new JSONObject(JSONObject.Type.OBJECT);
 			obj.AddField(JSONConsts.ITEM_NAME, this.Name);
@@ -92,7 +84,12 @@ namespace Soomla
 			
 			return obj;
 		}
-		
+
+		/// <summary>
+		/// Creates relevant virtual item according to given JSON object's className.
+		/// </summary>
+		/// <returns>The relevant item according to given JSON object's className.</returns>
+		/// <param name="jsonItem">Json item.</param>
 		public static VirtualItem factoryItemFromJSONObject(JSONObject jsonItem) {
 			string className = jsonItem["className"].str;
 			switch(className) {
@@ -150,6 +147,10 @@ namespace Soomla
 		}
 #endif
 
+		/// <summary>
+		/// Saves this instance according to type.
+		/// </summary>
+		/// <param name="type">type</param>
 		protected void save(string type) 
 		{
 			string viJSON = this.toJSONObject().print();
