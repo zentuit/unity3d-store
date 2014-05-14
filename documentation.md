@@ -35,13 +35,11 @@ SOOMLA is licensed under the Apache License. This copyright message must be incl
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- package com.soomla.store.domain;
-
 ```
 
 ##General Guidelines
 
-- A doc comment must precede a class, public/protected method declaration, constructor, or field.
+- A doc comment must precede a class, method declaration, constructor, or field.
 - For private methods, documentation comments are optional - if the method is non-trivial and complex, you should document it, otherwise leave it with no comments.
 - Do not write documentation for trivial getter and setter methods.
 - Do not write documentation for trivial fields.
