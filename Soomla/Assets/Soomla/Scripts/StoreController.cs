@@ -28,7 +28,7 @@ namespace Soomla
 			get {
 				if(_instance == null) {
 					#if UNITY_ANDROID && !UNITY_EDITOR
-					_instance = new StoreControllerAndroid;
+					_instance = new StoreControllerAndroid();
 					#elif UNITY_IOS && !UNITY_EDITOR
 					_instance = new StoreControllerIOS();
 					#else
