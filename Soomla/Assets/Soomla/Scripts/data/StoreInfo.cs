@@ -30,7 +30,7 @@ namespace Soomla
 	public class StoreInfo
 	{
 
-		protected const string TAG = "SOOMLA StoreInfo";
+		protected const string TAG = "SOOMLA StoreInfo"; // used for Log error messages
 
 		static StoreInfo _instance = null;
 		static StoreInfo instance {

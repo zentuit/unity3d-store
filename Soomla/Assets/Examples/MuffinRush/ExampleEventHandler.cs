@@ -7,7 +7,7 @@ namespace Soomla.Example {
 
 		/// <summary>
 		/// Constructor.
-		/// Subscribes to available events.
+		/// Subscribes to potential events.
 		/// </summary>
 		public ExampleEventHandler () {
 			StoreEvents.OnMarketPurchase += onMarketPurchase;
@@ -34,74 +34,140 @@ namespace Soomla.Example {
 		}
 
 		/// <summary>
-		/// Ons the market purchase.
+		/// Handles a market purchase event.
 		/// </summary>
-		/// <param name="pvi">Pvi.</param>
+		/// <param name="pvi">Purchasable virtual item.</param>
 		/// <param name="purchaseToken">Purchase token.</param>
 		public void onMarketPurchase(PurchasableVirtualItem pvi, string purchaseToken) {
 			
 		}
-		
+
+		/// <summary>
+		/// Handles a market refund event.
+		/// </summary>
+		/// <param name="pvi">Purchasable virtual item.</param>
 		public void onMarketRefund(PurchasableVirtualItem pvi) {
 
 		}
-		
+
+		/// <summary>
+		/// Handles an item purchase event. 
+		/// </summary>
+		/// <param name="pvi">Purchasable virtual item.</param>
 		public void onItemPurchased(PurchasableVirtualItem pvi) {
 
 		}
-		
+
+		/// <summary>
+		/// Handles a good equipped event.
+		/// </summary>
+		/// <param name="good">Equippable virtual good.</param>
 		public void onGoodEquipped(EquippableVG good) {
 			
 		}
-		
+
+		/// <summary>
+		/// Handles a good unequipped event.
+		/// </summary>
+		/// <param name="good">Equippable virtual good.</param>
 		public void onGoodUnequipped(EquippableVG good) {
 			
 		}
-		
+
+		/// <summary>
+		/// Handles a good upgraded event. 
+		/// </summary>
+		/// <param name="good">Virtual good that is being upgraded.</param>
+		/// <param name="currentUpgrade">The current upgrade that the given virtual 
+		/// good is being upgraded to.</param>
 		public void onGoodUpgrade(VirtualGood good, UpgradeVG currentUpgrade) {
 			
 		}
-		
+
+		/// <summary>
+		/// Hanles a billing supported event.
+		/// </summary>
 		public void onBillingSupported() {
 			
 		}
-		
+
+		/// <summary>
+		/// Hanles a billing NOT supported event.
+		/// </summary>
 		public void onBillingNotSupported() {
 			
 		}
-		
+
+		/// <summary>
+		/// Handles a market purchase started event. 
+		/// </summary>
+		/// <param name="pvi">Purchasable virtual item.</param>
 		public void onMarketPurchaseStarted(PurchasableVirtualItem pvi) {
 			
 		}
-		
+
+		/// <summary>
+		/// Handles an item purchase started event. 
+		/// </summary>
+		/// <param name="pvi">Purchasable virtual item.</param>
 		public void onItemPurchaseStarted(PurchasableVirtualItem pvi) {
 			
 		}
-		
+
+		/// <summary>
+		/// Handles an item purchase cancelled event. 
+		/// </summary>
+		/// <param name="pvi">Purchasable virtual item.</param>
 		public void onMarketPurchaseCancelled(PurchasableVirtualItem pvi) {
 			
 		}
-		
+
+		/// <summary>
+		/// Handles an unexpected error in store event.
+		/// </summary>
+		/// <param name="message">Error message.</param>
 		public void onUnexpectedErrorInStore(string message) {
 			
 		}
-		
+
+		/// <summary>
+		/// Handles a currency balance changed event.
+		/// </summary>
+		/// <param name="virtualCurrency">Virtual currency whose balance has changed.</param>
+		/// <param name="balance">Balance of the given virtual currency.</param>
+		/// <param name="amountAdded">Amount added to the balance.</param>
 		public void onCurrencyBalanceChanged(VirtualCurrency virtualCurrency, int balance, int amountAdded) {
 			ExampleLocalStoreInfo.UpdateBalances();
 		}
-		
+
+		/// <summary>
+		/// Handles a good balance changed event.
+		/// </summary>
+		/// <param name="good">Virtual good whose balance has changed.</param>
+		/// <param name="balance">Balance.</param>
+		/// <param name="amountAdded">Amount added.</param>
 		public void onGoodBalanceChanged(VirtualGood good, int balance, int amountAdded) {
 			ExampleLocalStoreInfo.UpdateBalances();
 		}
-		
+
+		/// <summary>
+		/// Handles a restore Transactions process started event.
+		/// </summary>
 		public void onRestoreTransactionsStarted() {
 			
 		}
-		
+
+		/// <summary>
+		/// Handles a restore transactions process finished event. 
+		/// </summary>
+		/// <param name="success">If set to <c>true</c> success.</param>
 		public void onRestoreTransactionsFinished(bool success) {
 			
 		}
-		
+
+		/// <summary>
+		/// Handles a store controller initialized event.
+		/// </summary>
 		public void onStoreControllerInitialized() {
 			ExampleLocalStoreInfo.Init();
 			

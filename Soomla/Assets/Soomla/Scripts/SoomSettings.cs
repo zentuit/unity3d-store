@@ -19,6 +19,10 @@ using UnityEditor;
 
 [InitializeOnLoad]
 #endif
+
+/// <summary>
+/// This class holds the store's configurations. 
+/// </summary>
 public class SoomSettings : ScriptableObject
 {
 	public static string AND_PUB_KEY_DEFAULT = "YOUR GOOGLE PLAY PUBLIC KEY";
