@@ -127,9 +127,9 @@ namespace Soomla
 		/// <summary>
 		/// Gets the item with the given <c>itemId</c>.
 		/// </summary>
-		/// <returns>Item with the given id.</returns>
 		/// <param name="itemId">Item id.</param>
 		/// <exception cref="VirtualItemNotFoundException">Exception is thrown if item is not found.</exception>
+		/// <returns>Item with the given id.</returns>
 		public static VirtualItem GetItemByItemId(string itemId) {
 			StoreUtils.LogDebug(TAG, "Trying to fetch an item with itemId: " + itemId);
 			return instance._getItemByItemId(itemId);
@@ -138,9 +138,9 @@ namespace Soomla
 		/// <summary>
 		/// Gets the purchasable item with the given <c>productId</c>.
 		/// </summary>
-		/// <returns>Purchasable virtual item with the given id.</returns>
 		/// <param name="productId">Product id.</param>
 		/// <exception cref="VirtualItemNotFoundException">Exception is thrown if item is not found.</exception>
+		/// <returns>Purchasable virtual item with the given id.</returns>
 		public static PurchasableVirtualItem GetPurchasableItemWithProductId(string productId) {
 			return instance._getPurchasableItemWithProductId(productId);
 		}
@@ -148,9 +148,9 @@ namespace Soomla
 		/// <summary>
 		/// Gets the category that the virtual good with the given <c>goodItemId</c> belongs to.
 		/// </summary>
-		/// <returns>Category that the item with given id belongs to.</returns>
 		/// <param name="goodItemId">Item id.</param>
 		/// <exception cref="VirtualItemNotFoundException">Exception is thrown if category is not found.</exception>
+		/// <returns>Category that the item with given id belongs to.</returns>
 		public static VirtualCategory GetCategoryForVirtualGood(string goodItemId) {
 			return instance._getCategoryForVirtualGood(goodItemId);
 		}
@@ -158,8 +158,8 @@ namespace Soomla
 		/// <summary>
 		/// Gets the first upgrade for virtual good with the given <c>goodItemId</c>.
 		/// </summary>
-		/// <returns>The first upgrade for virtual good with the given id.</returns>
 		/// <param name="goodItemId">Item id.</param>
+		/// <returns>The first upgrade for virtual good with the given id.</returns>
 		public static UpgradeVG GetFirstUpgradeForVirtualGood(string goodItemId) {
 			return instance._getFirstUpgradeForVirtualGood(goodItemId);
 		}
@@ -167,8 +167,8 @@ namespace Soomla
 		/// <summary>
 		/// Gets the last upgrade for the virtual good with the given <c>goodItemId</c>.
 		/// </summary>
-		/// <returns>last upgrade for virtual good with the given id</returns>
 		/// <param name="goodItemId">item id</param>
+		/// <returns>last upgrade for virtual good with the given id</returns>
 		public static UpgradeVG GetLastUpgradeForVirtualGood(string goodItemId) {
 			return instance._getLastUpgradeForVirtualGood(goodItemId);
 		}
@@ -176,8 +176,8 @@ namespace Soomla
 		/// <summary>
 		/// Gets all the upgrades for the virtual good with the given <c>goodItemId</c>.
 		/// </summary>
-		/// <returns>All upgrades for virtual good with the given id.</returns>
 		/// <param name="goodItemId">Item id.</param>
+		/// <returns>All upgrades for virtual good with the given id.</returns>
 		public static List<UpgradeVG> GetUpgradesForVirtualGood(string goodItemId) {
 			StoreUtils.LogDebug(TAG, "Trying to fetch upgrades for " + goodItemId);
 			return instance._getUpgradesForVirtualGood(goodItemId);

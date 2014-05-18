@@ -57,20 +57,19 @@ Use `<summary></summary>` for descriptions of classes, method, and fields.
 /// Does something ...
 /// </summary>
 ```
-- `<returns>`
-Use `<returns></returns>` for the return value of a method.
-```
-/// <returns>
-/// Description of the return value of this method.
-/// </returns>
-```
-
 - `<param>`
 Use `<param></param>` for each parameter of a method. Notice that the param tag includes the attribute 'name'.
 ```
 /// <param name='productId'>
 /// The Id of the current item in the mobile market.
 /// </param>
+```
+- `<returns>`
+Use `<returns></returns>` for the return value of a method.
+```
+/// <returns>
+/// Description of the return value of this method.
+/// </returns>
 ```
 - `<exception>`
 Use the `<exception></exception>` tags to document any exceptions the method may throw. The exception tag includes the attribute 'cref', which should be the name of the exception.
@@ -86,7 +85,6 @@ Use `<see>` to specify a hyperlink. The see tag is usually used inline and inclu
 /// Initializes <see cref="com.soomla.unity.MarketItem"/> class.
 /// </summary>
 ```
-
 - `<c>`
 Use the `<c>` to indicate code within text.
 ```
@@ -153,8 +151,8 @@ Example:
 /// <summary>
 /// Retrieves the balance of the virtual item with the given <c>itemId</c>.
 /// </summary>
-/// <returns>Balance of the virtual item with the given item id.</returns>
 /// <param name="itemId">Id of the virtual item to be fetched.</param>
+/// <returns>Balance of the virtual item with the given item id.</returns>
 /// <exception cref="VirtualItemNotFoundException">Thrown if the item is not found.</exception>
 public static int GetItemBalance(string itemId) {
     ...

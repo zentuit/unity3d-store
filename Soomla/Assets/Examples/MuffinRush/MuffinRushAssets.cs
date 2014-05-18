@@ -1,14 +1,32 @@
+/// Copyright (C) 2012-2014 Soomla Inc.
+///
+/// Licensed under the Apache License, Version 2.0 (the "License");
+/// you may not use this file except in compliance with the License.
+/// You may obtain a copy of the License at
+///
+///      http://www.apache.org/licenses/LICENSE-2.0
+///
+/// Unless required by applicable law or agreed to in writing, software
+/// distributed under the License is distributed on an "AS IS" BASIS,
+/// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+/// See the License for the specific language governing permissions and
+/// limitations under the License.
+
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
 namespace Soomla.Example {
+
+	/// <summary>
+	/// This class defines our game's economy, which includes virtual goods, virtual currencies
+	/// and currency packs, virtual categories, and non-consumable items.
+	/// </summary>
 	public class MuffinRushAssets : IStoreAssets{
 
 		/// <summary>
 		/// see parent.
 		/// </summary>
-		/// <returns>see parent.</returns>
 		public int GetVersion() {
 			return 0;
 		}
@@ -16,7 +34,6 @@ namespace Soomla.Example {
 		/// <summary>
 		/// see parent.
 		/// </summary>
-		/// <returns>see parent.</returns>
 		public VirtualCurrency[] GetCurrencies() {
 			return new VirtualCurrency[]{MUFFIN_CURRENCY};
 		}
@@ -24,7 +41,6 @@ namespace Soomla.Example {
 		/// <summary>
 		/// see parent.
 		/// </summary>
-		/// <returns>see parent.</returns>
 	    public VirtualGood[] GetGoods() {
 			return new VirtualGood[] {MUFFINCAKE_GOOD, PAVLOVA_GOOD,CHOCLATECAKE_GOOD, CREAMCUP_GOOD};
 		}
@@ -32,7 +48,6 @@ namespace Soomla.Example {
 		/// <summary>
 		/// see parent.
 		/// </summary>
-		/// <returns>see parent.</returns>
 	    public VirtualCurrencyPack[] GetCurrencyPacks() {
 			return new VirtualCurrencyPack[] {TENMUFF_PACK, FIFTYMUFF_PACK, FOURHUNDMUFF_PACK, THOUSANDMUFF_PACK};
 		}
@@ -40,7 +55,6 @@ namespace Soomla.Example {
 		/// <summary>
 		/// see parent.
 		/// </summary>
-		/// <returns>see parent.</returns>
 	    public VirtualCategory[] GetCategories() {
 			return new VirtualCategory[]{GENERAL_CATEGORY};
 		}
@@ -48,7 +62,6 @@ namespace Soomla.Example {
 		/// <summary>
 		/// see parent.
 		/// </summary>
-		/// <returns>see parent.</returns>
 	    public NonConsumableItem[] GetNonConsumableItems() {
 			return new NonConsumableItem[]{NO_ADDS_NONCONS};
 		}

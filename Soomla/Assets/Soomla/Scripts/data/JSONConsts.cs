@@ -54,7 +54,7 @@ namespace Soomla {
 	    public const string VGP_GOOD_ITEMID          = "good_itemId";
 	    public const string VGP_GOOD_AMOUNT          = "good_amount";
 	
-	    // VGU = UpgradeVG
+	    /// VGU = UpgradeVG
 	    public const string VGU_NEXT_ITEMID          = "next_itemId";
 	    public const string VGU_GOOD_ITEMID          = "good_itemId";
 	    public const string VGU_PREV_ITEMID          = "prev_itemId";
@@ -62,7 +62,7 @@ namespace Soomla {
 	    public const string CURRENCYPACK_CURRENCYAMOUNT = "currency_amount";
 	    public const string CURRENCYPACK_CURRENCYITEMID = "currency_itemId";
 	
-	    // Purchase Type
+	    /// Purchase Type
 	    public const string PURCHASABLE_ITEM         = "purchasableItem";
 	
 	    public const string PURCHASE_TYPE            = "purchaseType";

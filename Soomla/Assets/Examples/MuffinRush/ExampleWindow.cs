@@ -1,3 +1,17 @@
+/// Copyright (C) 2012-2014 Soomla Inc.
+///
+/// Licensed under the Apache License, Version 2.0 (the "License");
+/// you may not use this file except in compliance with the License.
+/// You may obtain a copy of the License at
+///
+///      http://www.apache.org/licenses/LICENSE-2.0
+///
+/// Unless required by applicable law or agreed to in writing, software
+/// distributed under the License is distributed on an "AS IS" BASIS,
+/// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+/// See the License for the specific language governing permissions and
+/// limitations under the License.
+
 using UnityEngine;
 using System.Collections;
 using System;
@@ -5,6 +19,9 @@ using Soomla;
 
 namespace Soomla.Example {
 
+	/// <summary>
+	/// This class contains functions that initialize the game and that display the different screens of the game.
+	/// </summary>
 	public class ExampleWindow : MonoBehaviour {
 
 		private static ExampleWindow instance = null;
@@ -27,7 +44,7 @@ namespace Soomla.Example {
 		private static bool isVisible = false;
 
 		/// <summary>
-		/// Initialize game state before the game starts. 
+		/// Initializes the game state before the game starts. 
 		/// </summary>
 		void Awake(){
 			if(instance == null){ 	//making sure we only initialize one instance.
@@ -38,15 +55,15 @@ namespace Soomla.Example {
 			}
 			
 			//FONT
-			if(Mathf.Max(Screen.width, Screen.height) > 640){ //using max to be certain we have the longest side of 
-															  //the screen, even if we are in portrait.
+			//using max to be certain we have the longest side of the screen, even if we are in portrait.
+			if(Mathf.Max(Screen.width, Screen.height) > 640){ 
 				fontSuffix = "_2X"; //a nice suffix to show the fonts are twice as big as the original
 			}
 		}
 		
 		/// <summary>
-		/// Start this instance.
-		/// Use this for initialization
+		/// Starts this instance.
+		/// Use this for initialization.
 		/// </summary>
 		void Start () {
 			handler = new ExampleEventHandler();
@@ -57,16 +74,25 @@ namespace Soomla.Example {
 			// ExampleEventHandler.onStoreControllerInitialized
 		}
 
+		/// <summary>
+		/// Sets the window to open, and sets the GUI state to welcome. 
+		/// </summary>
 		public static void OpenWindow(){
 			instance.guiState = GUIState.WELCOME;
 			isVisible = true;
 		}
-		
+
+		/// <summary>
+		/// Sets the window to closed. 
+		/// </summary>
 		public static void CloseWindow(){
 			isVisible = false;
 		}
 
-		// Update is called once per frame
+		/// <summary>
+		/// Implements the game behavior of MuffinRush. 
+		/// Overrides the superclass function in order to provide functionality for our game. 
+		/// </summary>
 		void Update () {
 			if(isVisible){
 				//code to be able to scroll without the scrollbars.
@@ -91,12 +117,14 @@ namespace Soomla.Example {
 				}
 			}
 		}
-		
+
+		/// <summary>
+		/// Calls the relevant function to display the correct screen of the game.
+		/// </summary>
 		void OnGUI(){
 			if(!isVisible){
 				return;
 			}
-			
 			//GUI.skin.verticalScrollbar.fixedWidth = 0;
 			//GUI.skin.verticalScrollbar.fixedHeight = 0;
 			//GUI.skin.horizontalScrollbar.fixedWidth = 0;
@@ -114,6 +142,9 @@ namespace Soomla.Example {
 			}	
 		}
 	
+		/// <summary>
+		/// Displays the welcome screen of the game. 
+		/// </summary>
 		void welcomeScreen()
 		{
 			//drawing background, just using a white pixel here
@@ -142,6 +173,9 @@ namespace Soomla.Example {
 			GUI.skin.label.alignment = backupAlignment;
 		}
 	
+		/// <summary>
+		/// Display the goods screen of the game's store. 
+		/// </summary>
 		void goodsScreen()
 		{
 			//white background
@@ -225,6 +259,9 @@ namespace Soomla.Example {
 			GUI.DrawTexture(new Rect(Screen.width*5f/7f-width/2f,Screen.height*7f/8f+borderSize,width,buttonHeight),(Texture2D)Resources.Load("SoomlaStore/images/GetMore"));
 		}
 	
+		/// <summary>
+		/// Displays the currencies screen of the game's store. 
+		/// </summary>
 		void currencyScreen()
 		{
 			//white background

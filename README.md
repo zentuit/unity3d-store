@@ -15,12 +15,12 @@ unity3d-store
 
 **October 3rd, 2013:** iOS Server Side Verification is now implemented into unity3d-store. The server is a complimentary server provided by [SOOMLA](http://soom.la) to help you get your in-game purchases a bit more secured. This feature is not enabled by default. In order to enable Server Side verification go to the Soomla prefab and set  **ios Server Side Verification -> true**.
 
-The current virtual economny model is called **modelV3**. Want to learn more about it? Try these:   
+The current virtual economy model is called **modelV3**. Want to learn more about it? Try these:   
 * [Economy Model Objects](https://github.com/soomla/unity3d-store/wiki/Economy-Model-Objects)  
 * [Handling Store Operations](https://github.com/soomla/unity3d-store/wiki/Handling-Store-Operations)
 (The same model objects from android-store exist in unity3d-store)
 
-The unity3d-store is the Unity3D flavour of The SOOMLA Project. This project uses [android-store](https://github.com/soomla/android-store) and [ios-store](https://github.com/soomla/ios-store) in order to provide game developers with in-app billing for their **Unity3D** projects.
+The unity3d-store is the Unity3D flavor of The SOOMLA Project. This project uses [android-store](https://github.com/soomla/android-store) and [ios-store](https://github.com/soomla/ios-store) in order to provide game developers with in-app billing for their **Unity3D** projects.
 
 >If you also want to create a **Storefront** you can do that using SOOMLA's [In-App Purchase Store Designer](http://soom.la).
 
@@ -159,11 +159,11 @@ The on-device storage is encrypted and kept in a SQLite database. SOOMLA is prep
 Event Handling
 ---
 
-SOOMLA lets you subscribe to store events, get notified and implement your own application specific behaviour to those events.
+SOOMLA lets you subscribe to store events, get notified and implement your own application specific behavior to those events.
 
-> Your behaviour is an addition to the default behaviour implemented by SOOMLA. You don't replace SOOMLA's behaviour.
+> Your behavior is an addition to the default behavior implemented by SOOMLA. You don't replace SOOMLA's behavior.
 
-The 'Events' class is where all event go through. To handle various events, just add your specific behaviour to the delegates in the Events class.
+The 'Events' class is where all event go through. To handle various events, just add your specific behavior to the delegates in the Events class.
 
 For example, if you want to 'listen' to a MarketPurchase event:
 
@@ -194,7 +194,14 @@ Contribution
 
 We want you!
 
-Fork -> Clone -> Implement -> Test -> Pull-Request. We have great RESPECT for contributors.
+Fork -> Clone -> Implement -> Insert Comments -> Test -> Pull-Request. 
+
+We have great RESPECT for contributors.
+
+Code Documentation
+---
+
+android-store follows strict code documentation conventions. If you would like to contribute please read our [Documentation Guidelines](https://github.com/soomla/unity3d-store/blob/master/documentation.md) and follow them. Clear, consistent  comments will make our code easy to understand.
 
 SOOMLA, Elsewhere ...
 ---
@@ -205,7 +212,7 @@ SOOMLA, Elsewhere ...
 
 License
 ---
-MIT License. Copyright (c) 2012 SOOMLA. http://project.soom.la
-+ http://www.opensource.org/licenses/MIT
+Apache License. Copyright (c) 2012-2014 SOOMLA. http://project.soom.la
++ http://opensource.org/licenses/Apache-2.0
 
 

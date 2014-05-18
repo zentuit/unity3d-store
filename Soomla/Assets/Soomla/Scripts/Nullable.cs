@@ -23,5 +23,3 @@ public class Nullable {
 		return (object)o != null;
 	}
 }
-
-

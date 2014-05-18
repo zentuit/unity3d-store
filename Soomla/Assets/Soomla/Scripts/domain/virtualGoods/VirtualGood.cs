@@ -33,10 +33,10 @@ namespace Soomla {
 		/// <summary>
 		/// Constructor.
 		/// </summary>
-		/// <param name="name">Name.</param>
-		/// <param name="description">Description.</param>
-		/// <param name="itemId">Item identifier.</param>
-		/// <param name="purchaseType">Purchase type.</param>
+		/// <param name="name">see parent.</param>
+		/// <param name="description">see parent.</param>
+		/// <param name="itemId">see parent.</param>
+		/// <param name="purchaseType">see parent.</param>
 		public VirtualGood(string name, string description, string itemId, PurchaseType purchaseType)
 			: base(name, description, itemId, purchaseType)
 		{

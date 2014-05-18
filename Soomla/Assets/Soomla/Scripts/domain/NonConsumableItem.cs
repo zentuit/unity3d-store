@@ -19,7 +19,7 @@ namespace Soomla {
 
 	/// <summary>
 	/// A representation of a non-consumable item in the Market. These kinds of items are bought by the
-	/// user once and kept for him forever.
+	/// user once and kept for him/her forever.
 	/// 
 	/// Don't be confused: this is not a Lifetime <c>LifetimeVG</c>, it's a MANAGED item in
 	/// the Market. This means that the product can be purchased only once per user (such as a new level

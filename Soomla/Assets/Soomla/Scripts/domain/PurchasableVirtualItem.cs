@@ -107,10 +107,8 @@ namespace Soomla {
 	            } else if(PurchaseType is PurchaseWithVirtualItem) {
 	                purchasableObj.AddField(JSONConsts.PURCHASE_TYPE, JSONConsts.PURCHASE_TYPE_VI);
 	
-	                purchasableObj.AddField(JSONConsts.PURCHASE_VI_ITEMID, 
-					                        ((PurchaseWithVirtualItem) PurchaseType).ItemId);
-	                purchasableObj.AddField(JSONConsts.PURCHASE_VI_AMOUNT, 
-					                        ((PurchaseWithVirtualItem) PurchaseType).Amount);
+	                purchasableObj.AddField(JSONConsts.PURCHASE_VI_ITEMID, ((PurchaseWithVirtualItem) PurchaseType).ItemId);
+	                purchasableObj.AddField(JSONConsts.PURCHASE_VI_AMOUNT, ((PurchaseWithVirtualItem) PurchaseType).Amount);
 	            }
 	
 	            jsonObject.AddField(JSONConsts.PURCHASABLE_ITEM, purchasableObj);

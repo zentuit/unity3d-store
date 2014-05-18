@@ -19,7 +19,9 @@ using System.Runtime.InteropServices;
 namespace Soomla
 {
 	/// <summary>
-	/// You can use this class to purchase products from the native phone market, buy virtual goods, and do many other store related operations.
+	/// This class holds the basic assets needed to operate the Store.
+	/// You can use it to purchase products from the mobile store.
+	/// This is the only class you need to initialize in order to use the SOOMLA SDK.
 	/// </summary>
 	public class StoreController
 	{
@@ -42,9 +44,8 @@ namespace Soomla
 		/// <summary>
 		/// Initializes the SOOMLA SDK.
 		/// </summary>
-		/// <param name="storeAssets">your game's economy</param>
-		/// <exception cref="ExitGUIException"> 
-		/// Thrown if customSecret or soomSec is missing or has not been changed.
+		/// <param name="storeAssets">Your game's economy.</param>
+		/// <exception cref="ExitGUIException">Thrown if customSecret or soomSec is missing or has not been changed.
 		/// </exception>
 		public static void Initialize(IStoreAssets storeAssets) {
 			if (string.IsNullOrEmpty(SoomSettings.CustomSecret)) {
@@ -74,7 +75,7 @@ namespace Soomla
 		/// <summary>
 		/// Starts a purchase process in the market.
 		/// </summary>
-		/// <param name="productId">id of the item to buy</param>
+		/// <param name="productId">id of the item to buy.</param>
 		public static void BuyMarketItem(string productId) { 
 			instance._buyMarketItem(productId); 
 		}
@@ -90,7 +91,7 @@ namespace Soomla
 		}
 
 		/// <summary>
-		/// Queries the Market's inventory.
+		/// Initiates the restore transactions process. 
 		/// </summary>
 		public static void RestoreTransactions() { 
 			instance._restoreTransactions();	

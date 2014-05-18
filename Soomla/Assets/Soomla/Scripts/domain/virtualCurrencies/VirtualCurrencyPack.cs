@@ -38,12 +38,12 @@ namespace Soomla{
 		/// <summary>
 		/// Constructor. 
 		/// </summary>
-		/// <param name="name">Name.</param>
-		/// <param name="description">Description.</param>
-		/// <param name="itemId">Item identifier.</param>
-		/// <param name="currencyAmount">Currency amount.</param>
-		/// <param name="currencyItemId">Currency item identifier.</param>
-		/// <param name="purchaseType">Purchase type.</param>
+		/// <param name="name">see parent.</param>
+		/// <param name="description">see parent.</param>
+		/// <param name="itemId">see parent.</param>
+		/// <param name="currencyAmount">The amount of currency in the pack.</param>
+		/// <param name="currencyItemId">The item id of the currency associated with this pack.</param>
+		/// <param name="purchaseType">see parent.</param>
 		public VirtualCurrencyPack(string name, string description, string itemId, int currencyAmount, string currencyItemId, PurchaseType purchaseType)
 			: base(name, description, itemId, purchaseType)
 		{

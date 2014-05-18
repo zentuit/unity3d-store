@@ -64,8 +64,8 @@ namespace Soomla
 		/// <summary>
 		/// Retrieves the balance of the virtual item with the given <c>itemId</c>.
 		/// </summary>
-		/// <returns>Balance of the virtual item with the given item id.</returns>
 		/// <param name="itemId">Id of the virtual item to be fetched.</param>
+		/// <returns>Balance of the virtual item with the given item id.</returns>
 		/// <exception cref="VirtualItemNotFoundException">Thrown if the item is not found.</exception>
 		public static int GetItemBalance(string itemId) {
 			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY Calling GetItemBalance with: " + itemId);
@@ -74,7 +74,7 @@ namespace Soomla
 
 		/// <summary>
 		/// Gives your user the given amount of the virtual item with the given <c>itemId</c>.
-		/// For example, when your user plays your game for the first time you GIVE him 1000 gems.
+		/// For example, when your user plays your game for the first time you GIVE him/her 1000 gems.
 		///
 		/// NOTE: This action is different than buy -
 		/// You use <c>give(int amount)</c> to give your user something for free.
@@ -90,7 +90,7 @@ namespace Soomla
 
 		/// <summary>
 		/// Takes from your user the given amount of the virtual item with the given <c>itemId</c>.
-		/// For example, when your user requests a refund, you need to TAKE the item he is returning from him.
+		/// For example, when your user requests a refund, you need to TAKE the item he is returning from him/her.
 		/// </summary>
 		/// <param name="itemId">Item identifier.</param>
 		/// <param name="amount">Amount.</param>
@@ -141,8 +141,8 @@ namespace Soomla
 		/// <summary>
 		/// Checks if the virtual good with the given <c>goodItemId</c> is currently equipped.
 		/// </summary>
-		/// <returns>True if the virtual good is equipped, false otherwise.</returns>
 		/// <param name="goodItemId">Id of the virtual good who we want to know if is equipped.</param>
+		/// <returns>True if the virtual good is equipped, false otherwise.</returns>
 		/// <exception cref="VirtualItemNotFoundException">Thrown if the item is not found.</exception>
 		public static bool IsVirtualGoodEquipped(string goodItemId) {
 			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY Calling IsVirtualGoodEquipped with: " + goodItemId);
@@ -161,8 +161,8 @@ namespace Soomla
 		/// 4. <c>UpgradeVG</c> for strength 'level 3'.
 		/// In the example, this function will retrieve the upgrade level for "strength" (1, 2, or 3).
 		/// </summary>
-		/// <returns>The good upgrade level.</returns>
 		/// <param name="goodItemId">Good item identifier.</param>
+		/// <returns>The good upgrade level.</returns>
 		/// <exception cref="VirtualItemNotFoundException">Thrown if the item is not found.</exception>
 		public static int GetGoodUpgradeLevel(string goodItemId) {
 			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY Calling GetGoodUpgradeLevel with: " + goodItemId);
@@ -172,8 +172,8 @@ namespace Soomla
 		/// <summary>
 		/// Retrieves the current upgrade of the good with the given id.
 		/// </summary>
-		/// <returns>The good's current upgrade.</returns>
 		/// <param name="goodItemId">Id of the good whose upgrade we want to fetch. </param>
+		/// <returns>The good's current upgrade.</returns>
 		/// <exception cref="VirtualItemNotFoundException">Thrown if the item is not found.</exception>
 		public static string GetGoodCurrentUpgrade(string goodItemId) {
 			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY Calling GetGoodCurrentUpgrade with: " + goodItemId);
@@ -237,8 +237,8 @@ namespace Soomla
 		/// <summary>
 		/// Checks if the non-consumable with the given <c>nonConsItemId</c> exists.
 		/// </summary>
-		/// <returns>True if non-consumable item with nonConsItemId exists, false otherwise.</returns>
 		/// <param name="nonConsItemId">Id of the item to check if exists.</param>
+		/// <returns>True if non-consumable item with nonConsItemId exists, false otherwise.</returns>
 		/// <exception cref="VirtualItemNotFoundException">Thrown if the item is not found.</exception>
 		public static bool NonConsumableItemExists(string nonConsItemId) {
 			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY Calling NonConsumableItemExists with: " + nonConsItemId);
