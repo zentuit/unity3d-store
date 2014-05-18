@@ -1,5 +1,7 @@
 package com.soomla.unity;
 
+import android.text.TextUtils;
+
 import com.soomla.store.BusProvider;
 import com.soomla.store.StoreUtils;
 import com.soomla.store.domain.MarketItem;
@@ -67,9 +69,12 @@ public class EventHandler {
 
     @Subscribe
     public void onGoodUpgrade(GoodUpgradeEvent goodUpgradeEvent) {
+        String goodItemId = goodUpgradeEvent.getGood().getItemId();
+        String upgradeItemId = goodUpgradeEvent.getCurrentUpgrade().getItemId();
+        String message = goodItemId;
+
         UnityPlayer.UnitySendMessage("StoreEvents", "onGoodUpgrade",
-                goodUpgradeEvent.getGood().getItemId()  + "#SOOM#" +
-                goodUpgradeEvent.getCurrentUpgrade().getItemId());
+                goodItemId + (TextUtils.isEmpty(upgradeItemId)? "" : ("#SOOM#" + upgradeItemId)));
     }
 
     @Subscribe

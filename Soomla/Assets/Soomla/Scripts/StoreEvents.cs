@@ -74,7 +74,10 @@ namespace Soomla {
 			string[] vars = Regex.Split(message, "#SOOM#");
 
 			VirtualGood vg = (VirtualGood)StoreInfo.GetItemByItemId(vars[0]);
-			UpgradeVG vgu = (UpgradeVG)StoreInfo.GetItemByItemId(vars[1]);
+			UpgradeVG vgu = null;
+			if (vars.Length > 1) {
+				vgu = (UpgradeVG)StoreInfo.GetItemByItemId(vars[1]);
+		  }
 			StoreEvents.OnGoodUpgrade(vg, vgu);
 		}
 
