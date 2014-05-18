@@ -201,7 +201,7 @@ We have great RESPECT for contributors.
 Code Documentation
 ---
 
-android-store follows strict code documentation conventions. If you would like to contribute please read our [Documentation Guidelines](https://github.com/soomla/unity3d-store/blob/master/documentation.md) and follow them. Clear, consistent  comments will make our code easy to understand.
+android-store follows strict code documentation conventions. If you would like to contribute please read our [Documentation Guidelines](https://github.com/soomla/unity3d-store/tree/master/documentation.md) and follow them. Clear, consistent  comments will make our code easy to understand.
 
 SOOMLA, Elsewhere ...
 ---
