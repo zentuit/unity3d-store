@@ -1,35 +1,38 @@
-/*
- * Copyright (C) 2012 Soomla Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+/// Copyright (C) 2012-2014 Soomla Inc.
+///
+/// Licensed under the Apache License, Version 2.0 (the "License");
+/// you may not use this file except in compliance with the License.
+/// You may obtain a copy of the License at
+///
+///      http://www.apache.org/licenses/LICENSE-2.0
+///
+/// Unless required by applicable law or agreed to in writing, software
+/// distributed under the License is distributed on an "AS IS" BASIS,
+/// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+/// See the License for the specific language governing permissions and
+/// limitations under the License.
+
 using UnityEngine;
 using System.Collections;
 
-namespace Soomla{
+namespace Soomla {
 
-/**
- * This class represents an item in the mobile market (App Store, Google Play ...).
- * Every PurchasableVirtualItem with PurchaseType of PurchaseWithMarket has an instance of this class which is a
- * representation of the same currency pack as an item on the mobile market.
- */
 	/// <summary>
-	/// This class represents an item in the mobile market.
-	/// Every PurchasableVirtualItem with PurchaseType of PurchaseWithMarket has an instance of this class which is a
-	/// representation of the same currency pack as an item on the mobile market.
+	/// This class represents an item in the market.
+	/// <c>MarketItem</c> is only used for <c>PurchaseWithMarket</c> purchase type.
 	/// </summary>
 	public class MarketItem {
-		
+
+		/// <summary
+		/// Each product in the catalog can be MANAGED, UNMANAGED, or SUBSCRIPTION.
+		/// MANAGED means that the product can be purchased only once per user (such as a new level in
+		/// a game). This purchase is remembered by the Market and can be restored if this
+		/// application is uninstalled and then re-installed.
+		/// UNMANAGED is used for products that can be used up and purchased multiple times (such as
+		/// "gold coins"). It is up to the application to keep track of UNMANAGED products for the user.
+		/// SUBSCRIPTION is just like MANAGED except that the user gets charged periodically (monthly
+		/// or yearly).
+		/// </summary>
 		public enum Consumable{
 			NONCONSUMABLE,
 			CONSUMABLE,
@@ -45,17 +48,11 @@ namespace Soomla{
 		public string MarketDescription;
 		
 		/// <summary>
-		/// Initializes a new instance of the <see cref="com.soomla.unity.MarketItem"/> class.
+		/// Constructor.
 		/// </summary>
-		/// <param name='productId'>
-		/// The Id of the current item in the mobile market.
-		/// </param>
-		/// <param name='consumable'>
-		/// the Consumable type of the current item in the mobile market.
-		/// </param>
-		/// <param name='price'>
-		/// The actual $$ cost of the current item in the mobile market.
-		/// </param>
+		/// <param name="productId">The id of the current item in the market.</param>
+		/// <param name="consumable">The type of the current item in the market.</param>
+		/// <param name="price">The actual $$ cost of the current item in the market.</param>
 		public MarketItem(string productId, Consumable consumable, double price){
 			this.ProductId = productId;
 			this.consumable = consumable;
@@ -83,9 +80,13 @@ namespace Soomla{
 			}
 		}
 #endif
+
 		/// <summary>
-		/// Initializes a new instance of the <see cref="com.soomla.unity.MarketItem"/> class.
+		/// Constructor.
+		/// Generates an instance of <c>MarketItem</c> from a <c>JSONObject<c>.
 		/// </summary>
+		/// <param name="jsonObject">A <c>JSONObject</c> representation of the wanted 
+		/// <c>MarketItem</c>.</param>
 		public MarketItem(JSONObject jsonObject) {
 			string keyToLook = "";
 #if UNITY_IOS && !UNITY_EDITOR
@@ -108,7 +109,12 @@ namespace Soomla{
 				this.consumable = Consumable.SUBSCRIPTION;
 			}
 		}
-		
+
+		/// <summary>
+		/// Converts the current <c>MarketItem</c> to a <c>JSONObject</c>.
+		/// </summary>
+		/// <returns>A <c>JSONObject</c> representation of the current 
+		/// <c>MarketItem</c>.</returns>
 		public JSONObject toJSONObject() {
 			JSONObject obj = new JSONObject(JSONObject.Type.OBJECT);
 			obj.AddField(JSONConsts.MARKETITEM_PRODUCT_ID, this.ProductId);

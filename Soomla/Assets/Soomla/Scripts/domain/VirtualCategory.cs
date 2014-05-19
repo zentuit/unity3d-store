@@ -1,27 +1,27 @@
-/*
- * Copyright (C) 2012 Soomla Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+/// Copyright (C) 2012-2014 Soomla Inc.
+///
+/// Licensed under the Apache License, Version 2.0 (the "License");
+/// you may not use this file except in compliance with the License.
+/// You may obtain a copy of the License at
+///
+///      http://www.apache.org/licenses/LICENSE-2.0
+///
+/// Unless required by applicable law or agreed to in writing, software
+/// distributed under the License is distributed on an "AS IS" BASIS,
+/// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+/// See the License for the specific language governing permissions and
+/// limitations under the License.
+
 using UnityEngine;
 using System.Collections.Generic;
 using System;
 using System.Collections;
 
-namespace Soomla{
+namespace Soomla {
+
 	/// <summary>
 	/// This class is a definition of a category. A single category can be associated with many virtual goods.
- 	/// The purposes of virtual category are:
+ 	/// The purposes of virtual categories are:
  	/// 1. You can use it to arrange virtual goods to their specific categories.
  	/// 2. SOOMLA's storefront uses this to show the goods in their categories on the UI (for supported themes only).
 	/// </summary>
@@ -32,14 +32,10 @@ namespace Soomla{
 		public List<String> GoodItemIds = new List<String>();
 		
 		/// <summary>
-		/// Initializes a new instance of the <see cref="com.soomla.unity.VirtualCategory"/> class.
+		/// Constructor. 
 		/// </summary>
-		/// <param name='name'>
-		/// The category's name
-		/// </param>
-		/// <param name='goodItemIds'>
-		/// The list of itemIds of the VirtualGoods in this category.
-		/// </param>
+		/// <param name="name">Name of category.</param>
+		/// <param name="goodItemIds">List of item ids of the virtual goods in this category.</param>
 		public VirtualCategory(string name, List<String> goodItemIds){
 			this.Name = name;
 			this.GoodItemIds = goodItemIds;
@@ -58,9 +54,12 @@ namespace Soomla{
 			}
 		}
 #endif
+
 		/// <summary>
-		/// Initializes a new instance of the <see cref="com.soomla.unity.VirtualCategory"/> class.
+		/// Constructor.
+		/// Generates an instance of <c>VirtualCategory</c> from the given <c>JSONObject</c>.
 		/// </summary>
+		/// <param name="jsonItem">A JSONObject representation of the wanted <c>VirtualCategory</c>.</param>
 		public VirtualCategory(JSONObject jsonItem) {
 			this.Name = jsonItem[JSONConsts.CATEGORY_NAME].str;
 
@@ -72,8 +71,9 @@ namespace Soomla{
 		}
 		
 		/// <summary>
-		/// Converts the current <see cref="com.soomla.unity.VirtualCategory"/> to a JSONObject.
+		/// Converts the current <c>VirtualCategory</c> to a <c>JSONObject</c>.
 		/// </summary>
+		/// <returns>A JSONObject representation of the current <c>VirtualCategory</c>.</returns>
 		public JSONObject toJSONObject() {
 			JSONObject obj = new JSONObject(JSONObject.Type.OBJECT);
 			obj.AddField(JSONConsts.CATEGORY_NAME, this.Name);
