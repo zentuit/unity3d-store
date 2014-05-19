@@ -81,7 +81,7 @@ namespace Soomla {
 
 		/// <summary>
 		/// Takes from your user the given amount of the virtual item with the given <c>itemId</c>.
-		/// For example, when your user requests a refund, you need to TAKE the item he is returning from him/her.
+		/// For example, when your user requests a refund, you need to TAKE the item he/she is returning from him/her.
 		/// </summary>
 		/// <param name="itemId">Item identifier.</param>
 		/// <param name="amount">Amount.</param>
@@ -115,7 +115,7 @@ namespace Soomla {
 
 		/// <summary>
 		/// Unequips the virtual good with the given <c>goodItemId</c>. Unequipping means that the
-		/// user decides to stop using the virtual good he is currently using.
+		/// user decides to stop using the virtual good he/she is currently using.
 		/// For more details and examples <see cref="com.soomla.store.domain.virtualGoods.EquippableVG"/>.
 		/// </summary>
 		/// <param name="goodItemId">Id of the good to be unequipped.</param>

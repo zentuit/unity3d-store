@@ -17,15 +17,15 @@ using System;
 namespace Soomla {
 
 	/// <summary>
-	/// This exception is thrown when a user tries to equip a virtual good which he does not own.
+	/// This exception is thrown when a user tries to equip a virtual good which he/she does not own.
 	/// 
 	/// Real Game Example:
 	/// Example Inventory: { currency_coin: 100, robot_character: 3 }
 	/// Suppose that your user would like to equip (LOCAL) a robot_character.
 	/// You'll probably call <c>equipVirtualGood("robot_character")</c>.
 	/// <c>NotEnoughGoodException</c> will be thrown with "robot_character" as the itemId.
-	/// You can catch this exception in order to notify the user that he does not
-	/// own a robot_character (so he cannot equip it!).
+	/// You can catch this exception in order to notify the user that he/she does not
+	/// own a robot_character (so he/she cannot equip it!).
 	/// </summary>
 	public class NotEnoughGoodsException : Exception {
 

@@ -25,7 +25,7 @@ namespace Soomla {
 	/// Suppose that you have a user that wants to buy a blue_hat.
 	/// You'll probably call <c>StoreInventory.buy("blue_hat")</c>.
 	/// An <c>InsufficientFundsException</c> will be thrown.
-	/// You can catch this exception in order to notify the user that he 
+	/// You can catch this exception in order to notify the user that he/she 
 	/// doesn't have enough coins to buy a blue_hat.
 	/// </summary>
 	public class InsufficientFundsException : Exception {
