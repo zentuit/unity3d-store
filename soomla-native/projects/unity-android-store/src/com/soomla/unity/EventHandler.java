@@ -71,7 +71,6 @@ public class EventHandler {
     public void onGoodUpgrade(GoodUpgradeEvent goodUpgradeEvent) {
         String goodItemId = goodUpgradeEvent.getGood().getItemId();
         String upgradeItemId = goodUpgradeEvent.getCurrentUpgrade().getItemId();
-        String message = goodItemId;
 
         UnityPlayer.UnitySendMessage("StoreEvents", "onGoodUpgrade",
                 goodItemId + (TextUtils.isEmpty(upgradeItemId)? "" : ("#SOOM#" + upgradeItemId)));
