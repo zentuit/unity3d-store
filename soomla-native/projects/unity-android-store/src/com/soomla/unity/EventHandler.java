@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import com.soomla.store.BusProvider;
 import com.soomla.store.StoreUtils;
 import com.soomla.store.domain.MarketItem;
+import com.soomla.store.domain.virtualGoods.UpgradeVG;
 import com.soomla.store.events.*;
 import com.squareup.otto.Subscribe;
 import com.unity3d.player.UnityPlayer;
@@ -70,7 +71,11 @@ public class EventHandler {
     @Subscribe
     public void onGoodUpgrade(GoodUpgradeEvent goodUpgradeEvent) {
         String goodItemId = goodUpgradeEvent.getGood().getItemId();
-        String upgradeItemId = goodUpgradeEvent.getCurrentUpgrade().getItemId();
+        UpgradeVG currentUpgrade = goodUpgradeEvent.getCurrentUpgrade();
+        String upgradeItemId = null;
+        if (currentUpgrade != null) {
+            upgradeItemId = currentUpgrade.getItemId();
+        }
 
         UnityPlayer.UnitySendMessage("StoreEvents", "onGoodUpgrade",
                 goodItemId + (TextUtils.isEmpty(upgradeItemId)? "" : ("#SOOM#" + upgradeItemId)));
