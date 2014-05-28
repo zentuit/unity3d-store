@@ -72,12 +72,16 @@ namespace Soomla
 			instance._initialize(storeAssets);
 		}
 
+		public static void SetupSoomSec() {
+			instance._setupSoomSec();
+		}
+
 		/// <summary>
 		/// Starts a purchase process in the market.
 		/// </summary>
 		/// <param name="productId">id of the item to buy.</param>
 		/// <param name="payload">some text you want to get back when the purchasing process is completed. NOTE: This is not supported on iOS !</param>
-		public static void BuyMarketItem(string productId, string payload) { 
+		public static void BuyMarketItem(string productId, string payload) {
 
 			// NOTE: payload is not supported on iOS !
 
@@ -90,37 +94,37 @@ namespace Soomla
 		/// Posts a <c>MarketItemsRefreshed</c> event with the list just created.
 		/// Upon failure, prints error message.
 		/// </summary>
-		public static void RefreshInventory() {	
-			instance._refreshInventory(); 
+		public static void RefreshInventory() {
+			instance._refreshInventory();
 		}
 
 		/// <summary>
-		/// Initiates the restore transactions process. 
+		/// Initiates the restore transactions process.
 		/// </summary>
-		public static void RestoreTransactions() { 
-			instance._restoreTransactions();	
+		public static void RestoreTransactions() {
+			instance._restoreTransactions();
 		}
 
 		/// <summary>
 		/// Checks if transactions were already restored.
 		/// </summary>
 		/// <returns><c>true</c> if transactions were already restored, <c>false</c> otherwise.</returns>
-		public static bool TransactionsAlreadyRestored() { 
-			return instance._transactionsAlreadyRestored(); 
+		public static bool TransactionsAlreadyRestored() {
+			return instance._transactionsAlreadyRestored();
 		}
 
 		/// <summary>
 		/// Starts in-app billing service in background.
 		/// </summary>
-		public static void StartIabServiceInBg() { 
-			instance._startIabServiceInBg(); 
+		public static void StartIabServiceInBg() {
+			instance._startIabServiceInBg();
 		}
 
 		/// <summary>
 		/// Stops in-app billing service in background.
 		/// </summary>
-		public static void StopIabServiceInBg() { 
-			instance._stopIabServiceInBg(); 
+		public static void StopIabServiceInBg() {
+			instance._stopIabServiceInBg();
 		}
 
 
@@ -149,4 +153,3 @@ namespace Soomla
 
 	}
 }
-
