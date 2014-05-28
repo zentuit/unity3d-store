@@ -3,6 +3,11 @@
 * Fixes
   * Correctly fetching products' details from market (android). Fixed #194
   * Fixed restoreTransactions and refreshInventory to support changes in android-store.
+  * When onGoodUpgrade is being thrown, the current upgrade may be null. We now take care of it.
+  * Small fixes in inline docs.
+  * When we remove all upgrades from an item, the associated upgrade in the event is null. This is correct but the way it's sent and parsed in Unity's StoreEvents was wrong. Resolved it by fixing the message to unity and the parsing in StoreEvents. Fixed #233
+  * The code is arranged better now. Thanks Holymars
+  * Added market items to the OnMarketItemsRefreshed event.
 
 
 * New Features
