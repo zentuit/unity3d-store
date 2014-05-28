@@ -1,8 +1,23 @@
-### v1.4.4 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.4.4...v1.4.4)
+### v1.5.0 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.4.4...v1.5.0)
 
 * Fixes
   * Correctly fetching products' details from market (android). Fixed #194
-  
+  * Fixed restoreTransactions and refreshInventory to support changes in android-store.
+
+
+* New Features
+  * (Android Only!) Added payload to BuyMarketItem function in StoreController. The payload will be returned in OnMarketPurchase event.
+  * Added new event OnMarketItemsRefreshStarted
+  * Added an option to print debug messages in the SOOMLA Settings panel.
+  * Added Amazon billing service and the option to switch between billing services in the SOOMLA Settings panel.
+  * Changed folder structure a bit.
+
+
+### v1.4.4 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.4.3...v1.4.4)
+
+* Fixes
+  * Correctly fetching products' details from market (android). Fixed #194
+
 ### v1.4.3 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.4.1...v1.4.3)
 
 * Fixes
@@ -20,7 +35,7 @@
 
 * New Features
   * Added an option to save changed item's metadata (closes #197)
-  
+
 * Fixes
   * Fixed ios static libs to support multiple archs.
 

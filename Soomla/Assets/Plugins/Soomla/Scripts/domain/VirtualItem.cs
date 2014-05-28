@@ -153,16 +153,18 @@ namespace Soomla {
 		/// <param name="type">type</param>
 		protected void save(string type) 
 		{
+#if !UNITY_EDITOR
 			string viJSON = this.toJSONObject().print();
-			#if UNITY_IOS && !UNITY_EDITOR
+#if UNITY_IOS
 			storeAssets_Save(type, viJSON);
-			#elif UNITY_ANDROID && !UNITY_EDITOR
+#elif UNITY_ANDROID
 			AndroidJNI.PushLocalFrame(100);
 			using(AndroidJavaClass jniStoreAssets = new AndroidJavaClass("com.soomla.unity.StoreAssets")) {
 				jniStoreAssets.CallStatic("save", type, viJSON);
 			}
 			AndroidJNI.PopLocalFrame(IntPtr.Zero);
-			#endif
+#endif
+#endif
 		}
 	}
 }

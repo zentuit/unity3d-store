@@ -100,8 +100,16 @@ public class SoomSettings : ScriptableObject
 #endif
 	
 
+	[SerializeField]
+	private bool debugMsgs = false;
     [SerializeField]
     private bool iosSSV = false;
+	[SerializeField]
+	private bool gPlayBP = false;
+	[SerializeField]
+	private bool amazonBP = false;
+	[SerializeField]
+	private bool androidTestPurchases = false;
 	[SerializeField]
 	private string androidPublicKey = "GOOGLE PLAY PUBLIC KEY";
     [SerializeField]
@@ -140,6 +148,19 @@ public class SoomSettings : ScriptableObject
 		}
 	}
 
+	public static bool DebugMessages
+	{
+		get { return Instance.debugMsgs; }
+		set
+		{
+			if (Instance.debugMsgs != value)
+			{
+				Instance.debugMsgs = value;
+				DirtyEditor();
+			}
+		}
+	}
+
 	public static string AndroidPublicKey
 	{
 		get { return Instance.androidPublicKey; }
@@ -148,6 +169,19 @@ public class SoomSettings : ScriptableObject
 			if (Instance.androidPublicKey != value)
 			{
 				Instance.androidPublicKey = value;
+				DirtyEditor ();
+			}
+		}
+	}
+
+	public static bool AndroidTestPurchases
+	{
+		get { return Instance.androidTestPurchases; }
+		set 
+		{
+			if (Instance.androidTestPurchases != value)
+			{
+				Instance.androidTestPurchases = value;
 				DirtyEditor ();
 			}
 		}
@@ -165,6 +199,32 @@ public class SoomSettings : ScriptableObject
             }
         }
     }
+
+	public static bool GPlayBP
+	{
+		get { return Instance.gPlayBP; }
+		set
+		{
+			if (Instance.gPlayBP != value)
+			{
+				Instance.gPlayBP = value;
+				DirtyEditor();
+			}
+		}
+	}
+
+	public static bool AmazonBP
+	{
+		get { return Instance.amazonBP; }
+		set
+		{
+			if (Instance.amazonBP != value)
+			{
+				Instance.amazonBP = value;
+				DirtyEditor();
+			}
+		}
+	}
 
 //    public static bool Logging
 //    {

@@ -12,16 +12,25 @@ public class SoomlaSettingsEditor : Editor
     bool showAndroidSettings = (EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android);
     bool showIOSSettings = (EditorUserBuildSettings.activeBuildTarget == BuildTarget.iPhone);
 
+
 	GUILayoutOption fieldHeight = GUILayout.Height(16);
 	GUILayoutOption fieldWidth = GUILayout.Width(120);
+	GUILayoutOption spaceWidth = GUILayout.Width(24);
+
+	GUIContent emptyContent = new GUIContent("");
 
 	GUIContent customSecLabel = new GUIContent("Custom Secret [?]:", "The application encryption secret.");
 	GUIContent soomSecLabel = new GUIContent("SoomSec [?]:", "A global secret which is used as a higher level protection.");
 
-	GUIContent publicKeyLabel = new GUIContent("Play API Key [?]:", "The API key from Google Play dev console.");
+	GUIContent playLabel = new GUIContent("Google Play");
+	GUIContent amazonLabel = new GUIContent("Amazon");
+	GUIContent publicKeyLabel = new GUIContent("API Key [?]:", "The API key from Google Play dev console (just in case you're using Google Play as billing provider).");
+	GUIContent testPurchasesLabel = new GUIContent("Test Purchases [?]:", "Check if you want to allow purchases of Google's test product ids.");
 	GUIContent packageNameLabel = new GUIContent("Package Name [?]", "Your package as defined in Unity.");
 
 	GUIContent iosSsvLabel = new GUIContent("Receipt Validation [?]:", "Check if you want your purchases validated with SOOMLA Server Side Protection Service.");
+
+	GUIContent debugMsgsLabel = new GUIContent("Debug Messages [?]:", "Check if you want to show debug messages in the log (iOS and Android).");
 
 	GUIContent frameworkVersion = new GUIContent("Framework Version [?]", "The SOOMLA Framework version. ");
     GUIContent buildVersion = new GUIContent("Framework Build [?]", "The SOOMLA Framework build.");
@@ -34,11 +43,19 @@ public class SoomlaSettingsEditor : Editor
     public override void OnInspectorGUI()
     {
 			SoomlaGUI();
+		EditorGUILayout.Space();
 			AndroidGUI();
+		EditorGUILayout.Space();
 			IOSGUI();
+		EditorGUILayout.Space();
+		EditorGUILayout.Space();
+		EditorGUILayout.Space();
+		EditorGUILayout.Space();
 			AboutGUI();
     }
 
+	private static string iosRootPath = Application.dataPath + "/Soomla/compilations/ios/";
+	private bool movediOSDebugLib = false;
     private void SoomlaGUI()
     {
 		EditorGUILayout.BeginHorizontal();
@@ -61,6 +78,29 @@ public class SoomlaSettingsEditor : Editor
 		SoomSettings.SoomSecret = EditorGUILayout.TextField(SoomSettings.SoomSecret, fieldHeight);
 		EditorGUILayout.EndHorizontal();
 
+		SoomSettings.DebugMessages = EditorGUILayout.Toggle(debugMsgsLabel, SoomSettings.DebugMessages);
+
+		if (SoomSettings.DebugMessages && !movediOSDebugLib) {
+			try {
+				FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Plugins/iOS/libSoomlaIOSStore.a");
+				FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Plugins/iOS/libUnityiOSStore.a");
+				FileUtil.CopyFileOrDirectory(iosRootPath + "iOSStore/libSoomlaiOSStore_testing.a",
+				                             Application.dataPath + "/Plugins/iOS/libSoomlaIOSStore.a");
+				FileUtil.CopyFileOrDirectory(iosRootPath + "debug/libUnityiOSStore.a",
+				                             Application.dataPath + "/Plugins/iOS/libUnityiOSStore.a");
+			} catch {}
+			movediOSDebugLib = true;
+		} if (!SoomSettings.DebugMessages && movediOSDebugLib) {
+			try {
+				FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Plugins/iOS/libSoomlaIOSStore.a");
+				FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Plugins/iOS/libUnityiOSStore.a");
+				FileUtil.CopyFileOrDirectory(iosRootPath + "iOSStore/libSoomlaiOSStore.a",
+				                             Application.dataPath + "/Plugins/iOS/libSoomlaIOSStore.a");
+				FileUtil.CopyFileOrDirectory(iosRootPath + "release/libUnityiOSStore.a",
+				                             Application.dataPath + "/Plugins/iOS/libUnityiOSStore.a");
+			} catch {}
+			movediOSDebugLib = false;
+		}
 
         EditorGUILayout.Space();
     }
@@ -75,17 +115,65 @@ public class SoomlaSettingsEditor : Editor
         EditorGUILayout.Space();
     }
 
+	private bool playUpdate = false;
+	private bool amazonUpdate = false;
     private void AndroidGUI()
     {
         showAndroidSettings = EditorGUILayout.Foldout(showAndroidSettings, "Android Settings");
         if (showAndroidSettings)
         {
-            SelectableLabelField(packageNameLabel, PlayerSettings.bundleIdentifier);
-
 			EditorGUILayout.BeginHorizontal();
-			EditorGUILayout.LabelField(publicKeyLabel, fieldWidth, fieldHeight);
-			SoomSettings.AndroidPublicKey = EditorGUILayout.TextField(SoomSettings.AndroidPublicKey, fieldHeight);
+            SelectableLabelField(packageNameLabel, PlayerSettings.bundleIdentifier);
 			EditorGUILayout.EndHorizontal();
+
+			EditorGUILayout.Space();
+			EditorGUILayout.HelpBox("Billing Service Selection", MessageType.None);
+
+			if (!SoomSettings.GPlayBP && !SoomSettings.AmazonBP) {
+				SoomSettings.GPlayBP = true;
+			}
+
+			SoomSettings.GPlayBP = EditorGUILayout.ToggleLeft(playLabel, SoomSettings.GPlayBP);
+
+			if (SoomSettings.GPlayBP) {
+				EditorGUILayout.BeginHorizontal();
+				EditorGUILayout.Space();
+				EditorGUILayout.LabelField(publicKeyLabel, fieldWidth, fieldHeight);
+				SoomSettings.AndroidPublicKey = EditorGUILayout.TextField(SoomSettings.AndroidPublicKey, fieldHeight);
+				EditorGUILayout.EndHorizontal();
+
+				EditorGUILayout.Space();
+
+				EditorGUILayout.BeginHorizontal();
+				EditorGUILayout.LabelField(emptyContent, spaceWidth, fieldHeight);
+				SoomSettings.AndroidTestPurchases = EditorGUILayout.Toggle(testPurchasesLabel, SoomSettings.AndroidTestPurchases);
+				EditorGUILayout.EndHorizontal();
+			}
+
+			if (SoomSettings.GPlayBP && !playUpdate) {
+				playUpdate = true;
+				amazonUpdate = false;
+
+				SoomSettings.AmazonBP = false;
+				ManifestTools.GenerateManifest();
+				SoomlaAndroidUtil.handlePlayBPJars(false);
+				SoomlaAndroidUtil.handleAmazonBPJars(true);
+			}
+
+
+			SoomSettings.AmazonBP = EditorGUILayout.ToggleLeft(amazonLabel, SoomSettings.AmazonBP);
+
+			if (SoomSettings.AmazonBP && !amazonUpdate) {
+				playUpdate = false;
+				amazonUpdate = true;
+
+				SoomSettings.GPlayBP = false;
+				ManifestTools.GenerateManifest();
+				SoomlaAndroidUtil.handlePlayBPJars(true);
+				SoomlaAndroidUtil.handleAmazonBPJars(false);
+			}
+
+
 
 			if (!SoomlaAndroidUtil.IsSetupProperly())
 			{
@@ -109,7 +197,7 @@ public class SoomlaSettingsEditor : Editor
     private void AboutGUI()
     {
         EditorGUILayout.HelpBox("SOOMLA SDK Info", MessageType.None);
-		SelectableLabelField(frameworkVersion, "1.4.3");
+		SelectableLabelField(frameworkVersion, "1.5.0");
 		SelectableLabelField(buildVersion, "1");
         EditorGUILayout.Space();
     }

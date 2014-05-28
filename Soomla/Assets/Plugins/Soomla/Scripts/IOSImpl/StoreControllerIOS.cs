@@ -63,7 +63,10 @@ namespace Soomla {
 		/// Starts a purchase process in the market.
 		/// </summary>
 		/// <param name="productId">id of the item to buy.</param>
-		protected override void _buyMarketItem(string productId) {
+		protected override void _buyMarketItem(string productId, string payload) {
+
+			// NOTE: payload is not supported on iOS !
+
 			storeController_BuyMarketItem(productId);
 		}
 

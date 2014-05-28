@@ -76,8 +76,12 @@ namespace Soomla
 		/// Starts a purchase process in the market.
 		/// </summary>
 		/// <param name="productId">id of the item to buy.</param>
-		public static void BuyMarketItem(string productId) { 
-			instance._buyMarketItem(productId); 
+		/// <param name="payload">some text you want to get back when the purchasing process is completed. NOTE: This is not supported on iOS !</param>
+		public static void BuyMarketItem(string productId, string payload) { 
+
+			// NOTE: payload is not supported on iOS !
+
+			instance._buyMarketItem(productId, payload);
 		}
 
 		/// <summary>
@@ -124,7 +128,7 @@ namespace Soomla
 
 		protected virtual void _setupSoomSec() { }
 
-		protected virtual void _buyMarketItem(string productId) { }
+		protected virtual void _buyMarketItem(string productId, string payload) { }
 
 		protected virtual void _refreshInventory() { }
 

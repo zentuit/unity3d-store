@@ -127,9 +127,14 @@ public class EventHandler {
     }
 
     @Subscribe
-    public void onMarketItemsRefreshed(MarketItemsRefreshed marketItemsRefreshed) {
+    public void onMarketItemsRefreshStarted(MarketItemsRefreshStartedEvent marketItemsRefreshStartedEvent) {
+        UnityPlayer.UnitySendMessage("StoreEvents", "onMarketItemsRefreshStarted", "");
+    }
+
+    @Subscribe
+    public void onMarketItemsRefreshFinished(MarketItemsRefreshFinishedEvent marketItemsRefreshFinishedEvent) {
         String marketItemsChanges = "";
-        for (MarketItem mi : marketItemsRefreshed.getMarketItems()) {
+        for (MarketItem mi : marketItemsRefreshFinishedEvent.getMarketItems()) {
             marketItemsChanges += "{" +
                     "\"productId\":\"" + mi.getProductId() + "\"," +
                     "\"market_price\":\"" + mi.getMarketPrice() + "\"," +
@@ -140,7 +145,7 @@ public class EventHandler {
         }
         int index = marketItemsChanges.lastIndexOf("#SOOM#");
         marketItemsChanges = marketItemsChanges.substring(0, index);
-        UnityPlayer.UnitySendMessage("StoreEvents", "onMarketItemsRefreshed", marketItemsChanges);
+        UnityPlayer.UnitySendMessage("StoreEvents", "onMarketItemsRefreshFinished", marketItemsChanges);
     }
 
     @Subscribe

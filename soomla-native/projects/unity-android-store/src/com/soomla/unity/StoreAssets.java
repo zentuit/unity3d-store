@@ -9,11 +9,9 @@ import com.soomla.store.data.JSONConsts;
 import com.soomla.store.data.StoreInfo;
 import com.soomla.store.domain.NonConsumableItem;
 import com.soomla.store.domain.VirtualCategory;
-import com.soomla.store.domain.VirtualItem;
 import com.soomla.store.domain.virtualCurrencies.VirtualCurrency;
 import com.soomla.store.domain.virtualCurrencies.VirtualCurrencyPack;
 import com.soomla.store.domain.virtualGoods.*;
-import com.soomla.store.exceptions.VirtualItemNotFoundException;
 
 import org.json.JSONArray;
 import org.json.JSONException;

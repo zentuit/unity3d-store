@@ -99,5 +99,38 @@ namespace UnityEditor.SoomlaEditor
         {
 		    return System.IO.File.Exists(KeyStorePath);
         }
+
+
+		/** Billing Providers util functions **/
+
+		private static string bpRootPath = Application.dataPath + "/Soomla/compilations/android/AndroidStore/billing-services/";
+
+		public static void handlePlayBPJars(bool remove) {
+			try {
+				if (remove) {
+					FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Plugins/Android/AndroidStoreGooglePlay.jar");
+					FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Plugins/Android/AndroidStoreGooglePlay.jar.meta");
+				} else {
+					FileUtil.CopyFileOrDirectory(bpRootPath + "google-play/AndroidStoreGooglePlay.jar",
+					                             Application.dataPath + "/Plugins/Android/AndroidStoreGooglePlay.jar");
+				}
+			}catch {}
+		}
+
+		public static void handleAmazonBPJars(bool remove) {
+			try {
+				if (remove) {
+					FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Plugins/Android/AndroidStoreAmazon.jar");
+					FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Plugins/Android/AndroidStoreAmazon.jar.meta");
+					FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Plugins/Android/in-app-purchasing-1.0.3.jar");
+					FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Plugins/Android/in-app-purchasing-1.0.3.jar.meta");
+				} else {
+					FileUtil.CopyFileOrDirectory(bpRootPath + "amazon/AndroidStoreAmazon.jar",
+					                             Application.dataPath + "/Plugins/Android/AndroidStoreAmazon.jar");
+					FileUtil.CopyFileOrDirectory(bpRootPath + "amazon/in-app-purchasing-1.0.3.jar",
+					                             Application.dataPath + "/Plugins/Android/in-app-purchasing-1.0.3.jar");
+				}
+			}catch {}
+		}
     }
 }

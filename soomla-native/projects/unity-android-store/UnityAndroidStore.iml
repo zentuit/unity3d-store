@@ -28,7 +28,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../../Soomla/Assets/Plugins/Android/AndroidStore.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../../Soomla/Assets/Plugins/Android/square-otto-1.3.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -37,7 +37,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../../Soomla/Assets/Plugins/Android/square-otto-1.3.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../compilations/android/AndroidStore/AndroidStore.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

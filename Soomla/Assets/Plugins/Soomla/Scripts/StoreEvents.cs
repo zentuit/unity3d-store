@@ -20,7 +20,7 @@ using System.Collections.Generic;
 namespace Soomla {
 
 	/// <summary>
-	/// This class provides functions for event handling. 
+	/// This class provides functions for event handling.
 	/// </summary>
 	public class StoreEvents : MonoBehaviour {
 
@@ -29,7 +29,7 @@ namespace Soomla {
 		private static StoreEvents instance = null;
 
 		/// <summary>
-		/// Initializes game state before the game starts. 
+		/// Initializes game state before the game starts.
 		/// </summary>
 		void Awake(){
 			if(instance == null){ 	// making sure we only initialize one instance.
@@ -41,7 +41,7 @@ namespace Soomla {
 		}
 
 		/// <summary>
-		/// Handles an <c>onBillingSupported</c> event, which is fired when SOOMLA knows that billing IS 
+		/// Handles an <c>onBillingSupported</c> event, which is fired when SOOMLA knows that billing IS
 		/// supported on the device.
 		/// </summary>
 		/// <param name="message">Not used here.</param>
@@ -52,7 +52,7 @@ namespace Soomla {
 		}
 
 		/// <summary>
-		/// Handles an <c>onBillingNotSupported</c> event, which is fired when SOOMLA knows that billing is NOT 
+		/// Handles an <c>onBillingNotSupported</c> event, which is fired when SOOMLA knows that billing is NOT
 		/// supported on the device.
 		/// </summary>
 		/// <param name="message">Not used here.</param>
@@ -63,10 +63,10 @@ namespace Soomla {
 		}
 
 		/// <summary>
-		/// Handles an <c>onCurrencyBalanceChanged</c> event, which is fired when the balance of a specific 
+		/// Handles an <c>onCurrencyBalanceChanged</c> event, which is fired when the balance of a specific
 		/// <c>VirtualCurrency</c> has changed.
 		/// </summary>
-		/// <param name="message">Message that contains information about the currency whose balance has 
+		/// <param name="message">Message that contains information about the currency whose balance has
 		/// changed.</param>
 		public void onCurrencyBalanceChanged(string message) {
 			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onCurrencyBalanceChanged:" + message);
@@ -80,10 +80,10 @@ namespace Soomla {
 		}
 
 		/// <summary>
-		/// Handles an <c>onGoodBalanceChanged</c> event, which is fired when the balance of a specific 
+		/// Handles an <c>onGoodBalanceChanged</c> event, which is fired when the balance of a specific
 		/// <c>VirtualGood</c> has changed.
 		/// </summary>
-		/// <param name="message">Message that contains information about the good whose balance has 
+		/// <param name="message">Message that contains information about the good whose balance has
 		/// changed.</param>
 		public void onGoodBalanceChanged(string message) {
 			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onGoodBalanceChanged:" + message);
@@ -97,7 +97,7 @@ namespace Soomla {
 		}
 
 		/// <summary>
-		/// Handles an <c>onGoodEquipped</c> event, which is fired when a specific <c>EquippableVG</c> has been 
+		/// Handles an <c>onGoodEquipped</c> event, which is fired when a specific <c>EquippableVG</c> has been
 		/// equipped.
 		/// </summary>
 		/// <param name="message">Message that contains information about the <c>EquippableVG</c>.</param>
@@ -109,7 +109,7 @@ namespace Soomla {
 		}
 
 		/// <summary>
-		/// Handles an <c>onGoodUnequipped</c> event, which is fired when a specific <c>EquippableVG</c> 
+		/// Handles an <c>onGoodUnequipped</c> event, which is fired when a specific <c>EquippableVG</c>
 		/// has been unequipped.
 		/// </summary>
 		/// <param name="message">Message that contains information about the <c>EquippableVG</c>.</param>
@@ -121,10 +121,10 @@ namespace Soomla {
 		}
 
 		/// <summary>
-		/// Handles an <c>onGoodUpgrade</c> event, which is fired when a specific <c>UpgradeVG</c> has 
+		/// Handles an <c>onGoodUpgrade</c> event, which is fired when a specific <c>UpgradeVG</c> has
 		/// been upgraded/downgraded.
 		/// </summary>
-		/// <param name="message">Message that contains information about the good that has been 
+		/// <param name="message">Message that contains information about the good that has been
 		/// upgraded/downgraded.</param>
 		public void onGoodUpgrade(string message) {
 			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onGoodUpgrade:" + message);
@@ -140,7 +140,7 @@ namespace Soomla {
 		}
 
 		/// <summary>
-		/// Handles an <c>onItemPurchased</c> event, which is fired when a specific 
+		/// Handles an <c>onItemPurchased</c> event, which is fired when a specific
 		/// <c>PurchasableVirtualItem</c> has been purchased.
 		/// </summary>
 		/// <param name="message">Message that contains information about the good that has been purchased.</param>
@@ -152,7 +152,7 @@ namespace Soomla {
 		}
 
 		/// <summary>
-		/// Handles the <c>onItemPurchaseStarted</c> event, which is fired when a specific 
+		/// Handles the <c>onItemPurchaseStarted</c> event, which is fired when a specific
 		/// <c>PurchasableVirtualItem</c> purchase process has started.
 		/// </summary>
 		/// <param name="message">Message that contains information about the item being purchased.</param>
@@ -164,10 +164,10 @@ namespace Soomla {
 		}
 
 		/// <summary>
-		/// Handles the <c>onMarketPurchaseCancelled</c> event, which is fired when a Market purchase was cancelled 
+		/// Handles the <c>onMarketPurchaseCancelled</c> event, which is fired when a Market purchase was cancelled
 		/// by the user.
 		/// </summary>
-		/// <param name="message">Message that contains information about the market purchase that is being 
+		/// <param name="message">Message that contains information about the market purchase that is being
 		/// cancelled.</param>
 		public void onMarketPurchaseCancelled(string message) {
 			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onMarketPurchaseCancelled: " + message);
@@ -195,13 +195,13 @@ namespace Soomla {
 				purchaseToken = vars[2];
 			}
 
-			StoreEvents.OnMarketPurchase(pvi, purchaseToken);
+			StoreEvents.OnMarketPurchase(pvi, purchaseToken, payload);
 		}
 
 		/// <summary>
 		/// Handles the <c>onMarketPurchaseStarted</c> event, which is fired when a Market purchase has started.
 		/// </summary>
-		/// <param name="message">Message that contains information about the maret purchase that is being 
+		/// <param name="message">Message that contains information about the maret purchase that is being
 		/// started.</param>
 		public void onMarketPurchaseStarted(string message) {
 			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onMarketPurchaseStarted: " + message);
@@ -222,10 +222,10 @@ namespace Soomla {
 		}
 
 		/// <summary>
-		/// Handles the <c>onRestoreTransactionsFinished</c> event, which is fired when the restore transactions 
+		/// Handles the <c>onRestoreTransactionsFinished</c> event, which is fired when the restore transactions
 		/// process has finished.
 		/// </summary>
-		/// <param name="message">Message that contains information about the <c>restoreTransactions</c> process that 
+		/// <param name="message">Message that contains information about the <c>restoreTransactions</c> process that
 		/// has finished.</param>
 		public void onRestoreTransactionsFinished(string message) {
 			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onRestoreTransactionsFinished:" + message);
@@ -235,10 +235,10 @@ namespace Soomla {
 		}
 
 		/// <summary>
-		/// Handles the <c>onRestoreTransactionsStarted</c> event, which is fired when the restore transactions 
+		/// Handles the <c>onRestoreTransactionsStarted</c> event, which is fired when the restore transactions
 		/// process has started.
 		/// </summary>
-		/// <param name="message">Message that contains information about the <c>restoreTransactions</c> process that 
+		/// <param name="message">Message that contains information about the <c>restoreTransactions</c> process that
 		/// has started.</param>
 		public void onRestoreTransactionsStarted(string message) {
 			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onRestoreTransactionsStarted");
@@ -247,12 +247,24 @@ namespace Soomla {
 		}
 
 		/// <summary>
-		/// Handles the <c>onMarketItemsRefreshed</c> event, which is fired when items associated with market are 
+		/// Handles the <c>onMarketItemsRefreshStarted</c> event, which is fired when items associated with market
+		/// refresh process has started.
+		/// </summary>
+		/// <param name="message">Message that contains information about the <c>market refresh</c> process that
+		/// has started.</param>
+		public void onMarketItemsRefreshStarted(string message) {
+			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onMarketItemsRefreshStarted");
+
+			StoreEvents.OnMarketItemsRefreshStarted();
+		}
+
+		/// <summary>
+		/// Handles the <c>onMarketItemsRefreshFinished</c> event, which is fired when items associated with market are
 		/// refreshed (prices, titles ...).
 		/// </summary>
 		/// <param name="message">Message that contains information about the process that is occurring.</param>
-		public void onMarketItemsRefreshed(string message) {
-			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onMarketItemsRefreshed: " + message);
+		public void onMarketItemsRefreshFinished(string message) {
+			StoreUtils.LogDebug(TAG, "SOOMLA/UNITY onMarketItemsRefreshFinished: " + message);
 
 			string[] marketItemsChanges = Regex.Split(message, "#SOOM#");
 			List<MarketItem> marketItems = new List<MarketItem>();
@@ -279,11 +291,11 @@ namespace Soomla {
 				}
 			}
 
-			StoreEvents.OnMarketItemsRefreshed(marketItems);
+			StoreEvents.OnMarketItemsRefreshFinished(marketItems);
 		}
 
 		/// <summary>
-		/// Handles the <c>onItemPurchaseStarted</c> event, which is fired when an unexpected/unrecognized error 
+		/// Handles the <c>onItemPurchaseStarted</c> event, which is fired when an unexpected/unrecognized error
 		/// occurs in store.
 		/// </summary>
 		/// <param name="message">Message that contains information about the error.</param>
@@ -294,8 +306,8 @@ namespace Soomla {
 		}
 
 		/// <summary>
-		/// Handles the <c>onStoreControllerInitialized</c> event, which is fired when <c>StoreController</c> 
-		/// is initialized. 
+		/// Handles the <c>onStoreControllerInitialized</c> event, which is fired when <c>StoreController</c>
+		/// is initialized.
 		/// </summary>
 		/// <param name="message">Not used here.</param>
 		public void onStoreControllerInitialized(string message) {
@@ -341,7 +353,7 @@ namespace Soomla {
 
 		public static Action<PurchasableVirtualItem> OnMarketPurchaseCancelled = delegate {};
 
-		public static Action<PurchasableVirtualItem, string> OnMarketPurchase = delegate {};
+		public static Action<PurchasableVirtualItem, string, string> OnMarketPurchase = delegate {};
 
 		public static Action<PurchasableVirtualItem> OnMarketPurchaseStarted = delegate {};
 
@@ -351,7 +363,9 @@ namespace Soomla {
 
 		public static Action OnRestoreTransactionsStarted = delegate {};
 
-		public static Action<List<MarketItem>> OnMarketItemsRefreshed = delegate {};
+		public static Action OnMarketItemsRefreshStarted = delegate {};
+
+		public static Action<List<MarketItem>> OnMarketItemsRefreshFinished = delegate {};
 
 		public static Action<string> OnUnexpectedErrorInStore = delegate {};
 

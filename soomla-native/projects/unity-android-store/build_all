@@ -1,3 +1,1 @@
-#ant -buildfile unity-android-store.xml -Dlogging="true" -Dsoomla.filename="Soomla_debug" all
-#ant -buildfile unity-android-store.xml -Dlogging="false" -Dsoomla.filename="Soomla_release" all
 ant -buildfile unity-android-store.xml -Dsoomla.filename="UnityAndroidStore" all
