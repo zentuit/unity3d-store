@@ -143,8 +143,12 @@ public class EventHandler {
                     "}";
             marketItemsChanges += "#SOOM#";
         }
-        int index = marketItemsChanges.lastIndexOf("#SOOM#");
-        marketItemsChanges = marketItemsChanges.substring(0, index);
+        if (!TextUtils.isEmpty(marketItemsChanges)) {
+            int index = marketItemsChanges.lastIndexOf("#SOOM#");
+            if (index > 0) {
+                marketItemsChanges = marketItemsChanges.substring(0, index);
+            }
+        }
         UnityPlayer.UnitySendMessage("StoreEvents", "onMarketItemsRefreshFinished", marketItemsChanges);
     }
 

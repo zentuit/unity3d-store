@@ -37,7 +37,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../compilations/android/AndroidStore/AndroidStore.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../../Soomla/Assets/Soomla/compilations/android/AndroidStore/AndroidStore.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
