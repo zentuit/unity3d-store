@@ -9,7 +9,7 @@ StoreInventory.BuyItem("[itemId]");
 unity3d-store
 ---
 
-**April 6th, 2014:** v1.4.0 is released. Supporting new features in android-store and ios-store. see [CHANGELOG](changelog.md).
+**May 28th, 2014:** v1.5.0 is released. Supporting Amazon billing service. see [CHANGELOG](changelog.md).
 
 **April 2nd, 2014:** We dropped support for Unity3.5 and simplified the directory structure a little bit.
 
@@ -28,21 +28,21 @@ The unity3d-store is the Unity3D flavor of The SOOMLA Project. This project uses
 
 We've created a unitypackage and an example project:
 
-####unity3d-store v1.4.4 (release version)
+####unity3d-store v1.5.0
 
-[Unity 4.x - unity3d-store v1.4.4](http://bit.ly/1ir2odn)  
+[Unity 4.x - unity3d-store v1.5.0](http://bit.ly/1nTSile)  
 
-####unity3d-store v1.4.4 example
+####unity3d-store v1.5.0 example
 
 - The example project is mostly what you have in this Github repo. You can either download it or clone unity3d-store.
 
-[Unity 4.x - unity3d-store v1.4.4 example](http://bit.ly/SDcsGS)
+[Unity 4.x - unity3d-store v1.5.0 example](http://bit.ly/1jt9HNA)
 
 ## Debugging
 
-The download packages and the code in the repo use the "release" versions of android-store and ios-store. Also, Unity debug messages will only be printed out if you build the project with _Development Build_ checked.
+Unity debug messages will only be printed out if you build the project with _Development Build_ checked.
 
-If you want to see full debug messages from android-store and ios-store you'll have to use the debug builds of those libraries. You can find those builds in the repo, in the folder _soomla-native/compilations_ ( [android](https://github.com/soomla/unity3d-store/blob/master/soomla-native/compilations/android/Soomla_debug.jar)  [ios](https://github.com/soomla/unity3d-store/blob/master/soomla-native/compilations/ios/debug/libSoomlaIOSStore.a) ).
+If you want to see full debug messages from android-store and ios-store you just need to check the box that says "Debug Messages" in the SOOMLA Settings.
 
 
 ## Getting Started
