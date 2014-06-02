@@ -88,7 +88,10 @@
     else if ([notification.name isEqualToString:EVENT_RESTORE_TRANSACTIONS_STARTED]) {
         UnitySendMessage("StoreEvents", "onRestoreTransactionsStarted", "");
     }
-    else if ([notification.name isEqualToString:EVENT_MARKET_ITEMS_REFRESHED]) {
+    else if ([notification.name isEqualToString:EVENT_MARKET_ITEMS_REFRESH_STARTED]) {
+        UnitySendMessage("StoreEvents", "onMarketItemsRefreshStarted", "");
+    }
+    else if ([notification.name isEqualToString:EVENT_MARKET_ITEMS_REFRESH_FINISHED]) {
         NSArray* marketItems = [notification.userInfo objectForKey:DICT_ELEMENT_MARKET_ITEMS];
         NSMutableString* marketItemsChanges = [NSMutableString string];
         for(MarketItem* mi in marketItems) {
@@ -99,7 +102,7 @@
 		if ([marketItemsChanges length] > 6) {
         	[marketItemsChanges deleteCharactersInRange:NSMakeRange([marketItemsChanges length]-6, 6)];
 		}
-        UnitySendMessage("StoreEvents", "onMarketItemsRefreshed", [marketItemsChanges UTF8String]);
+        UnitySendMessage("StoreEvents", "onMarketItemsRefreshFinished", [marketItemsChanges UTF8String]);
     }
     else if ([notification.name isEqualToString:EVENT_UNEXPECTED_ERROR_IN_STORE]) {
         UnitySendMessage("StoreEvents", "onUnexpectedErrorInStore", "");
