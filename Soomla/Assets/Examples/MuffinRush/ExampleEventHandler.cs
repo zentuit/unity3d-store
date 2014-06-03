@@ -198,6 +198,8 @@ namespace Soomla.Example {
                     Utils.LogError("SOOMLA ExampleEventHandler", ex.Message);
                 }
             }
+
+			ExampleWindow.GetInstance().setupItemsTextures();
 		}
 		
 #if UNITY_ANDROID && !UNITY_EDITOR

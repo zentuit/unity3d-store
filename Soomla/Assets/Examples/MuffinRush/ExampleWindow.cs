@@ -14,6 +14,7 @@
 
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System;
 using Soomla;
 
@@ -60,7 +61,23 @@ namespace Soomla.Example {
 				fontSuffix = "_2X"; //a nice suffix to show the fonts are twice as big as the original
 			}
 		}
-		
+
+		private Texture2D tImgDirect;
+		private Texture2D tLogoNew;
+		private Font fgoodDog;
+		private Font fgoodDogSmall;
+		private Font fTitle;
+		private Texture2D tWhitePixel;
+		private Texture2D tMuffins;
+		private Font fName;
+		private Font fDesc;
+		private Font fBuy;
+		private Texture2D tBack;
+		private Texture2D tGetMore;
+		private Font tTitle;
+		private Dictionary<string, Texture2D> itemsTextures;
+
+
 		/// <summary>
 		/// Starts this instance.
 		/// Use this for initialization.
@@ -70,8 +87,34 @@ namespace Soomla.Example {
 			
 			StoreController.Initialize(new MuffinRushAssets());
 
-			// Initialization of 'ExampleLocalStoreInfo' and some example usages in 
-			// ExampleEventHandler.onStoreControllerInitialized
+			tImgDirect = (Texture2D)Resources.Load("SoomlaStore/images/img_direct");
+			fgoodDog = (Font)Resources.Load("SoomlaStore/GoodDog" + fontSuffix);
+			fgoodDogSmall = (Font)Resources.Load("SoomlaStore/GoodDog_small" + fontSuffix);
+			tLogoNew = (Texture2D)Resources.Load("SoomlaStore/images/soomla_logo_new");
+			tWhitePixel = (Texture2D)Resources.Load("SoomlaStore/images/white_pixel");
+			fTitle = (Font)Resources.Load("SoomlaStore/Title" + fontSuffix);
+			tMuffins = (Texture2D)Resources.Load("SoomlaStore/images/Muffins");
+			fName = (Font)Resources.Load("SoomlaStore/Name" + fontSuffix);
+			fDesc = (Font)Resources.Load("SoomlaStore/Description" + fontSuffix);
+			fBuy = (Font)Resources.Load("SoomlaStore/Buy" + fontSuffix);
+			tBack = (Texture2D)Resources.Load("SoomlaStore/images/back");
+			tGetMore = (Texture2D)Resources.Load("SoomlaStore/images/GetMore");
+			tTitle = (Font)Resources.Load("SoomlaStore/Title" + fontSuffix);
+		}
+
+		public static ExampleWindow GetInstance() {
+			return instance;
+		}
+
+		public void setupItemsTextures() {
+			itemsTextures = new Dictionary<string, Texture2D>();
+
+			foreach(VirtualGood vg in ExampleLocalStoreInfo.VirtualGoods){
+				itemsTextures[vg.ItemId] = (Texture2D)Resources.Load("SoomlaStore/images/" + vg.Name);
+			}
+			foreach(VirtualCurrencyPack vcp in ExampleLocalStoreInfo.VirtualCurrencyPacks){
+				itemsTextures[vcp.ItemId] = (Texture2D)Resources.Load("SoomlaStore/images/" + vcp.Name);
+			}
 		}
 
 		/// <summary>
@@ -148,22 +191,22 @@ namespace Soomla.Example {
 		void welcomeScreen()
 		{
 			//drawing background, just using a white pixel here
-			GUI.DrawTexture(new Rect(0,0,Screen.width,Screen.height),(Texture2D)Resources.Load("SoomlaStore/images/img_direct"));
+			GUI.DrawTexture(new Rect(0,0,Screen.width,Screen.height),tImgDirect);
 			//changing the font and alignment the label, and making a backup so we can put it back.
 			Font backupFont = GUI.skin.label.font;
 			TextAnchor backupAlignment = GUI.skin.label.alignment;
-			GUI.skin.label.font = (Font)Resources.Load("SoomlaStore/GoodDog" + fontSuffix);
+			GUI.skin.label.font = fgoodDog;
 			GUI.skin.label.alignment = TextAnchor.MiddleCenter;
 			//writing the text.
 			GUI.Label(new Rect(Screen.width/8,Screen.height/8f,Screen.width*6f/8f,Screen.height*0.3f),"Soomla Store\nExample");
 			//select the small font
-			GUI.skin.label.font = (Font)Resources.Load("SoomlaStore/GoodDog_small" + fontSuffix);
+			GUI.skin.label.font = fgoodDogSmall;
 			GUI.Label(new Rect(Screen.width/8,Screen.height*7f/8f,Screen.width*6f/8f,Screen.height/8f),"Press the SOOMLA-bot to open store");
 			//set font back to original
 			GUI.skin.label.font = backupFont;
 			GUI.Label(new Rect(Screen.width*0.25f,Screen.height/2-50,Screen.width*0.5f,100),"[ Your game here ]");
 			//drawing button and testing if it has been clicked
-			if(GUI.Button(new Rect(Screen.width*2/6,Screen.height*5f/8f,Screen.width*2/6,Screen.width*2/6),(Texture2D)Resources.Load("SoomlaStore/images/soomla_logo_new"))){
+			if(GUI.Button(new Rect(Screen.width*2/6,Screen.height*5f/8f,Screen.width*2/6,Screen.width*2/6),tLogoNew)){
 				guiState = GUIState.GOODS;
 #if UNITY_ANDROID && !UNITY_EDITOR
 				StoreController.StartIabServiceInBg();
@@ -179,7 +222,7 @@ namespace Soomla.Example {
 		void goodsScreen()
 		{
 			//white background
-			GUI.DrawTexture(new Rect(0,0,Screen.width,Screen.height),(Texture2D)Resources.Load("SoomlaStore/images/white_pixel"));
+			GUI.DrawTexture(new Rect(0,0,Screen.width,Screen.height), tWhitePixel);
 			Color backupColor = GUI.color;
 			TextAnchor backupAlignment = GUI.skin.label.alignment;
 			Font backupFont = GUI.skin.label.font;
@@ -191,11 +234,11 @@ namespace Soomla.Example {
 			GUI.skin.label.alignment = TextAnchor.UpperRight;
 			GUI.Label(new Rect(10,10,Screen.width-40,Screen.height),""+ ExampleLocalStoreInfo.CurrencyBalance);
 			GUI.skin.label.alignment = TextAnchor.MiddleCenter;
-			GUI.skin.label.font = (Font)Resources.Load("SoomlaStore/Title" + fontSuffix);
+			GUI.skin.label.font = fTitle;
 			GUI.Label(new Rect(0,Screen.height/8f,Screen.width,Screen.height/8f),"Virtual Goods");
 			
 			GUI.color = backupColor;
-			GUI.DrawTexture(new Rect(Screen.width-30,10,30,30),(Texture2D)Resources.Load("SoomlaStore/images/Muffins"));
+			GUI.DrawTexture(new Rect(Screen.width-30,10,30,30), tMuffins);
 			float productSize = Screen.width*0.30f;
 			float totalHeight = ExampleLocalStoreInfo.VirtualGoods.Count*productSize;
 			//Here we start a scrollView, the first rectangle is the position of the scrollView on the screen,
@@ -213,26 +256,26 @@ namespace Soomla.Example {
 						Debug.Log ("SOOMLA/UNITY " + e.Message);
 					}
 				}
-				GUI.DrawTexture(new Rect(0,y,Screen.width,productSize),(Texture2D)Resources.Load("SoomlaStore/images/white_pixel"));
+				GUI.DrawTexture(new Rect(0,y,Screen.width,productSize),tWhitePixel);
 				//We draw a button so we can detect a touch and then draw an image on top of it.
 				//TODO
 				//Resources.Load(path) The path is the relative path starting from the Resources folder.
 				//Make sure the images used for UI, have the textureType GUI. You can change this in the Unity editor.
 				GUI.color = backupColor;
-				GUI.DrawTexture(new Rect(0+productSize/8f, y+productSize/8f,productSize*6f/8f,productSize*6f/8f),(Texture2D)Resources.Load("SoomlaStore/images/" + vg.Name));
+				GUI.DrawTexture(new Rect(0+productSize/8f, y+productSize/8f,productSize*6f/8f,productSize*6f/8f), itemsTextures[vg.ItemId]);
 				GUI.color = Color.black;
-				GUI.skin.label.font = (Font)Resources.Load("SoomlaStore/Name" + fontSuffix);
+				GUI.skin.label.font = fName;
 				GUI.skin.label.alignment = TextAnchor.UpperLeft;
 				GUI.Label(new Rect(productSize,y,Screen.width,productSize/3f),vg.Name);
-				GUI.skin.label.font = (Font)Resources.Load("SoomlaStore/Description" + fontSuffix);
+				GUI.skin.label.font = fDesc;
 				GUI.Label(new Rect(productSize + 10f,y+productSize/3f,Screen.width-productSize-15f,productSize/3f),vg.Description);
 				GUI.Label(new Rect(Screen.width/2f,y+productSize*2/3f,Screen.width,productSize/3f),"price:" + ((PurchaseWithVirtualItem)vg.PurchaseType).Amount);
 				GUI.Label(new Rect(Screen.width*3/4f,y+productSize*2/3f,Screen.width,productSize/3f), "Balance:" + ExampleLocalStoreInfo.GoodsBalances[vg.ItemId]);
 				GUI.skin.label.alignment = TextAnchor.UpperRight;
-				GUI.skin.label.font = (Font)Resources.Load("SoomlaStore/Buy" + fontSuffix);
+				GUI.skin.label.font = fBuy;
 				GUI.Label(new Rect(0,y,Screen.width-10,productSize),"Click to buy");
 				GUI.color = Color.grey;
-				GUI.DrawTexture(new Rect(0,y+productSize-1,Screen.width,1),(Texture2D)Resources.Load("SoomlaStore/images/white_pixel"));
+				GUI.DrawTexture(new Rect(0,y+productSize-1,Screen.width,1),tWhitePixel);
 				y+= productSize;
 			}
 			GUI.EndScrollView();
@@ -251,12 +294,12 @@ namespace Soomla.Example {
 				StoreController.StopIabServiceInBg();
 #endif
 			}
-			GUI.DrawTexture(new Rect(Screen.width*2f/7f-width/2f,Screen.height*7f/8f+borderSize,width,buttonHeight),(Texture2D)Resources.Load("SoomlaStore/images/back"));
+			GUI.DrawTexture(new Rect(Screen.width*2f/7f-width/2f,Screen.height*7f/8f+borderSize,width,buttonHeight),tBack);
 			width = buttonHeight*227/94;
 			if(GUI.Button(new Rect(Screen.width*5f/7f-width/2f,Screen.height*7f/8f+borderSize,width,buttonHeight), "back")){
 				guiState = GUIState.PRODUCTS;
 			}
-			GUI.DrawTexture(new Rect(Screen.width*5f/7f-width/2f,Screen.height*7f/8f+borderSize,width,buttonHeight),(Texture2D)Resources.Load("SoomlaStore/images/GetMore"));
+			GUI.DrawTexture(new Rect(Screen.width*5f/7f-width/2f,Screen.height*7f/8f+borderSize,width,buttonHeight),tGetMore);
 		}
 	
 		/// <summary>
@@ -265,7 +308,7 @@ namespace Soomla.Example {
 		void currencyScreen()
 		{
 			//white background
-			GUI.DrawTexture(new Rect(0,0,Screen.width,Screen.height),(Texture2D)Resources.Load("SoomlaStore/images/white_pixel"));
+			GUI.DrawTexture(new Rect(0,0,Screen.width,Screen.height),tWhitePixel);
 			Color backupColor = GUI.color;
 			TextAnchor backupAlignment = GUI.skin.label.alignment;
 			Font backupFont = GUI.skin.label.font;
@@ -277,11 +320,11 @@ namespace Soomla.Example {
 			GUI.skin.label.alignment = TextAnchor.UpperRight;
 			GUI.Label(new Rect(10,10,Screen.width-40,Screen.height),""+ExampleLocalStoreInfo.CurrencyBalance);
 			GUI.skin.label.alignment = TextAnchor.MiddleCenter;
-			GUI.skin.label.font = (Font)Resources.Load("SoomlaStore/Title" + fontSuffix);
+			GUI.skin.label.font = tTitle;
 			GUI.Label(new Rect(0,Screen.height/8f,Screen.width,Screen.height/8f),"Virtual Currency Packs");
 			
 			GUI.color = backupColor;
-			GUI.DrawTexture(new Rect(Screen.width-30,10,30,30),(Texture2D)Resources.Load("SoomlaStore/images/" + ExampleLocalStoreInfo.VirtualCurrencies[0].Name));
+			GUI.DrawTexture(new Rect(Screen.width-30,10,30,30),tMuffins);
 			float productSize = Screen.width*0.30f;
 			float totalHeight = ExampleLocalStoreInfo.VirtualGoods.Count*productSize;
 			//Here we start a scrollView, the first rectangle is the position of the scrollView on the screen,
@@ -300,22 +343,22 @@ namespace Soomla.Example {
 						Debug.Log ("SOOMLA/UNITY " + e.Message);
 					}
 				}
-				GUI.DrawTexture(new Rect(0,y,Screen.width,productSize),(Texture2D)Resources.Load("SoomlaStore/images/white_pixel"));
+				GUI.DrawTexture(new Rect(0,y,Screen.width,productSize),tWhitePixel);
 				//Resources.Load(path) The path is the relative path starting from the Resources folder.
 				//Make sure the images used for UI, have the textureType GUI. You can change this in the Unity editor.
-				GUI.DrawTexture(new Rect(0+productSize/8f, y+productSize/8f,productSize*6f/8f,productSize*6f/8f),(Texture2D)Resources.Load("SoomlaStore/images/" + cp.Name));
+				GUI.DrawTexture(new Rect(0+productSize/8f, y+productSize/8f,productSize*6f/8f,productSize*6f/8f),itemsTextures[cp.ItemId]);
 				GUI.color = Color.black;
-				GUI.skin.label.font = (Font)Resources.Load("SoomlaStore/Name" + fontSuffix);
+				GUI.skin.label.font = fName;
 				GUI.skin.label.alignment = TextAnchor.UpperLeft;
 				GUI.Label(new Rect(productSize,y,Screen.width,productSize/3f),cp.Name);
-				GUI.skin.label.font = (Font)Resources.Load("SoomlaStore/Description" + fontSuffix);
+				GUI.skin.label.font = fDesc;
 				GUI.Label(new Rect(productSize + 10f,y+productSize/3f,Screen.width-productSize-15f,productSize/3f),cp.Description);
 				GUI.Label(new Rect(Screen.width*3/4f,y+productSize*2/3f,Screen.width,productSize/3f),"price:" + ((PurchaseWithMarket)cp.PurchaseType).MarketItem.Price.ToString("0.00"));
 				GUI.skin.label.alignment = TextAnchor.UpperRight;
-				GUI.skin.label.font = (Font)Resources.Load("SoomlaStore/Buy" + fontSuffix);
+				GUI.skin.label.font = fBuy;
 				GUI.Label(new Rect(0,y,Screen.width-10,productSize),"Click to buy");
 				GUI.color = Color.grey;
-				GUI.DrawTexture(new Rect(0,y+productSize-1,Screen.width,1),(Texture2D)Resources.Load("SoomlaStore/images/white_pixel"));
+				GUI.DrawTexture(new Rect(0,y+productSize-1,Screen.width,1),tWhitePixel);
 				y+= productSize;
 			}
 			GUI.EndScrollView();
@@ -331,7 +374,7 @@ namespace Soomla.Example {
 			if(GUI.Button(new Rect(Screen.width/2f-width/2f,Screen.height*7f/8f+borderSize,width,buttonHeight), "back")){
 				guiState = GUIState.GOODS;
 			}
-			GUI.DrawTexture(new Rect(Screen.width/2f-width/2f,Screen.height*7f/8f+borderSize,width,buttonHeight),(Texture2D)Resources.Load("SoomlaStore/images/back"));
+			GUI.DrawTexture(new Rect(Screen.width/2f-width/2f,Screen.height*7f/8f+borderSize,width,buttonHeight),tBack);
 		}
 	
 	}
