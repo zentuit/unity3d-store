@@ -41,7 +41,7 @@ namespace Soomla {
 		protected PurchasableVirtualItem(AndroidJavaObject jniVirtualItem) :
 			base(jniVirtualItem)
 		{
-			StoreUtils.LogDebug(TAG, "Trying to create PurchasableVirtualItem with itemId: " + 
+			Utils.LogDebug(TAG, "Trying to create PurchasableVirtualItem with itemId: " + 
 			                    jniVirtualItem.Call<string>("getItemId"));
 			using(AndroidJavaObject jniPurchaseType = jniVirtualItem.Call<AndroidJavaObject>("getPurchaseType")) {
 				System.IntPtr cls = AndroidJNI.FindClass("com/soomla/store/purchaseTypes/PurchaseWithMarket");
@@ -58,7 +58,7 @@ namespace Soomla {
 						
 						PurchaseType = new PurchaseWithVirtualItem(itemId, amount);
 					} else {
-						StoreUtils.LogError(TAG, "Couldn't determine what type of class is the given purchaseType.");
+						Utils.LogError(TAG, "Couldn't determine what type of class is the given purchaseType.");
 					}
 				} 
 			}
@@ -86,7 +86,7 @@ namespace Soomla {
 	
 				PurchaseType = new PurchaseWithVirtualItem(itemId, amount);
 	        } else {
-	            StoreUtils.LogError(TAG, "Couldn't determine what type of class is the given purchaseType.");
+	            Utils.LogError(TAG, "Couldn't determine what type of class is the given purchaseType.");
 	        }
 		}
 		
@@ -113,7 +113,7 @@ namespace Soomla {
 	
 	            jsonObject.AddField(JSONConsts.PURCHASABLE_ITEM, purchasableObj);
 	        } catch (System.Exception e) {
-	            StoreUtils.LogError(TAG, "An error occurred while generating JSON object. " + e.Message);
+	            Utils.LogError(TAG, "An error occurred while generating JSON object. " + e.Message);
 	        }
 
 	        return jsonObject;

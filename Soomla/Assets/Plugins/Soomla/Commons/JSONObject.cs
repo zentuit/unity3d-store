@@ -11,7 +11,8 @@ using System.Collections.Generic;
  * Copyright Matt Schoen 2010
  */
 
-public class JSONObject : Nullable {
+public class JSONObject : NullCheckable {
+
 	const int MAX_DEPTH = 1000;
 	public enum Type { NULL, STRING, NUMBER, OBJECT, ARRAY, BOOL }
 	public JSONObject parent;

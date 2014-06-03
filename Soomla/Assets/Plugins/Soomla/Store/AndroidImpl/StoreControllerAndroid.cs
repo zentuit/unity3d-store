@@ -39,7 +39,7 @@ namespace Soomla {
 			if (SoomSettings.GPlayBP && 
 			    (string.IsNullOrEmpty(SoomSettings.AndroidPublicKey) ||
 			 		SoomSettings.AndroidPublicKey==SoomSettings.AND_PUB_KEY_DEFAULT)) {
-				StoreUtils.LogError(TAG, "SOOMLA/UNITY You chose Google Play billing service but publicKey is not set!! Stopping here!!");
+				Utils.LogError(TAG, "SOOMLA/UNITY You chose Google Play billing service but publicKey is not set!! Stopping here!!");
 				throw new ExitGUIException();
 			}
 

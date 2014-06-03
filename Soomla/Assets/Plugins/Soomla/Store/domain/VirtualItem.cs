@@ -121,7 +121,7 @@ namespace Soomla {
 		}
 		
 		public static VirtualItem factoryItemFromJNI(AndroidJavaObject jniItem) {
-			StoreUtils.LogDebug(TAG, "Trying to create VirtualItem with itemId: " + jniItem.Call<string>("getItemId"));
+			Utils.LogDebug(TAG, "Trying to create VirtualItem with itemId: " + jniItem.Call<string>("getItemId"));
 			
 			if (isInstanceOf(jniItem, "com/soomla/store/domain/virtualGoods/SingleUseVG")) {
 				return new SingleUseVG(jniItem);
@@ -140,7 +140,7 @@ namespace Soomla {
 			} else if (isInstanceOf(jniItem, "com/soomla/store/domain/NonConsumableItem")) {
 				return new NonConsumableItem(jniItem);
 			} else {
-				StoreUtils.LogError(TAG, "Couldn't determine what type of class is the given jniItem.");
+				Utils.LogError(TAG, "Couldn't determine what type of class is the given jniItem.");
 			}
 			
 			return null;

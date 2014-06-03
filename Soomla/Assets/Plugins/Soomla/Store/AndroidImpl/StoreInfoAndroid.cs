@@ -44,11 +44,11 @@ namespace Soomla {
 		/// number in <c>IStoreAssets</c>'s <c>getVersion</c>.
 		/// </summary>
 		override protected void _initialize(int version, string storeAssetsJSON) {
-			StoreUtils.LogDebug(TAG, "pushing data to StoreAssets on java side");
+			Utils.LogDebug(TAG, "pushing data to StoreAssets on java side");
 			using(AndroidJavaClass jniStoreAssets = new AndroidJavaClass("com.soomla.unity.StoreAssets")) {
 				jniStoreAssets.CallStatic("prepare", version, storeAssetsJSON);
 			}
-			StoreUtils.LogDebug(TAG, "done! (pushing data to StoreAssets on java side)");
+			Utils.LogDebug(TAG, "done! (pushing data to StoreAssets on java side)");
 		}
 
 		/// <summary>

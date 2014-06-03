@@ -25,6 +25,7 @@ namespace Soomla
 	/// </summary>
 	public class StoreController
 	{
+
 		static StoreController _instance = null;
 		static StoreController instance {
 			get {
@@ -49,22 +50,22 @@ namespace Soomla
 		/// </exception>
 		public static void Initialize(IStoreAssets storeAssets) {
 			if (string.IsNullOrEmpty(SoomSettings.CustomSecret)) {
-				StoreUtils.LogError(TAG, "SOOMLA/UNITY MISSING customSecret !!! Stopping here !!");
+				Utils.LogError(TAG, "SOOMLA/UNITY MISSING customSecret !!! Stopping here !!");
 				throw new ExitGUIException();
 			}
 
 			if (SoomSettings.CustomSecret==SoomSettings.ONLY_ONCE_DEFAULT) {
-				StoreUtils.LogError(TAG, "SOOMLA/UNITY You have to change customSecret !!! Stopping here !!");
+				Utils.LogError(TAG, "SOOMLA/UNITY You have to change customSecret !!! Stopping here !!");
 				throw new ExitGUIException();
 			}
 
 			if (string.IsNullOrEmpty(SoomSettings.SoomSecret)) {
-				StoreUtils.LogError(TAG, "SOOMLA/UNITY MISSING soomSec !!! Stopping here !!");
+				Utils.LogError(TAG, "SOOMLA/UNITY MISSING soomSec !!! Stopping here !!");
 				throw new ExitGUIException();
 			}
 
 			if (SoomSettings.SoomSecret==SoomSettings.ONLY_ONCE_DEFAULT) {
-				StoreUtils.LogError(TAG, "SOOMLA/UNITY You have to change soomSec !!! Stopping here !!");
+				Utils.LogError(TAG, "SOOMLA/UNITY You have to change soomSec !!! Stopping here !!");
 				throw new ExitGUIException();
 			}
 

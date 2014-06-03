@@ -62,19 +62,19 @@ namespace Soomla
 		/// <param name="storeAssets">your game's economy</param>
 		public static void Initialize(IStoreAssets storeAssets) {
 			
-//			StoreUtils.LogDebug(TAG, "Adding currency");
+//			Utils.LogDebug(TAG, "Adding currency");
 			JSONObject currencies = new JSONObject(JSONObject.Type.ARRAY);
 			foreach(VirtualCurrency vi in storeAssets.GetCurrencies()) {
 				currencies.Add(vi.toJSONObject());
 			}
 			
-//			StoreUtils.LogDebug(TAG, "Adding packs");
+//			Utils.LogDebug(TAG, "Adding packs");
 			JSONObject packs = new JSONObject(JSONObject.Type.ARRAY);
 			foreach(VirtualCurrencyPack vi in storeAssets.GetCurrencyPacks()) {
 				packs.Add(vi.toJSONObject());
 			}
 			
-//			StoreUtils.LogDebug(TAG, "Adding goods");
+//			Utils.LogDebug(TAG, "Adding goods");
 		    JSONObject suGoods = new JSONObject(JSONObject.Type.ARRAY);
 		    JSONObject ltGoods = new JSONObject(JSONObject.Type.ARRAY);
 		    JSONObject eqGoods = new JSONObject(JSONObject.Type.ARRAY);
@@ -100,19 +100,19 @@ namespace Soomla
 			goods.AddField(JSONConsts.STORE_GOODS_UP, upGoods);
 			goods.AddField(JSONConsts.STORE_GOODS_PA, paGoods);
 			
-//			StoreUtils.LogDebug(TAG, "Adding categories");
+//			Utils.LogDebug(TAG, "Adding categories");
 			JSONObject categories = new JSONObject(JSONObject.Type.ARRAY);
 			foreach(VirtualCategory vi in storeAssets.GetCategories()) {
 				categories.Add(vi.toJSONObject());
 			}
 			
-//			StoreUtils.LogDebug(TAG, "Adding nonConsumables");
+//			Utils.LogDebug(TAG, "Adding nonConsumables");
 			JSONObject nonConsumables = new JSONObject(JSONObject.Type.ARRAY);
 			foreach(NonConsumableItem vi in storeAssets.GetNonConsumableItems()) {
 				nonConsumables.Add(vi.toJSONObject());
 			}
 			
-//			StoreUtils.LogDebug(TAG, "Preparing StoreAssets  JSONObject");
+//			Utils.LogDebug(TAG, "Preparing StoreAssets  JSONObject");
 			JSONObject storeAssetsObj = new JSONObject(JSONObject.Type.OBJECT);
 			storeAssetsObj.AddField(JSONConsts.STORE_CATEGORIES, categories);
 			storeAssetsObj.AddField(JSONConsts.STORE_CURRENCIES, currencies);
@@ -131,7 +131,7 @@ namespace Soomla
 		/// <exception cref="VirtualItemNotFoundException">Exception is thrown if item is not found.</exception>
 		/// <returns>Item with the given id.</returns>
 		public static VirtualItem GetItemByItemId(string itemId) {
-			StoreUtils.LogDebug(TAG, "Trying to fetch an item with itemId: " + itemId);
+			Utils.LogDebug(TAG, "Trying to fetch an item with itemId: " + itemId);
 			return instance._getItemByItemId(itemId);
 		}
 
@@ -179,7 +179,7 @@ namespace Soomla
 		/// <param name="goodItemId">Item id.</param>
 		/// <returns>All upgrades for virtual good with the given id.</returns>
 		public static List<UpgradeVG> GetUpgradesForVirtualGood(string goodItemId) {
-			StoreUtils.LogDebug(TAG, "Trying to fetch upgrades for " + goodItemId);
+			Utils.LogDebug(TAG, "Trying to fetch upgrades for " + goodItemId);
 			return instance._getUpgradesForVirtualGood(goodItemId);
 		}
 
@@ -188,7 +188,7 @@ namespace Soomla
 		/// </summary>
 		/// <returns>The virtual currencies.</returns>
 		public static List<VirtualCurrency> GetVirtualCurrencies() {
-			StoreUtils.LogDebug(TAG, "Trying to fetch currencies");
+			Utils.LogDebug(TAG, "Trying to fetch currencies");
 			return instance._getVirtualCurrencies();
 		}
 
@@ -197,7 +197,7 @@ namespace Soomla
 		/// </summary>
 		/// <returns>All virtual goods.</returns>
 		public static List<VirtualGood> GetVirtualGoods() {
-			StoreUtils.LogDebug(TAG, "Trying to fetch goods");
+			Utils.LogDebug(TAG, "Trying to fetch goods");
 			return instance._getVirtualGoods();
 		}
 
@@ -206,7 +206,7 @@ namespace Soomla
 		/// </summary>
 		/// <returns>All virtual currency packs.</returns>
 		public static List<VirtualCurrencyPack> GetVirtualCurrencyPacks() {
-			StoreUtils.LogDebug(TAG, "Trying to fetch packs");
+			Utils.LogDebug(TAG, "Trying to fetch packs");
 			return instance._getVirtualCurrencyPacks();
 		}
 
@@ -215,7 +215,7 @@ namespace Soomla
 		/// </summary>
 		/// <returns>All non consumable items.</returns>
 		public static List<NonConsumableItem> GetNonConsumableItems() {
-			StoreUtils.LogDebug(TAG, "Trying to fetch noncons");
+			Utils.LogDebug(TAG, "Trying to fetch noncons");
 			return instance._getNonConsumableItems();
 		}
 
@@ -224,7 +224,7 @@ namespace Soomla
 		/// </summary>
 		/// <returns>All virtual categories.</returns>
 		public static List<VirtualCategory> GetVirtualCategories() {
-			StoreUtils.LogDebug(TAG, "Trying to fetch categories");
+			Utils.LogDebug(TAG, "Trying to fetch categories");
 			return instance._getVirtualCategories();
 		}
 

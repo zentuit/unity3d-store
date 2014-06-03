@@ -17,9 +17,9 @@ using System.Collections;
 
 /// Extend this class if you want to use the syntax
 ///	<c>if(myObject)</c> to check if it is not null
-public class Nullable {
+public class NullCheckable {
 
-	public static implicit operator bool(Nullable o) {
+	public static implicit operator bool(NullCheckable o) {
 		return (object)o != null;
 	}
 }

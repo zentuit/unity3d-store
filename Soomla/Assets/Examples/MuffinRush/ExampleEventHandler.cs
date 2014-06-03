@@ -193,9 +193,9 @@ namespace Soomla.Example {
             if (ExampleLocalStoreInfo.VirtualCurrencies.Count>0) {
                 try {
                     StoreInventory.GiveItem(ExampleLocalStoreInfo.VirtualCurrencies[0].ItemId,4000);
-                    StoreUtils.LogDebug("SOOMLA ExampleEventHandler", "Currency balance:" + StoreInventory.GetItemBalance(ExampleLocalStoreInfo.VirtualCurrencies[0].ItemId));
+                    Utils.LogDebug("SOOMLA ExampleEventHandler", "Currency balance:" + StoreInventory.GetItemBalance(ExampleLocalStoreInfo.VirtualCurrencies[0].ItemId));
                 } catch (VirtualItemNotFoundException ex){
-                    StoreUtils.LogError("SOOMLA ExampleEventHandler", ex.Message);
+                    Utils.LogError("SOOMLA ExampleEventHandler", ex.Message);
                 }
             }
 		}
