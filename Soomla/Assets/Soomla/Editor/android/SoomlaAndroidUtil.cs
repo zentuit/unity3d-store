@@ -103,7 +103,7 @@ namespace UnityEditor.SoomlaEditor
 
 		/** Billing Providers util functions **/
 
-		private static string bpRootPath = Application.dataPath + "/Soomla/compilations/android/AndroidStore/billing-services/";
+		private static string bpRootPath = Application.dataPath + "/Soomla/compilations/android-billing-services/";
 
 		public static void handlePlayBPJars(bool remove) {
 			try {
