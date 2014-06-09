@@ -70,6 +70,10 @@ extern "C"{
     void storeController_RefreshInventory() {
 		[[StoreController getInstance] refreshInventory];
 	}
+    
+    void storeController_RefreshMarketItemsDetails() {
+		[[StoreController getInstance] refreshMarketItemsDetails];
+	}
 
 	void storeController_TransactionsAlreadyRestored(bool* outResult){
 		*outResult = [[StoreController getInstance] transactionsAlreadyRestored];

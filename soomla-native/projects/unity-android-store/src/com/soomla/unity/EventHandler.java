@@ -22,7 +22,8 @@ import com.soomla.store.events.MarketPurchaseCancelledEvent;
 import com.soomla.store.events.MarketPurchaseEvent;
 import com.soomla.store.events.MarketPurchaseStartedEvent;
 import com.soomla.store.events.MarketRefundEvent;
-import com.soomla.store.events.RestoreTransactionsFinishedEvent;
+import com.soomla.store.events.Resto
+reTransactionsFinishedEvent;
 import com.soomla.store.events.RestoreTransactionsStartedEvent;
 import com.soomla.store.events.StoreControllerInitializedEvent;
 import com.soomla.store.events.UnexpectedStoreErrorEvent;

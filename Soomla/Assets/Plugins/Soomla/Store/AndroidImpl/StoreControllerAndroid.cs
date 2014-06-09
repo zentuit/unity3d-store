@@ -99,12 +99,21 @@ namespace Soomla {
 		}
 
 		/// <summary>
-		/// Creates a list of all metadata stored in the Market (the items that have been purchased).
-		/// The metadata includes the item's name, description, price, product id, etc...
+		/// This method will run _restoreTransactions followed by _refreshMarketItemsDetails.
 		/// </summary>
 		protected override void _refreshInventory() {
 			AndroidJNI.PushLocalFrame(100);
 			jniStoreController.Call("refreshInventory");
+			AndroidJNI.PopLocalFrame(IntPtr.Zero);
+		}
+
+		/// <summary>
+		/// Creates a list of all metadata stored in the Market (the items that have been purchased).
+		/// The metadata includes the item's name, description, price, product id, etc...
+		/// </summary>
+		protected override void _refreshMarketItemsDetails() {
+			AndroidJNI.PushLocalFrame(100);
+			jniStoreController.Call("refreshMarketItemsDetails");
 			AndroidJNI.PopLocalFrame(IntPtr.Zero);
 		}
 

@@ -90,13 +90,20 @@ namespace Soomla
 		}
 
 		/// <summary>
+		/// This method will run RestoreTransactions followed by RefreshMarketItemsDetails
+		/// </summary>
+		public static void RefreshInventory() {
+			instance._refreshInventory();
+		}
+
+		/// <summary>
 		/// Creates a list of all metadata stored in the Market (the items that have been purchased).
 		/// The metadata includes the item's name, description, price, product id, etc...
 		/// Posts a <c>MarketItemsRefreshed</c> event with the list just created.
 		/// Upon failure, prints error message.
 		/// </summary>
-		public static void RefreshInventory() {
-			instance._refreshInventory();
+		public static void RefreshMarketItemsDetails() {
+			instance._refreshMarketItemsDetails();
 		}
 
 		/// <summary>
@@ -138,6 +145,8 @@ namespace Soomla
 		protected virtual void _refreshInventory() { }
 
 		protected virtual void _restoreTransactions() { }
+
+		protected virtual void _refreshMarketItemsDetails() { }
 
 		protected virtual bool _transactionsAlreadyRestored() {
 			return true;
