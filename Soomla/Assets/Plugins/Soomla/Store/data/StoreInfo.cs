@@ -31,7 +31,7 @@ namespace Soomla
 	public class StoreInfo
 	{
 
-#if (!UNITY_IOS && !UNITY_ANDROID) || UNITY_EDITOR
+
 		// Create a local copy of VirtualGoods for display in the Unity editor window 
 		private static VirtualCurrency[] localCurrencies;
 		private static VirtualCurrencyPack[] localCurrencyPacks;
@@ -43,9 +43,9 @@ namespace Soomla
 		private static Dictionary<String, PurchasableVirtualItem> localPurchasableItems = new Dictionary<String, PurchasableVirtualItem>();
 		private static Dictionary<String, VirtualCategory> localGoodsCategories = new Dictionary<String, VirtualCategory>();
 		private static Dictionary<String, List<UpgradeVG>> localGoodsUpgrades = new Dictionary<String, List<UpgradeVG>>();
-#endif
 
-		protected const string TAG = "SOOMLA StoreInfo"; // used for Log error messages
+
+		protected const string TAG = "SOOMLA/UNITY StoreInfo"; // used for Log error messages
 
 		static StoreInfo _instance = null;
 		static StoreInfo instance {
@@ -62,6 +62,26 @@ namespace Soomla
 				return _instance;
 			}
 		}
+
+		protected StoreInfo() {
+#if !UNITY_EDITOR
+			StoreEvents.OnStoreControllerInitialized += onStoreControllerInitialized;
+#endif
+		}
+
+#if !UNITY_EDITOR
+		public void onStoreControllerInitialized() {
+			localCurrencies = GetVirtualCurrencies().ToArray();
+			localVirtualGoods = GetVirtualGoods().ToArray();
+			localCurrencyPacks = GetVirtualCurrencyPacks().ToArray();	
+			localCategories = GetVirtualCategories().ToArray();
+			localNonConsumableItems = GetNonConsumableItems().ToArray();
+
+			updateAggregatedLists();
+
+			StoreInventory.GetInstance().RefreshLocalBalances();
+		}
+#endif
 
 
 		/// <summary>
@@ -88,6 +108,12 @@ namespace Soomla
 		/// <returns>Item with the given id.</returns>
 		public static VirtualItem GetItemByItemId(string itemId) {
 			Utils.LogDebug(TAG, "Trying to fetch an item with itemId: " + itemId);
+
+			VirtualItem item;
+			if (localVirtualItems != null && localVirtualItems.TryGetValue(itemId, out item)) {
+				return item;
+			}
+
 			return instance._getItemByItemId(itemId);
 		}
 
@@ -98,6 +124,11 @@ namespace Soomla
 		/// <exception cref="VirtualItemNotFoundException">Exception is thrown if item is not found.</exception>
 		/// <returns>Purchasable virtual item with the given id.</returns>
 		public static PurchasableVirtualItem GetPurchasableItemWithProductId(string productId) {
+			PurchasableVirtualItem item;
+			if (localPurchasableItems != null && localPurchasableItems.TryGetValue(productId, out item)) {
+				return item;
+			}
+
 			return instance._getPurchasableItemWithProductId(productId);
 		}
 
@@ -108,6 +139,11 @@ namespace Soomla
 		/// <exception cref="VirtualItemNotFoundException">Exception is thrown if category is not found.</exception>
 		/// <returns>Category that the item with given id belongs to.</returns>
 		public static VirtualCategory GetCategoryForVirtualGood(string goodItemId) {
+			VirtualCategory category;
+			if (localGoodsCategories != null && localGoodsCategories.TryGetValue(goodItemId, out category)) {
+				return category;
+			}
+
 			return instance._getCategoryForVirtualGood(goodItemId);
 		}
 
@@ -117,6 +153,11 @@ namespace Soomla
 		/// <param name="goodItemId">Item id.</param>
 		/// <returns>The first upgrade for virtual good with the given id.</returns>
 		public static UpgradeVG GetFirstUpgradeForVirtualGood(string goodItemId) {
+			List<UpgradeVG> upgrades;
+			if (localGoodsUpgrades != null && localGoodsUpgrades.TryGetValue(goodItemId, out upgrades)) {
+				return upgrades.FirstOrDefault(up => string.IsNullOrEmpty(up.PrevItemId));			
+			}
+
 			return instance._getFirstUpgradeForVirtualGood(goodItemId);
 		}
 
@@ -126,6 +167,11 @@ namespace Soomla
 		/// <param name="goodItemId">item id</param>
 		/// <returns>last upgrade for virtual good with the given id</returns>
 		public static UpgradeVG GetLastUpgradeForVirtualGood(string goodItemId) {
+			List<UpgradeVG> upgrades;
+			if (localGoodsUpgrades != null && localGoodsUpgrades.TryGetValue(goodItemId, out upgrades)) {
+				return upgrades.FirstOrDefault(up => string.IsNullOrEmpty(up.NextItemId));
+			}
+
 			return instance._getLastUpgradeForVirtualGood(goodItemId);
 		}
 
@@ -136,6 +182,11 @@ namespace Soomla
 		/// <returns>All upgrades for virtual good with the given id.</returns>
 		public static List<UpgradeVG> GetUpgradesForVirtualGood(string goodItemId) {
 			Utils.LogDebug(TAG, "Trying to fetch upgrades for " + goodItemId);
+			List<UpgradeVG> upgrades;
+			if (localGoodsUpgrades != null && localGoodsUpgrades.TryGetValue(goodItemId, out upgrades)) {
+				return upgrades;
+			}
+
 			return instance._getUpgradesForVirtualGood(goodItemId);
 		}
 
@@ -145,6 +196,10 @@ namespace Soomla
 		/// <returns>The virtual currencies.</returns>
 		public static List<VirtualCurrency> GetVirtualCurrencies() {
 			Utils.LogDebug(TAG, "Trying to fetch currencies");
+			if (localCurrencies != null) {
+				return localCurrencies.ToList();
+			}
+
 			return instance._getVirtualCurrencies();
 		}
 
@@ -154,6 +209,11 @@ namespace Soomla
 		/// <returns>All virtual goods.</returns>
 		public static List<VirtualGood> GetVirtualGoods() {
 			Utils.LogDebug(TAG, "Trying to fetch goods");
+
+			if (localVirtualGoods != null) {
+				return localVirtualGoods.ToList();
+			}
+
 			return instance._getVirtualGoods();
 		}
 
@@ -163,6 +223,11 @@ namespace Soomla
 		/// <returns>All virtual currency packs.</returns>
 		public static List<VirtualCurrencyPack> GetVirtualCurrencyPacks() {
 			Utils.LogDebug(TAG, "Trying to fetch packs");
+
+			if (localCurrencyPacks != null) {
+				return localCurrencyPacks.ToList();
+			}
+
 			return instance._getVirtualCurrencyPacks();
 		}
 
@@ -172,6 +237,10 @@ namespace Soomla
 		/// <returns>All non consumable items.</returns>
 		public static List<NonConsumableItem> GetNonConsumableItems() {
 			Utils.LogDebug(TAG, "Trying to fetch noncons");
+
+			if (localNonConsumableItems != null) {
+				return localNonConsumableItems.ToList();
+			}
 			return instance._getNonConsumableItems();
 		}
 
@@ -181,8 +250,16 @@ namespace Soomla
 		/// <returns>All virtual categories.</returns>
 		public static List<VirtualCategory> GetVirtualCategories() {
 			Utils.LogDebug(TAG, "Trying to fetch categories");
+
+			if (localCategories != null) {
+				return localCategories.ToList();
+			}
+
 			return instance._getVirtualCategories();
 		}
+
+		/** Protected Functions **/
+		/** These protected virtual functions will only run when in editor **/
 
 		virtual protected void _initialize(IStoreAssets storeAssets) {
 			// Initialise lists of local data for viewing in the Unity editor
@@ -192,52 +269,7 @@ namespace Soomla
 			localCategories = storeAssets.GetCategories();
 			localNonConsumableItems = storeAssets.GetNonConsumableItems();
 			
-			// rewritten from android java code
-			foreach (VirtualCurrency vi in localCurrencies) {
-				localVirtualItems.Add(vi.ItemId, vi);
-			}
-			
-			foreach (VirtualCurrencyPack vi in localCurrencyPacks) {
-				localVirtualItems.Add(vi.ItemId, vi);
-				
-				PurchaseType purchaseType = vi.PurchaseType;
-				if (purchaseType is PurchaseWithMarket) {
-					localPurchasableItems.Add(((PurchaseWithMarket) purchaseType).MarketItem.ProductId, vi);
-				}
-			}
-			
-			foreach (VirtualGood vi in localVirtualGoods) {
-				localVirtualItems.Add(vi.ItemId, vi);
-				
-				if (vi is UpgradeVG) {
-					List<UpgradeVG> upgrades;
-					if (!localGoodsUpgrades.TryGetValue(((UpgradeVG) vi).GoodItemId, out upgrades)) {
-						upgrades = new List<UpgradeVG>();
-						localGoodsUpgrades.Add(((UpgradeVG) vi).GoodItemId, upgrades);
-					}
-					upgrades.Add((UpgradeVG) vi);
-				}
-				
-				PurchaseType purchaseType = vi.PurchaseType;
-				if (purchaseType is PurchaseWithMarket) {
-					localPurchasableItems.Add(((PurchaseWithMarket) purchaseType).MarketItem.ProductId, vi);
-				}
-			}
-			
-			foreach (NonConsumableItem vi in localNonConsumableItems) {
-				localVirtualItems.Add(vi.ItemId, vi);
-				
-				PurchaseType purchaseType = vi.PurchaseType;
-				if (purchaseType is PurchaseWithMarket) {
-					localPurchasableItems.Add(((PurchaseWithMarket) purchaseType).MarketItem.ProductId, vi);
-				}
-			}
-			
-			foreach (VirtualCategory category in localCategories) {
-				foreach (string goodItemId in category.GoodItemIds) {
-					localGoodsCategories.Add(goodItemId, category);
-				}
-			}
+			updateAggregatedLists ();
 		}
 
 		virtual protected VirtualItem _getItemByItemId(string itemId) {
@@ -376,6 +408,50 @@ namespace Soomla
 			storeAssetsObj.AddField(JSONConsts.STORE_NONCONSUMABLES, nonConsumables);
 			
 			return storeAssetsObj.print();
+		}
+
+
+		/** Private functions **/
+
+		private static void updateAggregatedLists (){
+			// rewritten from android java code
+			foreach (VirtualCurrency vi in localCurrencies) {
+				localVirtualItems.Add (vi.ItemId, vi);
+			}
+			foreach (VirtualCurrencyPack vi in localCurrencyPacks) {
+				localVirtualItems.Add (vi.ItemId, vi);
+				PurchaseType purchaseType = vi.PurchaseType;
+				if (purchaseType is PurchaseWithMarket) {
+					localPurchasableItems.Add (((PurchaseWithMarket)purchaseType).MarketItem.ProductId, vi);
+				}
+			}
+			foreach (VirtualGood vi in localVirtualGoods) {
+				localVirtualItems.Add (vi.ItemId, vi);
+				if (vi is UpgradeVG) {
+					List<UpgradeVG> upgrades;
+					if (!localGoodsUpgrades.TryGetValue (((UpgradeVG)vi).GoodItemId, out upgrades)) {
+						upgrades = new List<UpgradeVG> ();
+						localGoodsUpgrades.Add (((UpgradeVG)vi).GoodItemId, upgrades);
+					}
+					upgrades.Add ((UpgradeVG)vi);
+				}
+				PurchaseType purchaseType = vi.PurchaseType;
+				if (purchaseType is PurchaseWithMarket) {
+					localPurchasableItems.Add (((PurchaseWithMarket)purchaseType).MarketItem.ProductId, vi);
+				}
+			}
+			foreach (NonConsumableItem vi in localNonConsumableItems) {
+				localVirtualItems.Add (vi.ItemId, vi);
+				PurchaseType purchaseType = vi.PurchaseType;
+				if (purchaseType is PurchaseWithMarket) {
+					localPurchasableItems.Add (((PurchaseWithMarket)purchaseType).MarketItem.ProductId, vi);
+				}
+			}
+			foreach (VirtualCategory category in localCategories) {
+				foreach (string goodItemId in category.GoodItemIds) {
+					localGoodsCategories.Add (goodItemId, category);
+				}
+			}
 		}
 	}
 }

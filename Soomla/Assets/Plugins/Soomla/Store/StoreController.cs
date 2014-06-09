@@ -132,7 +132,6 @@ namespace Soomla
 		protected virtual void _initialize(IStoreAssets storeAssets) { 
 			StoreInfo.Initialize(storeAssets);
 
-			// Trigger the OnStoreControllerInitialized event wich, in turn, calls ExampleLocalStoreInfo.Init()
 			var storeEvents = GameObject.FindObjectOfType<StoreEvents> ();
 			if (storeEvents != null) {
 				storeEvents.onStoreControllerInitialized(null);

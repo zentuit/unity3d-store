@@ -58,6 +58,8 @@ namespace Soomla {
 		[DllImport ("__Internal")]
 		private static extern int storeInventory_RemoveNonConsumableItem(string itemId);
 
+		public StoreInventoryIOS() : base() {}
+
 		/// <summary>
 		/// Buys the item with the given <c>itemId</c>.
 		/// </summary>

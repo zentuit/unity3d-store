@@ -58,6 +58,8 @@ namespace Soomla {
 		[DllImport ("__Internal")]
 		private static extern void storeAssets_Init(int version, string storeAssetsJSON);
 
+		public StoreInfoIOS() : base() {}
+
 		/// <summary>
 		/// Initializes <c>StoreInfo</c>. 
 		/// On first initialization, when the database doesn't have any previous version of the store

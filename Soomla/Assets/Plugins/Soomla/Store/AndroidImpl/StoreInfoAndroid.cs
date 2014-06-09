@@ -32,6 +32,8 @@ namespace Soomla {
 
 #if UNITY_ANDROID && !UNITY_EDITOR
 
+		public StoreInfoAndroid() : base() {}
+
 		/// <summary>
 		/// Initializes <c>StoreInfo</c>. 
 		/// On first initialization, when the database doesn't have any previous version of the store
