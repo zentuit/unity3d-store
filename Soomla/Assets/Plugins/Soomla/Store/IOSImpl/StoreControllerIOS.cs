@@ -36,11 +36,14 @@ namespace Soomla {
 		[DllImport ("__Internal")]
 		private static extern void storeController_RefreshInventory();
 		[DllImport ("__Internal")]
+		private static extern void storeController_RefreshMarketItemsDetails();
+		[DllImport ("__Internal")]
 		private static extern void storeController_TransactionsAlreadyRestored(out bool outResult);
 		[DllImport ("__Internal")]
 		private static extern void storeController_SetSoomSec(string soomSec);
 		[DllImport ("__Internal")]
 		private static extern void storeController_SetSSV(bool ssv, string verifyUrl);
+
 
 		/// <summary>
 		/// Initializes the SOOMLA SDK.
@@ -71,8 +74,7 @@ namespace Soomla {
 		}
 
 		/// <summary>
-		/// Creates a list of all metadata stored in the Market (the items that have been purchased).
-		/// The metadata includes the item's name, description, price, product id, etc...
+		/// This method will run _restoreTransactions followed by _refreshMarketItemsDetails.
 		/// </summary>
 		protected override void _refreshInventory() {
 			storeController_RefreshInventory();
@@ -83,6 +85,14 @@ namespace Soomla {
 		/// </summary>
 		protected override void _restoreTransactions() {
 			storeController_RestoreTransactions();
+		}
+
+		/// <summary>
+		/// Creates a list of all metadata stored in the Market (the items that have been purchased).
+		/// The metadata includes the item's name, description, price, product id, etc...
+		/// </summary>
+		protected override void _refreshMarketItemsDetails() {
+			storeController_RefreshMarketItemsDetails();
 		}
 
 		/// <summary>

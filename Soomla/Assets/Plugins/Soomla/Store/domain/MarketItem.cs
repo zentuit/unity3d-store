@@ -78,6 +78,10 @@ namespace Soomla {
 					this.consumable = Consumable.CONSUMABLE;
 					break;
 			}
+
+			MarketPrice = jniMarketItem.Call<string>("getMarketPrice");
+			MarketTitle = jniMarketItem.Call<string>("getMarketTitle");
+			MarketDescription = jniMarketItem.Call<string>("getMarketDescription");
 		}
 #endif
 
