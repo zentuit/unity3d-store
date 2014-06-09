@@ -59,6 +59,15 @@ namespace Soomla {
 			this.GoodItemId = goodItemId;
 			this.GoodAmount = amount;
 		}
+
+#if (!UNITY_IOS && !UNITY_ANDROID) || UNITY_EDITOR
+		public override void Buy()
+		{
+			PurchaseType.Buy(ItemId);
+			StoreInventory.GiveItem(GoodItemId, GoodAmount);
+			PurchaseType.Success(ItemId);
+		}
+#endif
 		
 #if UNITY_ANDROID && !UNITY_EDITOR
 		public SingleUsePackVG(AndroidJavaObject jniSingleUsePackVG) 

@@ -129,11 +129,33 @@ namespace Soomla
 		}
 
 
-		protected virtual void _initialize(IStoreAssets storeAssets) { }
+		protected virtual void _initialize(IStoreAssets storeAssets) { 
+#if UNITY_EDITOR
+			StoreInfo.Initialize(storeAssets);
+
+			// Trigger the OnStoreControllerInitialized event wich, in turn, calls ExampleLocalStoreInfo.Init()
+			var storeEvents = GameObject.FindObjectOfType<StoreEvents> ();
+			if (storeEvents != null) {
+				storeEvents.onStoreControllerInitialized(null);
+			}
+			else {
+				Debug.LogError("SOOMLA/UNITY StoreEvents Component not found in scene");
+			}
+#endif
+		}
 
 		protected virtual void _setupSoomSec() { }
 
-		protected virtual void _buyMarketItem(string productId, string payload) { }
+		protected virtual void _buyMarketItem(string productId, string payload) {
+#if UNITY_EDITOR
+			PurchasableVirtualItem item = StoreInfo.GetPurchasableItemWithProductId(productId);
+			if (item == null) {
+				throw new VirtualItemNotFoundException("ProductId", productId);
+			}
+
+			StoreInventory.BuyItem(item.ItemId);
+#endif
+		}
 
 		protected virtual void _refreshInventory() { }
 

@@ -16,6 +16,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 using System.Runtime.InteropServices;
+using System.Linq;
 
 namespace Soomla
 {
@@ -29,6 +30,20 @@ namespace Soomla
 	/// </summary>
 	public class StoreInfo
 	{
+
+#if (!UNITY_IOS && !UNITY_ANDROID) || UNITY_EDITOR
+		// Create a local copy of VirtualGoods for display in the Unity editor window 
+		private static VirtualCurrency[] localCurrencies;
+		private static VirtualCurrencyPack[] localCurrencyPacks;
+		private static VirtualGood[] localVirtualGoods;
+		private static VirtualCategory[] localCategories;
+		private static NonConsumableItem[] localNonConsumableItems;
+		
+		private static Dictionary<String, VirtualItem> localVirtualItems = new Dictionary<String, VirtualItem>();
+		private static Dictionary<String, PurchasableVirtualItem> localPurchasableItems = new Dictionary<String, PurchasableVirtualItem>();
+		private static Dictionary<String, VirtualCategory> localGoodsCategories = new Dictionary<String, VirtualCategory>();
+		private static Dictionary<String, List<UpgradeVG>> localGoodsUpgrades = new Dictionary<String, List<UpgradeVG>>();
+#endif
 
 		protected const string TAG = "SOOMLA StoreInfo"; // used for Log error messages
 
@@ -47,7 +62,8 @@ namespace Soomla
 				return _instance;
 			}
 		}
-			
+
+
 		/// <summary>
 		/// Initializes <c>StoreInfo</c>. 
 		/// On first initialization, when the database doesn't have any previous version of the store
@@ -61,67 +77,7 @@ namespace Soomla
 		/// </summary>
 		/// <param name="storeAssets">your game's economy</param>
 		public static void Initialize(IStoreAssets storeAssets) {
-			
-//			Utils.LogDebug(TAG, "Adding currency");
-			JSONObject currencies = new JSONObject(JSONObject.Type.ARRAY);
-			foreach(VirtualCurrency vi in storeAssets.GetCurrencies()) {
-				currencies.Add(vi.toJSONObject());
-			}
-			
-//			Utils.LogDebug(TAG, "Adding packs");
-			JSONObject packs = new JSONObject(JSONObject.Type.ARRAY);
-			foreach(VirtualCurrencyPack vi in storeAssets.GetCurrencyPacks()) {
-				packs.Add(vi.toJSONObject());
-			}
-			
-//			Utils.LogDebug(TAG, "Adding goods");
-		    JSONObject suGoods = new JSONObject(JSONObject.Type.ARRAY);
-		    JSONObject ltGoods = new JSONObject(JSONObject.Type.ARRAY);
-		    JSONObject eqGoods = new JSONObject(JSONObject.Type.ARRAY);
-		    JSONObject upGoods = new JSONObject(JSONObject.Type.ARRAY);
-		    JSONObject paGoods = new JSONObject(JSONObject.Type.ARRAY);
-		    foreach(VirtualGood g in storeAssets.GetGoods()){
-		        if (g is SingleUseVG) {
-		            suGoods.Add(g.toJSONObject());
-		        } else if (g is EquippableVG) {
-		            eqGoods.Add(g.toJSONObject());
-			    } else if (g is UpgradeVG) {
-   		            upGoods.Add(g.toJSONObject());
-   		        } else if (g is LifetimeVG) {
-		            ltGoods.Add(g.toJSONObject());
-		        } else if (g is SingleUsePackVG) {
-		            paGoods.Add(g.toJSONObject());
-		        }
-		    }
-			JSONObject goods = new JSONObject(JSONObject.Type.OBJECT);
-			goods.AddField(JSONConsts.STORE_GOODS_SU, suGoods);
-			goods.AddField(JSONConsts.STORE_GOODS_LT, ltGoods);
-			goods.AddField(JSONConsts.STORE_GOODS_EQ, eqGoods);
-			goods.AddField(JSONConsts.STORE_GOODS_UP, upGoods);
-			goods.AddField(JSONConsts.STORE_GOODS_PA, paGoods);
-			
-//			Utils.LogDebug(TAG, "Adding categories");
-			JSONObject categories = new JSONObject(JSONObject.Type.ARRAY);
-			foreach(VirtualCategory vi in storeAssets.GetCategories()) {
-				categories.Add(vi.toJSONObject());
-			}
-			
-//			Utils.LogDebug(TAG, "Adding nonConsumables");
-			JSONObject nonConsumables = new JSONObject(JSONObject.Type.ARRAY);
-			foreach(NonConsumableItem vi in storeAssets.GetNonConsumableItems()) {
-				nonConsumables.Add(vi.toJSONObject());
-			}
-			
-//			Utils.LogDebug(TAG, "Preparing StoreAssets  JSONObject");
-			JSONObject storeAssetsObj = new JSONObject(JSONObject.Type.OBJECT);
-			storeAssetsObj.AddField(JSONConsts.STORE_CATEGORIES, categories);
-			storeAssetsObj.AddField(JSONConsts.STORE_CURRENCIES, currencies);
-			storeAssetsObj.AddField(JSONConsts.STORE_CURRENCYPACKS, packs);
-			storeAssetsObj.AddField(JSONConsts.STORE_GOODS, goods);
-			storeAssetsObj.AddField(JSONConsts.STORE_NONCONSUMABLES, nonConsumables);
-			
-			string storeAssetsJSON = storeAssetsObj.print();
-			instance._initialize(storeAssets.GetVersion(), storeAssetsJSON);
+			instance._initialize(storeAssets);
 		}
 
 		/// <summary>
@@ -228,51 +184,199 @@ namespace Soomla
 			return instance._getVirtualCategories();
 		}
 
-		virtual protected void _initialize(int version, string storeAssetsJSON) {
+		virtual protected void _initialize(IStoreAssets storeAssets) {
+			// Initialise lists of local data for viewing in the Unity editor
+			localCurrencies = storeAssets.GetCurrencies();
+			localCurrencyPacks = storeAssets.GetCurrencyPacks();
+			localVirtualGoods = storeAssets.GetGoods();
+			localCategories = storeAssets.GetCategories();
+			localNonConsumableItems = storeAssets.GetNonConsumableItems();
+			
+			// rewritten from android java code
+			foreach (VirtualCurrency vi in localCurrencies) {
+				localVirtualItems.Add(vi.ItemId, vi);
+			}
+			
+			foreach (VirtualCurrencyPack vi in localCurrencyPacks) {
+				localVirtualItems.Add(vi.ItemId, vi);
+				
+				PurchaseType purchaseType = vi.PurchaseType;
+				if (purchaseType is PurchaseWithMarket) {
+					localPurchasableItems.Add(((PurchaseWithMarket) purchaseType).MarketItem.ProductId, vi);
+				}
+			}
+			
+			foreach (VirtualGood vi in localVirtualGoods) {
+				localVirtualItems.Add(vi.ItemId, vi);
+				
+				if (vi is UpgradeVG) {
+					List<UpgradeVG> upgrades;
+					if (!localGoodsUpgrades.TryGetValue(((UpgradeVG) vi).GoodItemId, out upgrades)) {
+						upgrades = new List<UpgradeVG>();
+						localGoodsUpgrades.Add(((UpgradeVG) vi).GoodItemId, upgrades);
+					}
+					upgrades.Add((UpgradeVG) vi);
+				}
+				
+				PurchaseType purchaseType = vi.PurchaseType;
+				if (purchaseType is PurchaseWithMarket) {
+					localPurchasableItems.Add(((PurchaseWithMarket) purchaseType).MarketItem.ProductId, vi);
+				}
+			}
+			
+			foreach (NonConsumableItem vi in localNonConsumableItems) {
+				localVirtualItems.Add(vi.ItemId, vi);
+				
+				PurchaseType purchaseType = vi.PurchaseType;
+				if (purchaseType is PurchaseWithMarket) {
+					localPurchasableItems.Add(((PurchaseWithMarket) purchaseType).MarketItem.ProductId, vi);
+				}
+			}
+			
+			foreach (VirtualCategory category in localCategories) {
+				foreach (string goodItemId in category.GoodItemIds) {
+					localGoodsCategories.Add(goodItemId, category);
+				}
+			}
 		}
 
 		virtual protected VirtualItem _getItemByItemId(string itemId) {
+			VirtualItem item;
+			if (localVirtualItems.TryGetValue(itemId, out item)) {
+				return item;
+			}
+
 			return null;
 		}
 
 		virtual protected PurchasableVirtualItem _getPurchasableItemWithProductId(string productId) {
+			PurchasableVirtualItem item;
+			if (localPurchasableItems.TryGetValue(productId, out item)) {
+				return item;
+			}
 			return null;
 		}
 
 		virtual protected VirtualCategory _getCategoryForVirtualGood(string goodItemId) {
+			VirtualCategory category;
+			if (localGoodsCategories.TryGetValue(goodItemId, out category)) {
+				return category;
+			} else {
+				throw new VirtualItemNotFoundException("GoodItemId", goodItemId);
+			}
 			return null;
 		}
 
 		virtual protected UpgradeVG _getFirstUpgradeForVirtualGood(string goodItemId) {
+			List<UpgradeVG> upgrades;
+			if (localGoodsUpgrades.TryGetValue(goodItemId, out upgrades)) {
+				return upgrades.FirstOrDefault(up => string.IsNullOrEmpty(up.PrevItemId));			
+			}
+
 			return null;
 		}
 
 		virtual protected UpgradeVG _getLastUpgradeForVirtualGood(string goodItemId) {
+			List<UpgradeVG> upgrades;
+			if (localGoodsUpgrades.TryGetValue(goodItemId, out upgrades)) {
+				return upgrades.FirstOrDefault(up => string.IsNullOrEmpty(up.NextItemId));
+			}
+
 			return null;
 		}
 
 		virtual protected List<UpgradeVG> _getUpgradesForVirtualGood(string goodItemId) {
-			return new List<UpgradeVG>();
+			List<UpgradeVG> vgus = new List<UpgradeVG>();
+			List<UpgradeVG> upgrades;
+			if (localGoodsUpgrades.TryGetValue(goodItemId, out upgrades)) {
+				vgus = upgrades;
+			}
+
+			return vgus;
 		}
 
 		virtual protected List<VirtualCurrency> _getVirtualCurrencies() {
-			return new List<VirtualCurrency>();
+			return localCurrencies.ToList();
 		}
 
 		virtual protected List<VirtualGood> _getVirtualGoods() {
-			return new List<VirtualGood>();
+			return localVirtualGoods.ToList();
 		}
 
 		virtual protected List<VirtualCurrencyPack> _getVirtualCurrencyPacks() {
-			return new List<VirtualCurrencyPack>();
+			return localCurrencyPacks.ToList();
 		}
 		
 		virtual protected List<NonConsumableItem> _getNonConsumableItems() {
-			return new List<NonConsumableItem>();
+			return localNonConsumableItems.ToList();
 		}
 
 		virtual protected List<VirtualCategory> _getVirtualCategories() {
-			return new List<VirtualCategory>();
+			return localCategories.ToList();
+		}
+
+		/** Protected Functions **/
+
+		protected string IStoreAssetsToJSON(IStoreAssets storeAssets) {
+			//			Utils.LogDebug(TAG, "Adding currency");
+			JSONObject currencies = new JSONObject(JSONObject.Type.ARRAY);
+			foreach(VirtualCurrency vi in storeAssets.GetCurrencies()) {
+				currencies.Add(vi.toJSONObject());
+			}
+			
+			//			Utils.LogDebug(TAG, "Adding packs");
+			JSONObject packs = new JSONObject(JSONObject.Type.ARRAY);
+			foreach(VirtualCurrencyPack vi in storeAssets.GetCurrencyPacks()) {
+				packs.Add(vi.toJSONObject());
+			}
+			
+			//			Utils.LogDebug(TAG, "Adding goods");
+			JSONObject suGoods = new JSONObject(JSONObject.Type.ARRAY);
+			JSONObject ltGoods = new JSONObject(JSONObject.Type.ARRAY);
+			JSONObject eqGoods = new JSONObject(JSONObject.Type.ARRAY);
+			JSONObject upGoods = new JSONObject(JSONObject.Type.ARRAY);
+			JSONObject paGoods = new JSONObject(JSONObject.Type.ARRAY);
+			foreach(VirtualGood g in storeAssets.GetGoods()){
+				if (g is SingleUseVG) {
+					suGoods.Add(g.toJSONObject());
+				} else if (g is EquippableVG) {
+					eqGoods.Add(g.toJSONObject());
+				} else if (g is UpgradeVG) {
+					upGoods.Add(g.toJSONObject());
+				} else if (g is LifetimeVG) {
+					ltGoods.Add(g.toJSONObject());
+				} else if (g is SingleUsePackVG) {
+					paGoods.Add(g.toJSONObject());
+				}
+			}
+			JSONObject goods = new JSONObject(JSONObject.Type.OBJECT);
+			goods.AddField(JSONConsts.STORE_GOODS_SU, suGoods);
+			goods.AddField(JSONConsts.STORE_GOODS_LT, ltGoods);
+			goods.AddField(JSONConsts.STORE_GOODS_EQ, eqGoods);
+			goods.AddField(JSONConsts.STORE_GOODS_UP, upGoods);
+			goods.AddField(JSONConsts.STORE_GOODS_PA, paGoods);
+			
+			//			Utils.LogDebug(TAG, "Adding categories");
+			JSONObject categories = new JSONObject(JSONObject.Type.ARRAY);
+			foreach(VirtualCategory vi in storeAssets.GetCategories()) {
+				categories.Add(vi.toJSONObject());
+			}
+			
+			//			Utils.LogDebug(TAG, "Adding nonConsumables");
+			JSONObject nonConsumables = new JSONObject(JSONObject.Type.ARRAY);
+			foreach(NonConsumableItem vi in storeAssets.GetNonConsumableItems()) {
+				nonConsumables.Add(vi.toJSONObject());
+			}
+			
+			//			Utils.LogDebug(TAG, "Preparing StoreAssets  JSONObject");
+			JSONObject storeAssetsObj = new JSONObject(JSONObject.Type.OBJECT);
+			storeAssetsObj.AddField(JSONConsts.STORE_CATEGORIES, categories);
+			storeAssetsObj.AddField(JSONConsts.STORE_CURRENCIES, currencies);
+			storeAssetsObj.AddField(JSONConsts.STORE_CURRENCYPACKS, packs);
+			storeAssetsObj.AddField(JSONConsts.STORE_GOODS, goods);
+			storeAssetsObj.AddField(JSONConsts.STORE_NONCONSUMABLES, nonConsumables);
+			
+			return storeAssetsObj.print();
 		}
 	}
 }

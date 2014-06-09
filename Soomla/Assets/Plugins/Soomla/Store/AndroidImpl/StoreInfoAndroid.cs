@@ -43,8 +43,10 @@ namespace Soomla {
 		/// metadata when the application loads. Bumping the version is done by returning a higher 
 		/// number in <c>IStoreAssets</c>'s <c>getVersion</c>.
 		/// </summary>
-		override protected void _initialize(int version, string storeAssetsJSON) {
+		override protected void _initialize(IStoreAssets storeAssets) {
 			Utils.LogDebug(TAG, "pushing data to StoreAssets on java side");
+			string storeAssetsJSON = IStoreAssetsToJSON(storeAssets);
+			int version = storeAssets.GetVersion();
 			using(AndroidJavaClass jniStoreAssets = new AndroidJavaClass("com.soomla.unity.StoreAssets")) {
 				jniStoreAssets.CallStatic("prepare", version, storeAssetsJSON);
 			}

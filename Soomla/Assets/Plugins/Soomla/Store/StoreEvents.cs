@@ -26,7 +26,11 @@ namespace Soomla {
 
 		private const string TAG = "SOOMLA StoreEvents";
 
+#if (!UNITY_IOS && !UNITY_ANDROID) || UNITY_EDITOR
+		public static StoreEvents instance { get; private set; }
+#else
 		private static StoreEvents instance = null;
+#endif
 
 		/// <summary>
 		/// Initializes game state before the game starts.

@@ -48,6 +48,20 @@ namespace Soomla
 		{
 			this.MarketItem = marketItem;
 		}
+
+#if (!UNITY_IOS && !UNITY_ANDROID) || UNITY_EDITOR
+		public override void Buy(string itemId)
+		{
+			StoreEvents.instance.onMarketPurchaseStarted(itemId);
+		}
+		
+		public override void Success(string itemId) {
+			Guid purchaseToken = System.Guid.NewGuid();
+			string payload = "[no payload in editor yet]";
+			string message = itemId + "#SOOM#" + payload + "#SOOM#" + purchaseToken.ToString();
+			StoreEvents.instance.onMarketPurchase(message);
+		}
+#endif
 	}
 }
 

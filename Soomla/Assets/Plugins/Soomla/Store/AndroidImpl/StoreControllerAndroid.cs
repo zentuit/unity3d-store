@@ -58,6 +58,7 @@ namespace Soomla {
 			}
 
 			using(AndroidJavaClass jniStoreConfigClass = new AndroidJavaClass("com.soomla.store.StoreConfig")) {
+//				Utils.LogError(TAG, "aaabb  " + SoomSettings.DebugMessages);
 				jniStoreConfigClass.SetStatic("logDebug", SoomSettings.DebugMessages);
 			}
 

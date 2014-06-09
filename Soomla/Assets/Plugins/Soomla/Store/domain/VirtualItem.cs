@@ -147,6 +147,16 @@ namespace Soomla {
 		}
 #endif
 
+		public override bool Equals(object obj)	{
+			return (obj != null) &&
+				(obj.GetType() == this.GetType()) &&
+					(((VirtualItem)obj).ItemId == ItemId);
+		}
+		
+		public override int GetHashCode () {
+			return base.GetHashCode ();
+		}
+
 		/// <summary>
 		/// Saves this instance according to type.
 		/// </summary>

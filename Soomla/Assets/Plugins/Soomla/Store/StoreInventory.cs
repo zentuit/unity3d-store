@@ -15,6 +15,8 @@
 using UnityEngine;
 using System;
 using System.Runtime.InteropServices;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Soomla
 {
@@ -25,6 +27,18 @@ namespace Soomla
 	/// </summary>
 	public class StoreInventory
 	{
+#if (!UNITY_IOS && !UNITY_ANDROID) || UNITY_EDITOR
+		private class Upgrade {
+			public int level;
+			public string itemId;
+		}
+
+		private static Dictionary<string, int> localItemBalances = new Dictionary<string, int> ();
+		private static Dictionary<string, Upgrade> localUpgrades = new Dictionary<string, Upgrade>();
+		private static HashSet<string> localEquippedGoods = new HashSet<string>();
+
+		private static StoreEvents Evt { get { return GameObject.FindObjectOfType<StoreEvents>(); }}
+#endif
 
 		protected const string TAG = "SOOMLA StoreInventory";
 
@@ -56,6 +70,9 @@ namespace Soomla
 		}
 
 		virtual protected void _buyItem(string itemId) {
+#if UNITY_EDITOR
+			RequireItem<PurchasableVirtualItem>(itemId).Buy();
+#endif
 		}
 
 
@@ -101,13 +118,43 @@ namespace Soomla
 		}
 
 		virtual protected int _getItemBalance(string itemId) {
+			int amount;
+			if (localItemBalances.TryGetValue(itemId, out amount)) {
+				return amount;
+			}
 			return 0;
 		}
 
 		virtual protected void _giveItem(string itemId, int amount) {
+			VirtualItem item = RequireItem(itemId);
+			
+			int itemAmount;
+			if (localItemBalances.TryGetValue (itemId, out itemAmount)) {
+				itemAmount += amount;
+				localItemBalances[itemId] = itemAmount;
+			} else {
+				itemAmount = amount;
+				localItemBalances[itemId] = amount;
+			}
+
+			NotifyChange(item, itemAmount, amount);
 		}
 
 		virtual protected void _takeItem(string itemId, int amount) {
+			VirtualItem item = RequireItem(itemId);
+			
+			int itemAmount;
+			if (localItemBalances.TryGetValue(itemId, out itemAmount)) {
+				itemAmount -= amount;
+
+				if (itemAmount > 0) {
+					localItemBalances[itemId] = itemAmount;
+				} else {
+					localItemBalances.Remove(itemId);
+				}
+			}
+
+			NotifyChange(item, itemAmount, -amount);
 		}
 
 
@@ -207,27 +254,111 @@ namespace Soomla
 		}
 
 		virtual protected void _equipVirtualGood(string goodItemId) {
+			if (StoreInfo.GetItemByItemId(goodItemId) == null) {
+				throw new VirtualItemNotFoundException("GoodItemId", goodItemId);
+			}
+			
+			if (GetItemBalance(goodItemId) > 0) {
+				EquippableVG item = RequireItem<EquippableVG>(goodItemId);
+				if (item.Equipping == EquippableVG.EquippingModel.CATEGORY) {
+					VirtualCategory category;
+					try {
+						category = StoreInfo.GetCategoryForVirtualGood(goodItemId);
+					} catch (VirtualItemNotFoundException e) {
+						StoreUtils.LogError(TAG, "Tried to unequip all other category VirtualGoods but there was no " +
+						                    "associated category. virtual good itemId: " + goodItemId);
+						return;
+					}
+					
+					foreach (string itemId in category.GoodItemIds) {
+						if (itemId != goodItemId) {
+							UnEquipVirtualGood(itemId);
+						}
+					}
+				} else if (item.Equipping == EquippableVG.EquippingModel.GLOBAL) {
+					foreach (string itemId in localEquippedGoods) {
+						if (itemId != goodItemId) {
+							UnEquipVirtualGood(itemId);
+						}
+					}
+				}
+				
+				localEquippedGoods.Add(goodItemId);
+				Evt.onGoodEquipped(goodItemId);
+			}
 		}
 
 		virtual protected void _unEquipVirtualGood(string goodItemId) {
+			if (localEquippedGoods.Remove(goodItemId)) {
+				Evt.onGoodUnequipped(goodItemId);
+			}
 		}
 
 		virtual protected bool _isVertualGoodEquipped(string goodItemId) {
-			return false;
+			return localEquippedGoods.Contains(goodItemId);
 		}
 
 		virtual protected int _getGoodUpgradeLevel(string goodItemId) {
+			Upgrade upgrade;
+			if (localUpgrades.TryGetValue(goodItemId, out upgrade)) {
+				return upgrade.level;
+			}
 			return 0;
 		}
 
 		virtual protected string _getGoodCurrentUpgrade(string goodItemId) {
+			Upgrade upgrade;
+			if (localUpgrades.TryGetValue(goodItemId, out upgrade)) {
+				return upgrade.itemId;
+			}
 			return null;
 		}
 
 		virtual protected void _upgradeGood(string goodItemId) {
+			Upgrade upgrade;
+			if (localUpgrades.TryGetValue(goodItemId, out upgrade)) {
+				UpgradeVG up = RequireItem<UpgradeVG>(upgrade.itemId, "UpgradeItemId");
+				
+				if (!string.IsNullOrEmpty(up.NextItemId)) {
+					UpgradeVG next = RequireItem<UpgradeVG>(up.NextItemId, "UpgradeItemId");
+					next.Buy();
+					upgrade.itemId = next.ItemId;
+					upgrade.level++;
+					
+					Evt.onGoodUpgrade(goodItemId + "#SOOM#" + next.ItemId);
+				}
+			} else {
+				UpgradeVG first = StoreInfo.GetFirstUpgradeForVirtualGood(goodItemId);
+				if (first != null) {
+					first.Buy();
+					localUpgrades.Add(goodItemId, new Upgrade { itemId = first.ItemId, level = 1 });
+					
+					Evt.onGoodUpgrade(goodItemId + "#SOOM#" + first.ItemId);
+				}
+			}
 		}
 
 		virtual protected void _removeGoodUpgrades(string goodItemId) {
+			// try get current good upgrade
+			string upgradeId = GetGoodCurrentUpgrade(goodItemId);
+			if (string.IsNullOrEmpty(upgradeId))
+				return;
+			
+			// downgrade good while it has upgrades
+			UpgradeVG upgrade;
+			while (true) {
+				TakeItem(upgradeId, 1);
+				
+				upgrade = RequireItem<UpgradeVG>(upgradeId);
+				if (!string.IsNullOrEmpty(upgrade.PrevItemId))
+					upgradeId = upgrade.ItemId;
+				else
+					break;
+			}
+			// remove all info about upgrades
+			localUpgrades.Remove(goodItemId);
+			
+			Evt.onGoodUpgrade(goodItemId + "#SOOM#");
 		}
 
 
@@ -267,14 +398,41 @@ namespace Soomla
 		}
 
 		virtual protected bool _nonConsumableItemExists(string nonConsItemId) {
-			return false;
+			return GetItemBalance(nonConsItemId) > 0;
 		}
 
 		virtual protected void _addNonConsumableItem(string nonConsItemId) {
+			if (!NonConsumableItemExists(nonConsItemId)) {
+				GiveItem(nonConsItemId, 1, false);
+			}
 		}
 
 		virtual protected void _removeNonConsumableItem(string nonConsItemId) {
+			TakeItem(nonConsItemId, 1, false);
 		}
+
+#if (!UNITY_IOS && !UNITY_ANDROID) || UNITY_EDITOR
+
+		private static void NotifyChange(VirtualItem item, int amount, int change) {
+			string changeHash = item.ItemId + "#SOOM#" + amount + "#SOOM#" + change;
+			if (item is VirtualCurrency)
+				Evt.onCurrencyBalanceChanged(changeHash);
+			else if (item is VirtualGood)
+				Evt.onGoodBalanceChanged(changeHash);
+		}
+
+		private static T RequireItem<T>(string itemId, string lookupBy = "ItemId") where T : VirtualItem {
+			T virtualItem = StoreInfo.GetItemByItemId(itemId) as T;
+			if (virtualItem == null)
+				throw new VirtualItemNotFoundException(lookupBy, itemId);
+			
+			return virtualItem;
+		}
+		
+		private static VirtualItem RequireItem(string itemId, string lookupBy = "ItemId") {
+			return RequireItem<VirtualItem>(itemId, lookupBy);
+		}
+#endif
 	}
 }
 
