@@ -317,6 +317,8 @@ namespace Soomla {
 		public void onStoreControllerInitialized(string message) {
 			Utils.LogDebug(TAG, "SOOMLA/UNITY onStoreControllerInitialized");
 
+			StoreInfo.RefreshLocalStoreInfo();
+
 			StoreEvents.OnStoreControllerInitialized();
 		}
 

@@ -63,26 +63,24 @@ namespace Soomla
 			}
 		}
 
-		protected StoreInfo() {
-#if !UNITY_EDITOR
-			StoreEvents.OnStoreControllerInitialized += onStoreControllerInitialized;
-#endif
-		}
-
-#if !UNITY_EDITOR
-		public void onStoreControllerInitialized() {
+		public static void RefreshLocalStoreInfo() {
+			#if !UNITY_EDITOR
+			localCurrencies = null;
+			localCurrencyPacks = null;
+			localVirtualGoods = null;
+			localCategories = null;
+			localNonConsumableItems = null;
 			localCurrencies = GetVirtualCurrencies().ToArray();
 			localVirtualGoods = GetVirtualGoods().ToArray();
 			localCurrencyPacks = GetVirtualCurrencyPacks().ToArray();	
 			localCategories = GetVirtualCategories().ToArray();
 			localNonConsumableItems = GetNonConsumableItems().ToArray();
-
+			
 			updateAggregatedLists();
-
-			StoreInventory.GetInstance().RefreshLocalBalances();
+			#endif
+			
+			StoreInventory.Instance.RefreshLocalInventory();
 		}
-#endif
-
 
 		/// <summary>
 		/// Initializes <c>StoreInfo</c>. 
@@ -107,12 +105,12 @@ namespace Soomla
 		/// <exception cref="VirtualItemNotFoundException">Exception is thrown if item is not found.</exception>
 		/// <returns>Item with the given id.</returns>
 		public static VirtualItem GetItemByItemId(string itemId) {
-			Utils.LogDebug(TAG, "Trying to fetch an item with itemId: " + itemId);
-
 			VirtualItem item;
 			if (localVirtualItems != null && localVirtualItems.TryGetValue(itemId, out item)) {
 				return item;
 			}
+
+			Utils.LogDebug(TAG, "Trying to fetch an item with itemId: " + itemId);
 
 			return instance._getItemByItemId(itemId);
 		}
@@ -181,11 +179,12 @@ namespace Soomla
 		/// <param name="goodItemId">Item id.</param>
 		/// <returns>All upgrades for virtual good with the given id.</returns>
 		public static List<UpgradeVG> GetUpgradesForVirtualGood(string goodItemId) {
-			Utils.LogDebug(TAG, "Trying to fetch upgrades for " + goodItemId);
 			List<UpgradeVG> upgrades;
 			if (localGoodsUpgrades != null && localGoodsUpgrades.TryGetValue(goodItemId, out upgrades)) {
 				return upgrades;
 			}
+
+			Utils.LogDebug(TAG, "Trying to fetch upgrades for " + goodItemId);
 
 			return instance._getUpgradesForVirtualGood(goodItemId);
 		}
@@ -195,10 +194,11 @@ namespace Soomla
 		/// </summary>
 		/// <returns>The virtual currencies.</returns>
 		public static List<VirtualCurrency> GetVirtualCurrencies() {
-			Utils.LogDebug(TAG, "Trying to fetch currencies");
 			if (localCurrencies != null) {
 				return localCurrencies.ToList();
 			}
+
+			Utils.LogDebug(TAG, "Trying to fetch currencies");
 
 			return instance._getVirtualCurrencies();
 		}
@@ -208,11 +208,11 @@ namespace Soomla
 		/// </summary>
 		/// <returns>All virtual goods.</returns>
 		public static List<VirtualGood> GetVirtualGoods() {
-			Utils.LogDebug(TAG, "Trying to fetch goods");
-
 			if (localVirtualGoods != null) {
 				return localVirtualGoods.ToList();
 			}
+
+			Utils.LogDebug(TAG, "Trying to fetch goods");
 
 			return instance._getVirtualGoods();
 		}
@@ -222,11 +222,11 @@ namespace Soomla
 		/// </summary>
 		/// <returns>All virtual currency packs.</returns>
 		public static List<VirtualCurrencyPack> GetVirtualCurrencyPacks() {
-			Utils.LogDebug(TAG, "Trying to fetch packs");
-
 			if (localCurrencyPacks != null) {
 				return localCurrencyPacks.ToList();
 			}
+
+			Utils.LogDebug(TAG, "Trying to fetch packs");
 
 			return instance._getVirtualCurrencyPacks();
 		}
@@ -236,11 +236,12 @@ namespace Soomla
 		/// </summary>
 		/// <returns>All non consumable items.</returns>
 		public static List<NonConsumableItem> GetNonConsumableItems() {
-			Utils.LogDebug(TAG, "Trying to fetch noncons");
-
 			if (localNonConsumableItems != null) {
 				return localNonConsumableItems.ToList();
 			}
+
+			Utils.LogDebug(TAG, "Trying to fetch noncons");
+
 			return instance._getNonConsumableItems();
 		}
 
@@ -249,11 +250,11 @@ namespace Soomla
 		/// </summary>
 		/// <returns>All virtual categories.</returns>
 		public static List<VirtualCategory> GetVirtualCategories() {
-			Utils.LogDebug(TAG, "Trying to fetch categories");
-
 			if (localCategories != null) {
 				return localCategories.ToList();
 			}
+
+			Utils.LogDebug(TAG, "Trying to fetch categories");
 
 			return instance._getVirtualCategories();
 		}
@@ -262,6 +263,7 @@ namespace Soomla
 		/** These protected virtual functions will only run when in editor **/
 
 		virtual protected void _initialize(IStoreAssets storeAssets) {
+#if UNITY_EDITOR
 			// Initialise lists of local data for viewing in the Unity editor
 			localCurrencies = storeAssets.GetCurrencies();
 			localCurrencyPacks = storeAssets.GetCurrencyPacks();
@@ -270,80 +272,114 @@ namespace Soomla
 			localNonConsumableItems = storeAssets.GetNonConsumableItems();
 			
 			updateAggregatedLists ();
+#endif
 		}
 
 		virtual protected VirtualItem _getItemByItemId(string itemId) {
+#if UNITY_EDITOR
 			VirtualItem item;
 			if (localVirtualItems.TryGetValue(itemId, out item)) {
 				return item;
 			}
-
+#endif
 			return null;
 		}
 
 		virtual protected PurchasableVirtualItem _getPurchasableItemWithProductId(string productId) {
+#if UNITY_EDITOR
 			PurchasableVirtualItem item;
 			if (localPurchasableItems.TryGetValue(productId, out item)) {
 				return item;
 			}
+#endif
 			return null;
 		}
 
 		virtual protected VirtualCategory _getCategoryForVirtualGood(string goodItemId) {
+#if UNITY_EDITOR
 			VirtualCategory category;
 			if (localGoodsCategories.TryGetValue(goodItemId, out category)) {
 				return category;
-			} else {
-				throw new VirtualItemNotFoundException("GoodItemId", goodItemId);
 			}
+
+			throw new VirtualItemNotFoundException("GoodItemId", goodItemId);
+#else
+			return null;
+#endif
 		}
 
 		virtual protected UpgradeVG _getFirstUpgradeForVirtualGood(string goodItemId) {
+#if UNITY_EDITOR
 			List<UpgradeVG> upgrades;
 			if (localGoodsUpgrades.TryGetValue(goodItemId, out upgrades)) {
 				return upgrades.FirstOrDefault(up => string.IsNullOrEmpty(up.PrevItemId));			
 			}
-
+#endif
 			return null;
 		}
 
 		virtual protected UpgradeVG _getLastUpgradeForVirtualGood(string goodItemId) {
+#if UNITY_EDITOR
 			List<UpgradeVG> upgrades;
 			if (localGoodsUpgrades.TryGetValue(goodItemId, out upgrades)) {
 				return upgrades.FirstOrDefault(up => string.IsNullOrEmpty(up.NextItemId));
 			}
+#endif
 
 			return null;
 		}
 
 		virtual protected List<UpgradeVG> _getUpgradesForVirtualGood(string goodItemId) {
 			List<UpgradeVG> vgus = new List<UpgradeVG>();
+#if UNITY_EDITOR
 			List<UpgradeVG> upgrades;
 			if (localGoodsUpgrades.TryGetValue(goodItemId, out upgrades)) {
 				vgus = upgrades;
 			}
+#endif
 
 			return vgus;
 		}
 
 		virtual protected List<VirtualCurrency> _getVirtualCurrencies() {
+#if UNITY_EDITOR
 			return localCurrencies.ToList();
+#else
+			return null;
+#endif
+
 		}
 
 		virtual protected List<VirtualGood> _getVirtualGoods() {
+#if UNITY_EDITOR
 			return localVirtualGoods.ToList();
+#else
+			return null;
+#endif
 		}
 
 		virtual protected List<VirtualCurrencyPack> _getVirtualCurrencyPacks() {
+#if UNITY_EDITOR
 			return localCurrencyPacks.ToList();
+#else
+			return null;
+#endif
 		}
 		
 		virtual protected List<NonConsumableItem> _getNonConsumableItems() {
+#if UNITY_EDITOR
 			return localNonConsumableItems.ToList();
+#else
+			return null;
+#endif
 		}
 
 		virtual protected List<VirtualCategory> _getVirtualCategories() {
+#if UNITY_EDITOR
 			return localCategories.ToList();
+#else
+			return null;
+#endif
 		}
 
 		/** Protected Functions **/

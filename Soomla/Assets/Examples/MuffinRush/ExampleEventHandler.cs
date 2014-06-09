@@ -19,6 +19,8 @@ namespace Soomla.Example {
 
 	/// <summary>
 	/// This class contains functions that receive events that they are subscribed to.
+	/// 
+	/// THIS IS JUST AN EXAMPLE. IF YOU WANT TO USE IT YOU NEED TO INSTANTIATE IT SOMEWHERE.
 	/// </summary>
 	public class ExampleEventHandler {
 
@@ -154,7 +156,7 @@ namespace Soomla.Example {
 		/// <param name="balance">Balance of the given virtual currency.</param>
 		/// <param name="amountAdded">Amount added to the balance.</param>
 		public void onCurrencyBalanceChanged(VirtualCurrency virtualCurrency, int balance, int amountAdded) {
-			ExampleLocalStoreInfo.UpdateBalances();
+
 		}
 
 		/// <summary>
@@ -164,7 +166,7 @@ namespace Soomla.Example {
 		/// <param name="balance">Balance.</param>
 		/// <param name="amountAdded">Amount added.</param>
 		public void onGoodBalanceChanged(VirtualGood good, int balance, int amountAdded) {
-			ExampleLocalStoreInfo.UpdateBalances();
+
 		}
 
 		/// <summary>
@@ -186,20 +188,7 @@ namespace Soomla.Example {
 		/// Handles a store controller initialized event.
 		/// </summary>
 		public void onStoreControllerInitialized() {
-			ExampleLocalStoreInfo.Init();
-			
-			// some usage examples for add/remove currency
-            // some examples
-            if (ExampleLocalStoreInfo.VirtualCurrencies.Count>0) {
-                try {
-                    StoreInventory.GiveItem(ExampleLocalStoreInfo.VirtualCurrencies[0].ItemId,4000);
-                    Utils.LogDebug("SOOMLA ExampleEventHandler", "Currency balance:" + StoreInventory.GetItemBalance(ExampleLocalStoreInfo.VirtualCurrencies[0].ItemId));
-                } catch (VirtualItemNotFoundException ex){
-                    Utils.LogError("SOOMLA ExampleEventHandler", ex.Message);
-                }
-            }
 
-			ExampleWindow.GetInstance().setupItemsTextures();
 		}
 		
 #if UNITY_ANDROID && !UNITY_EDITOR

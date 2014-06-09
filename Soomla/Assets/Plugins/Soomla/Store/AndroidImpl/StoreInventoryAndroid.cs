@@ -28,8 +28,6 @@ namespace Soomla {
 
 #if UNITY_ANDROID && !UNITY_EDITOR
 
-		public StoreInventoryAndroid() : base() {}
-
 		/// <summary>
 		/// Buys the item with the given <c>itemId</c>.
 		/// </summary>
