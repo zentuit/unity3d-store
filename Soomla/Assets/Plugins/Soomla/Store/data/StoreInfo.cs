@@ -264,7 +264,6 @@ namespace Soomla
 			} else {
 				throw new VirtualItemNotFoundException("GoodItemId", goodItemId);
 			}
-			return null;
 		}
 
 		virtual protected UpgradeVG _getFirstUpgradeForVirtualGood(string goodItemId) {

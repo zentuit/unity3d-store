@@ -264,8 +264,8 @@ namespace Soomla
 					VirtualCategory category;
 					try {
 						category = StoreInfo.GetCategoryForVirtualGood(goodItemId);
-					} catch (VirtualItemNotFoundException e) {
-						StoreUtils.LogError(TAG, "Tried to unequip all other category VirtualGoods but there was no " +
+					} catch {
+						Utils.LogError(TAG, "Tried to unequip all other category VirtualGoods but there was no " +
 						                    "associated category. virtual good itemId: " + goodItemId);
 						return;
 					}
@@ -403,12 +403,12 @@ namespace Soomla
 
 		virtual protected void _addNonConsumableItem(string nonConsItemId) {
 			if (!NonConsumableItemExists(nonConsItemId)) {
-				GiveItem(nonConsItemId, 1, false);
+				GiveItem(nonConsItemId, 1);
 			}
 		}
 
 		virtual protected void _removeNonConsumableItem(string nonConsItemId) {
-			TakeItem(nonConsItemId, 1, false);
+			TakeItem(nonConsItemId, 1);
 		}
 
 #if (!UNITY_IOS && !UNITY_ANDROID) || UNITY_EDITOR
