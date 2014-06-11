@@ -3,6 +3,7 @@ package com.soomla.unity;
 import java.util.ArrayList;
 
 import com.soomla.store.IStoreAssets;
+import com.soomla.store.SoomlaApp;
 import com.soomla.store.StoreConfig;
 import com.soomla.store.StoreUtils;
 import com.soomla.store.data.JSONConsts;
@@ -12,6 +13,7 @@ import com.soomla.store.domain.VirtualCategory;
 import com.soomla.store.domain.virtualCurrencies.VirtualCurrency;
 import com.soomla.store.domain.virtualCurrencies.VirtualCurrencyPack;
 import com.soomla.store.domain.virtualGoods.*;
+import com.unity3d.player.UnityPlayer;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,6 +29,8 @@ public class StoreAssets implements IStoreAssets {
     public static int version = 0;
 
     public static void prepare(int oVersion, String storeAssetsJSON) {
+        SoomlaApp.setExternalContext(UnityPlayer.currentActivity);
+
         StoreUtils.LogDebug(TAG, "the storeAssets json is: " + storeAssetsJSON);
 
         try {
