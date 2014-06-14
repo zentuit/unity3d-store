@@ -1,6 +1,6 @@
 
 #import "UnityStoreEventDispatcher.h"
-#import "EventHandling.h"
+#import "StoreEventHandling.h"
 #import "MarketItem.h"
 #import "VirtualGood.h"
 #import "VirtualCurrency.h"
@@ -19,7 +19,7 @@
 
 - (id) init {
     if (self = [super init]) {
-        [EventHandling observeAllEventsWithObserver:self withSelector:@selector(handleEvent:)];
+        [StoreEventHandling observeAllEventsWithObserver:self withSelector:@selector(handleEvent:)];
     }
 
     return self;

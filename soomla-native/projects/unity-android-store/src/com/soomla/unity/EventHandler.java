@@ -2,7 +2,7 @@ package com.soomla.unity;
 
 import android.text.TextUtils;
 
-import com.soomla.store.BusProvider;
+import com.soomla.BusProvider;
 import com.soomla.store.domain.MarketItem;
 import com.soomla.store.domain.virtualGoods.UpgradeVG;
 import com.soomla.store.events.BillingNotSupportedEvent;

@@ -10,6 +10,7 @@
 #import "NotEnoughGoodsException.h"
 #import "UnityCommons.h"
 #import "StoreConfig.h"
+#import "SoomlaConfig.h"
 #import "NonConsumableItem.h"
 #import "StoreInfo.h"
 #import "PurchaseWithMarket.h"

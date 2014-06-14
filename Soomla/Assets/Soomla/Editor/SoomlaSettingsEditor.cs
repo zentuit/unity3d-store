@@ -83,9 +83,12 @@ public class SoomlaSettingsEditor : Editor
 		if (SoomSettings.DebugMessages && !movediOSDebugLib) {
 			try {
 				FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Plugins/iOS/libSoomlaIOSStore.a");
+        		FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Plugins/iOS/libSoomlaIOSCore.a");
 				FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Plugins/iOS/libUnityiOSStore.a");
-				FileUtil.CopyFileOrDirectory(iosRootPath + "iOSStore/libSoomlaiOSStore_testing.a",
+				FileUtil.CopyFileOrDirectory(iosRootPath + "iOSStore/debug/libSoomlaIOSStore.a",
 				                             Application.dataPath + "/Plugins/iOS/libSoomlaIOSStore.a");
+				FileUtil.CopyFileOrDirectory(iosRootPath + "iOSStore/debug/libSoomlaIOSCore.a",
+				                             Application.dataPath + "/Plugins/iOS/libSoomlaIOSCore.a");
 				FileUtil.CopyFileOrDirectory(iosRootPath + "debug/libUnityiOSStore.a",
 				                             Application.dataPath + "/Plugins/iOS/libUnityiOSStore.a");
 			} catch {}
@@ -93,9 +96,12 @@ public class SoomlaSettingsEditor : Editor
 		} if (!SoomSettings.DebugMessages && movediOSDebugLib) {
 			try {
 				FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Plugins/iOS/libSoomlaIOSStore.a");
+        		FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Plugins/iOS/libSoomlaIOSCore.a");
 				FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Plugins/iOS/libUnityiOSStore.a");
-				FileUtil.CopyFileOrDirectory(iosRootPath + "iOSStore/libSoomlaiOSStore.a",
+				FileUtil.CopyFileOrDirectory(iosRootPath + "iOSStore/release/libSoomlaIOSStore.a",
 				                             Application.dataPath + "/Plugins/iOS/libSoomlaIOSStore.a");
+				FileUtil.CopyFileOrDirectory(iosRootPath + "iOSStore/release/libSoomlaIOSCore.a",
+				                             Application.dataPath + "/Plugins/iOS/libSoomlaIOSCore.a");
 				FileUtil.CopyFileOrDirectory(iosRootPath + "release/libUnityiOSStore.a",
 				                             Application.dataPath + "/Plugins/iOS/libUnityiOSStore.a");
 			} catch {}
