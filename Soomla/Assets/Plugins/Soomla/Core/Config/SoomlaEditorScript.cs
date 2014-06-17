@@ -30,7 +30,7 @@ namespace Soomla
 	/// </summary>
 	public class SoomlaEditorScript : ScriptableObject, ISoomlaPanelPainter
 	{
-#if UNITY_EDITOR
+
 		const string soomSettingsAssetName = "SoomlaEditorScript";
 		const string soomSettingsPath = "Soomla/Resources";
 		const string soomSettingsAssetExtension = ".asset";
@@ -111,7 +111,6 @@ namespace Soomla
 	        EditorUtility.SetDirty(Instance);
 	#endif
 	    }
-#endif
 
 	}
 }
