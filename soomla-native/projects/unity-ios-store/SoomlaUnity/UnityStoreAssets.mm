@@ -1,5 +1,5 @@
 #import "UnityStoreAssets.h"
-#import "JSONConsts.h"
+#import "StoreJSONConsts.h"
 #import "VirtualCurrencyPack.h"
 #import "VirtualCurrency.h"
 #import "VirtualGood.h"

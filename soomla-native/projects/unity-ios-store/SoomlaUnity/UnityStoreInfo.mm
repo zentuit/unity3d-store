@@ -1,15 +1,8 @@
 #import "UnityStoreAssets.h"
-#import "VirtualCategory.h"
-#import "VirtualCurrency.h"
-#import "VirtualGood.h"
-#import "VirtualCurrencyPack.h"
-#import "StoreInventory.h"
-#import "StoreController.h"
 #import "VirtualItemNotFoundException.h"
 #import "UnityCommons.h"
+#import "VirtualItem.h"
 #import "StoreInfo.h"
-#import "NonConsumableItem.h"
-#import "PurchasableVirtualItem.h"
 #import "SoomlaUtils.h"
 
 char* AutonomousStringCopy (const char* string)

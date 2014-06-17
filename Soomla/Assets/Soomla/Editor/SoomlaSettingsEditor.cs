@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 
-[CustomEditor(typeof(SoomSettings))]
+[CustomEditor(typeof(SoomlaEditorScript))]
 public class SoomlaSettingsEditor : Editor
 {
 
@@ -57,6 +57,8 @@ public class SoomlaSettingsEditor : Editor
 	private bool movediOSDebugLib = false;
     private void SoomlaGUI()
     {
+		SoomlaEditorScript.gui ();
+
 		EditorGUILayout.BeginHorizontal();
 		string url = "file://" + Application.dataPath + @"/Soomla/Resources/soom_logo.png";
 		WWW www = new WWW(url);

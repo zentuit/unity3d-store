@@ -43,7 +43,7 @@ namespace Soomla.Store {
 				throw new ExitGUIException();
 			}
 
-			if (!SoomlaAndroid.initialize()) {
+			if (!SoomlaAndroid.Initialize()) {
 				SoomlaUtils.LogError(TAG, "SOOMLA/UNITY Soomla could not be initialized!! Stopping here!!");
 				throw new ExitGUIException();
 			}
@@ -52,7 +52,7 @@ namespace Soomla.Store {
 
 			AndroidJNI.PushLocalFrame(100);
 			//init EventHandler
-			using(AndroidJavaClass jniEventHandler = new AndroidJavaClass("com.soomla.unity.EventHandler")) {
+			using(AndroidJavaClass jniEventHandler = new AndroidJavaClass("com.soomla.unity.StoreEventHandler")) {
 				jniEventHandler.CallStatic("initialize");
 			}
 			using(AndroidJavaObject jniStoreAssetsInstance = new AndroidJavaObject("com.soomla.unity.StoreAssets")) {

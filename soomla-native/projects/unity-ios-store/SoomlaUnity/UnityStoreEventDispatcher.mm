@@ -107,8 +107,8 @@
     else if ([notification.name isEqualToString:EVENT_UNEXPECTED_ERROR_IN_STORE]) {
         UnitySendMessage("StoreEvents", "onUnexpectedErrorInStore", "");
     }
-    else if ([notification.name isEqualToString:EVENT_STORECONTROLLER_INIT]) {
-        UnitySendMessage("StoreEvents", "onStoreControllerInitialized", "");
+    else if ([notification.name isEqualToString:EVENT_SOOMLASTORE_INIT]) {
+        UnitySendMessage("StoreEvents", "onSoomlaStoreInitialized", "");
     }
 }
 

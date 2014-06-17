@@ -28,21 +28,21 @@ namespace Soomla.Store {
 
 		/// Functions that call iOS-store functions.
 		[DllImport ("__Internal")]
-		private static extern void storeController_Init(string customSecret);
+		private static extern void soomlaStore_Init(string customSecret);
 		[DllImport ("__Internal")]
-		private static extern int storeController_BuyMarketItem(string productId);
+		private static extern int soomlaStore_BuyMarketItem(string productId);
 		[DllImport ("__Internal")]
-		private static extern void storeController_RestoreTransactions();
+		private static extern void soomlaStore_RestoreTransactions();
 		[DllImport ("__Internal")]
-		private static extern void storeController_RefreshInventory();
+		private static extern void soomlaStore_RefreshInventory();
 		[DllImport ("__Internal")]
-		private static extern void storeController_RefreshMarketItemsDetails();
+		private static extern void soomlaStore_RefreshMarketItemsDetails();
 		[DllImport ("__Internal")]
-		private static extern void storeController_TransactionsAlreadyRestored(out bool outResult);
+		private static extern void soomlaStore_TransactionsAlreadyRestored(out bool outResult);
 		[DllImport ("__Internal")]
-		private static extern void storeController_SetSoomSec(string soomSec);
+		private static extern void soomlaStore_SetLogDebug(bool debug);
 		[DllImport ("__Internal")]
-		private static extern void storeController_SetSSV(bool ssv, string verifyUrl);
+		private static extern void soomlaStore_SetSSV(bool ssv, string verifyUrl);
 
 
 		/// <summary>
@@ -50,16 +50,14 @@ namespace Soomla.Store {
 		/// </summary>
 		/// <param name="storeAssets">Your game's economy.</param>
 		protected override void _initialize(IStoreAssets storeAssets) {
-			storeController_SetSSV(SoomSettings.IosSSV, "https://verify.soom.la/verify_ios?platform=unity4");
-			StoreInfo.Initialize(storeAssets);
-			storeController_Init(SoomSettings.CustomSecret);
-		}
+			if (!SoomlaStore.Initialize()) {
+				SoomlaUtils.LogError(TAG, "SOOMLA/UNITY Soomla could not be initialized!! Stopping here!!");
+				throw new ExitGUIException();
+			}
 
-		/// <summary>
-		/// Sets up SoomSec.
-		/// </summary>
-		protected override void _setupSoomSec() {
-			storeController_SetSoomSec(SoomSettings.SoomSecret);
+			soomlaStore_SetSSV(SoomSettings.IosSSV, "https://verify.soom.la/verify_ios?platform=unity4");
+			StoreInfo.Initialize(storeAssets);
+			soomlaStore_Init();
 		}
 
 		/// <summary>
@@ -70,21 +68,21 @@ namespace Soomla.Store {
 
 			// NOTE: payload is not supported on iOS !
 
-			storeController_BuyMarketItem(productId);
+			soomlaStore_BuyMarketItem(productId);
 		}
 
 		/// <summary>
 		/// This method will run _restoreTransactions followed by _refreshMarketItemsDetails.
 		/// </summary>
 		protected override void _refreshInventory() {
-			storeController_RefreshInventory();
+			soomlaStore_RefreshInventory();
 		}
 
 		/// <summary>
 		/// Initiates the restore transactions process.
 		/// </summary>
 		protected override void _restoreTransactions() {
-			storeController_RestoreTransactions();
+			soomlaStore_RestoreTransactions();
 		}
 
 		/// <summary>
@@ -92,7 +90,7 @@ namespace Soomla.Store {
 		/// The metadata includes the item's name, description, price, product id, etc...
 		/// </summary>
 		protected override void _refreshMarketItemsDetails() {
-			storeController_RefreshMarketItemsDetails();
+			soomlaStore_RefreshMarketItemsDetails();
 		}
 
 		/// <summary>
@@ -101,7 +99,7 @@ namespace Soomla.Store {
 		/// </summary>
 		protected override bool _transactionsAlreadyRestored() {
 			bool restored = false;
-			storeController_TransactionsAlreadyRestored(out restored);
+			soomlaStore_TransactionsAlreadyRestored(out restored);
 			return restored;
 		}
 #endif
