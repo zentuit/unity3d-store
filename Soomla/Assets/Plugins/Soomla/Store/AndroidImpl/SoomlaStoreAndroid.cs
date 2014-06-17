@@ -16,30 +16,35 @@ using UnityEngine;
 using System;
 using System.Runtime.InteropServices;
 
-namespace Soomla {
+namespace Soomla.Store {
 
 	/// <summary>
-	/// <c>StoreController</c> for Android. 
+	/// <c>SoomlaStore</c> for Android. 
 	/// This class holds the basic assets needed to operate the Store.
 	/// You can use it to purchase products from the mobile store.
 	/// This is the only class you need to initialize in order to use the SOOMLA SDK.
 	/// </summary>
-	public class StoreControllerAndroid : StoreController {
+	public class SoomlaStoreAndroid : SoomlaStore {
 
 #if UNITY_ANDROID && !UNITY_EDITOR
-		private static AndroidJavaObject jniStoreController = null;
+		private static AndroidJavaObject jniSoomlaStore = null;
 
 		/// <summary>
 		/// Initializes the SOOMLA SDK.
 		/// </summary>
 		/// <param name="storeAssets">Your game's economy.</param>
-		/// <exception cref="ExitGUIException">Thrown if customSecret or soomSec is missing or has not been changed.
+		/// <exception cref="ExitGUIException">Thrown if soomlaSecret is missing or has not been changed.
 		/// </exception>
 		protected override void _initialize(IStoreAssets storeAssets) {
 			if (SoomSettings.GPlayBP && 
 			    (string.IsNullOrEmpty(SoomSettings.AndroidPublicKey) ||
 			 		SoomSettings.AndroidPublicKey==SoomSettings.AND_PUB_KEY_DEFAULT)) {
-				Utils.LogError(TAG, "SOOMLA/UNITY You chose Google Play billing service but publicKey is not set!! Stopping here!!");
+				SoomlaUtils.LogError(TAG, "SOOMLA/UNITY You chose Google Play billing service but publicKey is not set!! Stopping here!!");
+				throw new ExitGUIException();
+			}
+
+			if (!SoomlaAndroid.initialize()) {
+				SoomlaUtils.LogError(TAG, "SOOMLA/UNITY Soomla could not be initialized!! Stopping here!!");
 				throw new ExitGUIException();
 			}
 
@@ -51,13 +56,13 @@ namespace Soomla {
 				jniEventHandler.CallStatic("initialize");
 			}
 			using(AndroidJavaObject jniStoreAssetsInstance = new AndroidJavaObject("com.soomla.unity.StoreAssets")) {
-				using(AndroidJavaClass jniStoreControllerClass = new AndroidJavaClass("com.soomla.store.StoreController")) {
-					jniStoreController = jniStoreControllerClass.CallStatic<AndroidJavaObject>("getInstance");
-					jniStoreController.Call<bool>("initialize", jniStoreAssetsInstance, SoomSettings.CustomSecret);
+				using(AndroidJavaClass jniSoomlaStoreClass = new AndroidJavaClass("com.soomla.store.SoomlaStore")) {
+					jniSoomlaStore = jniSoomlaStoreClass.CallStatic<AndroidJavaObject>("getInstance");
+					jniSoomlaStore.Call<bool>("initialize", jniStoreAssetsInstance);
 				}
 			}
 
-			using(AndroidJavaClass jniStoreConfigClass = new AndroidJavaClass("com.soomla.store.StoreConfig")) {
+			using(AndroidJavaClass jniStoreConfigClass = new AndroidJavaClass("com.soomla.SoomlaConfig")) {
 				jniStoreConfigClass.SetStatic("logDebug", SoomSettings.DebugMessages);
 			}
 
@@ -73,25 +78,14 @@ namespace Soomla {
 		}
 
 		/// <summary>
-		/// Sets up SoomSec.
-		/// </summary>
-		protected override void _setupSoomSec() {
-			AndroidJNI.PushLocalFrame(100);
-			using(AndroidJavaClass jniStoreAssets = new AndroidJavaClass("com.soomla.unity.StoreAssets")) {
-				jniStoreAssets.CallStatic("setSoomSec", SoomSettings.SoomSecret);
-			}
-			AndroidJNI.PopLocalFrame(IntPtr.Zero);
-		}
-
-		/// <summary>
 		/// Starts a purchase process in the market.
 		/// </summary>
 		/// <param name="productId">id of the item to buy.</param>
 		protected override void _buyMarketItem(string productId, string payload) {
 			AndroidJNI.PushLocalFrame(100);
 			using(AndroidJavaObject jniPurchasableItem = AndroidJNIHandler.CallStatic<AndroidJavaObject>(
-				new AndroidJavaClass("com.soomla.store.data.StoreInfo"),"getPurchasableItem", productId)) {
-				AndroidJNIHandler.CallVoid(jniStoreController, "buyWithMarket", 
+								new AndroidJavaClass("com.soomla.store.data.StoreInfo"), "getPurchasableItem", productId)) {
+				AndroidJNIHandler.CallVoid(jniSoomlaStore, "buyWithMarket", 
 				                           jniPurchasableItem.Call<AndroidJavaObject>("getPurchaseType").Call<AndroidJavaObject>("getMarketItem"), 
 				                           payload);
 			}
@@ -103,7 +97,7 @@ namespace Soomla {
 		/// </summary>
 		protected override void _refreshInventory() {
 			AndroidJNI.PushLocalFrame(100);
-			jniStoreController.Call("refreshInventory");
+			jniSoomlaStore.Call("refreshInventory");
 			AndroidJNI.PopLocalFrame(IntPtr.Zero);
 		}
 
@@ -113,7 +107,7 @@ namespace Soomla {
 		/// </summary>
 		protected override void _refreshMarketItemsDetails() {
 			AndroidJNI.PushLocalFrame(100);
-			jniStoreController.Call("refreshMarketItemsDetails");
+			jniSoomlaStore.Call("refreshMarketItemsDetails");
 			AndroidJNI.PopLocalFrame(IntPtr.Zero);
 		}
 
@@ -122,7 +116,7 @@ namespace Soomla {
 		/// </summary>
 		protected override void _restoreTransactions() {
 			AndroidJNI.PushLocalFrame(100);
-			jniStoreController.Call("restoreTransactions");
+			jniSoomlaStore.Call("restoreTransactions");
 			AndroidJNI.PopLocalFrame(IntPtr.Zero);
 		}
 
@@ -131,7 +125,7 @@ namespace Soomla {
 		/// </summary>
 		protected override void _startIabServiceInBg() {
 			AndroidJNI.PushLocalFrame(100);
-			jniStoreController.Call("startIabServiceInBg");
+			jniSoomlaStore.Call("startIabServiceInBg");
 			AndroidJNI.PopLocalFrame(IntPtr.Zero);
 		}
 
@@ -140,7 +134,7 @@ namespace Soomla {
 		/// </summary>
 		protected override void _stopIabServiceInBg() {
 			AndroidJNI.PushLocalFrame(100);
-			jniStoreController.Call("stopIabServiceInBg");
+			jniSoomlaStore.Call("stopIabServiceInBg");
 			AndroidJNI.PopLocalFrame(IntPtr.Zero);
 		}
 #endif

@@ -14,7 +14,7 @@
 
 using System;
 
-namespace Soomla {
+namespace Soomla.Store {
 
 	/// <summary>
 	/// This class contains all string names of the keys/vals in the JSON being parsed all around the SDK.

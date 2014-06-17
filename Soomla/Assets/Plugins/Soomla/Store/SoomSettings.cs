@@ -64,37 +64,23 @@ public class SoomSettings : ScriptableObject
     }
 
 #if UNITY_EDITOR
-	[MenuItem("Soomla/Edit Settings")]
+	[MenuItem("Window/Soomla/Edit Settings")]
     public static void Edit()
     {
         Selection.activeObject = Instance;
     }
 
-	[MenuItem("Soomla/Framework Page")]
+	[MenuItem("Window/Soomla/Framework Page")]
     public static void OpenFramework()
     {
         string url = "https://www.github.com/soomla/unity3d-store";
         Application.OpenURL(url);
     }
 
-	[MenuItem("Soomla/Soombots")]
-    public static void OpenSoombots()
-    {
-		string url = "http://soom.la/soombots";
-        Application.OpenURL(url);
-    }
-
-	[MenuItem("Soomla/Blog")]
-	public static void OpenBlog()
-	{
-		string url = "http://blog.soom.la";
-		Application.OpenURL(url);
-	}
-
-	[MenuItem("Soomla/Report an issue")]
+	[MenuItem("Window/Soomla/Report an issue")]
     public static void OpenIssue()
     {
-		string url = "https://github.com/soomla/unity3d-store/issues/new";
+		string url = "https://answers.soom.la";
         Application.OpenURL(url);
     }
 #endif
@@ -113,36 +99,17 @@ public class SoomSettings : ScriptableObject
 	[SerializeField]
 	private string androidPublicKey = "GOOGLE PLAY PUBLIC KEY";
     [SerializeField]
-	private string customSecret = "SET ONLY ONCE";
-    [SerializeField]
-	private string soomSec = "SET ONLY ONCE";
+	private string soomlaSecret = "SET ONLY ONCE";
 
 
-	public static string CustomSecret
+	public static string SoomlaSecret
 	{
-		get { return Instance.customSecret; }
+		get { return Instance.soomlaSecret; }
 		set 
 		{
-			if (Instance.customSecret != value)
+			if (Instance.soomlaSecret != value)
 			{
-				Instance.customSecret = value;
-				DirtyEditor ();
-			}
-		}
-	}
-
-	public static string SoomSecret
-	{
-		get { return Instance.soomSec; }
-		set 
-		{
-			if (Instance.soomSec != value)
-			{
-				if (string.IsNullOrEmpty(value)) {
-
-				} else {
-					Instance.soomSec = value;
-				}
+				Instance.soomlaSecret = value;
 				DirtyEditor ();
 			}
 		}

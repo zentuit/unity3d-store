@@ -16,7 +16,7 @@ using UnityEngine;
 using System.Runtime.InteropServices;
 using System;
 
-namespace Soomla {
+namespace Soomla.Store {
 
 	/// <summary>
 	/// This is the parent class of all virtual items in the application.
@@ -121,7 +121,7 @@ namespace Soomla {
 		}
 		
 		public static VirtualItem factoryItemFromJNI(AndroidJavaObject jniItem) {
-			Utils.LogDebug(TAG, "Trying to create VirtualItem with itemId: " + jniItem.Call<string>("getItemId"));
+			SoomlaUtils.LogDebug(TAG, "Trying to create VirtualItem with itemId: " + jniItem.Call<string>("getItemId"));
 			
 			if (isInstanceOf(jniItem, "com/soomla/store/domain/virtualGoods/SingleUseVG")) {
 				return new SingleUseVG(jniItem);
@@ -140,7 +140,7 @@ namespace Soomla {
 			} else if (isInstanceOf(jniItem, "com/soomla/store/domain/NonConsumableItem")) {
 				return new NonConsumableItem(jniItem);
 			} else {
-				Utils.LogError(TAG, "Couldn't determine what type of class is the given jniItem.");
+				SoomlaUtils.LogError(TAG, "Couldn't determine what type of class is the given jniItem.");
 			}
 			
 			return null;

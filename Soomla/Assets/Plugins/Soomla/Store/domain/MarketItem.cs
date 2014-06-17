@@ -15,7 +15,7 @@
 using UnityEngine;
 using System.Collections;
 
-namespace Soomla {
+namespace Soomla.Store {
 
 	/// <summary>
 	/// This class represents an item in the market.

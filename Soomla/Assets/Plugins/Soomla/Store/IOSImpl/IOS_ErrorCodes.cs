@@ -15,7 +15,7 @@
 using System;
 using UnityEngine;
 
-namespace Soomla {
+namespace Soomla.Store {
 
 	/// <summary>
 	/// This class provides error codes for each of the errors available in iOS-store. 

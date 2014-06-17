@@ -16,7 +16,7 @@ using UnityEngine;
 using System;
 using System.Runtime.InteropServices;
 
-namespace Soomla {
+namespace Soomla.Store {
 
 	/// <summary>
 	/// <c>StoreInventory</c> for iOS.
@@ -26,7 +26,8 @@ namespace Soomla {
 	/// </summary>
 	public class StoreInventoryIOS : StoreInventory {
 
-#if UNITY_IOS && !UNITY_EDITOR
+#if UNITY_IOS 
+		//&& !UNITY_EDITOR
 
 		/// Functions that call iOS-store functions.
 		[DllImport ("__Internal")]

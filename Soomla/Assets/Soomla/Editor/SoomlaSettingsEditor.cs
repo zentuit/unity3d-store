@@ -19,8 +19,7 @@ public class SoomlaSettingsEditor : Editor
 
 	GUIContent emptyContent = new GUIContent("");
 
-	GUIContent customSecLabel = new GUIContent("Custom Secret [?]:", "The application encryption secret.");
-	GUIContent soomSecLabel = new GUIContent("SoomSec [?]:", "A global secret which is used as a higher level protection.");
+	GUIContent soomlaSecLabel = new GUIContent("Soomla Secret [?]:", "All the user information will be encrypted using this secret.");
 
 	GUIContent playLabel = new GUIContent("Google Play");
 	GUIContent amazonLabel = new GUIContent("Amazon");
@@ -69,13 +68,8 @@ public class SoomlaSettingsEditor : Editor
 		EditorGUILayout.HelpBox("Make sure you fill out all the information below", MessageType.None);
 
 		EditorGUILayout.BeginHorizontal();
-		EditorGUILayout.LabelField(customSecLabel, fieldWidth, fieldHeight);
-		SoomSettings.CustomSecret = EditorGUILayout.TextField(SoomSettings.CustomSecret, fieldHeight);
-		EditorGUILayout.EndHorizontal();
-
-		EditorGUILayout.BeginHorizontal();
-		EditorGUILayout.LabelField(soomSecLabel, fieldWidth, fieldHeight);
-		SoomSettings.SoomSecret = EditorGUILayout.TextField(SoomSettings.SoomSecret, fieldHeight);
+		EditorGUILayout.LabelField(soomlaSecLabel, fieldWidth, fieldHeight);
+		SoomSettings.SoomlaSecret = EditorGUILayout.TextField(SoomSettings.SoomlaSecret, fieldHeight);
 		EditorGUILayout.EndHorizontal();
 
 		SoomSettings.DebugMessages = EditorGUILayout.Toggle(debugMsgsLabel, SoomSettings.DebugMessages);

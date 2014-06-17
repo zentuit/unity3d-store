@@ -2,7 +2,6 @@ package com.soomla.unity;
 
 import java.util.ArrayList;
 
-import com.soomla.SoomlaConfig;
 import com.soomla.store.IStoreAssets;
 import com.soomla.SoomlaApp;
 import com.soomla.SoomlaUtils;
@@ -178,10 +177,6 @@ public class StoreAssets implements IStoreAssets {
     @Override
     public NonConsumableItem[] getNonConsumableItems() {
         return nonConsumables.toArray(new NonConsumableItem[nonConsumables.size()]);
-    }
-
-    public static void setSoomSec(String soomSec) {
-        SoomlaConfig.SOOM_SEC = soomSec;
     }
 
     private static String TAG = "SOOMLA StoreAssets (unity)";

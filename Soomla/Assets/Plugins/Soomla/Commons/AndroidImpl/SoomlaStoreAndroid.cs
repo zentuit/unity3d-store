@@ -1,4 +1,4 @@
-/// Copyright (C) 2012-2014 Soomla Inc.
+﻿/// Copyright (C) 2012-2014 Soomla Inc.
 ///
 /// Licensed under the Apache License, Version 2.0 (the "License");
 /// you may not use this file except in compliance with the License.
@@ -13,26 +13,21 @@
 /// limitations under the License.
 
 using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using Soomla;
 using System;
+using System.Runtime.InteropServices;
 
-/// <summary>
-/// 
-/// </summary>
-namespace Soomla.Store.Example {
+namespace Soomla {
 
-
-	public class Example : MonoBehaviour {
-		
-		/// <summary>
-		/// Starts this instance.
-		/// Use this for initialization.
-		/// </summary>
-		void Start () {
-			ExampleWindow.OpenWindow();
+	public static class SoomlaAndroid {
+#if UNITY_ANDROID && !UNITY_EDITOR
+		public static bool initialize() {
+			AndroidJNI.PushLocalFrame(100);
+			using(AndroidJavaClass jniSoomlaClass = new AndroidJavaClass("com.soomla.Soomla")) {
+				jniSoomlaClass.CallStatic("initialize", SoomSettings.SoomlaSecret);
+			}
+			AndroidJNI.PopLocalFrame(IntPtr.Zero);
+			return true;
 		}
+#endif
 	}
 }
-	

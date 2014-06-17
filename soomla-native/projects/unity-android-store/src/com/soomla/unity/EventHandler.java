@@ -24,7 +24,7 @@ import com.soomla.store.events.MarketPurchaseStartedEvent;
 import com.soomla.store.events.MarketRefundEvent;
 import com.soomla.store.events.RestoreTransactionsFinishedEvent;
 import com.soomla.store.events.RestoreTransactionsStartedEvent;
-import com.soomla.store.events.StoreControllerInitializedEvent;
+import com.soomla.store.events.SoomlaStoreInitializedEvent;
 import com.soomla.store.events.UnexpectedStoreErrorEvent;
 import com.squareup.otto.Subscribe;
 import com.unity3d.player.UnityPlayer;
@@ -172,8 +172,8 @@ public class EventHandler {
     }
 
     @Subscribe
-    public void onStoreControllerInitializedEvent(StoreControllerInitializedEvent storeControllerInitializedEvent) {
-        UnityPlayer.UnitySendMessage("StoreEvents", "onStoreControllerInitialized", "");
+    public void onSoomlaStoreInitialized(SoomlaStoreInitializedEvent soomlaStoreInitializedEvent) {
+        UnityPlayer.UnitySendMessage("StoreEvents", "onSoomlaStoreInitialized", "");
     }
 
     @Subscribe

@@ -17,7 +17,7 @@ using System.Collections.Generic;
 using System;
 using System.Collections;
 
-namespace Soomla {
+namespace Soomla.Store {
 
 	/// <summary>
 	/// This class is a definition of a category. A single category can be associated with many virtual goods.

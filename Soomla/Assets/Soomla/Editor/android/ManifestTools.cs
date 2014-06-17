@@ -48,7 +48,7 @@ namespace UnityEditor.SoomlaEditor
 			ns = applicationNode.GetNamespaceOfPrefix("android");
 
 			XmlElement applicationElement = FindChildElement(manNode, "application");
-			applicationElement.SetAttribute("name", ns, "com.soomla.store.SoomlaApp");
+			applicationElement.SetAttribute("name", ns, "com.soomla.SoomlaApp");
 
 			if (SoomSettings.GPlayBP) {
 				findOrPrependElement("uses-permission", "name", ns, "com.android.vending.BILLING", manNode, doc);

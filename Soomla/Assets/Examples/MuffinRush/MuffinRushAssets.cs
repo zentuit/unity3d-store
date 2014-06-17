@@ -16,7 +16,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Soomla.Example {
+namespace Soomla.Store.Example {
 
 	/// <summary>
 	/// This class defines our game's economy, which includes virtual goods, virtual currencies

@@ -1,4 +1,4 @@
-﻿/// Copyright (C) 2012-2014 Soomla Inc.
+/// Copyright (C) 2012-2014 Soomla Inc.
 ///
 /// Licensed under the Apache License, Version 2.0 (the "License");
 /// you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
 using UnityEngine;
 using System.Runtime.InteropServices;
 
-namespace Soomla {
+namespace Soomla.Store {
 
 	/// <summary>
 	/// <c>StoreController</c> for iOS.
@@ -23,7 +23,7 @@ namespace Soomla {
 	/// You can use it to purchase products from the mobile store.
 	/// This is the only class you need to initialize in order to use the SOOMLA SDK.
 	/// </summary>
-	public class StoreControllerIOS : StoreController {
+	public class SoomlaStoreIOS : SoomlaStore {
 #if UNITY_IOS && !UNITY_EDITOR
 
 		/// Functions that call iOS-store functions.

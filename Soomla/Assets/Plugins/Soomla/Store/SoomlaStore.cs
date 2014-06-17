@@ -16,26 +16,26 @@ using UnityEngine;
 using System;
 using System.Runtime.InteropServices;
 
-namespace Soomla
+namespace Soomla.Store
 {
 	/// <summary>
 	/// This class holds the basic assets needed to operate the Store.
 	/// You can use it to purchase products from the mobile store.
 	/// This is the only class you need to initialize in order to use the SOOMLA SDK.
 	/// </summary>
-	public class StoreController
+	public class SoomlaStore
 	{
 
-		static StoreController _instance = null;
-		static StoreController instance {
+		static SoomlaStore _instance = null;
+		static SoomlaStore instance {
 			get {
 				if(_instance == null) {
 					#if UNITY_ANDROID && !UNITY_EDITOR
-					_instance = new StoreControllerAndroid();
+					_instance = new SoomlaStoreAndroid();
 					#elif UNITY_IOS && !UNITY_EDITOR
-					_instance = new StoreControllerIOS();
+					_instance = new SoomlaStoreIOS();
 					#else
-					_instance = new StoreController();
+					_instance = new SoomlaStore();
 					#endif
 				}
 				return _instance;
@@ -46,35 +46,20 @@ namespace Soomla
 		/// Initializes the SOOMLA SDK.
 		/// </summary>
 		/// <param name="storeAssets">Your game's economy.</param>
-		/// <exception cref="ExitGUIException">Thrown if customSecret or soomSec is missing or has not been changed.
+		/// <exception cref="ExitGUIException">Thrown if soomlaSecret is missing or has not been changed.
 		/// </exception>
 		public static void Initialize(IStoreAssets storeAssets) {
-			if (string.IsNullOrEmpty(SoomSettings.CustomSecret)) {
-				Utils.LogError(TAG, "SOOMLA/UNITY MISSING customSecret !!! Stopping here !!");
+			if (string.IsNullOrEmpty(SoomSettings.SoomlaSecret)) {
+				SoomlaUtils.LogError(TAG, "SOOMLA/UNITY MISSING SoomlaSecret !!! Stopping here !!");
 				throw new ExitGUIException();
 			}
 
-			if (SoomSettings.CustomSecret==SoomSettings.ONLY_ONCE_DEFAULT) {
-				Utils.LogError(TAG, "SOOMLA/UNITY You have to change customSecret !!! Stopping here !!");
+			if (SoomSettings.SoomlaSecret==SoomSettings.ONLY_ONCE_DEFAULT) {
+				SoomlaUtils.LogError(TAG, "SOOMLA/UNITY You have to change SoomlaSecret !!! Stopping here !!");
 				throw new ExitGUIException();
 			}
 
-			if (string.IsNullOrEmpty(SoomSettings.SoomSecret)) {
-				Utils.LogError(TAG, "SOOMLA/UNITY MISSING soomSec !!! Stopping here !!");
-				throw new ExitGUIException();
-			}
-
-			if (SoomSettings.SoomSecret==SoomSettings.ONLY_ONCE_DEFAULT) {
-				Utils.LogError(TAG, "SOOMLA/UNITY You have to change soomSec !!! Stopping here !!");
-				throw new ExitGUIException();
-			}
-
-			instance._setupSoomSec();
 			instance._initialize(storeAssets);
-		}
-
-		public static void SetupSoomSec() {
-			instance._setupSoomSec();
 		}
 
 		/// <summary>
@@ -138,8 +123,6 @@ namespace Soomla
 
 		protected virtual void _initialize(IStoreAssets storeAssets) { }
 
-		protected virtual void _setupSoomSec() { }
-
 		protected virtual void _buyMarketItem(string productId, string payload) { }
 
 		protected virtual void _refreshInventory() { }
@@ -159,7 +142,7 @@ namespace Soomla
 
 		/// <summary> Class Members </summary>
 
-		protected const string TAG = "SOOMLA StoreController";
+		protected const string TAG = "SOOMLA SoomlaStore";
 
 	}
 }

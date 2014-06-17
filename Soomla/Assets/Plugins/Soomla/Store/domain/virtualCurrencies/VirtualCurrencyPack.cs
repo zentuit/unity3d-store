@@ -15,7 +15,7 @@
 using UnityEngine;
 using System.Collections;
 
-namespace Soomla{	
+namespace Soomla.Store{	
 	
 	/// <summary>
 	/// Every game has its virtual currencies. This class represents a pack of <c>VirtualCurrency</c>s.

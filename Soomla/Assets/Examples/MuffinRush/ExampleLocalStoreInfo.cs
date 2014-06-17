@@ -17,7 +17,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Soomla;
 
-namespace Soomla.Example {
+namespace Soomla.Store.Example {
 
 	/// <summary>
 	/// This class contains currenciy and goods balances. 
