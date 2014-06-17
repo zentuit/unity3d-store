@@ -5,10 +5,11 @@ using System.Xml;
 using System.Text;
 using System.Linq;
 
-namespace UnityEditor.SoomlaEditor
+namespace Soomla
 {
 	public class ManifestTools
     {
+#if UNITY_EDITOR
 
         public static void GenerateManifest()
         {
@@ -208,5 +209,6 @@ namespace UnityEditor.SoomlaEditor
 			}
 			return null;
 		}
+#endif
 	}
 }

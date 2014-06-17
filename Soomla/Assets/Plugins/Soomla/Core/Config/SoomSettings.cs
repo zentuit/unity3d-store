@@ -13,141 +13,144 @@
 /// limitations under the License.
 
 using UnityEngine;
-using System.IO;
 
-/// <summary>
-/// This class holds the store's configurations. 
-/// </summary>
-public class SoomSettings : ScriptableObject
+
+namespace Soomla
 {
-	const string soomSettingsAssetName = "SoomSettings";
-
-	public static string AND_PUB_KEY_DEFAULT = "YOUR GOOGLE PLAY PUBLIC KEY";
-	public static string ONLY_ONCE_DEFAULT = "SET ONLY ONCE";
-
-	private static SoomSettings instance;
-	
-	static SoomSettings Instance
+	/// <summary>
+	/// This class holds the store's configurations. 
+	/// </summary>
+	public class SoomSettings : ScriptableObject
 	{
-		get
+		const string soomSettingsAssetName = "SoomSettings";
+
+		public static string AND_PUB_KEY_DEFAULT = "YOUR GOOGLE PLAY PUBLIC KEY";
+		public static string ONLY_ONCE_DEFAULT = "SET ONLY ONCE";
+
+		private static SoomSettings instance;
+		
+		static SoomSettings Instance
 		{
-			if (instance == null)
+			get
 			{
-				instance = Resources.Load(soomSettingsAssetName) as SoomSettings;
 				if (instance == null)
 				{
-					// If not found, autocreate the asset object.
-					instance = CreateInstance<SoomSettings>();
+					instance = Resources.Load(soomSettingsAssetName) as SoomSettings;
+					if (instance == null)
+					{
+						// If not found, autocreate the asset object.
+						instance = CreateInstance<SoomSettings>();
+					}
+				}
+				return instance;
+			}
+		}
+
+		[SerializeField]
+		private bool debugMsgs = false;
+	    [SerializeField]
+	    private bool iosSSV = false;
+		[SerializeField]
+		private bool gPlayBP = false;
+		[SerializeField]
+		private bool amazonBP = false;
+		[SerializeField]
+		private bool androidTestPurchases = false;
+		[SerializeField]
+		private string androidPublicKey = "GOOGLE PLAY PUBLIC KEY";
+	    [SerializeField]
+		private string soomlaSecret = "SET ONLY ONCE";
+		
+		public static string SoomlaSecret
+		{
+			get { return Instance.soomlaSecret; }
+			set 
+			{
+				if (Instance.soomlaSecret != value)
+				{
+					Instance.soomlaSecret = value;
+					SoomlaEditorScript.DirtyEditor ();
 				}
 			}
-			return instance;
 		}
-	}
 
-	[SerializeField]
-	private bool debugMsgs = false;
-    [SerializeField]
-    private bool iosSSV = false;
-	[SerializeField]
-	private bool gPlayBP = false;
-	[SerializeField]
-	private bool amazonBP = false;
-	[SerializeField]
-	private bool androidTestPurchases = false;
-	[SerializeField]
-	private string androidPublicKey = "GOOGLE PLAY PUBLIC KEY";
-    [SerializeField]
-	private string soomlaSecret = "SET ONLY ONCE";
-	
-	public static string SoomlaSecret
-	{
-		get { return Instance.soomlaSecret; }
-		set 
+		public static bool DebugMessages
 		{
-			if (Instance.soomlaSecret != value)
+			get { return Instance.debugMsgs; }
+			set
 			{
-				Instance.soomlaSecret = value;
-				SoomlaEditorScript.DirtyEditor ();
+				if (Instance.debugMsgs != value)
+				{
+					Instance.debugMsgs = value;
+					SoomlaEditorScript.DirtyEditor();
+				}
 			}
 		}
-	}
 
-	public static bool DebugMessages
-	{
-		get { return Instance.debugMsgs; }
-		set
+		public static string AndroidPublicKey
 		{
-			if (Instance.debugMsgs != value)
+			get { return Instance.androidPublicKey; }
+			set 
 			{
-				Instance.debugMsgs = value;
-				SoomlaEditorScript.DirtyEditor();
+				if (Instance.androidPublicKey != value)
+				{
+					Instance.androidPublicKey = value;
+					SoomlaEditorScript.DirtyEditor ();
+				}
 			}
 		}
-	}
 
-	public static string AndroidPublicKey
-	{
-		get { return Instance.androidPublicKey; }
-		set 
+		public static bool AndroidTestPurchases
 		{
-			if (Instance.androidPublicKey != value)
+			get { return Instance.androidTestPurchases; }
+			set 
 			{
-				Instance.androidPublicKey = value;
-				SoomlaEditorScript.DirtyEditor ();
+				if (Instance.androidTestPurchases != value)
+				{
+					Instance.androidTestPurchases = value;
+					SoomlaEditorScript.DirtyEditor ();
+				}
 			}
 		}
-	}
 
-	public static bool AndroidTestPurchases
-	{
-		get { return Instance.androidTestPurchases; }
-		set 
+		public static bool IosSSV
 		{
-			if (Instance.androidTestPurchases != value)
+			get { return Instance.iosSSV; }
+			set
 			{
-				Instance.androidTestPurchases = value;
-				SoomlaEditorScript.DirtyEditor ();
+				if (Instance.iosSSV != value)
+	            {
+					Instance.iosSSV = value;
+					SoomlaEditorScript.DirtyEditor();
+	            }
+	        }
+	    }
+
+		public static bool GPlayBP
+		{
+			get { return Instance.gPlayBP; }
+			set
+			{
+				if (Instance.gPlayBP != value)
+				{
+					Instance.gPlayBP = value;
+					SoomlaEditorScript.DirtyEditor();
+				}
 			}
 		}
-	}
 
-	public static bool IosSSV
-	{
-		get { return Instance.iosSSV; }
-		set
+		public static bool AmazonBP
 		{
-			if (Instance.iosSSV != value)
-            {
-				Instance.iosSSV = value;
-				SoomlaEditorScript.DirtyEditor();
-            }
-        }
-    }
-
-	public static bool GPlayBP
-	{
-		get { return Instance.gPlayBP; }
-		set
-		{
-			if (Instance.gPlayBP != value)
+			get { return Instance.amazonBP; }
+			set
 			{
-				Instance.gPlayBP = value;
-				SoomlaEditorScript.DirtyEditor();
+				if (Instance.amazonBP != value)
+				{
+					Instance.amazonBP = value;
+					SoomlaEditorScript.DirtyEditor();
+				}
 			}
 		}
-	}
 
-	public static bool AmazonBP
-	{
-		get { return Instance.amazonBP; }
-		set
-		{
-			if (Instance.amazonBP != value)
-			{
-				Instance.amazonBP = value;
-				SoomlaEditorScript.DirtyEditor();
-			}
-		}
 	}
-
 }

@@ -1,12 +1,16 @@
 using UnityEngine;
+using UnityEditor;
 using System.Diagnostics;
 using System.Text;
 using System.Collections;
+using System.IO;
 
-namespace UnityEditor.SoomlaEditor
+namespace Soomla
 {
+
 	public class SoomlaAndroidUtil
     {
+#if UNITY_EDITOR
 		private static char DSC = System.IO.Path.DirectorySeparatorChar;
 
         public const string ERROR_NO_SDK = "no_android_sdk";
@@ -132,5 +136,6 @@ namespace UnityEditor.SoomlaEditor
 				}
 			}catch {}
 		}
+#endif
     }
 }
