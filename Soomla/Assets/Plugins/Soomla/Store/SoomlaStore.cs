@@ -49,12 +49,12 @@ namespace Soomla.Store
 		/// <exception cref="ExitGUIException">Thrown if soomlaSecret is missing or has not been changed.
 		/// </exception>
 		public static void Initialize(IStoreAssets storeAssets) {
-			if (string.IsNullOrEmpty(SoomSettings.SoomlaSecret)) {
+			if (string.IsNullOrEmpty(CoreSettings.SoomlaSecret)) {
 				SoomlaUtils.LogError(TAG, "SOOMLA/UNITY MISSING SoomlaSecret !!! Stopping here !!");
 				throw new ExitGUIException();
 			}
 
-			if (SoomSettings.SoomlaSecret==SoomSettings.ONLY_ONCE_DEFAULT) {
+			if (CoreSettings.SoomlaSecret==CoreSettings.ONLY_ONCE_DEFAULT) {
 				SoomlaUtils.LogError(TAG, "SOOMLA/UNITY You have to change SoomlaSecret !!! Stopping here !!");
 				throw new ExitGUIException();
 			}

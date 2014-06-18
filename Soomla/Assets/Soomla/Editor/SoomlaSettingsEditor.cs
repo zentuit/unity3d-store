@@ -8,15 +8,20 @@ using Soomla;
 [CustomEditor(typeof(SoomlaEditorScript))]
 public class SoomlaSettingsEditor : Editor
 {
-	public void OnEnable() 
+
+	public void OnEnable()
 	{
-		SoomlaEditorScript.Instance.OnEnable();
+		SoomlaEditorScript.OnEnable();
 	}
 
     public override void OnInspectorGUI()
     {
-		SoomlaEditorScript.Instance.OnInspectorGUI();
+
+		SoomlaEditorScript.OnInspectorGUI();
     }
 
+	public void OnDisable() {
+		// NOTE: nothing to do here..
+	}
 
 }

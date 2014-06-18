@@ -28,59 +28,72 @@ namespace Soomla
 	/// <summary>
 	/// This class holds the store's configurations. 
 	/// </summary>
-	public class SoomlaEditorScript : ScriptableObject, ISoomlaPanelPainter
+	public class SoomlaEditorScript : ScriptableObject
 	{
+		public static string AND_PUB_KEY_DEFAULT = "YOUR GOOGLE PLAY PUBLIC KEY";
+		public static string ONLY_ONCE_DEFAULT = "SET ONLY ONCE";
 
 		const string soomSettingsAssetName = "SoomlaEditorScript";
 		const string soomSettingsPath = "Soomla/Resources";
 		const string soomSettingsAssetExtension = ".asset";
-
+		
 		private static SoomlaEditorScript instance;
-
+		
 		public static SoomlaEditorScript Instance
-	    {
-	        get
-	        {
-	            if (instance == null)
-	            {
+		{
+			get
+			{
+				if (instance == null)
+				{
 					instance = Resources.Load(soomSettingsAssetName) as SoomlaEditorScript;
-	                if (instance == null)
-	                {
-	                    // If not found, autocreate the asset object.
+					if (instance == null)
+					{
+						// If not found, autocreate the asset object.
 						instance = CreateInstance<SoomlaEditorScript>();
-	#if UNITY_EDITOR
-	                    string properPath = Path.Combine(Application.dataPath, soomSettingsPath);
-	                    if (!Directory.Exists(properPath))
-	                    {
-	                        AssetDatabase.CreateFolder("Assets/Soomla", "Resources");
-	                    }
-
-	                    string fullPath = Path.Combine(Path.Combine("Assets", soomSettingsPath),
-	                                                   soomSettingsAssetName + soomSettingsAssetExtension
-	                                                  );
-	                    AssetDatabase.CreateAsset(instance, fullPath);
-	#endif
-	                }
-	            }
-	            return instance;
-	        }
-	    }
-
-	#if UNITY_EDITOR
-		static List<ISoomlaPanelPainter> mPanelPainters = new List<ISoomlaPanelPainter>();
-		public static void addPainter(ISoomlaPanelPainter spp) {
-			mPanelPainters.Add(spp);
+#if UNITY_EDITOR
+						string properPath = Path.Combine(Application.dataPath, soomSettingsPath);
+						if (!Directory.Exists(properPath))
+						{
+							AssetDatabase.CreateFolder("Assets/Soomla", "Resources");
+						}
+						
+						string fullPath = Path.Combine(Path.Combine("Assets", soomSettingsPath),
+						                               soomSettingsAssetName + soomSettingsAssetExtension);
+						AssetDatabase.CreateAsset(instance, fullPath);
+#endif
+					}
+				}
+				return instance;
+			}
 		}
 
-		public void OnEnable() {
-			foreach(ISoomlaPanelPainter painter in mPanelPainters) {
-				painter.OnEnable();
+	#if UNITY_EDITOR
+
+		private static List<ISoomlaSettings> mSoomlaSettings = new List<ISoomlaSettings>();
+		public static void addSettings(ISoomlaSettings spp) {
+			mSoomlaSettings.Add(spp);
+		}
+
+		public static void OnEnable() {
+			foreach(ISoomlaSettings settings in mSoomlaSettings) {
+				settings.OnEnable();
 			}
 		}
 		
-		public void OnInspectorGUI() {
-			foreach(ISoomlaPanelPainter painter in mPanelPainters) {
-				painter.OnInspectorGUI();
+		public static void OnInspectorGUI() {
+			foreach(ISoomlaSettings settings in mSoomlaSettings) {
+				settings.OnSoomlaGUI();
+				EditorGUILayout.Space();
+			}
+			EditorGUILayout.Space();
+			EditorGUILayout.Space();
+			foreach(ISoomlaSettings settings in mSoomlaSettings) {
+				settings.OnModuleGUI();
+			}
+			EditorGUILayout.Space();
+			foreach(ISoomlaSettings settings in mSoomlaSettings) {
+				settings.OnInfoGUI();
+				EditorGUILayout.Space();
 			}
 		}
 		
@@ -89,6 +102,7 @@ namespace Soomla
 	    {
 	        Selection.activeObject = Instance;
 	    }
+
 
 		[MenuItem("Window/Soomla/Framework Page")]
 	    public static void OpenFramework()
@@ -112,5 +126,28 @@ namespace Soomla
 	#endif
 	    }
 
+		[SerializeField]
+		public ObjectDictionary SoomlaSettings = new ObjectDictionary();
+
+		public void setSettingsValue(string key, string value) {
+			SoomlaSettings[key] = value;
+		}
+
+
+
+
+		/** SOOMLA Core UI **/
+		public static GUILayoutOption FieldHeight = GUILayout.Height(16);
+		public static GUILayoutOption FieldWidth = GUILayout.Width(120);
+		public static GUILayoutOption SpaceWidth = GUILayout.Width(24);
+		public static GUIContent EmptyContent = new GUIContent("");
+
+		public static void SelectableLabelField(GUIContent label, string value)
+		{
+			EditorGUILayout.BeginHorizontal();
+			EditorGUILayout.LabelField(label, GUILayout.Width(140), FieldHeight);
+			EditorGUILayout.SelectableLabel(value, FieldHeight);
+			EditorGUILayout.EndHorizontal();
+		}
 	}
 }

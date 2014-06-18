@@ -17,10 +17,12 @@ using System;
 
 namespace Soomla
 {
-	public interface ISoomlaPanelPainter
+	public interface ISoomlaSettings
 	{
 #if UNITY_EDITOR
-		void OnInspectorGUI();
+		void OnSoomlaGUI();
+		void OnModuleGUI();
+		void OnInfoGUI();
 		void OnEnable();
 #endif
 	}
