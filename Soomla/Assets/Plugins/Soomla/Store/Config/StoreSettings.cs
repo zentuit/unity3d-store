@@ -209,7 +209,7 @@ namespace Soomla.Store
 
 
 
-
+#endif
 
 
 
@@ -330,7 +330,7 @@ namespace Soomla.Store
 			}
 		}
 		
-		#endif
+
 		
 	}
 }

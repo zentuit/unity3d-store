@@ -30,8 +30,8 @@ namespace Soomla {
 		/// Initializes the SOOMLA SDK.
 		/// </summary>
 		public static bool Initialize() {
-			soomla_SetLogDebug(SoomSettings.DebugMessages);
-			soomla_Init(SoomSettings.SoomlaSecret);
+			soomla_SetLogDebug(CoreSettings.DebugMessages);
+			soomla_Init(CoreSettings.SoomlaSecret);
 		}
 #endif
 	}

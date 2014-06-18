@@ -55,7 +55,7 @@ namespace Soomla.Store {
 				throw new ExitGUIException();
 			}
 
-			soomlaStore_SetSSV(SoomSettings.IosSSV, "https://verify.soom.la/verify_ios?platform=unity4");
+			soomlaStore_SetSSV(StoreSettings.IosSSV, "https://verify.soom.la/verify_ios?platform=unity4");
 			StoreInfo.Initialize(storeAssets);
 			soomlaStore_Init();
 		}

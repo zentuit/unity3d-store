@@ -137,6 +137,7 @@ namespace Soomla
 
 
 		/** SOOMLA Core UI **/
+#if UNITY_EDITOR
 		public static GUILayoutOption FieldHeight = GUILayout.Height(16);
 		public static GUILayoutOption FieldWidth = GUILayout.Width(120);
 		public static GUILayoutOption SpaceWidth = GUILayout.Width(24);
@@ -149,5 +150,6 @@ namespace Soomla
 			EditorGUILayout.SelectableLabel(value, FieldHeight);
 			EditorGUILayout.EndHorizontal();
 		}
+#endif
 	}
 }

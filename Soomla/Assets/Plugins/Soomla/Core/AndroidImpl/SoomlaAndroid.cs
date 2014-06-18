@@ -23,7 +23,7 @@ namespace Soomla {
 		public static bool Initialize() {
 			AndroidJNI.PushLocalFrame(100);
 			using(AndroidJavaClass jniSoomlaClass = new AndroidJavaClass("com.soomla.Soomla")) {
-				jniSoomlaClass.CallStatic("initialize", SoomSettings.SoomlaSecret);
+				jniSoomlaClass.CallStatic("initialize", CoreSettings.SoomlaSecret);
 			}
 			//init EventHandler
 			using(AndroidJavaClass jniEventHandler = new AndroidJavaClass("com.soomla.unity.SoomlaEventHandler")) {

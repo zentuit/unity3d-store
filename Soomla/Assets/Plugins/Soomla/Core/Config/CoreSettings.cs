@@ -105,6 +105,7 @@ namespace Soomla
 				EditorGUILayout.HelpBox(msg, MessageType.Error);
 			}
 		}
+#endif
 
 		public static string ONLY_ONCE_DEFAULT = "SET ONLY ONCE";
 
@@ -143,7 +144,6 @@ namespace Soomla
 				}
 			}
 		}
-		#endif
 		
 	}
 }

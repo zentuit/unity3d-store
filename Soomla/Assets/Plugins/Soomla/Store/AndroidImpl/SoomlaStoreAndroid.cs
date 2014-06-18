@@ -36,9 +36,9 @@ namespace Soomla.Store {
 		/// <exception cref="ExitGUIException">Thrown if soomlaSecret is missing or has not been changed.
 		/// </exception>
 		protected override void _initialize(IStoreAssets storeAssets) {
-			if (SoomSettings.GPlayBP && 
-			    (string.IsNullOrEmpty(SoomSettings.AndroidPublicKey) ||
-			 		SoomSettings.AndroidPublicKey==SoomSettings.AND_PUB_KEY_DEFAULT)) {
+			if (StoreSettings.GPlayBP && 
+			    (string.IsNullOrEmpty(StoreSettings.AndroidPublicKey) ||
+			 		StoreSettings.AndroidPublicKey==StoreSettings.AND_PUB_KEY_DEFAULT)) {
 				SoomlaUtils.LogError(TAG, "SOOMLA/UNITY You chose Google Play billing service but publicKey is not set!! Stopping here!!");
 				throw new ExitGUIException();
 			}
@@ -63,15 +63,15 @@ namespace Soomla.Store {
 			}
 
 			using(AndroidJavaClass jniStoreConfigClass = new AndroidJavaClass("com.soomla.SoomlaConfig")) {
-				jniStoreConfigClass.SetStatic("logDebug", SoomSettings.DebugMessages);
+				jniStoreConfigClass.SetStatic("logDebug", CoreSettings.DebugMessages);
 			}
 
-			if (SoomSettings.GPlayBP) {
+			if (StoreSettings.GPlayBP) {
 				using(AndroidJavaClass jniGooglePlayIabServiceClass = new AndroidJavaClass("com.soomla.store.billing.google.GooglePlayIabService")) {
 					AndroidJavaObject jniGooglePlayIabService = jniGooglePlayIabServiceClass.CallStatic<AndroidJavaObject>("getInstance");
-					jniGooglePlayIabService.Call("setPublicKey", SoomSettings.AndroidPublicKey);
+					jniGooglePlayIabService.Call("setPublicKey", StoreSettings.AndroidPublicKey);
 
-					jniGooglePlayIabServiceClass.SetStatic("AllowAndroidTestPurchases", SoomSettings.AndroidTestPurchases);
+					jniGooglePlayIabServiceClass.SetStatic("AllowAndroidTestPurchases", StoreSettings.AndroidTestPurchases);
 				}
 			}
 			AndroidJNI.PopLocalFrame(IntPtr.Zero);
