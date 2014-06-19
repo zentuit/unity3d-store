@@ -28,7 +28,7 @@ namespace Soomla.Store {
 
 		/// Functions that call iOS-store functions.
 		[DllImport ("__Internal")]
-		private static extern void soomlaStore_Init(string customSecret);
+		private static extern void soomlaStore_Init();
 		[DllImport ("__Internal")]
 		private static extern int soomlaStore_BuyMarketItem(string productId);
 		[DllImport ("__Internal")]
@@ -40,8 +40,6 @@ namespace Soomla.Store {
 		[DllImport ("__Internal")]
 		private static extern void soomlaStore_TransactionsAlreadyRestored(out bool outResult);
 		[DllImport ("__Internal")]
-		private static extern void soomlaStore_SetLogDebug(bool debug);
-		[DllImport ("__Internal")]
 		private static extern void soomlaStore_SetSSV(bool ssv, string verifyUrl);
 
 
@@ -50,7 +48,7 @@ namespace Soomla.Store {
 		/// </summary>
 		/// <param name="storeAssets">Your game's economy.</param>
 		protected override void _initialize(IStoreAssets storeAssets) {
-			if (!SoomlaStore.Initialize()) {
+			if (!SoomlaIOS.Initialize()) {
 				SoomlaUtils.LogError(TAG, "SOOMLA/UNITY Soomla could not be initialized!! Stopping here!!");
 				throw new ExitGUIException();
 			}

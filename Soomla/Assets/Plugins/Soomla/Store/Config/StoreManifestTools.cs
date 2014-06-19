@@ -9,9 +9,17 @@ using System.Collections.Generic;
 
 namespace Soomla.Store
 {
+#if UNITY_EDITOR
+	[InitializeOnLoad]
+#endif
 	public class StoreManifestTools : ISoomlaManifestTools
     {
 #if UNITY_EDITOR
+		static StoreManifestTools instance = new StoreManifestTools();
+		static StoreManifestTools()
+		{
+			SoomlaManifestTools.ManTools.Add(instance);
+		}
 
 		public void UpdateManifest() {
 			if (StoreSettings.GPlayBP) {

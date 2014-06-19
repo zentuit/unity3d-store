@@ -39,7 +39,6 @@ namespace Soomla.Store
 		static StoreSettings()
 		{
 			SoomlaEditorScript.addSettings(instance);
-			SoomlaManifestTools.ManTools.Add(new StoreManifestTools());
 		}
 
 		bool showAndroidSettings = (EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android);

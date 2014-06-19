@@ -96,5 +96,14 @@ namespace Soomla {
 			return reward;
 		}
 
+#if UNITY_ANDROID 
+		//&& !UNITY_EDITOR
+		public AndroidJavaObject toJNIObject() {
+			using(AndroidJavaClass jniRewardClass = new AndroidJavaClass("com.soomla.rewards.Reward")) {
+				return jniRewardClass.CallStatic<AndroidJavaObject>("fromJSONString", toJSONObject().print());
+			}
+		}
+#endif
+
 	}
 }

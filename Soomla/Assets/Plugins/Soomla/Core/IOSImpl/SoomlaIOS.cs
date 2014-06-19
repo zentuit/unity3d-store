@@ -32,6 +32,7 @@ namespace Soomla {
 		public static bool Initialize() {
 			soomla_SetLogDebug(CoreSettings.DebugMessages);
 			soomla_Init(CoreSettings.SoomlaSecret);
+			return true;
 		}
 #endif
 	}
