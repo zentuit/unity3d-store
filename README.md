@@ -30,13 +30,13 @@ We've created a unitypackage and an example project:
 
 ####unity3d-store v1.5.2
 
-[Unity 4.x - unity3d-store v1.5.2](http://bit.ly/1ucCmi3)  
+[Unity 4.x - unity3d-store v1.5.2](http://bit.ly/UUOwzT)  
 
 ####unity3d-store v1.5.2 example
 
 - The example project is mostly what you have in this Github repo. You can either download it or clone unity3d-store.
 
-[Unity 4.x - unity3d-store v1.5.2 example](http://bit.ly/1huErnv)
+[Unity 4.x - unity3d-store v1.5.2 example](http://bit.ly/1iQHBNh)
 
 ## Debugging
 
