@@ -1,3 +1,16 @@
+### v1.5.2 [view commit logs](https://github.com/soomla/android-store/compare/v1.5.1...v1.5.2)
+
+* New Features
+  * Some core objects and features were extracted to a separate folder called "Core". Will be moved to a separate repo later.
+  * You only provide one secret now which is called Soomla Secret when you initialize "Soomla" (soomla core).
+  * The option to print debug messages was added to the settings panel.
+
+* Changes
+  * StoreController is now called SoomlaStore.
+
+* Fixes
+  * Android - Fixed an issue with not getting back to the app well from background during a purchase.
+
 ### v1.5.0 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.4.4...v1.5.0)
 
 * Fixes

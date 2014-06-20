@@ -1,4 +1,4 @@
-*This project is a part of [The SOOMLA Project](http://project.soom.la) which is a series of open source initiatives with a joint goal to help mobile game developers get better stores and more in-app purchases.*
+*This project is a part of The [SOOMLA](http://project.soom.la) Framework which is a series of open source initiatives with a joint goal to help mobile game developers do more together. SOOMLA encourages better game designing, economy modeling and faster development.*
 
 Haven't you ever wanted an in-app purchase one liner that looks like this ?!
 
@@ -9,60 +9,57 @@ StoreInventory.BuyItem("[itemId]");
 unity3d-store
 ---
 
-**May 28th, 2014:** v1.5.0 is released. Supporting Amazon billing service. see [CHANGELOG](changelog.md).
+*SOOMLA's Store Module for Unity3d*
 
-**April 2nd, 2014:** We dropped support for Unity3.5 and simplified the directory structure a little bit.
+**June 20th, 2014**: v1.5.2 presents some significant changes. [Getting Started](https://github.com/soomla/unity3d-store#getting-started) has changed! see [CHANGELOG](changelog.md).
+
+**May 28th, 2014:** v1.5.0 is released. Supporting Amazon billing service. see [CHANGELOG](changelog.md).
 
 **October 3rd, 2013:** iOS Server Side Verification is now implemented into unity3d-store. The server is a complimentary server provided by [SOOMLA](http://soom.la) to help you get your in-game purchases a bit more secured. This feature is not enabled by default. In order to enable Server Side verification go to the Soomla prefab and set  **ios Server Side Verification -> true**.
 
-The current virtual economy model is called **modelV3**. Want to learn more about it? Try these:   
+The current virtual economy model is called **modelV3**. Want to learn more about it? Try these:
 * [Economy Model Objects](https://github.com/soomla/unity3d-store/wiki/Economy-Model-Objects)  
 * [Handling Store Operations](https://github.com/soomla/unity3d-store/wiki/Handling-Store-Operations)
 (The same model objects from android-store exist in unity3d-store)
 
-The unity3d-store is the Unity3D flavor of The SOOMLA Project. This project uses [android-store](https://github.com/soomla/android-store) and [ios-store](https://github.com/soomla/ios-store) in order to provide game developers with in-app billing for their **Unity3D** projects.
-
->If you also want to create a **Storefront** you can do that using SOOMLA's [In-App Purchase Store Designer](http://soom.la).
+unity3d-store is the Unity3d flavor of SOOMLA's Store Module.
 
 ## Download
 
 We've created a unitypackage and an example project:
 
-####unity3d-store v1.5.1
+####unity3d-store v1.5.2
 
-[Unity 4.x - unity3d-store v1.5.1](http://bit.ly/1ucCmi3)  
+[Unity 4.x - unity3d-store v1.5.2](http://bit.ly/1ucCmi3)  
 
-####unity3d-store v1.5.1 example
+####unity3d-store v1.5.2 example
 
 - The example project is mostly what you have in this Github repo. You can either download it or clone unity3d-store.
 
-[Unity 4.x - unity3d-store v1.5.1 example](http://bit.ly/1huErnv)
+[Unity 4.x - unity3d-store v1.5.2 example](http://bit.ly/1huErnv)
 
 ## Debugging
 
-Unity debug messages will only be printed out if you build the project with _Development Build_ checked.
-
 If you want to see full debug messages from android-store and ios-store you just need to check the box that says "Debug Messages" in the SOOMLA Settings.
-
+Unity debug messages will only be printed out if you build the project with _Development Build_ checked.
 
 ## Getting Started
 
 1. Download the unity3d-store unityproject file you want and double-click on it. It'll import all the necessary files into your project.
-2. Drag the "StoreEvents" Prefab from `../Assets/Soomla/Prefabs` into your scene. You should see it listed in the "Hierarchy" panel.
-3. On the menu bar click "Soomla -> Edit Settings" and change the values for "Custom Secret", "Public Key" and "Soom Sec":
-    - _Custom Secret_ - is an encryption secret you provide that will be used to secure your data.
+2. Drag the "StoreEvents" and "CoreEvents" Prefabs from `../Assets/Soomla/Prefabs` into your scene. You should see it listed in the "Hierarchy" panel.
+3. On the menu bar click "Soomla -> Edit Settings" and change the values for "Public Key" and "Soomla Secret":
+    - _Soomla Secret_ - is an encryption secret you provide that will be used to secure your data. (If you used versions before v1.5.2 this secret MUST be the same as Custom Secret)
     - _Public Key_ - is the public key given to you from Google. (iOS doesn't have a public key).
-    - _Soom Sec_ - is a special secret SOOMLA uses to increase your data protection.  
-    **Choose both secrets wisely. You can't change them after you launch your game!**
-4. Create your own implementation of _IStoreAssets_ in order to describe your specific game's assets ([example](https://github.com/soomla/unity3d-store/blob/master/Soomla/Assets/Examples/MuffinRush/MuffinRushAssets.cs)). Initialize _StoreController_ with the class you just created:
+    **Choose the secret wisely. You can't change them after you launch your game!**
+4. Create your own implementation of _IStoreAssets_ in order to describe your specific game's assets ([example](https://github.com/soomla/unity3d-store/blob/master/Soomla/Assets/Examples/MuffinRush/MuffinRushAssets.cs)). Initialize _SoomlaStore_ with the class you just created:
 
     ```cs
-       StoreController.Initialize(new YourStoreAssetsImplementation());
+    SoomlaStore.Initialize(new YourStoreAssetsImplementation());
     ```
-    
-    > Initialize _StoreController_ ONLY ONCE when your application loads.
-    
-    > Initialize _StoreController_ in the "Start()" function of a 'MonoBehaviour' and **NOT** in the "Awake()" function. SOOMLA has its own 'MonoBehaviour' and it needs to be "Awakened" before you initialize.
+
+    > Initialize _SoomlaStore_ ONLY ONCE when your application loads.
+
+    > Initialize _SoomlaStore_ in the "Start()" function of a 'MonoBehaviour' and **NOT** in the "Awake()" function. SOOMLA has its own 'MonoBehaviour' and it needs to be "Awakened" before you initialize.
 
 5. You'll need an event handler in order to be notified about in-app purchasing related events. refer to the [Event Handling](https://github.com/soomla/unity3d-store#event-handling) section for more information.
 
@@ -76,10 +73,10 @@ If you have your own storefront implemented inside your game, it's recommended t
 
 ```cs
 // Start Iab Service
-StoreController.StartIabServiceInBg();
+SoomlaStore.StartIabServiceInBg();
 
 // Stop Iab Service
-StoreController.StopIabServiceInBg();
+SoomlaStore.StopIabServiceInBg();
 ```
 
 Don't forget to close the Iab Service when your store is closed. You don't have to do this at all, this is just an optimization.
@@ -108,21 +105,20 @@ VirtualCurrencyPack TEN_COINS_PACK = new VirtualCurrencyPack(
 	            new PurchaseWithMarket("com.soomla.ten_coin_pack", 1.99)
 		);
 ```
-     
+
 Now you can use _StoreInventory_ to buy your new VirtualCurrencyPack:
 
 ```cs
 StoreInventory.buyItem(TEN_COINS_PACK.ItemId);
 ```
-    
+
 And that's it! unity3d-store knows how to contact Google Play or the App Store for you and will redirect your users to their purchasing system to complete the transaction. Don't forget to subscribe to store events in order to get the notified of successful or failed purchases (see [Event Handling](https://github.com/soomla/unity3d-store#event-handling)).
 
 
 Storage & Meta-Data
 ---
 
-
-When you initialize _StoreController_, it automatically initializes two other classes: _StoreInventory_ and _StoreInfo_:  
+When you initialize _SoomlaStore_, it automatically initializes two other classes: _StoreInventory_ and _StoreInfo_:  
 * _StoreInventory_ is a convenience class to let you perform operations on VirtualCurrencies and VirtualGoods. Use it to fetch/change the balances of VirtualItems in your game (using their ItemIds!)  
 * _StoreInfo_ is where all meta data information about your specific game can be retrieved. It is initialized with your implementation of `IStoreAssets` and you can use it to retrieve information about your specific game.
 
@@ -136,20 +132,20 @@ The on-device storage is encrypted and kept in a SQLite database. SOOMLA is prep
 
     ```cs
     VirtualCurrency coin = StoreInfo.GetVirtualCurrencyByItemId("currency_coin");
-    ``` 
+    ```
 
 * Give the user 10 pieces of a virtual currency with itemId "currency_coin":
 
     ```cs
     StoreInventory.GiveItem("currency_coin", 10);
     ```
-    
+
 * Take 10 virtual goods with itemId "green_hat":
 
     ```cs
     StoreInventory.TakeItem("green_hat", 10);
     ```
-    
+
 * Get the current balance of green hats (virtual goods with itemId "green_hat"):
 
     ```cs
@@ -169,13 +165,13 @@ For example, if you want to 'listen' to a MarketPurchase event:
 
 ```cs
 Events.OnMarketPurchase += onMarketPurchase;
-    
+
 public void onMarketPurchase(PurchasableVirtualItem pvi) {
     Debug.Log("Going to purchase an item with productId: " + pvi.ItemId);
 }
 ```
 
-One thing you need to make sure is that you instantiate your EventHandler before StoreController.  
+One thing you need to make sure is that you instantiate your EventHandler before SoomlaStore.  
 So if you have:
 ````
 private static Soomla.Example.ExampleEventHandler handler;
@@ -186,7 +182,7 @@ handler = new Soomla.Example.ExampleEventHandler();
 ````
 before
 ````
-Soomla.StoreController.Initialize(new Soomla.Example.MuffinRushAssets());
+Soomla.SoomlaStore.Initialize(new Soomla.Example.MuffinRushAssets());
 ````
 
 Contribution
@@ -194,7 +190,7 @@ Contribution
 
 We want you!
 
-Fork -> Clone -> Implement -> Insert Comments -> Test -> Pull-Request. 
+Fork -> Clone -> Implement -> Insert Comments -> Test -> Pull-Request.
 
 We have great RESPECT for contributors.
 
@@ -214,5 +210,3 @@ License
 ---
 Apache License. Copyright (c) 2012-2014 SOOMLA. http://project.soom.la
 + http://opensource.org/licenses/Apache-2.0
-
-
