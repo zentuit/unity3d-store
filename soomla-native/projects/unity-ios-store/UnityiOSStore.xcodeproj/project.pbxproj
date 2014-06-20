@@ -260,7 +260,6 @@
 					"/Applications/Unity/Unity.app/Contents/PlaybackEngines/iPhonePlayer/iPhone-Trampoline/Classes/**",
 					"../../../submodules/ios-store/SoomlaiOSStore/**",
 					"../../../submodules/ios-store/submodules/soomla-ios-core/SoomlaiOSCore/**",
-					"../../../../plugins/soomla-vungle/ios/build/release/headers/**",
 				);
 				LIBRARY_SEARCH_PATHS = ../../../Soomla/Assets/Plugins/iOS/;
 				OTHER_LDFLAGS = "-ObjC";
@@ -284,7 +283,6 @@
 					"/Applications/Unity/Unity.app/Contents/PlaybackEngines/iPhonePlayer/iPhone-Trampoline/Classes/**",
 					"../../../submodules/ios-store/SoomlaiOSStore/**",
 					"../../../submodules/ios-store/submodules/soomla-ios-core/SoomlaiOSCore/**",
-					"../../../../plugins/soomla-vungle/ios/build/release/headers/**",
 				);
 				LIBRARY_SEARCH_PATHS = ../../../Soomla/Assets/Plugins/iOS/;
 				ONLY_ACTIVE_ARCH = NO;
