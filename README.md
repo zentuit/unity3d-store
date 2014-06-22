@@ -12,6 +12,7 @@ unity3d-store
 *SOOMLA's Store Module for Unity3d*
 
 **June 20th, 2014**: v1.5.2 presents some significant changes. [Getting Started](https://github.com/soomla/unity3d-store#getting-started) has changed! see [CHANGELOG](changelog.md).
+> FYI - SOOMLA menu was moved and it's now under "Window -> Soomla"
 
 **May 28th, 2014:** v1.5.0 is released. Supporting Amazon billing service. see [CHANGELOG](changelog.md).
 
@@ -47,7 +48,7 @@ Unity debug messages will only be printed out if you build the project with _Dev
 
 1. Download the unity3d-store unityproject file you want and double-click on it. It'll import all the necessary files into your project.
 2. Drag the "StoreEvents" and "CoreEvents" Prefabs from `../Assets/Soomla/Prefabs` into your scene. You should see it listed in the "Hierarchy" panel.
-3. On the menu bar click "Soomla -> Edit Settings" and change the values for "Public Key" and "Soomla Secret":
+3. On the menu bar click "Window -> Soomla -> Edit Settings" and change the values for "Public Key" and "Soomla Secret":
     - _Soomla Secret_ - is an encryption secret you provide that will be used to secure your data. (If you used versions before v1.5.2 this secret MUST be the same as Custom Secret)
     - _Public Key_ - is the public key given to you from Google. (iOS doesn't have a public key).
     **Choose the secret wisely. You can't change them after you launch your game!**
