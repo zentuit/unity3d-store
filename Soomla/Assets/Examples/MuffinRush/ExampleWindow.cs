@@ -17,6 +17,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using Soomla;
+using Soomla.Vungle;
 
 namespace Soomla.Store.Example {
 
@@ -86,6 +87,12 @@ namespace Soomla.Store.Example {
 			handler = new ExampleEventHandler();
 			
 			SoomlaStore.Initialize(new MuffinRushAssets());
+
+			#if UNITY_ANDROID
+			SoomlaVungle.Initialize("testing_app");
+			#elif UNITY_IOS
+			SoomlaVungle.Initialize("testing_app_ios");
+			#endif
 
 			tImgDirect = (Texture2D)Resources.Load("SoomlaStore/images/img_direct");
 			fgoodDog = (Font)Resources.Load("SoomlaStore/GoodDog" + fontSuffix);
@@ -207,9 +214,12 @@ namespace Soomla.Store.Example {
 			GUI.Label(new Rect(Screen.width*0.25f,Screen.height/2-50,Screen.width*0.5f,100),"[ Your game here ]");
 			//drawing button and testing if it has been clicked
 			if(GUI.Button(new Rect(Screen.width*2/6,Screen.height*5f/8f,Screen.width*2/6,Screen.width*2/6),tLogoNew)){
-				guiState = GUIState.GOODS;
+//				guiState = GUIState.GOODS;
+				VirtualItemReward reward = new VirtualItemReward("muffins_for_ad", "Muffins for watching Ad", "currency_muffin", 1232);
+				reward.Repeatable = true;
+				SoomlaVungle.PlayAd(reward, true);
 #if UNITY_ANDROID && !UNITY_EDITOR
-				SoomlaStore.StartIabServiceInBg();
+//				SoomlaStore.StartIabServiceInBg();
 #endif
 			}
 			//set alignment to backup

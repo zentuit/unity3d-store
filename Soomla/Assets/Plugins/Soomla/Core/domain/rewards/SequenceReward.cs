@@ -48,7 +48,7 @@ namespace Soomla {
 		public SequenceReward(JSONObject jsonReward)
 			: base(jsonReward)
 		{
-			ArrayList rewardsObj = jsonReward[JSONConsts.BP_REWARDS].list;
+			ArrayList rewardsObj = jsonReward[JSONConsts.SOOM_REWARDS].list;
 			Rewards = new List<Reward>();
 			foreach(JSONObject rewardObj in rewardsObj) {
 				Rewards.Add(Reward.fromJSONObject(rewardObj));
@@ -62,13 +62,13 @@ namespace Soomla {
 		/// <returns>see parent.</returns>
 		public override JSONObject toJSONObject() {
 			JSONObject obj = base.toJSONObject();
-			obj.AddField(JSONConsts.BP_TYPE, "sequence");
+			obj.AddField(JSONConsts.SOOM_CLASSNAME, GetType().Name);
 			
 			JSONObject rewardsObj = new JSONObject(JSONObject.Type.ARRAY);
 			foreach(Reward r in Rewards) {
 				rewardsObj.Add(r.toJSONObject());
 			}
-			obj.AddField(JSONConsts.BP_REWARDS, rewardsObj);
+			obj.AddField(JSONConsts.SOOM_REWARDS, rewardsObj);
 			
 			return obj;
 		}

@@ -54,7 +54,7 @@ namespace Soomla {
 		public BadgeReward(JSONObject jsonReward)
 			: base(jsonReward)
 		{
-			IconUrl = jsonReward[JSONConsts.BP_REWARD_ICONURL].str;
+			IconUrl = jsonReward[JSONConsts.SOOM_REWARD_ICONURL].str;
 		}
 
 		/// <summary>
@@ -63,19 +63,12 @@ namespace Soomla {
 		/// <returns>see parent</returns>
 		public override JSONObject toJSONObject() {
 			JSONObject obj = base.toJSONObject();
-			obj.AddField(JSONConsts.BP_REWARD_ICONURL, IconUrl);
-			obj.AddField(JSONConsts.BP_TYPE, "badge");
+			obj.AddField(JSONConsts.SOOM_REWARD_ICONURL, IconUrl);
+			obj.AddField(JSONConsts.SOOM_CLASSNAME, GetType().Name);
 
 			
 			return obj;
 		}
-//
-//		/// <summary>
-//		/// Saves this instance.
-//		/// </summary>
-//		public void save() 
-//		{
-//			save("SingleUseVG");
-//		}
+
 	}
 }

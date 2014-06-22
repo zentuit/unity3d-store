@@ -14,6 +14,7 @@
 
 using UnityEngine;
 using System.Collections;
+using System;
 
 
 namespace Soomla {	
@@ -51,9 +52,9 @@ namespace Soomla {
 		/// <param name="jsonReward">A JSONObject representation of <c>Reward</c>.</param>
 		public Reward(JSONObject jsonReward)
 		{
-			RewardId = jsonReward[JSONConsts.BP_REWARD_REWARDID].str;
-			Name = jsonReward[JSONConsts.BP_NAME].str;
-			JSONObject repeatObj = jsonReward[JSONConsts.BP_REWARD_REPEAT];
+			RewardId = jsonReward[JSONConsts.SOOM_REWARD_REWARDID].str;
+			Name = jsonReward[JSONConsts.SOOM_NAME].str;
+			JSONObject repeatObj = jsonReward[JSONConsts.SOOM_REWARD_REPEAT];
 			if (repeatObj) {
 				Repeatable = repeatObj.b;
 			} else {
@@ -67,9 +68,9 @@ namespace Soomla {
 		/// <returns>A JSONObject representation of <c>Reward</c>.</return>
 		public virtual JSONObject toJSONObject() {
 			JSONObject obj = new JSONObject(JSONObject.Type.OBJECT);
-			obj.AddField(JSONConsts.BP_REWARD_REWARDID, RewardId);
-			obj.AddField(JSONConsts.BP_NAME, Name);
-			obj.AddField(JSONConsts.BP_REWARD_REPEAT, Repeatable);
+			obj.AddField(JSONConsts.SOOM_REWARD_REWARDID, RewardId);
+			obj.AddField(JSONConsts.SOOM_NAME, Name);
+			obj.AddField(JSONConsts.SOOM_REWARD_REPEAT, Repeatable);
 			
 			return obj;
 		}
@@ -80,19 +81,10 @@ namespace Soomla {
 		/// <returns>A JSONObject representation of <c>Reward</c>.</returns>
 		/// <param name="rewardObj">The actual reward according to the given JSONObject.</param>
 		public static Reward fromJSONObject(JSONObject rewardObj) {
-			Reward reward = null;
-			if (rewardObj) {
-				string type = rewardObj[JSONConsts.BP_TYPE].str;
-				if (type == "badge") {
-					reward = new BadgeReward(rewardObj);
-				} else if (type == "random") {
-					reward = new RandomReward(rewardObj);
-				} else if (type == "sequence") {
-					reward = new SequenceReward(rewardObj);
-				} else {
-					SoomlaUtils.LogError("SOOMLA/UNITY Reward", "Unknown reward type: " + type);
-				}
-			}
+			string className = rewardObj[JSONConsts.SOOM_CLASSNAME].str;
+
+			Reward reward = (Reward) Activator.CreateInstance(Type.GetType("Soomla." + className), new object[] { rewardObj });
+
 			return reward;
 		}
 

@@ -16,7 +16,7 @@ using UnityEngine;
 using System.Collections;
 
 
-namespace Soomla.Store {	
+namespace Soomla {	
 
 	/// <summary>
 	/// A specific type of <code>Reward</code> is the one you'll use to give your
@@ -44,8 +44,8 @@ namespace Soomla.Store {
 		public VirtualItemReward(JSONObject jsonReward)
 			: base(jsonReward)
 		{
-			AssociatedItemId = jsonReward[Soomla.JSONConsts.BP_ASSOCITEMID].str;
-			Amount = (int) jsonReward[Soomla.JSONConsts.BP_REWARD_AMOUNT].n;
+			AssociatedItemId = jsonReward[Soomla.JSONConsts.SOOM_ASSOCITEMID].str;
+			Amount = (int) jsonReward[Soomla.JSONConsts.SOOM_REWARD_AMOUNT].n;
 		}
 
 		/// <summary>
@@ -54,9 +54,9 @@ namespace Soomla.Store {
 		/// <returns>see parent</returns>
 		public override JSONObject toJSONObject() {
 			JSONObject obj = base.toJSONObject();
-			obj.AddField(Soomla.JSONConsts.BP_ASSOCITEMID, AssociatedItemId);
-			obj.AddField(Soomla.JSONConsts.BP_REWARD_AMOUNT, Amount);
-			obj.AddField(Soomla.JSONConsts.BP_TYPE, "item");
+			obj.AddField(Soomla.JSONConsts.SOOM_ASSOCITEMID, AssociatedItemId);
+			obj.AddField(Soomla.JSONConsts.SOOM_REWARD_AMOUNT, Amount);
+			obj.AddField(Soomla.JSONConsts.SOOM_CLASSNAME, GetType().Name);
 
 			return obj;
 		}
