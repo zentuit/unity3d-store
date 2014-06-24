@@ -8,7 +8,11 @@
 #import "PurchasableVirtualItem.h"
 #import "PurchaseWithMarket.h"
 
-extern UIViewController* UnityGetGLViewController();
+// Unity pre-4.3
+//extern UIViewController* UnityGetGLViewController();
+
+// Unity post-4.3
+extern "C" UIViewController* UnityGetGLViewController();
 
 extern "C"{
 
@@ -23,7 +27,7 @@ extern "C"{
 
 	void soomlaStore_Init(){
         [UnityStoreEventDispatcher initialize];
-        
+
 		[[SoomlaStore getInstance] initializeWithStoreAssets:[UnityStoreAssets getInstance]];
 	}
 
@@ -50,11 +54,11 @@ extern "C"{
 	void soomlaStore_RestoreTransactions() {
 		[[SoomlaStore getInstance] restoreTransactions];
 	}
-    
+
     void soomlaStore_RefreshInventory() {
 		[[SoomlaStore getInstance] refreshInventory];
 	}
-    
+
     void soomlaStore_RefreshMarketItemsDetails() {
 		[[SoomlaStore getInstance] refreshMarketItemsDetails];
 	}
@@ -62,5 +66,5 @@ extern "C"{
 	void soomlaStore_TransactionsAlreadyRestored(bool* outResult){
 		*outResult = [[SoomlaStore getInstance] transactionsAlreadyRestored];
 	}
-    
+
 }
