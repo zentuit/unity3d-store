@@ -15,8 +15,8 @@
 
 - (id) init {
     if (self = [super init]) {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rewardGiven:) name:EVENT_BP_REWARD_GIVEN object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rewardTaken:) name:EVENT_BP_REWARD_TAKEN object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rewardGiven:) name:EVENT_REWARD_GIVEN object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rewardTaken:) name:EVENT_REWARD_TAKEN object:nil];
     }
 
     return self;
