@@ -8,11 +8,6 @@
 #import "PurchasableVirtualItem.h"
 #import "PurchaseWithMarket.h"
 
-// Unity pre-4.3
-//extern UIViewController* UnityGetGLViewController();
-
-// Unity post-4.3
-extern "C" UIViewController* UnityGetGLViewController();
 
 extern "C"{
 
