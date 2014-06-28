@@ -252,12 +252,12 @@
 			buildSettings = {
 				DSTROOT = /tmp/SoomlaIOSStore.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "/Applications/Unity/Unity.app/Contents/PlaybackEngines/iPhonePlayer/iPhone-Trampoline/Classes/iPhone_target_Prefix.pch";
+				GCC_PREFIX_HEADER = "${UNITY_HEADERS}/iPhone_target_Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"/Applications/Unity/Unity.app/Contents/PlaybackEngines/iPhonePlayer/iPhone-Trampoline/Classes/**",
+					"${UNITY_HEADERS}/**",
 					"../../../submodules/ios-store/SoomlaiOSStore/**",
 					"../../../submodules/ios-store/submodules/soomla-ios-core/SoomlaiOSCore/**",
 				);
@@ -267,6 +267,8 @@
 				PRODUCT_NAME = UnityiOSStore;
 				PUBLIC_HEADERS_FOLDER_PATH = headers/public;
 				SKIP_INSTALL = YES;
+				UNITY_HEADERS = /Applications/Unity/Unity.app/Contents/PlaybackEngines/iOSSupport/Trampoline/Classes;
+				UNITY_LIBS = /Applications/Unity/Unity.app/Contents/PlaybackEngines/iOSSupport/Trampoline/Libraries;
 			};
 			name = Debug;
 		};
@@ -276,11 +278,11 @@
 				DSTROOT = /tmp/SoomlaIOSStore.dst;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "/Applications/Unity/Unity.app/Contents/PlaybackEngines/iPhonePlayer/iPhone-Trampoline/Classes/iPhone_target_Prefix.pch";
+				GCC_PREFIX_HEADER = "${UNITY_HEADERS}/iPhone_target_Prefix.pch";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"/Applications/Unity/Unity.app/Contents/PlaybackEngines/iPhonePlayer/iPhone-Trampoline/Classes/**",
+					"${UNITY_HEADERS}/**",
 					"../../../submodules/ios-store/SoomlaiOSStore/**",
 					"../../../submodules/ios-store/submodules/soomla-ios-core/SoomlaiOSCore/**",
 				);
@@ -291,6 +293,8 @@
 				PRODUCT_NAME = UnityiOSStore;
 				PUBLIC_HEADERS_FOLDER_PATH = headers/public;
 				SKIP_INSTALL = YES;
+				UNITY_HEADERS = /Applications/Unity/Unity.app/Contents/PlaybackEngines/iOSSupport/Trampoline/Classes;
+				UNITY_LIBS = /Applications/Unity/Unity.app/Contents/PlaybackEngines/iOSSupport/Trampoline/Libraries;
 			};
 			name = Release;
 		};
