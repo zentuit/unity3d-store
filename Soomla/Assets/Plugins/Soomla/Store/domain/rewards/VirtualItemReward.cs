@@ -14,7 +14,7 @@
 
 using UnityEngine;
 using System.Collections;
-
+using Soomla.Store;
 
 namespace Soomla {	
 
@@ -23,6 +23,8 @@ namespace Soomla {
 	/// users some amount of a virtual item when they complete something.
 	/// </summary>
 	public class VirtualItemReward : Reward {
+		private static string TAG = "SOOMLA VirtualItemReward";
+
 		public string AssociatedItemId;
 		public int Amount;
 
@@ -59,6 +61,28 @@ namespace Soomla {
 			obj.AddField(Soomla.JSONConsts.SOOM_CLASSNAME, GetType().Name);
 
 			return obj;
+		}
+
+		protected override bool giveInner() {
+
+			try {
+				StoreInventory.GiveItem(AssociatedItemId, Amount);
+			} catch (VirtualItemNotFoundException e) {
+				SoomlaUtils.LogError(TAG, "(give) Couldn't find associated itemId: " + AssociatedItemId);
+				return false;
+			}
+			return true;
+		}
+
+		protected override bool takeInner() {
+			
+			try {
+				StoreInventory.TakeItem(AssociatedItemId, Amount);
+			} catch (VirtualItemNotFoundException e) {
+				SoomlaUtils.LogError(TAG, "(give) Couldn't find associated itemId: " + AssociatedItemId);
+				return false;
+			}
+			return true;
 		}
 
 	}
