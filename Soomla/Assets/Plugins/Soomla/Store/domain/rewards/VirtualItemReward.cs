@@ -69,6 +69,7 @@ namespace Soomla {
 				StoreInventory.GiveItem(AssociatedItemId, Amount);
 			} catch (VirtualItemNotFoundException e) {
 				SoomlaUtils.LogError(TAG, "(give) Couldn't find associated itemId: " + AssociatedItemId);
+				SoomlaUtils.LogError(TAG, e.Message);
 				return false;
 			}
 			return true;
@@ -80,6 +81,7 @@ namespace Soomla {
 				StoreInventory.TakeItem(AssociatedItemId, Amount);
 			} catch (VirtualItemNotFoundException e) {
 				SoomlaUtils.LogError(TAG, "(give) Couldn't find associated itemId: " + AssociatedItemId);
+				SoomlaUtils.LogError(TAG, e.Message);
 				return false;
 			}
 			return true;
