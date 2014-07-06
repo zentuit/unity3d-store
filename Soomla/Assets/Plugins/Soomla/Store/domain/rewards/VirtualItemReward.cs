@@ -63,7 +63,7 @@ namespace Soomla {
 			return obj;
 		}
 
-		protected override bool giveInner() {
+		protected virtual bool giveInner() {
 
 			try {
 				StoreInventory.GiveItem(AssociatedItemId, Amount);
@@ -75,7 +75,7 @@ namespace Soomla {
 			return true;
 		}
 
-		protected override bool takeInner() {
+		protected virtual bool takeInner() {
 			
 			try {
 				StoreInventory.TakeItem(AssociatedItemId, Amount);
