@@ -80,7 +80,7 @@ namespace Soomla.Store {
 			
 			JSONObject goodsArr = new JSONObject(JSONObject.Type.ARRAY);
 			foreach(string goodItemId in this.GoodItemIds) {
-				goodsArr.Add("\"" + goodItemId + "\"");
+				goodsArr.Add(goodItemId);
 			}
 			
 			obj.AddField(JSONConsts.CATEGORY_GOODSITEMIDS, goodsArr);
