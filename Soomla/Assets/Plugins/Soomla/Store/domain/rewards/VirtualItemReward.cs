@@ -80,7 +80,7 @@ namespace Soomla {
 			try {
 				StoreInventory.TakeItem(AssociatedItemId, Amount);
 			} catch (VirtualItemNotFoundException e) {
-				SoomlaUtils.LogError(TAG, "(give) Couldn't find associated itemId: " + AssociatedItemId);
+				SoomlaUtils.LogError(TAG, "(take) Couldn't find associated itemId: " + AssociatedItemId);
 				SoomlaUtils.LogError(TAG, e.Message);
 				return false;
 			}
