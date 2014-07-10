@@ -30,9 +30,17 @@ namespace Soomla {
 	/// You can give your user 100 coins for logging in through Facebook.
 	/// </summary>
 	public abstract class Reward {
+		private static string TAG = "SOOMLA Reward";
+
 		public string RewardId;
 		public string Name;
 		public bool   Repeatable;
+		
+		public bool Owned {
+			get {
+				return RewardStorage.IsRewardGiven(this);
+			}
+		}
 		
 		/// <summary>
 		/// Constructor.
@@ -71,6 +79,7 @@ namespace Soomla {
 			obj.AddField(JSONConsts.SOOM_REWARD_REWARDID, RewardId);
 			obj.AddField(JSONConsts.SOOM_NAME, Name);
 			obj.AddField(JSONConsts.SOOM_REWARD_REPEAT, Repeatable);
+			obj.AddField(JSONConsts.SOOM_CLASSNAME, GetType().Name);
 			
 			return obj;
 		}
@@ -96,6 +105,39 @@ namespace Soomla {
 			}
 		}
 #endif
+
+		public bool Take() {
+
+			if (!RewardStorage.IsRewardGiven(this)) {
+				SoomlaUtils.LogDebug(TAG, "Reward not given. id: " + RewardId);
+				return false;
+			}
+			
+			if (takeInner()) {
+				RewardStorage.SetRewardStatus(this, false);
+				return true;
+			}
+			
+			return false;
+		}
+
+		public bool Give() {
+			if (RewardStorage.IsRewardGiven(this) && !Repeatable) {
+				SoomlaUtils.LogDebug(TAG, "Reward was already given and is not repeatable. id: " + RewardId);
+				return false;
+			}
+			
+			if (giveInner()) {
+				RewardStorage.SetRewardStatus(this, true);
+				return true;
+			}
+			
+			return false;
+		}
+
+		protected abstract bool giveInner();
+
+		protected abstract bool takeInner();
 
 	}
 }

@@ -15,6 +15,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 
 namespace Soomla {	
@@ -28,6 +29,7 @@ namespace Soomla {
 	/// </summary>
 	public class RandomReward : Reward {
 		public List<Reward> Rewards;
+		public Reward LastGivenReward;
 
 		/// <summary>
 		/// Constructor.
@@ -61,7 +63,6 @@ namespace Soomla {
 		/// <returns>see parent.</returns>
 		public override JSONObject toJSONObject() {
 			JSONObject obj = base.toJSONObject();
-			obj.AddField(JSONConsts.SOOM_CLASSNAME, GetType().Name);
 
 			JSONObject rewardsObj = new JSONObject(JSONObject.Type.ARRAY);
 			foreach(Reward r in Rewards) {
@@ -70,6 +71,28 @@ namespace Soomla {
 			obj.AddField(JSONConsts.SOOM_REWARDS, rewardsObj);
 			
 			return obj;
+		}
+
+		protected override bool giveInner() {
+			System.Random rand = new System.Random();
+			int n = rand.Next(Rewards.Count);
+			Reward randomReward = Rewards[n];
+			randomReward.Give();
+			LastGivenReward = randomReward;
+			
+			return true;
+		}
+
+		protected override bool takeInner() {
+			// for now is able to take only last given
+			if(LastGivenReward == null) {
+				return false;
+			}
+			
+			bool taken = LastGivenReward.Take();
+			LastGivenReward = null;
+			
+			return taken;
 		}
 
 	}

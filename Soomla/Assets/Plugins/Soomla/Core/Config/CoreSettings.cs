@@ -55,7 +55,7 @@ namespace Soomla
 
 		public void OnInfoGUI() {
 			EditorGUILayout.HelpBox("SOOMLA SDK Info", MessageType.None);
-			SoomlaEditorScript.SelectableLabelField(frameworkVersion, "1.5.0");
+			SoomlaEditorScript.SelectableLabelField(frameworkVersion, "1.5.2");
 			SoomlaEditorScript.SelectableLabelField(buildVersion, "1");
 			EditorGUILayout.Space();
 		}
