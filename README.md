@@ -29,9 +29,9 @@ unity3d-store is the Unity3d flavor of SOOMLA's Store Module.
 
 We've created a unitypackage and an example project:
 
-####unity3d-store v1.5.2
+####unity3d-store v1.5.3
 
-[Unity 4.x - unity3d-store v1.5.2](http://bit.ly/1lq14sT)  
+[Unity 4.x - unity3d-store v1.5.3](http://bit.ly/1rc21Zo)  
 
 ## Debugging
 
@@ -40,12 +40,12 @@ Unity debug messages will only be printed out if you build the project with _Dev
 
 ## Getting Started
 
-1. Download the unity3d-store unityproject file you want and double-click on it. It'll import all the necessary files into your project.
-2. Drag the "StoreEvents" and "CoreEvents" Prefabs from `../Assets/Soomla/Prefabs` into your scene. You should see it listed in the "Hierarchy" panel.
-3. On the menu bar click "Window -> Soomla -> Edit Settings" and change the values for "Public Key" and "Soomla Secret":
-    - _Soomla Secret_ - is an encryption secret you provide that will be used to secure your data. (If you used versions before v1.5.2 this secret MUST be the same as Custom Secret)
-    - _Public Key_ - is the public key given to you from Google. (iOS doesn't have a public key).
+1. Download the unity3d-store unityproject and double-click on it. It'll import all the necessary files into your project.
+2. Drag the "StoreEvents" and "CoreEvents" Prefabs from `../Assets/Soomla/Prefabs` into your scene. You should see it listed in the "Hierarchy" panel. [This step MUST be done for unity3d-store to work properly]
+3. On the menu bar click "Window -> Soomla -> Edit Settings" and change the value for "Soomla Secret" (also setup Public Key if you're building for Google Play):
+    - _Soomla Secret_ - is an encryption secret you provide that will be used to secure your data. (If you used versions before v1.5.2 this secret MUST be the same as Custom Secret)  
     **Choose the secret wisely. You can't change them after you launch your game!**
+    - _Public Key_ - is the public key given to you from Google. (iOS doesn't have a public key).
 4. Create your own implementation of _IStoreAssets_ in order to describe your specific game's assets ([example](https://github.com/soomla/unity3d-store/blob/master/Soomla/Assets/Examples/MuffinRush/MuffinRushAssets.cs)). Initialize _SoomlaStore_ with the class you just created:
 
     ```cs

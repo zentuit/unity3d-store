@@ -1,3 +1,13 @@
+### v1.5.2 [view commit logs](https://github.com/soomla/android-store/compare/v1.5.2...v1.5.3)
+
+* New Features
+  * You can now use StoreInventory's 'BuyItem' with a payload of your choice. This payload will be returned back to you in the purchase events when it's completed.
+  * VirtualItemReward is added.
+  * (Android) back button will exit the example app.
+
+* Fixed
+  * Firing UnexpectedErrorInStoreEvent when the user tried to buy a NonConsumableItem when it was already owned.
+
 ### v1.5.2 [view commit logs](https://github.com/soomla/android-store/compare/v1.5.1...v1.5.2)
 
 * New Features
