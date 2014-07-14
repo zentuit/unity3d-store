@@ -18,12 +18,14 @@ unity3d-store
 
 **October 3rd, 2013:** iOS Server Side Verification is now implemented into unity3d-store. The server is a complimentary server provided by [SOOMLA](http://soom.la) to help you get your in-game purchases a bit more secured. This feature is not enabled by default. In order to enable Server Side verification go to the Soomla prefab and set  **ios Server Side Verification -> true**.
 
-The current virtual economy model is called **modelV3**. Want to learn more about it? Try these:
-* [Economy Model Objects](https://github.com/soomla/unity3d-store/wiki/Economy-Model-Objects)  
-* [Handling Store Operations](https://github.com/soomla/unity3d-store/wiki/Handling-Store-Operations)
-(The same model objects from android-store exist in unity3d-store)
+* More documentation and information in SOOMLA's [Knowledge Base](http://know.soom.la/docs/platforms/unity)  
+* For issues you can use the [issues](https://github.com/soomla/unity3d-store/issues) section or SOOMLA's [Answers Website](http://answers.soom.la)
 
 unity3d-store is the Unity3d flavor of SOOMLA's Store Module.
+
+## Economy Model
+![SOOMLA's Economy Model](http://know.soom.la/img/tutorial_img/soomla_diagrams/EconomyModel.png)
+
 
 ## Download
 
