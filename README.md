@@ -29,7 +29,7 @@ unity3d-store is the Unity3d flavor of SOOMLA's Store Module.
 
 ## Download
 
-####[unity3d-store v1.5.3](http://bit.ly/1rc21Zo)  
+####Pre baked unitypackage: [unity3d-store v1.5.3](http://bit.ly/1rc21Zo)  
 
 ## Debugging
 
