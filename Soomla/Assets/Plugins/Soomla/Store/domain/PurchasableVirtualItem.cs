@@ -19,7 +19,7 @@ namespace Soomla.Store {
 	/// <summary>
 	/// A representation of a <c>VirtualItem</c> that you can actually purchase.
 	/// </summary>
-	public class PurchasableVirtualItem : VirtualItem {
+	public abstract class PurchasableVirtualItem : VirtualItem {
 
 		private const string TAG = "SOOMLA PurchasableVirtualItem";
 		public PurchaseType PurchaseType;

@@ -147,6 +147,8 @@ namespace Soomla.Store {
 		}
 #endif
 
+		public abstract void save();
+
 		/// <summary>
 		/// Saves this instance according to type.
 		/// </summary>

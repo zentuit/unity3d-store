@@ -7,7 +7,7 @@
 #import "StoreInfo.h"
 #import "PurchasableVirtualItem.h"
 #import "PurchaseWithMarket.h"
-
+#import "SoomlaUtils.h"
 
 extern "C"{
 
@@ -21,17 +21,19 @@ extern "C"{
     }
 
 	void soomlaStore_Init(){
+        LogDebug(@"SOOMLA Unity UnitySoomlaStore", @"Initializing StoreEventHandler ...");
         [UnityStoreEventDispatcher initialize];
 
 		[[SoomlaStore getInstance] initializeWithStoreAssets:[UnityStoreAssets getInstance]];
 	}
 
-	int soomlaStore_BuyMarketItem(const char* productId) {
+	int soomlaStore_BuyMarketItem(const char* productId, const char* payload) {
 		@try {
+            NSString* payloadS = [NSString stringWithUTF8String:payload];
 			PurchasableVirtualItem* pvi = [[StoreInfo getInstance] purchasableItemWithProductId:[NSString stringWithUTF8String:productId]];
 			if ([pvi.purchaseType isKindOfClass:[PurchaseWithMarket class]]) {
 				MarketItem* asi = ((PurchaseWithMarket*) pvi.purchaseType).marketItem;
-				[[SoomlaStore getInstance] buyInMarketWithMarketItem:asi];
+				[[SoomlaStore getInstance] buyInMarketWithMarketItem:asi andPayload:payloadS];
 			} else {
 				NSLog(@"The requested PurchasableVirtualItem is has no PurchaseWithMarket PurchaseType. productId: %@. Purchase is cancelled.", [NSString stringWithUTF8String:productId]);
 				return EXCEPTION_ITEM_NOT_FOUND;

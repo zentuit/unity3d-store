@@ -5,10 +5,11 @@
 
 extern "C"{
 	
-	int storeInventory_BuyItem(const char* itemId) {
+	int storeInventory_BuyItem(const char* itemId, const char* payload) {
         NSString* itemIdS = [NSString stringWithUTF8String:itemId];
+        NSString* payloadS = [NSString stringWithUTF8String:payload];
 		@try {
-			[StoreInventory buyItemWithItemId: itemIdS];
+			[StoreInventory buyItemWithItemId: itemIdS andPayload:payloadS];
 		}
 		
 		@catch (VirtualItemNotFoundException* e) {
