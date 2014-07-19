@@ -157,7 +157,7 @@ The 'Events' class is where all event go through. To handle various events, just
 For example, if you want to 'listen' to a MarketPurchase event:
 
 ```cs
-Events.OnMarketPurchase += onMarketPurchase;
+StoreEvents.OnMarketPurchase += onMarketPurchase;
 
 public void onMarketPurchase(PurchasableVirtualItem pvi) {
     Debug.Log("Going to purchase an item with productId: " + pvi.ItemId);
