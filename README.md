@@ -159,8 +159,8 @@ For example, if you want to 'listen' to a MarketPurchase event:
 ```cs
 StoreEvents.OnMarketPurchase += onMarketPurchase;
 
-public void onMarketPurchase(PurchasableVirtualItem pvi) {
-    Debug.Log("Going to purchase an item with productId: " + pvi.ItemId);
+public void onMarketPurchase(PurchasableVirtualItem pvi, string purchaseToken, string payload) {
+    Debug.Log("Just purchased an item with itemId: " + pvi.ItemId);
 }
 ```
 
