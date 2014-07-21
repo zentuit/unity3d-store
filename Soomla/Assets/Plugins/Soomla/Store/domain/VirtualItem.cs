@@ -46,7 +46,7 @@ namespace Soomla.Store {
 		/// <param name="description">Description.</param>
 		/// <param name="itemId">Item id.</param>
 		protected VirtualItem (string name, string description, string itemId)
-			: base(name, description, itemId)
+			: base(itemId, name, description)
 		{
 		}
 		
