@@ -36,6 +36,14 @@ unity3d-store is the Unity3d flavor of SOOMLA's Store Module.
 If you want to see full debug messages from android-store and ios-store you just need to check the box that says "Debug Messages" in the SOOMLA Settings.
 Unity debug messages will only be printed out if you build the project with _Development Build_ checked.
 
+## Cloning
+
+There are some necessary files in submodules lined with symbolic links. If you're cloning the project make sure you clone it with the `--recursive` flag.
+
+```
+$ git clone --recursive git@github.com:soomla/unity3d-store.git
+```
+
 ## Getting Started
 
 1. Download the unity3d-store unityproject and double-click on it. It'll import all the necessary files into your project.
