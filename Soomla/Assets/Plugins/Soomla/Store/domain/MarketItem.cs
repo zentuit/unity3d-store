@@ -112,6 +112,22 @@ namespace Soomla.Store {
 			} else {
 				this.consumable = Consumable.SUBSCRIPTION;
 			}
+
+			if (jsonObject[JSONConsts.MARKETITEM_MARKETPRICE]) {
+				this.MarketPrice = jsonObject[JSONConsts.MARKETITEM_MARKETPRICE].str;
+			} else {
+				this.MarketPrice = "";
+			}
+			if (jsonObject[JSONConsts.MARKETITEM_MARKETTITLE]) {
+				this.MarketTitle = jsonObject[JSONConsts.MARKETITEM_MARKETTITLE].str;
+			} else {
+				this.MarketTitle = "";
+			}
+			if (jsonObject[JSONConsts.MARKETITEM_MARKETDESC]) {
+				this.MarketDescription = jsonObject[JSONConsts.MARKETITEM_MARKETDESC].str;
+			} else {
+				this.MarketDescription = "";
+			}
 		}
 
 		/// <summary>
