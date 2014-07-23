@@ -143,7 +143,7 @@ namespace Soomla.Store {
 
 			obj.AddField(JSONConsts.MARKETITEM_MARKETPRICE, this.MarketPrice);
 			obj.AddField(JSONConsts.MARKETITEM_MARKETTITLE, this.MarketTitle);
-			obj.AddField(JSONConsts.MARKETITEM_MARKETDESC, this.MarketDesc);
+			obj.AddField(JSONConsts.MARKETITEM_MARKETDESC, this.MarketDescription);
 
 			return obj;
 		}
