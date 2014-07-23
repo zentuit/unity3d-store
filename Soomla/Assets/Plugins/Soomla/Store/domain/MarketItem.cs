@@ -140,6 +140,11 @@ namespace Soomla.Store {
 			obj.AddField(JSONConsts.MARKETITEM_PRODUCT_ID, this.ProductId);
 			obj.AddField(JSONConsts.MARKETITEM_CONSUMABLE, (int)(consumable));
 			obj.AddField(JSONConsts.MARKETITEM_PRICE, (float)this.Price);
+
+			obj.AddField(JSONConsts.MARKETITEM_MARKETPRICE, this.MarketPrice);
+			obj.AddField(JSONConsts.MARKETITEM_MARKETTITLE, this.MarketTitle);
+			obj.AddField(JSONConsts.MARKETITEM_MARKETDESC, this.MarketDesc);
+
 			return obj;
 		}
 

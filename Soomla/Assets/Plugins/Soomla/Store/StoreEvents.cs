@@ -306,6 +306,7 @@ namespace Soomla.Store {
 					mi.MarketPrice = marketPrice;
 					mi.MarketTitle = marketTitle;
 					mi.MarketDescription = marketDescription;
+					pvi.save();
 
 					marketItems.Add(mi);
 				} catch (VirtualItemNotFoundException ex){
