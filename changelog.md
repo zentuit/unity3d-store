@@ -1,4 +1,4 @@
-### v1.5.2 [view commit logs](https://github.com/soomla/android-store/compare/v1.5.2...v1.5.3)
+### v1.5.3 [view commit logs](https://github.com/soomla/android-store/compare/v1.5.2...v1.5.3)
 
 * New Features
   * You can now use StoreInventory's 'BuyItem' with a payload of your choice. This payload will be returned back to you in the purchase events when it's completed.
