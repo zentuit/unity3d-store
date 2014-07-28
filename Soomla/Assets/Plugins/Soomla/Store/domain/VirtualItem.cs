@@ -24,7 +24,7 @@ namespace Soomla.Store {
 	/// of virtual items, each one will extend this class. Each one of the various types extends
 	/// <c>VirtualItem</c> and adds its own behavior to it.
 	/// </summary>
-	public abstract class VirtualItem : SoomlaEntity {
+	public abstract class VirtualItem : SoomlaEntity<VirtualItem> {
 
 #if UNITY_IOS && !UNITY_EDITOR
 		[DllImport ("__Internal")]
@@ -34,8 +34,8 @@ namespace Soomla.Store {
 		private const string TAG = "SOOMLA VirtualItem";
 
 		public string ItemId {
-			get { return this.ID; }
-			set { this.ID = value; }
+			get { return this._id; }
+			set { this._id = value; }
 
 		}
 		
