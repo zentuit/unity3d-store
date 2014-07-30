@@ -5,7 +5,7 @@
 #import "StoreInfo.h"
 #import "SoomlaUtils.h"
 
-char* AutonomousStringCopy (const char* string)
+char* Soom_AutonomousStringCopy (const char* string)
 {
     if (string == NULL)
        return NULL;
@@ -25,7 +25,7 @@ extern "C"{
 		    NSDictionary* nameWithClass = [NSDictionary dictionaryWithObjectsAndKeys:
 		                                   [vi toDictionary], @"item",
 		                                   className, @"className", nil];
-			*json = AutonomousStringCopy([[SoomlaUtils dictToJsonString:nameWithClass] UTF8String]);
+			*json = Soom_AutonomousStringCopy([[SoomlaUtils dictToJsonString:nameWithClass] UTF8String]);
 		}
 		
 		@catch (VirtualItemNotFoundException* e) {
@@ -44,7 +44,7 @@ extern "C"{
 		    NSDictionary* nameWithClass = [NSDictionary dictionaryWithObjectsAndKeys:
 		                                   [pvi toDictionary], @"item",
 		                                   className, @"className", nil];
-			*json = AutonomousStringCopy([[SoomlaUtils dictToJsonString:nameWithClass] UTF8String]);
+			*json = Soom_AutonomousStringCopy([[SoomlaUtils dictToJsonString:nameWithClass] UTF8String]);
 		}
 		
 		@catch (VirtualItemNotFoundException* e) {
@@ -59,7 +59,7 @@ extern "C"{
 		NSString* goodItemIdS = [NSString stringWithUTF8String:goodItemId];
 		@try {
 			VirtualCategory* vc = [[StoreInfo getInstance] categoryForGoodWithItemId:goodItemIdS];
-			*json = AutonomousStringCopy([[SoomlaUtils dictToJsonString:[vc toDictionary]] UTF8String]);
+			*json = Soom_AutonomousStringCopy([[SoomlaUtils dictToJsonString:[vc toDictionary]] UTF8String]);
 		}
 		
 		@catch (VirtualItemNotFoundException* e) {
@@ -74,7 +74,7 @@ extern "C"{
 		NSString* goodItemIdS = [NSString stringWithUTF8String:goodItemId];
 		@try {
 			UpgradeVG* vgu = [[StoreInfo getInstance] firstUpgradeForGoodWithItemId:goodItemIdS];
-			*json = AutonomousStringCopy([[SoomlaUtils dictToJsonString:[vgu toDictionary]] UTF8String]);
+			*json = Soom_AutonomousStringCopy([[SoomlaUtils dictToJsonString:[vgu toDictionary]] UTF8String]);
 		}
 		
 		@catch (VirtualItemNotFoundException* e) {
@@ -89,7 +89,7 @@ extern "C"{
 		NSString* goodItemIdS = [NSString stringWithUTF8String:goodItemId];
 		@try {
 			UpgradeVG* vgu = [[StoreInfo getInstance] lastUpgradeForGoodWithItemId:goodItemIdS];
-			*json = AutonomousStringCopy([[SoomlaUtils dictToJsonString:[vgu toDictionary]] UTF8String]);
+			*json = Soom_AutonomousStringCopy([[SoomlaUtils dictToJsonString:[vgu toDictionary]] UTF8String]);
 		}
 		
 		@catch (VirtualItemNotFoundException* e) {
@@ -113,7 +113,7 @@ extern "C"{
             [retJson appendString:@"]"];
 		}
 		
-		*json = AutonomousStringCopy([retJson UTF8String]);
+		*json = Soom_AutonomousStringCopy([retJson UTF8String]);
 
 		return NO_ERR;
 	}
@@ -130,7 +130,7 @@ extern "C"{
             [retJson appendString:@"]"];
         }
 		
-		*json = AutonomousStringCopy([retJson UTF8String]);
+		*json = Soom_AutonomousStringCopy([retJson UTF8String]);
 		
 		return NO_ERR;
 	}
@@ -152,7 +152,7 @@ extern "C"{
         }
 		
 		
-		*json = AutonomousStringCopy([retJson UTF8String]);
+		*json = Soom_AutonomousStringCopy([retJson UTF8String]);
 		
 		return NO_ERR;
 	}
@@ -170,7 +170,7 @@ extern "C"{
         }
 		
 		
-		*json = AutonomousStringCopy([retJson UTF8String]);
+		*json = Soom_AutonomousStringCopy([retJson UTF8String]);
 		
 		return NO_ERR;
 	}
@@ -187,7 +187,7 @@ extern "C"{
             [retJson appendString:@"]"];
         }
 		
-        *json = AutonomousStringCopy([retJson UTF8String]);
+        *json = Soom_AutonomousStringCopy([retJson UTF8String]);
 		
 		return NO_ERR;
 	}
@@ -205,7 +205,7 @@ extern "C"{
         }
 		
 		
-		*json = AutonomousStringCopy([retJson UTF8String]);
+		*json = Soom_AutonomousStringCopy([retJson UTF8String]);
 		
 		return NO_ERR;
 	}
