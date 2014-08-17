@@ -1,6 +1,7 @@
 #import "StoreInventory.h"
 #import "VirtualItemNotFoundException.h"
 #import "UnityCommons.h"
+#import "UnityStoreCommons.h"
 #import "InsufficientFundsException.h"
 
 extern "C"{

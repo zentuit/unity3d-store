@@ -1,6 +1,7 @@
 #import "UnityStoreAssets.h"
 #import "VirtualItemNotFoundException.h"
 #import "UnityCommons.h"
+#import "UnityStoreCommons.h"
 #import "VirtualItem.h"
 #import "StoreInfo.h"
 #import "SoomlaUtils.h"

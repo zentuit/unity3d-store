@@ -3,6 +3,7 @@
 #import "SoomlaStore.h"
 #import "VirtualItemNotFoundException.h"
 #import "UnityCommons.h"
+#import "UnityStoreCommons.h"
 #import "StoreConfig.h"
 #import "StoreInfo.h"
 #import "PurchasableVirtualItem.h"

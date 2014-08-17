@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C09D99BA19A0E3C800CBD235 /* UnityStoreCommons.h in Headers */ = {isa = PBXBuildFile; fileRef = C09D99B919A0E3C800CBD235 /* UnityStoreCommons.h */; };
 		C0B3C5F3168C6D0C00161FAA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0B3C5F2168C6D0C00161FAA /* Foundation.framework */; };
 		C0CF4D61183BDCA80070CC85 /* UnityStoreAssets.h in Headers */ = {isa = PBXBuildFile; fileRef = C0CF4D59183BDCA80070CC85 /* UnityStoreAssets.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		C0CF4D62183BDCA80070CC85 /* UnityStoreAssets.mm in Sources */ = {isa = PBXBuildFile; fileRef = C0CF4D5A183BDCA80070CC85 /* UnityStoreAssets.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -30,6 +31,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C09D99B919A0E3C800CBD235 /* UnityStoreCommons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnityStoreCommons.h; sourceTree = "<group>"; };
 		C0B3C5EF168C6D0C00161FAA /* libUnityiOSStore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libUnityiOSStore.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0B3C5F2168C6D0C00161FAA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C0CF4D59183BDCA80070CC85 /* UnityStoreAssets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnityStoreAssets.h; sourceTree = "<group>"; };
@@ -81,6 +83,7 @@
 		C0CF4D57183BDCA80070CC85 /* SoomlaUnity */ = {
 			isa = PBXGroup;
 			children = (
+				C09D99B919A0E3C800CBD235 /* UnityStoreCommons.h */,
 				C0CF4D59183BDCA80070CC85 /* UnityStoreAssets.h */,
 				C0CF4D5A183BDCA80070CC85 /* UnityStoreAssets.mm */,
 				C0CF4D5B183BDCA80070CC85 /* UnitySoomlaStore.mm */,
@@ -100,6 +103,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C0CF4D61183BDCA80070CC85 /* UnityStoreAssets.h in Headers */,
+				C09D99BA19A0E3C800CBD235 /* UnityStoreCommons.h in Headers */,
 				C0CF4D64183BDCA80070CC85 /* UnityStoreEventDispatcher.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
