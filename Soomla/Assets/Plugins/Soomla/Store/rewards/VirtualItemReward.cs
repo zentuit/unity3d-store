@@ -46,8 +46,8 @@ namespace Soomla {
 		public VirtualItemReward(JSONObject jsonReward)
 			: base(jsonReward)
 		{
-			AssociatedItemId = jsonReward[Soomla.JSONConsts.SOOM_ASSOCITEMID].str;
-			Amount = (int) jsonReward[Soomla.JSONConsts.SOOM_REWARD_AMOUNT].n;
+			AssociatedItemId = jsonReward[Store.JSONConsts.VIR_ASSOCITEMID].str;
+			Amount = (int) jsonReward[Store.JSONConsts.VIR_AMOUNT].n;
 		}
 
 		/// <summary>
@@ -56,9 +56,9 @@ namespace Soomla {
 		/// <returns>see parent</returns>
 		public override JSONObject toJSONObject() {
 			JSONObject obj = base.toJSONObject();
-			obj.AddField(Soomla.JSONConsts.SOOM_ASSOCITEMID, AssociatedItemId);
-			obj.AddField(Soomla.JSONConsts.SOOM_REWARD_AMOUNT, Amount);
-			obj.AddField(Soomla.JSONConsts.SOOM_CLASSNAME, GetType().Name);
+			obj.AddField(Store.JSONConsts.VIR_ASSOCITEMID, AssociatedItemId);
+			obj.AddField(Store.JSONConsts.VIR_AMOUNT, Amount);
+			obj.AddField(JSONConsts.SOOM_CLASSNAME, GetType().Name);
 
 			return obj;
 		}

@@ -1,4 +1,4 @@
-*This project is a part of The [SOOMLA](http://project.soom.la) Framework which is a series of open source initiatives with a joint goal to help mobile game developers do more together. SOOMLA encourages better game designing, economy modeling and faster development.*
+*This project is a part of The [SOOMLA](http://www.soom.la) Framework which is a series of open source initiatives with a joint goal to help mobile game developers do more together. SOOMLA encourages better game designing, economy modeling and faster development.*
 
 Haven't you ever wanted an in-app purchase one liner that looks like this ?!
 
@@ -29,7 +29,10 @@ unity3d-store is the Unity3d flavor of SOOMLA's Store Module.
 
 ## Download
 
-####Pre baked unitypackage: [unity3d-store v1.5.3](http://bit.ly/1rc21Zo)  
+####Pre baked unitypackages:
+
+[soomla-unity3d-core v1.5.3](https://raw.githubusercontent.com/soomla/unity3d-store/master/soomla-unity3d-core.unitypackage)  
+[unity3d-store v1.5.3](http://bit.ly/1rc21Zo)  
 
 ## Debugging
 
@@ -46,7 +49,7 @@ $ git clone --recursive git@github.com:soomla/unity3d-store.git
 
 ## Getting Started
 
-1. Download the unity3d-store unityproject and double-click on it. It'll import all the necessary files into your project.
+1. Download the [soomla-unity3d-core](https://raw.githubusercontent.com/soomla/unity3d-store/master/soomla-unity3d-core.unitypackage) and [unity3d-store](http://bit.ly/1rc21Zo) unitypackages and double-click on them (first 'Core' then 'Store'). It'll import all the necessary files into your project.
 2. Drag the "StoreEvents" and "CoreEvents" Prefabs from `../Assets/Soomla/Prefabs` into your scene. You should see it listed in the "Hierarchy" panel. [This step MUST be done for unity3d-store to work properly]
 3. On the menu bar click "Window -> Soomla -> Edit Settings" and change the value for "Soomla Secret" (also setup Public Key if you're building for Google Play):
     - _Soomla Secret_ - is an encryption secret you provide that will be used to secure your data. (If you used versions before v1.5.2 this secret MUST be the same as Custom Secret)  
@@ -203,11 +206,11 @@ android-store follows strict code documentation conventions. If you would like t
 SOOMLA, Elsewhere ...
 ---
 
-+ [Framework Page](http://project.soom.la/)
++ [Framework Website](http://www.soom.la/)
 + [On Facebook](https://www.facebook.com/pages/The-SOOMLA-Project/389643294427376).
 + [On AngelList](https://angel.co/the-soomla-project)
 
 License
 ---
-Apache License. Copyright (c) 2012-2014 SOOMLA. http://project.soom.la
+Apache License. Copyright (c) 2012-2014 SOOMLA. http://www.soom.la
 + http://opensource.org/licenses/Apache-2.0
