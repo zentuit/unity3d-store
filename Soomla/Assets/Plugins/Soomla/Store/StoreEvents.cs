@@ -210,14 +210,18 @@ namespace Soomla.Store {
 			PurchasableVirtualItem pvi = (PurchasableVirtualItem)StoreInfo.GetItemByItemId(vars[0]);
 			string payload = "";
 			string purchaseToken = "";
+			string orderId = "";
 			if (vars.Length > 1) {
 				payload = vars[1];
 			}
 			if (vars.Length > 2) {
 				purchaseToken = vars[2];
 			}
+			if (vars.Length > 3) {
+				orderId = vars[3];
+			}
 
-			StoreEvents.OnMarketPurchase(pvi, purchaseToken, payload);
+			StoreEvents.OnMarketPurchase(pvi, purchaseToken, payload, orderId);
 		}
 
 		/// <summary>
@@ -376,7 +380,7 @@ namespace Soomla.Store {
 
 		public static Action<PurchasableVirtualItem> OnMarketPurchaseCancelled = delegate {};
 
-		public static Action<PurchasableVirtualItem, string, string> OnMarketPurchase = delegate {};
+		public static Action<PurchasableVirtualItem, string, string, string> OnMarketPurchase = delegate {};
 
 		public static Action<PurchasableVirtualItem> OnMarketPurchaseStarted = delegate {};
 

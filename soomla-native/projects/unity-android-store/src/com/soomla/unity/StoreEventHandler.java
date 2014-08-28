@@ -125,7 +125,8 @@ public class StoreEventHandler {
         UnityPlayer.UnitySendMessage("StoreEvents", "onMarketPurchase",
                 playPurchaseEvent.getPurchasableVirtualItem().getItemId() + "#SOOM#" +
                         playPurchaseEvent.getPayload() + "#SOOM#" +
-                        playPurchaseEvent.getToken()
+                        playPurchaseEvent.getToken() + "#SOOM#" +
+                        playPurchaseEvent.getOrderId()
         );
     }
 
