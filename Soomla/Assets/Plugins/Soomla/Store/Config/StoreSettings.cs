@@ -53,6 +53,9 @@ namespace Soomla.Store
 		
 		GUIContent iosSsvLabel = new GUIContent("Receipt Validation [?]:", "Check if you want your purchases validated with SOOMLA Server Side Protection Service.");
 
+		GUIContent frameworkVersion = new GUIContent("Store Version [?]", "The SOOMLA Framework Store Module version. ");
+		GUIContent buildVersion = new GUIContent("Store Build [?]", "The SOOMLA Framework Store Module build.");
+
 		public void OnEnable() {
 			// Generating AndroidManifest.xml
 //			ManifestTools.GenerateManifest();
@@ -65,7 +68,9 @@ namespace Soomla.Store
 		}
 
 		public void OnInfoGUI() {
-
+			SoomlaEditorScript.SelectableLabelField(frameworkVersion, "1.5.4");
+			SoomlaEditorScript.SelectableLabelField(buildVersion, "1");
+			EditorGUILayout.Space();
 		}
 
 		public void OnSoomlaGUI() {
