@@ -1,3 +1,13 @@
+### v1.5.4 [view commit logs](https://github.com/soomla/android-store/compare/v1.5.3...v1.5.4)
+
+* Changes
+  * Some changes from SOOMLA Core module are supported.
+  * Fixes and improvements in ios bridge project in order to prepare for Profile and LevelUp.
+
+* Fixes
+  * Fixed saving of market details after refresh (issue #300)
+
+
 ### v1.5.3 [view commit logs](https://github.com/soomla/android-store/compare/v1.5.2...v1.5.3)
 
 * New Features
