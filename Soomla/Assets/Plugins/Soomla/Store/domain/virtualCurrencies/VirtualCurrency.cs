@@ -47,8 +47,14 @@ namespace Soomla.Store{
 		{
 		}
 #endif
+#if UNITY_WP8
+		public VirtualCurrency(SoomlaWpStore.domain.virtualCurrencies.VirtualCurrency wpVirtualCurrency)
+            : base(wpVirtualCurrency)
+		{
+		}
+#endif
 
-		/// <summary>
+        /// <summary>
 		/// Constructor.
 		/// Initializes a new instance of VirtualCurrency from the given JSON object.
 		/// </summary>

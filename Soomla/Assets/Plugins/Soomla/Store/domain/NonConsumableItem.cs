@@ -54,7 +54,13 @@ namespace Soomla.Store {
 		{
 		}
 #endif
-		/// <summary>
+#if UNITY_WP8
+		public NonConsumableItem(SoomlaWpStore.domain.NonConsumableItem wpNonConsumableItem)
+            : base(wpNonConsumableItem)
+		{
+		}
+#endif
+        /// <summary>
 		/// Constructor.
 		/// Generates an instance of <c>NonConsumableItem</c> from a <c>JSONObject</c>.
 		/// </summary>
