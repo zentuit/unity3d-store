@@ -17,7 +17,7 @@ using System;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 
-namespace Soomla {
+namespace Soomla.Store {
 
 	/// <summary>
 	/// This class provides functions for event handling.
@@ -35,9 +35,24 @@ namespace Soomla {
 			if(instance == null){ 	// making sure we only initialize one instance.
 				instance = this;
 				GameObject.DontDestroyOnLoad(this.gameObject);
+				Initialize();
 			} else {				// Destroying unused instances.
 				GameObject.Destroy(this.gameObject);
 			}
+		}
+
+		public static void Initialize() {
+			SoomlaUtils.LogDebug (TAG, "Initializing StoreEvents ...");
+			#if UNITY_ANDROID && !UNITY_EDITOR
+			AndroidJNI.PushLocalFrame(100);
+			//init EventHandler
+			using(AndroidJavaClass jniEventHandler = new AndroidJavaClass("com.soomla.unity.StoreEventHandler")) {
+				jniEventHandler.CallStatic("initialize");
+			}
+			AndroidJNI.PopLocalFrame(IntPtr.Zero);
+			#elif UNITY_IOS && !UNITY_EDITOR
+			// On iOS, this is initialized inside the bridge library when we call "soomlaStore_Init" in SoomlaStoreIOS
+			#endif
 		}
 
 		/// <summary>
@@ -46,7 +61,7 @@ namespace Soomla {
 		/// </summary>
 		/// <param name="message">Not used here.</param>
 		public void onBillingSupported(string message) {
-			Utils.LogDebug(TAG, "SOOMLA/UNITY onBillingSupported");
+			SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onBillingSupported");
 
 			StoreEvents.OnBillingSupported();
 		}
@@ -57,7 +72,7 @@ namespace Soomla {
 		/// </summary>
 		/// <param name="message">Not used here.</param>
 		public void onBillingNotSupported(string message) {
-			Utils.LogDebug(TAG, "SOOMLA/UNITY onBillingNotSupported");
+			SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onBillingNotSupported");
 
 			StoreEvents.OnBillingNotSupported();
 		}
@@ -69,7 +84,7 @@ namespace Soomla {
 		/// <param name="message">Message that contains information about the currency whose balance has
 		/// changed.</param>
 		public void onCurrencyBalanceChanged(string message) {
-			Utils.LogDebug(TAG, "SOOMLA/UNITY onCurrencyBalanceChanged:" + message);
+			SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onCurrencyBalanceChanged:" + message);
 
 			string[] vars = Regex.Split(message, "#SOOM#");
 
@@ -86,7 +101,7 @@ namespace Soomla {
 		/// <param name="message">Message that contains information about the good whose balance has
 		/// changed.</param>
 		public void onGoodBalanceChanged(string message) {
-			Utils.LogDebug(TAG, "SOOMLA/UNITY onGoodBalanceChanged:" + message);
+			SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onGoodBalanceChanged:" + message);
 
 			string[] vars = Regex.Split(message, "#SOOM#");
 
@@ -102,7 +117,7 @@ namespace Soomla {
 		/// </summary>
 		/// <param name="message">Message that contains information about the <c>EquippableVG</c>.</param>
 		public void onGoodEquipped(string message) {
-			Utils.LogDebug(TAG, "SOOMLA/UNITY onVirtualGoodEquipped:" + message);
+			SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onVirtualGoodEquipped:" + message);
 
 			EquippableVG vg = (EquippableVG)StoreInfo.GetItemByItemId(message);
 			StoreEvents.OnGoodEquipped(vg);
@@ -114,7 +129,7 @@ namespace Soomla {
 		/// </summary>
 		/// <param name="message">Message that contains information about the <c>EquippableVG</c>.</param>
 		public void onGoodUnequipped(string message) {
-			Utils.LogDebug(TAG, "SOOMLA/UNITY onVirtualGoodUnEquipped:" + message);
+			SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onVirtualGoodUnEquipped:" + message);
 
 			EquippableVG vg = (EquippableVG)StoreInfo.GetItemByItemId(message);
 			StoreEvents.OnGoodUnEquipped(vg);
@@ -127,7 +142,7 @@ namespace Soomla {
 		/// <param name="message">Message that contains information about the good that has been
 		/// upgraded/downgraded.</param>
 		public void onGoodUpgrade(string message) {
-			Utils.LogDebug(TAG, "SOOMLA/UNITY onGoodUpgrade:" + message);
+			SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onGoodUpgrade:" + message);
 
 			string[] vars = Regex.Split(message, "#SOOM#");
 
@@ -145,10 +160,17 @@ namespace Soomla {
 		/// </summary>
 		/// <param name="message">Message that contains information about the good that has been purchased.</param>
 		public void onItemPurchased(string message) {
-			Utils.LogDebug(TAG, "SOOMLA/UNITY onItemPurchased:" + message);
+			SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onItemPurchased:" + message);
 
-			PurchasableVirtualItem pvi = (PurchasableVirtualItem)StoreInfo.GetItemByItemId(message);
-			StoreEvents.OnItemPurchased(pvi);
+			string[] vars = Regex.Split(message, "#SOOM#");
+			
+			PurchasableVirtualItem pvi = (PurchasableVirtualItem)StoreInfo.GetItemByItemId(vars[0]);
+			string payload = "";
+			if (vars.Length > 1) {
+				payload = vars[1];
+			}
+
+			StoreEvents.OnItemPurchased(pvi, payload);
 		}
 
 		/// <summary>
@@ -157,7 +179,7 @@ namespace Soomla {
 		/// </summary>
 		/// <param name="message">Message that contains information about the item being purchased.</param>
 		public void onItemPurchaseStarted(string message) {
-			Utils.LogDebug(TAG, "SOOMLA/UNITY onItemPurchaseStarted:" + message);
+			SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onItemPurchaseStarted:" + message);
 
 			PurchasableVirtualItem pvi = (PurchasableVirtualItem)StoreInfo.GetItemByItemId(message);
 			StoreEvents.OnItemPurchaseStarted(pvi);
@@ -170,7 +192,7 @@ namespace Soomla {
 		/// <param name="message">Message that contains information about the market purchase that is being
 		/// cancelled.</param>
 		public void onMarketPurchaseCancelled(string message) {
-			Utils.LogDebug(TAG, "SOOMLA/UNITY onMarketPurchaseCancelled: " + message);
+			SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onMarketPurchaseCancelled: " + message);
 
 			PurchasableVirtualItem pvi = (PurchasableVirtualItem)StoreInfo.GetItemByItemId(message);
 			StoreEvents.OnMarketPurchaseCancelled(pvi);
@@ -188,14 +210,18 @@ namespace Soomla {
 			PurchasableVirtualItem pvi = (PurchasableVirtualItem)StoreInfo.GetItemByItemId(vars[0]);
 			string payload = "";
 			string purchaseToken = "";
+			string orderId = "";
 			if (vars.Length > 1) {
 				payload = vars[1];
 			}
 			if (vars.Length > 2) {
 				purchaseToken = vars[2];
 			}
+			if (vars.Length > 3) {
+				orderId = vars[3];
+			}
 
-			StoreEvents.OnMarketPurchase(pvi, purchaseToken, payload);
+			StoreEvents.OnMarketPurchase(pvi, purchaseToken, payload, orderId);
 		}
 
 		/// <summary>
@@ -204,7 +230,7 @@ namespace Soomla {
 		/// <param name="message">Message that contains information about the maret purchase that is being
 		/// started.</param>
 		public void onMarketPurchaseStarted(string message) {
-			Utils.LogDebug(TAG, "SOOMLA/UNITY onMarketPurchaseStarted: " + message);
+			SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onMarketPurchaseStarted: " + message);
 
 			PurchasableVirtualItem pvi = (PurchasableVirtualItem)StoreInfo.GetItemByItemId(message);
 			StoreEvents.OnMarketPurchaseStarted(pvi);
@@ -215,7 +241,7 @@ namespace Soomla {
 		/// </summary>
 		/// <param name="message">Message that contains information about the market refund that has occurred.</param>
 		public void onMarketRefund(string message) {
-			Utils.LogDebug(TAG, "SOOMLA/UNITY onMarketRefund:" + message);
+			SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onMarketRefund:" + message);
 
 			PurchasableVirtualItem pvi = (PurchasableVirtualItem)StoreInfo.GetItemByItemId(message);
 			StoreEvents.OnMarketPurchaseStarted(pvi);
@@ -228,7 +254,7 @@ namespace Soomla {
 		/// <param name="message">Message that contains information about the <c>restoreTransactions</c> process that
 		/// has finished.</param>
 		public void onRestoreTransactionsFinished(string message) {
-			Utils.LogDebug(TAG, "SOOMLA/UNITY onRestoreTransactionsFinished:" + message);
+			SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onRestoreTransactionsFinished:" + message);
 
 			bool success = Convert.ToBoolean(int.Parse(message));
 			StoreEvents.OnRestoreTransactionsFinished(success);
@@ -241,7 +267,7 @@ namespace Soomla {
 		/// <param name="message">Message that contains information about the <c>restoreTransactions</c> process that
 		/// has started.</param>
 		public void onRestoreTransactionsStarted(string message) {
-			Utils.LogDebug(TAG, "SOOMLA/UNITY onRestoreTransactionsStarted");
+			SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onRestoreTransactionsStarted");
 
 			StoreEvents.OnRestoreTransactionsStarted();
 		}
@@ -253,7 +279,7 @@ namespace Soomla {
 		/// <param name="message">Message that contains information about the <c>market refresh</c> process that
 		/// has started.</param>
 		public void onMarketItemsRefreshStarted(string message) {
-			Utils.LogDebug(TAG, "SOOMLA/UNITY onMarketItemsRefreshStarted");
+			SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onMarketItemsRefreshStarted");
 
 			StoreEvents.OnMarketItemsRefreshStarted();
 		}
@@ -264,7 +290,7 @@ namespace Soomla {
 		/// </summary>
 		/// <param name="message">Message that contains information about the process that is occurring.</param>
 		public void onMarketItemsRefreshFinished(string message) {
-			Utils.LogDebug(TAG, "SOOMLA/UNITY onMarketItemsRefreshFinished: " + message);
+			SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onMarketItemsRefreshFinished: " + message);
 
 			string[] marketItemsChanges = Regex.Split(message, "#SOOM#");
 			List<MarketItem> marketItems = new List<MarketItem>();
@@ -284,10 +310,11 @@ namespace Soomla {
 					mi.MarketPrice = marketPrice;
 					mi.MarketTitle = marketTitle;
 					mi.MarketDescription = marketDescription;
+					pvi.save();
 
 					marketItems.Add(mi);
 				} catch (VirtualItemNotFoundException ex){
-					Utils.LogDebug(TAG, ex.Message);
+					SoomlaUtils.LogDebug(TAG, ex.Message);
 				}
 			}
 
@@ -300,31 +327,31 @@ namespace Soomla {
 		/// </summary>
 		/// <param name="message">Message that contains information about the error.</param>
 		public void onUnexpectedErrorInStore(string message) {
-			Utils.LogDebug(TAG, "SOOMLA/UNITY onUnexpectedErrorInStore");
+			SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onUnexpectedErrorInStore");
 
 			StoreEvents.OnUnexpectedErrorInStore(message);
 		}
 
 		/// <summary>
-		/// Handles the <c>onStoreControllerInitialized</c> event, which is fired when <c>StoreController</c>
+		/// Handles the <c>onSoomlaStoreInitialized</c> event, which is fired when <c>SoomlaStore</c>
 		/// is initialized.
 		/// </summary>
 		/// <param name="message">Not used here.</param>
-		public void onStoreControllerInitialized(string message) {
-			Utils.LogDebug(TAG, "SOOMLA/UNITY onStoreControllerInitialized");
+		public void onSoomlaStoreInitialized(string message) {
+			SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onSoomlaStoreInitialized");
 
-			StoreEvents.OnStoreControllerInitialized();
+			StoreEvents.OnSoomlaStoreInitialized();
 		}
 
 #if UNITY_ANDROID && !UNITY_EDITOR
 		public void onIabServiceStarted(string message) {
-			Utils.LogDebug(TAG, "SOOMLA/UNITY onIabServiceStarted");
+			SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onIabServiceStarted");
 
 			StoreEvents.OnIabServiceStarted();
 		}
 
 		public void onIabServiceStopped(string message) {
-			Utils.LogDebug(TAG, "SOOMLA/UNITY onIabServiceStopped");
+			SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onIabServiceStopped");
 
 			StoreEvents.OnIabServiceStopped();
 		}
@@ -347,13 +374,13 @@ namespace Soomla {
 
 		public static Action<VirtualGood, UpgradeVG> OnGoodUpgrade = delegate {};
 
-		public static Action<PurchasableVirtualItem> OnItemPurchased = delegate {};
+		public static Action<PurchasableVirtualItem, string> OnItemPurchased = delegate {};
 
 		public static Action<PurchasableVirtualItem> OnItemPurchaseStarted = delegate {};
 
 		public static Action<PurchasableVirtualItem> OnMarketPurchaseCancelled = delegate {};
 
-		public static Action<PurchasableVirtualItem, string, string> OnMarketPurchase = delegate {};
+		public static Action<PurchasableVirtualItem, string, string, string> OnMarketPurchase = delegate {};
 
 		public static Action<PurchasableVirtualItem> OnMarketPurchaseStarted = delegate {};
 
@@ -369,7 +396,7 @@ namespace Soomla {
 
 		public static Action<string> OnUnexpectedErrorInStore = delegate {};
 
-		public static Action OnStoreControllerInitialized = delegate {};
+		public static Action OnSoomlaStoreInitialized = delegate {};
 
 		#if UNITY_ANDROID && !UNITY_EDITOR
 		public static Action OnIabServiceStarted = delegate {};

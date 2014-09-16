@@ -15,7 +15,7 @@
 using UnityEngine;
 using System.Collections;
 
-namespace Soomla{	
+namespace Soomla.Store{	
 	
 	/// <summary>
 	/// Every game has its virtual currencies. This class represents a pack of <c>VirtualCurrency</c>s.
@@ -88,7 +88,7 @@ namespace Soomla{
 		/// <summary>
 		/// Saves this instance.
 		/// </summary>
-		public void save() 
+		public override void save() 
 		{
 			save("VirtualCurrencyPack");
 		}

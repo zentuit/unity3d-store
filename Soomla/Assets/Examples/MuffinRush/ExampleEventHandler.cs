@@ -15,7 +15,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Soomla.Example {
+namespace Soomla.Store.Example {
 
 	/// <summary>
 	/// This class contains functions that receive events that they are subscribed to.
@@ -43,7 +43,7 @@ namespace Soomla.Example {
 			StoreEvents.OnMarketPurchaseCancelled += onMarketPurchaseCancelled;
 			StoreEvents.OnRestoreTransactionsStarted += onRestoreTransactionsStarted;
 			StoreEvents.OnRestoreTransactionsFinished += onRestoreTransactionsFinished;
-			StoreEvents.OnStoreControllerInitialized += onStoreControllerInitialized;
+			StoreEvents.OnSoomlaStoreInitialized += onSoomlaStoreInitialized;
 #if UNITY_ANDROID && !UNITY_EDITOR
 			StoreEvents.OnIabServiceStarted += onIabServiceStarted;
 			StoreEvents.OnIabServiceStopped += onIabServiceStopped;
@@ -55,7 +55,7 @@ namespace Soomla.Example {
 		/// </summary>
 		/// <param name="pvi">Purchasable virtual item.</param>
 		/// <param name="purchaseToken">Purchase token.</param>
-		public void onMarketPurchase(PurchasableVirtualItem pvi, string purchaseToken, string payload) {
+		public void onMarketPurchase(PurchasableVirtualItem pvi, string purchaseToken, string payload, string orderId) {
 			
 		}
 
@@ -71,7 +71,7 @@ namespace Soomla.Example {
 		/// Handles an item purchase event. 
 		/// </summary>
 		/// <param name="pvi">Purchasable virtual item.</param>
-		public void onItemPurchased(PurchasableVirtualItem pvi) {
+		public void onItemPurchased(PurchasableVirtualItem pvi, string payload) {
 
 		}
 
@@ -185,7 +185,7 @@ namespace Soomla.Example {
 		/// <summary>
 		/// Handles a store controller initialized event.
 		/// </summary>
-		public void onStoreControllerInitialized() {
+		public void onSoomlaStoreInitialized() {
 			ExampleLocalStoreInfo.Init();
 			
 			// some usage examples for add/remove currency
@@ -193,9 +193,9 @@ namespace Soomla.Example {
             if (ExampleLocalStoreInfo.VirtualCurrencies.Count>0) {
                 try {
                     StoreInventory.GiveItem(ExampleLocalStoreInfo.VirtualCurrencies[0].ItemId,4000);
-                    Utils.LogDebug("SOOMLA ExampleEventHandler", "Currency balance:" + StoreInventory.GetItemBalance(ExampleLocalStoreInfo.VirtualCurrencies[0].ItemId));
+                    SoomlaUtils.LogDebug("SOOMLA ExampleEventHandler", "Currency balance:" + StoreInventory.GetItemBalance(ExampleLocalStoreInfo.VirtualCurrencies[0].ItemId));
                 } catch (VirtualItemNotFoundException ex){
-                    Utils.LogError("SOOMLA ExampleEventHandler", ex.Message);
+                    SoomlaUtils.LogError("SOOMLA ExampleEventHandler", ex.Message);
                 }
             }
 

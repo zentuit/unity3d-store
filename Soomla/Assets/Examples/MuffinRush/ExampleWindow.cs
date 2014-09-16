@@ -18,7 +18,7 @@ using System.Collections.Generic;
 using System;
 using Soomla;
 
-namespace Soomla.Example {
+namespace Soomla.Store.Example {
 
 	/// <summary>
 	/// This class contains functions that initialize the game and that display the different screens of the game.
@@ -85,7 +85,7 @@ namespace Soomla.Example {
 		void Start () {
 			handler = new ExampleEventHandler();
 			
-			StoreController.Initialize(new MuffinRushAssets());
+			SoomlaStore.Initialize(new MuffinRushAssets());
 
 			tImgDirect = (Texture2D)Resources.Load("SoomlaStore/images/img_direct");
 			fgoodDog = (Font)Resources.Load("SoomlaStore/GoodDog" + fontSuffix);
@@ -159,6 +159,14 @@ namespace Soomla.Example {
 					}
 				}
 			}
+
+			if (Application.platform == RuntimePlatform.Android) {
+				if (Input.GetKeyUp(KeyCode.Escape)) {
+					//quit application on back button
+					Application.Quit();
+					return;
+				}
+			}
 		}
 
 		/// <summary>
@@ -209,7 +217,7 @@ namespace Soomla.Example {
 			if(GUI.Button(new Rect(Screen.width*2/6,Screen.height*5f/8f,Screen.width*2/6,Screen.width*2/6),tLogoNew)){
 				guiState = GUIState.GOODS;
 #if UNITY_ANDROID && !UNITY_EDITOR
-				StoreController.StartIabServiceInBg();
+				SoomlaStore.StartIabServiceInBg();
 #endif
 			}
 			//set alignment to backup
@@ -291,7 +299,7 @@ namespace Soomla.Example {
 			if(GUI.Button(new Rect(Screen.width*2f/7f-width/2f,Screen.height*7f/8f+borderSize,width,buttonHeight), "back")){
 				guiState = GUIState.WELCOME;
 #if UNITY_ANDROID && !UNITY_EDITOR
-				StoreController.StopIabServiceInBg();
+				SoomlaStore.StopIabServiceInBg();
 #endif
 			}
 			GUI.DrawTexture(new Rect(Screen.width*2f/7f-width/2f,Screen.height*7f/8f+borderSize,width,buttonHeight),tBack);
