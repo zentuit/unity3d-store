@@ -68,8 +68,16 @@ namespace Soomla.Store {
 			GoodAmount = jniSingleUsePackVG.Call<int>("getGoodAmount");
 		}
 #endif
+#if UNITY_WP8
+		public SingleUsePackVG(SoomlaWpStore.domain.virtualGoods.SingleUsePackVG wpSingleUsePackVG)
+            : base(wpSingleUsePackVG)
+		{
+            GoodItemId = wpSingleUsePackVG.getGoodItemId();
+			GoodAmount = wpSingleUsePackVG.getGoodAmount();
+		}
+#endif
 
-		/// <summary>
+        /// <summary>
 		/// see parent.
 		/// </summary>
 		public SingleUsePackVG(JSONObject jsonItem)

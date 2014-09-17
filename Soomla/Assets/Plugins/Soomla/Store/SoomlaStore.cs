@@ -34,8 +34,10 @@ namespace Soomla.Store
 					_instance = new SoomlaStoreAndroid();
 					#elif UNITY_IOS && !UNITY_EDITOR
 					_instance = new SoomlaStoreIOS();
-					#else
-					_instance = new SoomlaStore();
+                    #elif UNITY_WP8 && !UNITY_EDITOR
+					_instance = new SoomlaStoreWP();
+                    #else
+                    _instance = new SoomlaStore();
 					#endif
 				}
 				return _instance;

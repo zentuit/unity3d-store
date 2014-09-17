@@ -64,8 +64,52 @@ namespace Soomla.Store {
 			}
 		}
 #endif
+#if UNITY_WP8
+		protected PurchasableVirtualItem(SoomlaWpStore.domain.PurchasableVirtualItem wpPurchasableVirtualItem) :
+            base(wpPurchasableVirtualItem)
+		{
+			SoomlaUtils.LogDebug(TAG, "Trying to create PurchasableVirtualItem with itemId: " +
+                                wpPurchasableVirtualItem.getItemId());
 
-		/// <summary>
+            SoomlaWpStore.purchasesTypes.PurchaseType wpPT = wpPurchasableVirtualItem.GetPurchaseType();
+            if (wpPT is SoomlaWpStore.purchasesTypes.PurchaseWithMarket)
+            {
+                SoomlaWpStore.purchasesTypes.PurchaseWithMarket wpPWM = (SoomlaWpStore.purchasesTypes.PurchaseWithMarket)wpPT;
+                string productId = wpPWM.getMarketItem().getProductId();
+                MarketItem.Consumable consType = MarketItem.Consumable.CONSUMABLE;
+                if(wpPWM.getMarketItem().getManaged() == SoomlaWpStore.domain.MarketItem.Managed.MANAGED)
+                {
+                    consType = MarketItem.Consumable.CONSUMABLE;
+                }
+                if (wpPWM.getMarketItem().getManaged() == SoomlaWpStore.domain.MarketItem.Managed.UNMANAGED)
+                {
+                    consType = MarketItem.Consumable.NONCONSUMABLE;
+                }
+                if (wpPWM.getMarketItem().getManaged() == SoomlaWpStore.domain.MarketItem.Managed.SUBSCRIPTION)
+                {
+                    consType = MarketItem.Consumable.SUBSCRIPTION;
+                }
+                double price = wpPWM.getMarketItem().getPrice();
+
+                MarketItem mi = new MarketItem(productId, consType, price);
+                mi.MarketTitle = wpPWM.getMarketItem().getMarketTitle();
+                mi.MarketPrice = wpPWM.getMarketItem().getMarketPrice();
+                mi.MarketDescription = wpPWM.getMarketItem().getMarketDescription();
+                PurchaseType = new PurchaseWithMarket(mi);
+            }
+
+            if (wpPT is SoomlaWpStore.purchasesTypes.PurchaseWithVirtualItem)
+            {
+                SoomlaWpStore.purchasesTypes.PurchaseWithVirtualItem wpPWVI = (SoomlaWpStore.purchasesTypes.PurchaseWithVirtualItem)wpPT;
+                string itemId = wpPWVI.getTargetItemId();
+                int amount = wpPWVI.getAmount();
+                PurchaseType = new PurchaseWithVirtualItem(itemId, amount);
+            }
+
+		}
+#endif
+       
+        /// <summary>
 		/// Constructor.
 		/// Generates an instance of <c>PurchasableVirtualItem</c> from a <c>JSONObject</c>.
 		/// </summary>

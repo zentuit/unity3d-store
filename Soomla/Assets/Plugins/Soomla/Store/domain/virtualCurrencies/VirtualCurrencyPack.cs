@@ -61,8 +61,18 @@ namespace Soomla.Store{
 			CurrencyItemId = jniVirtualCurrencyPack.Call<string>("getCurrencyItemId");
 		}
 #endif
+#if UNITY_WP8
+		public VirtualCurrencyPack(SoomlaWpStore.domain.virtualCurrencies.VirtualCurrencyPack wpVirtualCurrencyPack)
+            : base(wpVirtualCurrencyPack)
+		{
+            this.CurrencyAmount = wpVirtualCurrencyPack.getCurrencyAmount();
 
-		/// <summary>
+			// Virtual Currency
+            CurrencyItemId = wpVirtualCurrencyPack.getCurrencyItemId();
+		}
+#endif
+
+        /// <summary>
 		/// Constructor.
 		/// </summary>
 		/// <param name="jsonItem">see parent</param>
