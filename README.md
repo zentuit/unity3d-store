@@ -91,6 +91,7 @@ Don't forget to close the Iab Service when your store is closed. You don't have 
 #### Compatibility
 
 This WP8 plugin work on Unity 4.5.4, Unity fix some major bug for including assembly and winmd.
+
 You need to setup the Unity Player to ".NET 2.0" instead of ".NET 2.0 Subset" 
 Player Settings -> Api Compatibility Level -> .NET 2.0
 
@@ -100,14 +101,18 @@ To activate the IAP Test Mode select the checkbox in the Soomla Config Panel. De
 
 #### Simulator build
 
-To run your app in the simulator select the checkbox in the Soomla config panel. This option copy the right assembly into the Assets/Plugins/WP8 folder/
+To run your app in the simulator select the checkbox in the Soomla config panel. This option copy the right assembly into the Assets/Plugins/WP8/ folder
 
-#### Clone and Develop on Windows (workaournd)
+#### Clone and Develop on Windows (workaround)
 
 One major issue is that Git didn't manage symlink on Windows...
-Before launching Unity you have to run "setup-symlinks.bat" located at the root of the repo in a Git bash. If you forget to call it before launching, just close Unity and delete the Library folder.
+
+Before launching Unity you have to run "setup-symlinks.bat" located at the root of the repo in a Git bash. If you forget to call it before launching Unity, just close Unity and delete the Library folder.
+
 When you want to restore the repo at it's initial state run "restore-symlinks.bat"
+
 Keep in mind that modifications in symlink single files or not copied, you have to copy them before restoring symlinks!
+
 One last thing is that this script didn't follow symlink in submodules of submodules, you can still have missing files.
 
 
