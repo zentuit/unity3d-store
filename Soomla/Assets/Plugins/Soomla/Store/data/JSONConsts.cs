@@ -46,6 +46,8 @@ namespace Soomla.Store {
 		public const string MARKETITEM_MARKETPRICE   = "marketPrice";
 		public const string MARKETITEM_MARKETTITLE   = "marketTitle";
 		public const string MARKETITEM_MARKETDESC    = "marketDesc";
+		public const string MARKETITEM_MARKETCURRENCYCODE   = "marketCurrencyCode";
+		public const string MARKETITEM_MARKETPRICEMICROS    = "marketPriceMicros";
 	
 	    public const string EQUIPPABLE_EQUIPPING     = "equipping";
 	
