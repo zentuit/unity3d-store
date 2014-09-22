@@ -305,7 +305,6 @@ namespace Soomla.Store {
 				string marketTitle = micJSON[JSONConsts.MARKETITEM_MARKETTITLE].str;
 				string marketDescription = micJSON[JSONConsts.MARKETITEM_MARKETDESC].str;
 				string marketCurrencyCode = micJSON[JSONConsts.MARKETITEM_MARKETCURRENCYCODE].str;
-				SoomlaUtils.LogDebug("SIMONG", micJSON[JSONConsts.MARKETITEM_MARKETPRICEMICROS].IsNumber + " " + micJSON[JSONConsts.MARKETITEM_MARKETPRICEMICROS].n);
 				long marketPriceMicros = System.Convert.ToInt64(micJSON[JSONConsts.MARKETITEM_MARKETPRICEMICROS].n);
 				try {
 					PurchasableVirtualItem pvi = StoreInfo.GetPurchasableItemWithProductId(productId);
