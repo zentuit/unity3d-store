@@ -52,8 +52,6 @@ namespace Soomla.Store {
 		[DllImport ("__Internal")]
 		private static extern int storeInfo_GetVirtualCurrencyPacks(out IntPtr json);
 		[DllImport ("__Internal")]
-		private static extern int storeInfo_GetNonConsumableItems(out IntPtr json);
-		[DllImport ("__Internal")]
 		private static extern int storeInfo_GetVirtualCategories(out IntPtr json);
 		[DllImport ("__Internal")]
 		private static extern void storeAssets_Init(int version, string storeAssetsJSON);
@@ -252,28 +250,6 @@ namespace Soomla.Store {
 				vcps.Add(new VirtualCurrencyPack(obj));
 			}
 			return vcps;
-		}
-
-		/// <summary>
-		/// Fetches the non consumable items of your game.
-		/// </summary>
-		/// <returns>All non consumable items.</returns>
-		override protected List<NonConsumableItem> _getNonConsumableItems() {
-			List<NonConsumableItem> nonConsumableItems = new List<NonConsumableItem>();
-			IntPtr p = IntPtr.Zero;
-			int err = storeInfo_GetNonConsumableItems(out p);
-			IOS_ErrorCodes.CheckAndThrowException(err);
-			
-			string nonConsumableJson = Marshal.PtrToStringAnsi(p);
-			Marshal.FreeHGlobal(p);
-			
-			SoomlaUtils.LogDebug(TAG, "Got json: " + nonConsumableJson);
-			
-			JSONObject nonConsArr = new JSONObject(nonConsumableJson);
-			foreach(JSONObject obj in nonConsArr.list) {
-				nonConsumableItems.Add(new NonConsumableItem(obj));
-			}
-			return nonConsumableItems;
 		}
 
 		/// <summary>

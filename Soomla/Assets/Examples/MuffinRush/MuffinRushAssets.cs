@@ -20,7 +20,7 @@ namespace Soomla.Store.Example {
 
 	/// <summary>
 	/// This class defines our game's economy, which includes virtual goods, virtual currencies
-	/// and currency packs, virtual categories, and non-consumable items.
+	/// and currency packs, virtual categories
 	/// </summary>
 	public class MuffinRushAssets : IStoreAssets{
 
@@ -42,7 +42,7 @@ namespace Soomla.Store.Example {
 		/// see parent.
 		/// </summary>
 	    public VirtualGood[] GetGoods() {
-			return new VirtualGood[] {MUFFINCAKE_GOOD, PAVLOVA_GOOD,CHOCLATECAKE_GOOD, CREAMCUP_GOOD};
+			return new VirtualGood[] {MUFFINCAKE_GOOD, PAVLOVA_GOOD,CHOCLATECAKE_GOOD, CREAMCUP_GOOD, NO_ADS_LTVG};
 		}
 
 		/// <summary>
@@ -59,13 +59,6 @@ namespace Soomla.Store.Example {
 			return new VirtualCategory[]{GENERAL_CATEGORY};
 		}
 
-		/// <summary>
-		/// see parent.
-		/// </summary>
-	    public NonConsumableItem[] GetNonConsumableItems() {
-			return new NonConsumableItem[]{NO_ADDS_NONCONS};
-		}
-
 	    /** Static Final Members **/
 
 	    public const string MUFFIN_CURRENCY_ITEM_ID      = "currency_muffin";
@@ -78,8 +71,6 @@ namespace Soomla.Store.Example {
 
 	    public const string THOUSANDMUFF_PACK_PRODUCT_ID = "2500_pack";
 
-	    public const string NO_ADDS_NONCONS_PRODUCT_ID   = "no_ads";
-
 	    public const string MUFFINCAKE_ITEM_ID   = "fruit_cake";
 
 	    public const string PAVLOVA_ITEM_ID   = "pavlova";
@@ -87,6 +78,8 @@ namespace Soomla.Store.Example {
 	    public const string CHOCLATECAKE_ITEM_ID   = "chocolate_cake";
 
 	    public const string CREAMCUP_ITEM_ID   = "cream_cup";
+
+		public const string NO_ADS_LIFETIME_PRODUCT_ID = "no_ads_lifetime_test_nci";
 
 
 	    /** Virtual Currencies **/
@@ -171,15 +164,13 @@ namespace Soomla.Store.Example {
 	    );
 
 
-	    /** Market MANAGED Items **/
-
-	    public static NonConsumableItem NO_ADDS_NONCONS  = new NonConsumableItem(
-            "No Ads",
-            "Test purchase of MANAGED item.",
-            "no_ads",
-            new PurchaseWithMarket(new MarketItem(NO_ADDS_NONCONS_PRODUCT_ID, MarketItem.Consumable.NONCONSUMABLE , 1.99))
-    	);
-
+	    /** LifeTimeVGs **/
+		// Note: create non-consumable items using LifeTimeVG with PuchaseType of PurchaseWithMarket
+		public static VirtualGood NO_ADS_LTVG = new LifetimeVG(
+			"No Ads", 														// name
+			"No More Ads!",				 									// description
+			"no_ads",														// item id
+			new PurchaseWithMarket(NO_ADS_LIFETIME_PRODUCT_ID, 0.99));	// the way this virtual good is purchased
 	}
 
 }

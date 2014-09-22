@@ -4,7 +4,6 @@
 #import "VirtualCurrency.h"
 #import "VirtualGood.h"
 #import "VirtualCategory.h"
-#import "NonConsumableItem.h"
 #import "SingleUseVG.h"
 #import "LifetimeVG.h"
 #import "EquippableVG.h"
@@ -44,9 +43,6 @@ extern "C"{
             
         } else if ([typeS isEqualToString:@"VirtualCurrencyPack"]) {
             [[StoreInfo getInstance] save:[[VirtualCurrencyPack alloc] initWithDictionary:itemDict]];
-            
-        } else if ([typeS isEqualToString:@"NonConsumableItem"]) {
-            [[StoreInfo getInstance] save:[[NonConsumableItem alloc] initWithDictionary:itemDict]];
 
         } else {
             LogError(@"SOOMLA UnityStoreAssets", ([NSString stringWithFormat:@"Don't understand what's the type of the item i need to save... type: %@",typeS]));
@@ -61,7 +57,6 @@ static NSMutableArray* virtualCurrenciesArray;
 static NSMutableArray* virtualGoodsArray;
 static NSMutableArray* virtualCurrencyPacksArray;
 static NSMutableArray* virtualCategoriesArray;
-static NSMutableArray* nonConsumablesArray;
 
 static NSString* TAG = @"SOOMLA UnityStoreAssets";
 
@@ -158,19 +153,6 @@ static NSString* TAG = @"SOOMLA UnityStoreAssets";
         }
         virtualCategoriesArray = categories;
         
-        NSMutableArray* nonConsumables = [[[NSMutableArray alloc] init] autorelease];
-        NSArray* nonConsumableItemsDict = [storeInfo objectForKey:JSON_STORE_NONCONSUMABLES];
-        for(NSDictionary* nonConsumableItemDict in nonConsumableItemsDict){
-            NonConsumableItem* non = [[NonConsumableItem alloc] initWithDictionary:nonConsumableItemDict];
-            [nonConsumables addObject:non];
-            [non release];
-        }
-        if (nonConsumablesArray) {
-            [nonConsumablesArray release];
-            nonConsumablesArray = nil;
-        }
-        nonConsumablesArray = nonConsumables;
-        
         version = oVersion;
         
         return YES;
@@ -201,10 +183,6 @@ static NSString* TAG = @"SOOMLA UnityStoreAssets";
     return virtualCategoriesArray;
 }
 
-- (NSArray*)nonConsumableItems {
-    return nonConsumablesArray;
-}
-
 - (void)dealloc {
 //    [virtualCurrenciesArray release];
 //    virtualCurrenciesArray = nil;
@@ -214,8 +192,6 @@ static NSString* TAG = @"SOOMLA UnityStoreAssets";
 //    virtualCurrencyPacksArray = nil;
 //    [virtualCategoriesArray release];
 //    virtualCategoriesArray = nil;
-//    [nonConsumablesArray release];
-//    nonConsumablesArray = nil;
     [super dealloc];
 }
 
