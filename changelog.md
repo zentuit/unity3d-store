@@ -1,4 +1,8 @@
-### v1.5.4 [view commit logs](https://github.com/soomla/android-store/compare/v1.5.3...v1.5.4)
+### v1.5.5 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.5.4...v1.5.5)
+* Changes
+  * BREAKING: NonConsumableItem class removed.
+
+### v1.5.4 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.5.3...v1.5.4)
 
 * Changes
   * Some changes from SOOMLA Core module are supported.
@@ -8,7 +12,7 @@
   * Fixed saving of market details after refresh (issue #300)
 
 
-### v1.5.3 [view commit logs](https://github.com/soomla/android-store/compare/v1.5.2...v1.5.3)
+### v1.5.3 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.5.2...v1.5.3)
 
 * New Features
   * You can now use StoreInventory's 'BuyItem' with a payload of your choice. This payload will be returned back to you in the purchase events when it's completed.
@@ -18,7 +22,7 @@
 * Fixed
   * Firing UnexpectedErrorInStoreEvent when the user tried to buy a NonConsumableItem when it was already owned.
 
-### v1.5.2 [view commit logs](https://github.com/soomla/android-store/compare/v1.5.1...v1.5.2)
+### v1.5.2 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.5.1...v1.5.2)
 
 * New Features
   * Some core objects and features were extracted to a separate folder called "Core". Will be moved to a separate repo later.
