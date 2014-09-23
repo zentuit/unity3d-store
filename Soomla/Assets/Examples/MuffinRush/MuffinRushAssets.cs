@@ -79,7 +79,7 @@ namespace Soomla.Store.Example {
 
 	    public const string CREAMCUP_ITEM_ID   = "cream_cup";
 
-		public const string NO_ADS_LIFETIME_PRODUCT_ID = "no_ads_lifetime_test_nci";
+		public const string NO_ADS_LIFETIME_PRODUCT_ID = "no_ads";
 
 
 	    /** Virtual Currencies **/
