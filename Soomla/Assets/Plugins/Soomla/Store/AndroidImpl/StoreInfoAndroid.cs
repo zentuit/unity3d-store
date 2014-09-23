@@ -210,24 +210,6 @@ namespace Soomla.Store {
 		}
 
 		/// <summary>
-		/// Fetches the non consumable items of your game.
-		/// </summary>
-		/// <returns>All non consumable items.</returns>
-		override protected List<NonConsumableItem> _getNonConsumableItems() {
-			List<NonConsumableItem> nonConsumableItems = new List<NonConsumableItem>();
-			AndroidJNI.PushLocalFrame(100);
-			using(AndroidJavaObject jniNonConsumableItems = new AndroidJavaClass("com.soomla.store.data.StoreInfo").CallStatic<AndroidJavaObject>("getNonConsumableItems")) {
-				for(int i=0; i<jniNonConsumableItems.Call<int>("size"); i++) {
-					using(AndroidJavaObject jniNon = jniNonConsumableItems.Call<AndroidJavaObject>("get", i)) {
-						nonConsumableItems.Add(new NonConsumableItem(jniNon));
-					}
-				}
-			}
-			AndroidJNI.PopLocalFrame(IntPtr.Zero);
-			return nonConsumableItems;
-		}
-
-		/// <summary>
 		/// Fetches the virtual categories of your game.
 		/// </summary>
 		/// <returns>All virtual categories.</returns>

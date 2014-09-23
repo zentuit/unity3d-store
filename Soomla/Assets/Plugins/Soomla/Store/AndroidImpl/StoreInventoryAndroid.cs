@@ -216,52 +216,6 @@ namespace Soomla.Store {
 			}
 			AndroidJNI.PopLocalFrame(IntPtr.Zero);
 		}
-
-
-		/** NON-CONSUMABLES **/
-		
-		/// <summary>
-		/// Checks if the non-consumable with the given <c>nonConsItemId</c> exists.
-		/// </summary>
-		/// <param name="nonConsItemId">Id of the item to check if exists.</param>
-		/// <returns>True if non-consumable item with nonConsItemId exists, false otherwise.</returns>
-		/// <exception cref="VirtualItemNotFoundException">Thrown if the item is not found.</exception>
-		override protected bool _nonConsumableItemExists(string nonConsItemId) {
-			bool result = false;
-			AndroidJNI.PushLocalFrame(100);
-			using(AndroidJavaClass jniStoreInventory = new AndroidJavaClass("com.soomla.store.StoreInventory")) {
-				result = AndroidJNIHandler.CallStatic<bool>(jniStoreInventory, "nonConsumableItemExists", nonConsItemId);
-			}
-			AndroidJNI.PopLocalFrame(IntPtr.Zero);
-			return result;
-		}
-
-		/// <summary>
-		/// Adds the non-consumable item with the given <c>nonConsItemId</c> to the non-consumable items storage.
-		/// </summary>
-		/// <param name="nonConsItemId">Id of the item to be added.</param>
-		/// <exception cref="VirtualItemNotFoundException">Thrown if the item is not found.</exception>
-		override protected void _addNonConsumableItem(string nonConsItemId) {
-			AndroidJNI.PushLocalFrame(100);
-			using(AndroidJavaClass jniStoreInventory = new AndroidJavaClass("com.soomla.store.StoreInventory")) {
-				AndroidJNIHandler.CallStaticVoid(jniStoreInventory, "addNonConsumableItem", nonConsItemId);
-			}
-			AndroidJNI.PopLocalFrame(IntPtr.Zero);
-		}
-
-		/// <summary>
-		/// Removes the non-consumable item with the given <c>nonConsItemId</c> from the non-consumable 
-		/// items storage.
-		/// </summary>
-		/// <param name="nonConsItemId">Id of the item to be removed.</param>
-		/// <exception cref="VirtualItemNotFoundException">Thrown if the item is not found.</exception>
-		override protected void _removeNonConsumableItem(string nonConsItemId) {
-			AndroidJNI.PushLocalFrame(100);
-			using(AndroidJavaClass jniStoreInventory = new AndroidJavaClass("com.soomla.store.StoreInventory")) {
-				AndroidJNIHandler.CallStaticVoid(jniStoreInventory, "removeNonConsumableItem", nonConsItemId);
-			}
-			AndroidJNI.PopLocalFrame(IntPtr.Zero);
-		}
 #endif
 	}
 }

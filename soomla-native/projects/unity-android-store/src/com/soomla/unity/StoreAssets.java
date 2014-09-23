@@ -7,7 +7,6 @@ import com.soomla.SoomlaApp;
 import com.soomla.SoomlaUtils;
 import com.soomla.store.data.StoreInfo;
 import com.soomla.store.data.StoreJSONConsts;
-import com.soomla.store.domain.NonConsumableItem;
 import com.soomla.store.domain.VirtualCategory;
 import com.soomla.store.domain.virtualCurrencies.VirtualCurrency;
 import com.soomla.store.domain.virtualCurrencies.VirtualCurrencyPack;
@@ -24,7 +23,6 @@ public class StoreAssets implements IStoreAssets {
     public static ArrayList<VirtualGood> goods = new ArrayList<VirtualGood>();
     public static ArrayList<VirtualCurrencyPack> currencyPacks = new ArrayList<VirtualCurrencyPack>();
     public static ArrayList<VirtualCategory> categories = new ArrayList<VirtualCategory>();
-    public static ArrayList<NonConsumableItem> nonConsumables = new ArrayList<NonConsumableItem>();
     public static int version = 0;
 
     public static void prepare(int oVersion, String storeAssetsJSON) {
@@ -97,14 +95,6 @@ public class StoreAssets implements IStoreAssets {
                 categories.add(category);
             }
 
-            JSONArray nonConsumables = jsonObject.getJSONArray(StoreJSONConsts.STORE_NONCONSUMABLES);
-            StoreAssets.nonConsumables = new ArrayList<NonConsumableItem>();
-            for (int i=0; i<nonConsumables.length(); i++){
-                JSONObject o = nonConsumables.getJSONObject(i);
-                NonConsumableItem non = new NonConsumableItem(o);
-                StoreAssets.nonConsumables.add(non);
-            }
-
         } catch (JSONException e) {
             SoomlaUtils.LogError(TAG, "Couldn't parse storeAssetsJSON (unity)");
         } catch (Exception ex) {
@@ -137,9 +127,6 @@ public class StoreAssets implements IStoreAssets {
 
             } else if (type.equals("VirtualCurrencyPack")){
                 StoreInfo.save(new VirtualCurrencyPack(jsonObject));
-
-            } else if (type.equals("NonConsumableItem")){
-                StoreInfo.save(new NonConsumableItem(jsonObject));
             } else {
                 SoomlaUtils.LogError(TAG, "Don't understand what's the type of the item i need to save... type: " + type);
             }
@@ -172,11 +159,6 @@ public class StoreAssets implements IStoreAssets {
     @Override
     public VirtualCategory[] getCategories() {
         return categories.toArray(new VirtualCategory[categories.size()]);
-    }
-
-    @Override
-    public NonConsumableItem[] getNonConsumableItems() {
-        return nonConsumables.toArray(new NonConsumableItem[nonConsumables.size()]);
     }
 
     private static String TAG = "SOOMLA StoreAssets (unity)";
