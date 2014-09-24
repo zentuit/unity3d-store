@@ -98,8 +98,8 @@
         NSMutableString* marketItemsChanges = [NSMutableString string];
         for(MarketItem* mi in marketItems) {
             [marketItemsChanges appendString:[ NSString stringWithFormat:
-                                              @"{\"productId\":\"%@\",\"market_price\":\"%@\",\"market_title\":\"%@\",\"market_desc\":\"%@\"}#SOOM#",
-                                              mi.productId, [mi priceWithCurrencySymbol], mi.marketTitle, mi.marketDescription ]];
+                                              @"{\"productId\":\"%@\",\"marketPrice\":\"%@\",\"marketTitle\":\"%@\",\"marketDesc\":\"%@\",\"marketCurrencyCode\":\"%@\",\"marketPriceMicros\":%@}#SOOM#",
+                                              mi.productId, mi.marketPriceAndCurrency, mi.marketTitle, mi.marketDescription, mi.marketCurrencyCode, @(mi.marketPriceMicros) ]];
         }
 		if ([marketItemsChanges length] > 6) {
         	[marketItemsChanges deleteCharactersInRange:NSMakeRange([marketItemsChanges length]-6, 6)];

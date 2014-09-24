@@ -161,9 +161,11 @@ public class StoreEventHandler {
         for (MarketItem mi : marketItemsRefreshFinishedEvent.getMarketItems()) {
             marketItemsChanges += "{" +
                     "\"productId\":\"" + mi.getProductId() + "\"," +
-                    "\"market_price\":\"" + mi.getMarketPrice() + "\"," +
-                    "\"market_title\":\"" + mi.getMarketTitle() + "\"," +
-                    "\"market_desc\":\"" + mi.getMarketDescription() + "\"" +
+                    "\"marketPrice\":\"" + mi.getMarketPriceAndCurrency() + "\"," +
+                    "\"marketTitle\":\"" + mi.getMarketTitle() + "\"," +
+                    "\"marketDesc\":\"" + mi.getMarketDescription() + "\"," +
+                    "\"marketCurrencyCode\":\"" + mi.getMarketCurrencyCode() + "\"," +
+                    "\"marketPriceMicros\":" + mi.getMarketPriceMicros() +
                     "}";
             marketItemsChanges += "#SOOM#";
         }

@@ -300,16 +300,20 @@ namespace Soomla.Store {
 				}
 
 				JSONObject micJSON = new JSONObject(mic);
-				string productId = micJSON["productId"].str;
-				string marketPrice = micJSON["market_price"].str;
-				string marketTitle = micJSON["market_title"].str;
-				string marketDescription = micJSON["market_desc"].str;
+				string productId = micJSON[JSONConsts.MARKETITEM_PRODUCT_ID].str;
+				string marketPrice = micJSON[JSONConsts.MARKETITEM_MARKETPRICE].str;
+				string marketTitle = micJSON[JSONConsts.MARKETITEM_MARKETTITLE].str;
+				string marketDescription = micJSON[JSONConsts.MARKETITEM_MARKETDESC].str;
+				string marketCurrencyCode = micJSON[JSONConsts.MARKETITEM_MARKETCURRENCYCODE].str;
+				long marketPriceMicros = System.Convert.ToInt64(micJSON[JSONConsts.MARKETITEM_MARKETPRICEMICROS].n);
 				try {
 					PurchasableVirtualItem pvi = StoreInfo.GetPurchasableItemWithProductId(productId);
 					MarketItem mi = ((PurchaseWithMarket)pvi.PurchaseType).MarketItem;
-					mi.MarketPrice = marketPrice;
+					mi.MarketPriceAndCurrency = marketPrice;
 					mi.MarketTitle = marketTitle;
 					mi.MarketDescription = marketDescription;
+					mi.MarketCurrencyCode = marketCurrencyCode;
+					mi.MarketPriceMicros = marketPriceMicros;
 					pvi.save();
 
 					marketItems.Add(mi);
