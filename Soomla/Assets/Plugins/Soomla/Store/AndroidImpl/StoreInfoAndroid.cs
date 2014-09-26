@@ -142,7 +142,7 @@ namespace Soomla.Store {
 		override protected List<UpgradeVG> _getUpgradesForVirtualGood(string goodItemId) {
 			List<UpgradeVG> vgus = new List<UpgradeVG>();
 			AndroidJNI.PushLocalFrame(100);
-			using(AndroidJavaObject jniUpgradeVGs = new AndroidJavaClass("com.soomla.store.data.StoreInfo").CallStatic<AndroidJavaObject>("getGoodUpgrades")) {
+			using(AndroidJavaObject jniUpgradeVGs = new AndroidJavaClass("com.soomla.store.data.StoreInfo").CallStatic<AndroidJavaObject>("getGoodUpgrades", goodItemId)) {
 				for(int i=0; i<jniUpgradeVGs.Call<int>("size"); i++) {
 					using(AndroidJavaObject jnivgu = jniUpgradeVGs.Call<AndroidJavaObject>("get", i)) {
 						vgus.Add(new UpgradeVG(jnivgu));
