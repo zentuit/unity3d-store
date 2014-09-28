@@ -281,7 +281,7 @@ namespace Soomla.Store.Example {
 				if (vg.PurchaseType is PurchaseWithVirtualItem)
 					GUI.Label(new Rect(Screen.width/2f,y+productSize*2/3f,Screen.width,productSize/3f),"price:" + ((PurchaseWithVirtualItem)vg.PurchaseType).Amount);
 				else
-					GUI.Label(new Rect(Screen.width/2f,y+productSize*2/3f,Screen.width,productSize/3f),"price:$ " + ((PurchaseWithMarket)vg.PurchaseType).MarketItem.Price);
+					GUI.Label(new Rect(Screen.width/2f,y+productSize*2/3f,Screen.width,productSize/3f),"price:$ " + ((PurchaseWithMarket)vg.PurchaseType).MarketItem.Price.ToString("0.00"));
 				GUI.Label(new Rect(Screen.width*3/4f,y+productSize*2/3f,Screen.width,productSize/3f), "Balance:" + ExampleLocalStoreInfo.GoodsBalances[vg.ItemId]);
 				GUI.skin.label.alignment = TextAnchor.UpperRight;
 				GUI.skin.label.font = fBuy;
