@@ -21,7 +21,6 @@ unity3d-store
 **September 23rd:** 
 NonConsumableItem class was removed.
  
-To prevent confusion between `NonConsumableItem` and `LifeTimeVG`, we have removed the `NonConsumableItem`.
 To create a non-consumable item in your `IStoreAssets` implementation, use `LifeTimeVG` with `PurchaseType` of `PurchaseWithMarket`. 
 For example:
 
