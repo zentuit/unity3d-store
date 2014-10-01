@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import com.soomla.BusProvider;
 import com.soomla.SoomlaUtils;
+import com.soomla.data.JSONConsts;
 import com.soomla.store.domain.MarketItem;
 import com.soomla.store.domain.virtualGoods.UpgradeVG;
 import com.soomla.store.events.BillingNotSupportedEvent;
@@ -160,6 +161,7 @@ public class StoreEventHandler {
         String marketItemsChanges = "";
         for (MarketItem mi : marketItemsRefreshFinishedEvent.getMarketItems()) {
             marketItemsChanges += "{" +
+                    "\"" + JSONConsts.SOOM_CLASSNAME + "\":\"" + SoomlaUtils.getClassName(mi) + "\"," +
                     "\"productId\":\"" + mi.getProductId() + "\"," +
                     "\"marketPrice\":\"" + mi.getMarketPriceAndCurrency() + "\"," +
                     "\"marketTitle\":\"" + mi.getMarketTitle() + "\"," +
