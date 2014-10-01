@@ -19,7 +19,8 @@ unity3d-store
 **October 3rd, 2013:** iOS Server Side Verification is now implemented into unity3d-store. The server is a complimentary server provided by [SOOMLA](http://soom.la) to help you get your in-game purchases a bit more secured. This feature is not enabled by default. In order to enable Server Side verification go to the Soomla prefab and set  **ios Server Side Verification -> true**.
 
 **September 23rd:** 
-**BREAKING:** NonConsumableItem class has been removed. 
+NonConsumableItem class was removed.
+ 
 To prevent confusion between `NonConsumableItem` and `LifeTimeVG`, we have removed the `NonConsumableItem`.
 To create a non-consumable item in your `IStoreAssets` implementation, use `LifeTimeVG` with `PurchaseType` of `PurchaseWithMarket`. 
 For example:
@@ -32,7 +33,7 @@ public static VirtualGood NO_ADS_LTVG = new LifetimeVG(
 			new PurchaseWithMarket(NO_ADS_LIFETIME_PRODUCT_ID, 0.99));	// purchase type
 ```
 
-Note: On iOS, the item should be declared as Non Consumable on iTunes Connect. 
+Note: On iOS, the item also should be created as Non Consumable on iTunes Connect. 
 
 * More documentation and information in SOOMLA's [Knowledge Base](http://know.soom.la/docs/platforms/unity)  
 * For issues you can use the [issues](https://github.com/soomla/unity3d-store/issues) section or SOOMLA's [Answers Website](http://answers.soom.la)
