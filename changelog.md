@@ -1,4 +1,7 @@
 ### v1.6.0 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.5.4...v1.6.0)
+
+***Important***: this is a breaking release. Read the changes carefully.
+
 * Changes
   * **BREAKING**: `NonConsumableItem` class removed, use `LifeTimeVG` instead.
 
