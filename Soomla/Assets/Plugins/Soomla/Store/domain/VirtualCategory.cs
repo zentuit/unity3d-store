@@ -76,6 +76,7 @@ namespace Soomla.Store {
 		/// <returns>A JSONObject representation of the current <c>VirtualCategory</c>.</returns>
 		public JSONObject toJSONObject() {
 			JSONObject obj = new JSONObject(JSONObject.Type.OBJECT);
+			obj.AddField (Soomla.JSONConsts.SOOM_CLASSNAME, SoomlaUtils.GetClassName (this));
 			obj.AddField(JSONConsts.CATEGORY_NAME, this.Name);
 			
 			JSONObject goodsArr = new JSONObject(JSONObject.Type.ARRAY);

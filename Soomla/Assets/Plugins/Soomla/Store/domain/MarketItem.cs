@@ -151,6 +151,7 @@ namespace Soomla.Store {
 		/// <c>MarketItem</c>.</returns>
 		public JSONObject toJSONObject() {
 			JSONObject obj = new JSONObject(JSONObject.Type.OBJECT);
+			obj.AddField (Soomla.JSONConsts.SOOM_CLASSNAME, SoomlaUtils.GetClassName (this));
 			obj.AddField(JSONConsts.MARKETITEM_PRODUCT_ID, this.ProductId);
 			obj.AddField(JSONConsts.MARKETITEM_CONSUMABLE, (int)(consumable));
 			obj.AddField(JSONConsts.MARKETITEM_PRICE, (float)this.Price);
