@@ -106,19 +106,12 @@ namespace Soomla.Store
 				categories.Add(vi.toJSONObject());
 			}
 			
-//			SoomlaUtils.LogDebug(TAG, "Adding nonConsumables");
-			JSONObject nonConsumables = new JSONObject(JSONObject.Type.ARRAY);
-			foreach(NonConsumableItem vi in storeAssets.GetNonConsumableItems()) {
-				nonConsumables.Add(vi.toJSONObject());
-			}
-			
 //			SoomlaUtils.LogDebug(TAG, "Preparing StoreAssets  JSONObject");
 			JSONObject storeAssetsObj = new JSONObject(JSONObject.Type.OBJECT);
 			storeAssetsObj.AddField(JSONConsts.STORE_CATEGORIES, categories);
 			storeAssetsObj.AddField(JSONConsts.STORE_CURRENCIES, currencies);
 			storeAssetsObj.AddField(JSONConsts.STORE_CURRENCYPACKS, packs);
 			storeAssetsObj.AddField(JSONConsts.STORE_GOODS, goods);
-			storeAssetsObj.AddField(JSONConsts.STORE_NONCONSUMABLES, nonConsumables);
 			
 			string storeAssetsJSON = storeAssetsObj.print();
 			instance._initialize(storeAssets.GetVersion(), storeAssetsJSON);
@@ -211,15 +204,6 @@ namespace Soomla.Store
 		}
 
 		/// <summary>
-		/// Fetches the non consumable items of your game.
-		/// </summary>
-		/// <returns>All non consumable items.</returns>
-		public static List<NonConsumableItem> GetNonConsumableItems() {
-			SoomlaUtils.LogDebug(TAG, "Trying to fetch noncons");
-			return instance._getNonConsumableItems();
-		}
-
-		/// <summary>
 		/// Fetches the virtual categories of your game.
 		/// </summary>
 		/// <returns>All virtual categories.</returns>
@@ -265,10 +249,6 @@ namespace Soomla.Store
 
 		virtual protected List<VirtualCurrencyPack> _getVirtualCurrencyPacks() {
 			return new List<VirtualCurrencyPack>();
-		}
-		
-		virtual protected List<NonConsumableItem> _getNonConsumableItems() {
-			return new List<NonConsumableItem>();
 		}
 
 		virtual protected List<VirtualCategory> _getVirtualCategories() {

@@ -167,23 +167,6 @@ extern "C"{
 		return NO_ERR;
 	}
 	
-	int storeInfo_GetNonConsumableItems(char** json) {
-		NSArray* nonConsumables = [[StoreInfo getInstance] nonConsumableItems];
-        NSMutableString* retJson = [NSMutableString string];
-        if (nonConsumables.count > 0) {
-            retJson = [[[NSMutableString alloc] initWithString:@"["] autorelease];
-            for(NonConsumableItem* non in nonConsumables) {
-                [retJson appendString:[NSString stringWithFormat:@"%@,", [SoomlaUtils dictToJsonString:[non toDictionary]]]];
-            }
-            [retJson deleteCharactersInRange:NSMakeRange([retJson length]-1, 1)];
-            [retJson appendString:@"]"];
-        }
-		
-        *json = Soom_AutonomousStringCopy([retJson UTF8String]);
-		
-		return NO_ERR;
-	}
-	
 	int storeInfo_GetVirtualCategories(char** json) {
 		NSArray* virtualCategories = [[StoreInfo getInstance] virtualCategories];
         NSMutableString* retJson = [NSMutableString string];

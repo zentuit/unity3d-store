@@ -241,52 +241,6 @@ namespace Soomla.Store
 
 		virtual protected void _removeGoodUpgrades(string goodItemId) {
 		}
-
-
-
-		/** NON-CONSUMABLES **/
-
-		/// <summary>
-		/// Checks if the non-consumable with the given <c>nonConsItemId</c> exists.
-		/// </summary>
-		/// <param name="nonConsItemId">Id of the item to check if exists.</param>
-		/// <returns>True if non-consumable item with nonConsItemId exists, false otherwise.</returns>
-		/// <exception cref="VirtualItemNotFoundException">Thrown if the item is not found.</exception>
-		public static bool NonConsumableItemExists(string nonConsItemId) {
-			SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY Calling NonConsumableItemExists with: " + nonConsItemId);
-			return instance._nonConsumableItemExists(nonConsItemId);
-		}
-
-		/// <summary>
-		/// Adds the non-consumable item with the given <c>nonConsItemId</c> to the non-consumable items storage.
-		/// </summary>
-		/// <param name="nonConsItemId">Id of the item to be added.</param>
-		/// <exception cref="VirtualItemNotFoundException">Thrown if the item is not found.</exception>
-		public static void AddNonConsumableItem(string nonConsItemId) {
-			SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY Calling AddNonConsumableItem with: " + nonConsItemId);
-			instance._addNonConsumableItem(nonConsItemId);
-		}
-
-		/// <summary>
-		/// Removes the non-consumable item with the given <c>nonConsItemId</c> from the non-consumable 
-		/// items storage.
-		/// </summary>
-		/// <param name="nonConsItemId">Id of the item to be removed.</param>
-		/// <exception cref="VirtualItemNotFoundException">Thrown if the item is not found.</exception>
-		public static void RemoveNonConsumableItem(string nonConsItemId) {
-			SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY Calling RemoveNonConsumableItem with: " + nonConsItemId);
-			instance._removeNonConsumableItem(nonConsItemId);
-		}
-
-		virtual protected bool _nonConsumableItemExists(string nonConsItemId) {
-			return false;
-		}
-
-		virtual protected void _addNonConsumableItem(string nonConsItemId) {
-		}
-
-		virtual protected void _removeNonConsumableItem(string nonConsItemId) {
-		}
 	}
 }
 

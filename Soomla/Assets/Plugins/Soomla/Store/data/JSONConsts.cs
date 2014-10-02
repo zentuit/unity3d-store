@@ -25,7 +25,6 @@ namespace Soomla.Store {
 	    public const string STORE_CURRENCYPACKS      = "currencyPacks";
 	    public const string STORE_GOODS              = "goods";
 	    public const string STORE_CATEGORIES         = "categories";
-	    public const string STORE_NONCONSUMABLES     = "nonConsumables";
 	    public const string STORE_GOODS_SU           = "singleUse";
 	    public const string STORE_GOODS_PA           = "goodPacks";
 	    public const string STORE_GOODS_UP           = "goodUpgrades";

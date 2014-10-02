@@ -165,47 +165,5 @@ extern "C"{
 
 		return NO_ERR;
 	}
-	
-	int storeInventory_NonConsumableItemExists(const char* itemId, bool* outResult){
-		NSString* itemIdS = [NSString stringWithUTF8String:itemId];
-		@try {
-			*outResult = [StoreInventory nonConsumableItemExists:itemIdS];
-		}
-
-		@catch (VirtualItemNotFoundException* e) {
-	    NSLog(@"Couldn't find a NonConsumableItem with itemId: %@.", itemIdS);
-			return EXCEPTION_ITEM_NOT_FOUND;
-		}
-
-		return NO_ERR;
-	}
-
-	int storeInventory_AddNonConsumableItem(const char* itemId){
-	NSString* itemIdS = [NSString stringWithUTF8String:itemId];
-		@try {
-			[StoreInventory addNonConsumableItem:itemIdS];
-		}
-
-		@catch (VirtualItemNotFoundException* e) {
-	    NSLog(@"Couldn't find a NonConsumableItem with itemId: %@.", itemIdS);
-			return EXCEPTION_ITEM_NOT_FOUND;
-		}
-
-		return NO_ERR;
-	}
-
-	int storeInventory_RemoveNonConsumableItem(const char* itemId){
-	NSString* itemIdS = [NSString stringWithUTF8String:itemId];
-		@try {
-			[StoreInventory removeNonConsumableItem:itemIdS];
-		}
-
-		@catch (VirtualItemNotFoundException* e) {
-	    NSLog(@"Couldn't find a NonConsumableItem with itemId: %@.", itemIdS);
-			return EXCEPTION_ITEM_NOT_FOUND;
-		}
-
-		return NO_ERR;
-	}
 
 }

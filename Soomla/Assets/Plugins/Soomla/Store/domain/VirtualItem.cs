@@ -86,8 +86,6 @@ namespace Soomla.Store {
 				return new VirtualCurrency((JSONObject)jsonItem[@"item"]);
 			case "VirtualCurrencyPack":
 				return new VirtualCurrencyPack((JSONObject)jsonItem[@"item"]);
-			case "NonConsumableItem":
-				return new NonConsumableItem((JSONObject)jsonItem[@"item"]);
 			case "UpgradeVG":
 				return new UpgradeVG((JSONObject)jsonItem[@"item"]);
 			}
@@ -114,8 +112,6 @@ namespace Soomla.Store {
 				return new VirtualCurrency(jniItem);
 			} else if (isInstanceOf(jniItem, "com/soomla/store/domain/virtualCurrencies/VirtualCurrencyPack")) {
 				return new VirtualCurrencyPack(jniItem);
-			} else if (isInstanceOf(jniItem, "com/soomla/store/domain/NonConsumableItem")) {
-				return new NonConsumableItem(jniItem);
 			} else {
 				SoomlaUtils.LogError(TAG, "Couldn't determine what type of class is the given jniItem.");
 			}
