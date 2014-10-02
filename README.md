@@ -11,13 +11,6 @@ unity3d-store
 
 *SOOMLA's Store Module for Unity3d*
 
-**June 20th, 2014**: v1.5.2 presents some significant changes. [Getting Started](https://github.com/soomla/unity3d-store#getting-started) has changed! see [CHANGELOG](changelog.md).
-> FYI - SOOMLA menu was moved and it's now under "Window -> Soomla"
-
-**May 28th, 2014:** v1.5.0 is released. Supporting Amazon billing service. see [CHANGELOG](changelog.md).
-
-**October 3rd, 2013:** iOS Server Side Verification is now implemented into unity3d-store. The server is a complimentary server provided by [SOOMLA](http://soom.la) to help you get your in-game purchases a bit more secured. This feature is not enabled by default. In order to enable Server Side verification go to the Soomla prefab and set  **ios Server Side Verification -> true**.
-
 **September 23rd:** 
 NonConsumableItem class was removed.
  
@@ -26,13 +19,18 @@ For example:
 
 ```C#
 public static VirtualGood NO_ADS_LTVG = new LifetimeVG(
-			"No Ads", 							// name
-			"No More Ads!",				 			// description
-			"no_ads",							// item id
-			new PurchaseWithMarket(NO_ADS_LIFETIME_PRODUCT_ID, 0.99));	// purchase type
+            "No Ads",                           // name
+            "No More Ads!",                         // description
+            "no_ads",                           // item id
+            new PurchaseWithMarket(NO_ADS_LIFETIME_PRODUCT_ID, 0.99));  // purchase type
 ```
 
-Note: On iOS, the item also should be created as Non Consumable on iTunes Connect. 
+**June 20th, 2014**: v1.5.2 presents some significant changes. [Getting Started](https://github.com/soomla/unity3d-store#getting-started) has changed! see [CHANGELOG](changelog.md).
+> FYI - SOOMLA menu was moved and it's now under "Window -> Soomla"
+
+**May 28th, 2014:** v1.5.0 is released. Supporting Amazon billing service. see [CHANGELOG](changelog.md).
+
+**October 3rd, 2013:** iOS Server Side Verification is now implemented into unity3d-store. The server is a complimentary server provided by [SOOMLA](http://soom.la) to help you get your in-game purchases a bit more secured. This feature is not enabled by default. In order to enable Server Side verification go to the Soomla prefab and set  **ios Server Side Verification -> true**.
 
 * More documentation and information in SOOMLA's [Knowledge Base](http://know.soom.la/docs/platforms/unity)  
 * For issues you can use the [issues](https://github.com/soomla/unity3d-store/issues) section or SOOMLA's [Answers Website](http://answers.soom.la)
