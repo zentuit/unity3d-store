@@ -180,8 +180,10 @@ namespace Soomla.Store {
 			SoomlaUtils.LogDebug(TAG, "Got json: " + upgradesJson);
 			
 			JSONObject upgradesArr = new JSONObject(upgradesJson);
-			foreach(JSONObject obj in upgradesArr.list) {
-				vgus.Add(new UpgradeVG(obj));
+			if (upgradesArr.list != null) {
+				foreach(JSONObject obj in upgradesArr.list) {
+					vgus.Add(new UpgradeVG(obj));
+				}
 			}
 			return vgus;
 		}
@@ -202,8 +204,10 @@ namespace Soomla.Store {
 			SoomlaUtils.LogDebug(TAG, "Got json: " + currenciesJson);
 			
 			JSONObject currenciesArr = new JSONObject(currenciesJson);
-			foreach(JSONObject obj in currenciesArr.list) {
-				vcs.Add(new VirtualCurrency(obj));
+			if (currenciesArr.list != null) {
+				foreach(JSONObject obj in currenciesArr.list) {
+					vcs.Add(new VirtualCurrency(obj));
+				}
 			}
 			return vcs;
 		}
@@ -224,8 +228,10 @@ namespace Soomla.Store {
 			SoomlaUtils.LogDebug(TAG, "Got json: " + goodsJson);
 			
 			JSONObject goodsArr = new JSONObject(goodsJson);
-			foreach(JSONObject obj in goodsArr.list) {
-				virtualGoods.Add((VirtualGood)VirtualItem.factoryItemFromJSONObject(obj));
+			if (goodsArr.list != null) {
+				foreach(JSONObject obj in goodsArr.list) {
+					virtualGoods.Add((VirtualGood)VirtualItem.factoryItemFromJSONObject(obj));
+				}
 			}
 			return virtualGoods;
 		}
@@ -246,8 +252,10 @@ namespace Soomla.Store {
 			SoomlaUtils.LogDebug(TAG, "Got json: " + packsJson);
 			
 			JSONObject packsArr = new JSONObject(packsJson);
-			foreach(JSONObject obj in packsArr.list) {
-				vcps.Add(new VirtualCurrencyPack(obj));
+			if (packsArr.list != null) {
+				foreach(JSONObject obj in packsArr.list) {
+					vcps.Add(new VirtualCurrencyPack(obj));
+				}
 			}
 			return vcps;
 		}
@@ -268,8 +276,10 @@ namespace Soomla.Store {
 			SoomlaUtils.LogDebug(TAG, "Got json: " + categoriesJson);
 			
 			JSONObject categoriesArr = new JSONObject(categoriesJson);
-			foreach(JSONObject obj in categoriesArr.list) {
-				virtualCategories.Add(new VirtualCategory(obj));
+			if (categoriesArr.list != null) {
+				foreach(JSONObject obj in categoriesArr.list) {
+					virtualCategories.Add(new VirtualCategory(obj));
+				}
 			}
 			return virtualCategories;
 		}
