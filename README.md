@@ -11,8 +11,7 @@ unity3d-store
 
 *SOOMLA's Store Module for Unity3d*
 
-**September 23rd:**
-NonConsumableItem class was removed.
+**September 15th:** NonConsumableItem class was removed.
 To create a non-consumable item in your `IStoreAssets` implementation, use `LifeTimeVG` with `PurchaseType` of `PurchaseWithMarket`.
 
 **June 20th, 2014**: v1.5.2 presents some significant changes. [Getting Started](https://github.com/soomla/unity3d-store#getting-started) has changed! see [CHANGELOG](changelog.md).
