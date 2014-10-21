@@ -35,15 +35,19 @@ namespace Soomla.Store {
 			base(name, description, itemId)
 		{
 			this.PurchaseType = purchaseType;
+
+			if (this.PurchaseType != null) {
+				this.PurchaseType.AssociatedItem = this;
+			}
 		}
 
 
-#if (!UNITY_IOS && !UNITY_ANDROID) || UNITY_EDITOR
-		public virtual void Buy()
+#if UNITY_EDITOR
+		public virtual void Buy(string payload)
 		{
-			PurchaseType.Buy(ItemId);
-			StoreInventory.GiveItem(ItemId, 1);
-			PurchaseType.Success(ItemId);
+			if (!canBuy()) return;
+			
+			PurchaseType.Buy(payload);
 		}
 #endif
 
@@ -118,7 +122,7 @@ namespace Soomla.Store {
 	            } else if(PurchaseType is PurchaseWithVirtualItem) {
 	                purchasableObj.AddField(JSONConsts.PURCHASE_TYPE, JSONConsts.PURCHASE_TYPE_VI);
 	
-	                purchasableObj.AddField(JSONConsts.PURCHASE_VI_ITEMID, ((PurchaseWithVirtualItem) PurchaseType).ItemId);
+	                purchasableObj.AddField(JSONConsts.PURCHASE_VI_ITEMID, ((PurchaseWithVirtualItem) PurchaseType).TargetItemId);
 	                purchasableObj.AddField(JSONConsts.PURCHASE_VI_AMOUNT, ((PurchaseWithVirtualItem) PurchaseType).Amount);
 	            }
 	

@@ -54,9 +54,8 @@ namespace Soomla.Store{
 #if (!UNITY_IOS && !UNITY_ANDROID) || UNITY_EDITOR
 		public override void Buy()
 		{
-			PurchaseType.Buy(ItemId);
+			PurchaseType.Buy();
 			StoreInventory.GiveItem(CurrencyItemId, CurrencyAmount);
-			PurchaseType.Success(ItemId);
 		}
 #endif
 

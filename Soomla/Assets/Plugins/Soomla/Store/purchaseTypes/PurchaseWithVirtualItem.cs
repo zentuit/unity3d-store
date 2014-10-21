@@ -25,7 +25,7 @@ namespace Soomla.Store
 	/// </summary>
 	public class PurchaseWithVirtualItem : PurchaseType
 	{
-		public String ItemId;
+		public String TargetItemId;
 		public int Amount;
 		
 		/// <summary>
@@ -35,22 +35,39 @@ namespace Soomla.Store
 		/// 					to make the purchase.</param>
 		/// <param name="amount">The number of items (with the given item id) needed in order to make the 
 		/// 					purchase.</param>
-		public PurchaseWithVirtualItem (String itemId, int amount) :
+		public PurchaseWithVirtualItem (String targetItemId, int amount) :
 			base()
 		{
-			this.ItemId = itemId;
+			this.TargetItemId = targetItemId;
 			this.Amount = amount;
 		}
 
-#if (!UNITY_IOS && !UNITY_ANDROID) || UNITY_EDITOR
-		public override void Buy(string itemId)
+#if UNITY_EDITOR
+		public override void Buy(string payload)
 		{
-			StoreEvents.instance.onItemPurchaseStarted(itemId);
-			StoreInventory.TakeItem(ItemId, Amount);
-		}
-		
-		public override void Success(string itemId) {
-			StoreEvents.instance.onItemPurchased(itemId);
+			SoomlaUtils.LogDebug("SOOMLA PurchaseWithVirtualItem", "Trying to buy a " + AssociatedItem.Name + " with "
+			                     + Amount + " pieces of " + TargetItemId);
+
+			StoreEvents.Instance.onItemPurchaseStarted(AssociatedItem.ItemId);
+
+			VirtualItem item = null;
+			try {
+				item = StoreInfo.GetItemByItemId(TargetItemId);
+			} catch (VirtualItemNotFoundException e) {
+				SoomlaUtils.LogError(TAG, "Target virtual item doesn't exist !");
+				return;
+			}
+
+			int balance = StoreInventory.GetItemBalance(TargetItemId);
+			if (balance < Amount){
+				throw new InsufficientFundsException(TargetItemId);
+			}
+
+			StoreInventory.TakeItem(TargetItemId, Amount);
+
+			StoreInventory.GiveItem(AssociatedItem.ItemId, 1);
+
+			StoreEvents.Instance.onItemPurchased(AssociatedItem.ItemId + "#SOOM#" + payload);
 		}
 #endif
 	}

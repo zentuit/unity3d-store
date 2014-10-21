@@ -102,12 +102,13 @@ namespace Soomla.Store
 		/// <exception cref="VirtualItemNotFoundException">Exception is thrown if item is not found.</exception>
 		/// <returns>Item with the given id.</returns>
 		public static VirtualItem GetItemByItemId(string itemId) {
+			SoomlaUtils.LogDebug(TAG, "Trying to fetch an item with itemId: " + itemId);
+
 			VirtualItem item;
 			if (localVirtualItems != null && localVirtualItems.TryGetValue(itemId, out item)) {
 				return item;
 			}
 
-			SoomlaUtils.LogDebug(TAG, "Trying to fetch an item with itemId: " + itemId);
 			return instance._getItemByItemId(itemId);
 		}
 

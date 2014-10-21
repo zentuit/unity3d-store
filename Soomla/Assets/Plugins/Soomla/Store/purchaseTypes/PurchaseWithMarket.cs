@@ -49,17 +49,22 @@ namespace Soomla.Store
 			this.MarketItem = marketItem;
 		}
 
-#if (!UNITY_IOS && !UNITY_ANDROID) || UNITY_EDITOR
-		public override void Buy(string itemId)
+#if UNITY_EDITOR
+		public override void Buy(string payload)
 		{
-			StoreEvents.instance.onMarketPurchaseStarted(itemId);
-		}
-		
-		public override void Success(string itemId) {
-			Guid purchaseToken = System.Guid.NewGuid();
-			string payload = "[no payload in editor yet]";
-			string message = itemId + "#SOOM#" + payload + "#SOOM#" + purchaseToken.ToString();
-			StoreEvents.instance.onMarketPurchase(message);
+			SoomlaUtils.LogDebug("SOOMLA PurchaseWithMarket", "PurchaseWithMarket is being run on the editor. Success is inevitable.");
+
+			StoreEvents.Instance.onItemPurchaseStarted(AssociatedItem.ItemId);
+			StoreEvents.Instance.onMarketPurchaseStarted(AssociatedItem.ItemId);
+
+			StoreInventory.GiveItem(AssociatedItem.ItemId, 1);
+
+			string token = "[InEditor Token] " + System.Guid.NewGuid().ToString();
+			string orderId = "[InEditor OrderId] " + System.Guid.NewGuid().ToString();
+			string message = AssociatedItem.ItemId + "#SOOM#" + payload + "#SOOM#" + token + "#SOOM#" + orderId;
+
+			StoreEvents.Instance.onItemPurchased(message);
+			StoreEvents.Instance.onMarketPurchase(message);
 		}
 #endif
 	}

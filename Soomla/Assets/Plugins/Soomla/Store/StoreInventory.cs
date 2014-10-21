@@ -158,9 +158,6 @@ namespace Soomla.Store
 		}
 
 		virtual protected void _buyItem(string itemId) {
-#if UNITY_EDITOR
-			RequireItem<PurchasableVirtualItem>(itemId).Buy();
-#endif
 			BuyItem(itemId, "");
 		}
 
@@ -178,7 +175,9 @@ namespace Soomla.Store
 		}
 
 		virtual protected void _buyItem(string itemId, string payload) {
-
+			#if UNITY_EDITOR
+			RequireItem<PurchasableVirtualItem>(itemId).Buy();
+			#endif
 		}
 
 		/** VIRTUAL ITEMS **/

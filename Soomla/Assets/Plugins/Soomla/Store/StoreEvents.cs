@@ -26,18 +26,18 @@ namespace Soomla.Store {
 
 		private const string TAG = "SOOMLA StoreEvents";
 
-#if (!UNITY_IOS && !UNITY_ANDROID) || UNITY_EDITOR
-		public static StoreEvents instance { get; private set; }
+#if UNITY_EDITOR
+		public static StoreEvents Instance { get; private set; }
 #else
-		private static StoreEvents instance = null;
+		private static StoreEvents Instance = null;
 #endif
 
 		/// <summary>
 		/// Initializes game state before the game starts.
 		/// </summary>
 		void Awake(){
-			if(instance == null){ 	// making sure we only initialize one instance.
-				instance = this;
+			if(Instance == null){ 	// making sure we only initialize one instance.
+				Instance = this;
 				GameObject.DontDestroyOnLoad(this.gameObject);
 				Initialize();
 			} else {				// Destroying unused instances.
@@ -248,7 +248,7 @@ namespace Soomla.Store {
 			SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onMarketRefund:" + message);
 
 			PurchasableVirtualItem pvi = (PurchasableVirtualItem)StoreInfo.GetItemByItemId(message);
-			StoreEvents.OnMarketPurchaseStarted(pvi);
+			StoreEvents.OnMarketRefund(pvi);
 		}
 
 		/// <summary>

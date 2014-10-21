@@ -30,9 +30,10 @@ namespace Soomla.Store
 		{
 		}
 
-#if (!UNITY_IOS && !UNITY_ANDROID) || UNITY_EDITOR
-		public abstract void Buy(string itemId);
-		public abstract void Success(string itemId);
+		public PurchasableVirtualItem AssociatedItem;
+
+#if UNITY_EDITOR
+		public abstract void Buy(string payload);
 #endif
 	}
 
