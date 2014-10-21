@@ -16,7 +16,7 @@ using UnityEngine;
 using System.Runtime.InteropServices;
 using System;
 
-namespace Soomla {
+namespace Soomla.Store {
 
 	/// <summary>
 	/// This is the parent class of all virtual items in the application.
@@ -24,7 +24,7 @@ namespace Soomla {
 	/// of virtual items, each one will extend this class. Each one of the various types extends
 	/// <c>VirtualItem</c> and adds its own behavior to it.
 	/// </summary>
-	public abstract class VirtualItem {
+	public abstract class VirtualItem : SoomlaEntity<VirtualItem> {
 
 #if UNITY_IOS && !UNITY_EDITOR
 		[DllImport ("__Internal")]
@@ -32,11 +32,13 @@ namespace Soomla {
 #endif
 
 		private const string TAG = "SOOMLA VirtualItem";
-		
-		public string Name;
-		public string Description;
-		public string ItemId;
-		
+
+		public string ItemId {
+			get { return this._id; }
+			set { this._id = value; }
+
+		}
+
 		/// <summary>
 		/// Constructor.
 		/// </summary>
@@ -44,17 +46,14 @@ namespace Soomla {
 		/// <param name="description">Description.</param>
 		/// <param name="itemId">Item id.</param>
 		protected VirtualItem (string name, string description, string itemId)
+			: base(itemId, name, description)
 		{
-			this.Name = name;
-			this.Description = description;
-			this.ItemId = itemId;
 		}
-		
+
 #if UNITY_ANDROID && !UNITY_EDITOR
-		protected VirtualItem(AndroidJavaObject jniVirtualItem) {
-			this.Name = jniVirtualItem.Call<string>("getName");
-			this.Description = jniVirtualItem.Call<string>("getDescription");
-			this.ItemId = jniVirtualItem.Call<string>("getItemId");
+		protected VirtualItem(AndroidJavaObject jniVirtualItem)
+			: base(jniVirtualItem)
+		{
 		}
 #endif
 		/// <summary>
@@ -62,27 +61,9 @@ namespace Soomla {
 		/// Generates an instance of <c>VirtualItem</c> from the given <c>JSONObject</c>.
 		/// </summary>
 		/// <param name="jsonItem">A JSONObject representation of the wanted <c>VirtualItem</c>.</param>
-		protected VirtualItem(JSONObject jsonItem) {
-			this.Name = jsonItem[JSONConsts.ITEM_NAME].str;
-			if (jsonItem[JSONConsts.ITEM_DESCRIPTION]) {
-				this.Description = jsonItem[JSONConsts.ITEM_DESCRIPTION].str;
-			} else {
-				this.Description = "";
-			}
-			this.ItemId = jsonItem[JSONConsts.ITEM_ITEMID].str;
-		}
-		
-		/// <summary>
-		/// Converts the current <c>VirtualItem</c> to a JSONObject.
-		/// </summary>
-		/// <returns>A <c>JSONObject</c> representation of the current <c>VirtualItem</c>.</returns>
-		public virtual JSONObject toJSONObject() {
-			JSONObject obj = new JSONObject(JSONObject.Type.OBJECT);
-			obj.AddField(JSONConsts.ITEM_NAME, this.Name);
-			obj.AddField(JSONConsts.ITEM_DESCRIPTION, this.Description);
-			obj.AddField(JSONConsts.ITEM_ITEMID, this.ItemId);
-			
-			return obj;
+		protected VirtualItem(JSONObject jsonItem)
+			: base(jsonItem)
+		{
 		}
 
 		/// <summary>
@@ -105,24 +86,18 @@ namespace Soomla {
 				return new VirtualCurrency((JSONObject)jsonItem[@"item"]);
 			case "VirtualCurrencyPack":
 				return new VirtualCurrencyPack((JSONObject)jsonItem[@"item"]);
-			case "NonConsumableItem":
-				return new NonConsumableItem((JSONObject)jsonItem[@"item"]);
 			case "UpgradeVG":
 				return new UpgradeVG((JSONObject)jsonItem[@"item"]);
 			}
-			
+
 			return null;
 		}
-		
+
 #if UNITY_ANDROID && !UNITY_EDITOR
-		private static bool isInstanceOf(AndroidJavaObject jniItem, string classJniStr) {
-			System.IntPtr cls = AndroidJNI.FindClass(classJniStr);
-			return AndroidJNI.IsInstanceOf(jniItem.GetRawObject(), cls);
-		}
-		
+
 		public static VirtualItem factoryItemFromJNI(AndroidJavaObject jniItem) {
-			Utils.LogDebug(TAG, "Trying to create VirtualItem with itemId: " + jniItem.Call<string>("getItemId"));
-			
+			SoomlaUtils.LogDebug(TAG, "Trying to create VirtualItem with itemId: " + jniItem.Call<string>("getItemId"));
+
 			if (isInstanceOf(jniItem, "com/soomla/store/domain/virtualGoods/SingleUseVG")) {
 				return new SingleUseVG(jniItem);
 			} else if (isInstanceOf(jniItem, "com/soomla/store/domain/virtualGoods/EquippableVG")) {
@@ -137,12 +112,10 @@ namespace Soomla {
 				return new VirtualCurrency(jniItem);
 			} else if (isInstanceOf(jniItem, "com/soomla/store/domain/virtualCurrencies/VirtualCurrencyPack")) {
 				return new VirtualCurrencyPack(jniItem);
-			} else if (isInstanceOf(jniItem, "com/soomla/store/domain/NonConsumableItem")) {
-				return new NonConsumableItem(jniItem);
 			} else {
-				Utils.LogError(TAG, "Couldn't determine what type of class is the given jniItem.");
+				SoomlaUtils.LogError(TAG, "Couldn't determine what type of class is the given jniItem.");
 			}
-			
+
 			return null;
 		}
 #endif
@@ -152,16 +125,18 @@ namespace Soomla {
 				(obj.GetType() == this.GetType()) &&
 					(((VirtualItem)obj).ItemId == ItemId);
 		}
-		
+
 		public override int GetHashCode () {
 			return base.GetHashCode ();
 		}
+
+		public abstract void save();
 
 		/// <summary>
 		/// Saves this instance according to type.
 		/// </summary>
 		/// <param name="type">type</param>
-		protected void save(string type) 
+		protected void save(string type)
 		{
 #if !UNITY_EDITOR
 			string viJSON = this.toJSONObject().print();
@@ -178,4 +153,3 @@ namespace Soomla {
 		}
 	}
 }
-

@@ -17,15 +17,15 @@ using System.Collections.Generic;
 using System;
 using System.Runtime.InteropServices;
 
-namespace Soomla {
+namespace Soomla.Store {
 
 	/// <summary>
 	/// <c>StoreInfo</c> for Android.
 	/// This class holds the store's meta data including:
-	/// virtual currencies definitions, 
-	/// virtual currency packs definitions, 
-	/// virtual goods definitions, 
-	/// virtual categories definitions, and 
+	/// virtual currencies definitions,
+	/// virtual currency packs definitions,
+	/// virtual goods definitions,
+	/// virtual categories definitions, and
 	/// virtual non-consumable items definitions
 	/// </summary>
 	public class StoreInfoAndroid : StoreInfo {
@@ -33,24 +33,26 @@ namespace Soomla {
 #if UNITY_ANDROID && !UNITY_EDITOR
 
 		/// <summary>
-		/// Initializes <c>StoreInfo</c>. 
+		/// Initializes <c>StoreInfo</c>.
 		/// On first initialization, when the database doesn't have any previous version of the store
 		/// metadata, <c>StoreInfo</c> gets loaded from the given <c>IStoreAssets</c>.
 		/// After the first initialization, <c>StoreInfo</c> will be initialized from the database.
-		/// 
+		///
 		/// IMPORTANT: If you want to override the current <c>StoreInfo</c>, you'll have to bump
 		/// the version of your implementation of <c>IStoreAssets</c> in order to remove the
-		/// metadata when the application loads. Bumping the version is done by returning a higher 
+		/// metadata when the application loads. Bumping the version is done by returning a higher
 		/// number in <c>IStoreAssets</c>'s <c>getVersion</c>.
 		/// </summary>
 		override protected void _initialize(IStoreAssets storeAssets) {
-			Utils.LogDebug(TAG, "pushing data to StoreAssets on java side");
+			SoomlaUtils.LogDebug(TAG, "pushing data to StoreAssets on java side");
+
 			string storeAssetsJSON = IStoreAssetsToJSON(storeAssets);
 			int version = storeAssets.GetVersion();
+
 			using(AndroidJavaClass jniStoreAssets = new AndroidJavaClass("com.soomla.unity.StoreAssets")) {
 				jniStoreAssets.CallStatic("prepare", version, storeAssetsJSON);
 			}
-			Utils.LogDebug(TAG, "done! (pushing data to StoreAssets on java side)");
+			SoomlaUtils.LogDebug(TAG, "done! (pushing data to StoreAssets on java side)");
 		}
 
 		/// <summary>
@@ -144,7 +146,7 @@ namespace Soomla {
 		override protected List<UpgradeVG> _getUpgradesForVirtualGood(string goodItemId) {
 			List<UpgradeVG> vgus = new List<UpgradeVG>();
 			AndroidJNI.PushLocalFrame(100);
-			using(AndroidJavaObject jniUpgradeVGs = new AndroidJavaClass("com.soomla.store.data.StoreInfo").CallStatic<AndroidJavaObject>("getGoodUpgrades")) {
+			using(AndroidJavaObject jniUpgradeVGs = new AndroidJavaClass("com.soomla.store.data.StoreInfo").CallStatic<AndroidJavaObject>("getGoodUpgrades", goodItemId)) {
 				for(int i=0; i<jniUpgradeVGs.Call<int>("size"); i++) {
 					using(AndroidJavaObject jnivgu = jniUpgradeVGs.Call<AndroidJavaObject>("get", i)) {
 						vgus.Add(new UpgradeVG(jnivgu));
@@ -209,24 +211,6 @@ namespace Soomla {
 			}
 			AndroidJNI.PopLocalFrame(IntPtr.Zero);
 			return vcps;
-		}
-
-		/// <summary>
-		/// Fetches the non consumable items of your game.
-		/// </summary>
-		/// <returns>All non consumable items.</returns>
-		override protected List<NonConsumableItem> _getNonConsumableItems() {
-			List<NonConsumableItem> nonConsumableItems = new List<NonConsumableItem>();
-			AndroidJNI.PushLocalFrame(100);
-			using(AndroidJavaObject jniNonConsumableItems = new AndroidJavaClass("com.soomla.store.data.StoreInfo").CallStatic<AndroidJavaObject>("getNonConsumableItems")) {
-				for(int i=0; i<jniNonConsumableItems.Call<int>("size"); i++) {
-					using(AndroidJavaObject jniNon = jniNonConsumableItems.Call<AndroidJavaObject>("get", i)) {
-						nonConsumableItems.Add(new NonConsumableItem(jniNon));
-					}
-				}
-			}
-			AndroidJNI.PopLocalFrame(IntPtr.Zero);
-			return nonConsumableItems;
 		}
 
 		/// <summary>

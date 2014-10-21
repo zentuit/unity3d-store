@@ -15,11 +15,11 @@
 using System;
 using System.Collections.Generic;
 
-namespace Soomla.Example {
+namespace Soomla.Store.Example {
 
 	/// <summary>
 	/// This class contains functions that receive events that they are subscribed to.
-	/// 
+	///
 	/// THIS IS JUST AN EXAMPLE. IF YOU WANT TO USE IT YOU NEED TO INSTANTIATE IT SOMEWHERE.
 	/// </summary>
 	public class ExampleEventHandler {
@@ -45,7 +45,7 @@ namespace Soomla.Example {
 			StoreEvents.OnMarketPurchaseCancelled += onMarketPurchaseCancelled;
 			StoreEvents.OnRestoreTransactionsStarted += onRestoreTransactionsStarted;
 			StoreEvents.OnRestoreTransactionsFinished += onRestoreTransactionsFinished;
-			StoreEvents.OnStoreControllerInitialized += onStoreControllerInitialized;
+			StoreEvents.OnSoomlaStoreInitialized += onSoomlaStoreInitialized;
 #if UNITY_ANDROID && !UNITY_EDITOR
 			StoreEvents.OnIabServiceStarted += onIabServiceStarted;
 			StoreEvents.OnIabServiceStopped += onIabServiceStopped;
@@ -57,8 +57,8 @@ namespace Soomla.Example {
 		/// </summary>
 		/// <param name="pvi">Purchasable virtual item.</param>
 		/// <param name="purchaseToken">Purchase token.</param>
-		public void onMarketPurchase(PurchasableVirtualItem pvi, string purchaseToken, string payload) {
-			
+		public void onMarketPurchase(PurchasableVirtualItem pvi, string purchaseToken, string payload, string orderId) {
+
 		}
 
 		/// <summary>
@@ -70,10 +70,10 @@ namespace Soomla.Example {
 		}
 
 		/// <summary>
-		/// Handles an item purchase event. 
+		/// Handles an item purchase event.
 		/// </summary>
 		/// <param name="pvi">Purchasable virtual item.</param>
-		public void onItemPurchased(PurchasableVirtualItem pvi) {
+		public void onItemPurchased(PurchasableVirtualItem pvi, string payload) {
 
 		}
 
@@ -82,7 +82,7 @@ namespace Soomla.Example {
 		/// </summary>
 		/// <param name="good">Equippable virtual good.</param>
 		public void onGoodEquipped(EquippableVG good) {
-			
+
 		}
 
 		/// <summary>
@@ -90,55 +90,55 @@ namespace Soomla.Example {
 		/// </summary>
 		/// <param name="good">Equippable virtual good.</param>
 		public void onGoodUnequipped(EquippableVG good) {
-			
+
 		}
 
 		/// <summary>
-		/// Handles a good upgraded event. 
+		/// Handles a good upgraded event.
 		/// </summary>
 		/// <param name="good">Virtual good that is being upgraded.</param>
-		/// <param name="currentUpgrade">The current upgrade that the given virtual 
+		/// <param name="currentUpgrade">The current upgrade that the given virtual
 		/// good is being upgraded to.</param>
 		public void onGoodUpgrade(VirtualGood good, UpgradeVG currentUpgrade) {
-			
+
 		}
 
 		/// <summary>
 		/// Handles a billing supported event.
 		/// </summary>
 		public void onBillingSupported() {
-			
+
 		}
 
 		/// <summary>
 		/// Handles a billing NOT supported event.
 		/// </summary>
 		public void onBillingNotSupported() {
-			
+
 		}
 
 		/// <summary>
-		/// Handles a market purchase started event. 
+		/// Handles a market purchase started event.
 		/// </summary>
 		/// <param name="pvi">Purchasable virtual item.</param>
 		public void onMarketPurchaseStarted(PurchasableVirtualItem pvi) {
-			
+
 		}
 
 		/// <summary>
-		/// Handles an item purchase started event. 
+		/// Handles an item purchase started event.
 		/// </summary>
 		/// <param name="pvi">Purchasable virtual item.</param>
 		public void onItemPurchaseStarted(PurchasableVirtualItem pvi) {
-			
+
 		}
 
 		/// <summary>
-		/// Handles an item purchase cancelled event. 
+		/// Handles an item purchase cancelled event.
 		/// </summary>
 		/// <param name="pvi">Purchasable virtual item.</param>
 		public void onMarketPurchaseCancelled(PurchasableVirtualItem pvi) {
-			
+
 		}
 
 		/// <summary>
@@ -146,7 +146,7 @@ namespace Soomla.Example {
 		/// </summary>
 		/// <param name="message">Error message.</param>
 		public void onUnexpectedErrorInStore(string message) {
-			
+
 		}
 
 		/// <summary>
@@ -173,32 +173,31 @@ namespace Soomla.Example {
 		/// Handles a restore Transactions process started event.
 		/// </summary>
 		public void onRestoreTransactionsStarted() {
-			
+
 		}
 
 		/// <summary>
-		/// Handles a restore transactions process finished event. 
+		/// Handles a restore transactions process finished event.
 		/// </summary>
 		/// <param name="success">If set to <c>true</c> success.</param>
 		public void onRestoreTransactionsFinished(bool success) {
-			
+
 		}
 
 		/// <summary>
 		/// Handles a store controller initialized event.
 		/// </summary>
-		public void onStoreControllerInitialized() {
-
+		public void onSoomlaStoreInitialized() {
+			
 		}
-		
+
 #if UNITY_ANDROID && !UNITY_EDITOR
 		public void onIabServiceStarted() {
-			
+
 		}
 		public void onIabServiceStopped() {
-			
+
 		}
 #endif
 	}
 }
-

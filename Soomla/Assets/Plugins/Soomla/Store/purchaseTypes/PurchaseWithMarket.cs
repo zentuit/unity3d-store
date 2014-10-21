@@ -14,7 +14,7 @@
 
 using System;
 
-namespace Soomla
+namespace Soomla.Store
 {
 	/// <summary>
 	/// This type of Purchase is used to let users purchase <c>PurchasableVirtualItem</c>s in the platform's 

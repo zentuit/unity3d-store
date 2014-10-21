@@ -16,7 +16,7 @@ using UnityEngine;
 using System;
 using System.Runtime.InteropServices;
 
-namespace Soomla {
+namespace Soomla.Store {
 
 	/// <summary>
 	/// <c>StoreInventory</c> for iOS.
@@ -30,7 +30,7 @@ namespace Soomla {
 
 		/// Functions that call iOS-store functions.
 		[DllImport ("__Internal")]
-		private static extern int storeInventory_BuyItem(string itemId);
+		private static extern int storeInventory_BuyItem(string itemId, string payload);
 		[DllImport ("__Internal")]
 		private static extern int storeInventory_GetItemBalance(string itemId, out int outBalance);
 		[DllImport ("__Internal")]
@@ -51,12 +51,6 @@ namespace Soomla {
 		private static extern int storeInventory_UpgradeGood(string itemId);
 		[DllImport ("__Internal")]
 		private static extern int storeInventory_RemoveGoodUpgrades(string itemId);
-		[DllImport ("__Internal")]
-		private static extern int storeInventory_NonConsumableItemExists(string itemId, out bool outResult);
-		[DllImport ("__Internal")]
-		private static extern int storeInventory_AddNonConsumableItem(string itemId);
-		[DllImport ("__Internal")]
-		private static extern int storeInventory_RemoveNonConsumableItem(string itemId);
 
 		/// <summary>
 		/// Buys the item with the given <c>itemId</c>.
@@ -64,8 +58,8 @@ namespace Soomla {
 		/// <param name="itemId">id of item to be bought</param>
 		/// <exception cref="VirtualItemNotFoundException">Thrown if the item to be bought is not found.</exception>
 		/// <exception cref="InsufficientFundsException">Thrown if the user does not have enough funds.</exception>
-		override protected void _buyItem(string itemId) {
-			int err = storeInventory_BuyItem(itemId);
+		override protected void _buyItem(string itemId, string payload) {
+			int err = storeInventory_BuyItem(itemId, payload);
 			IOS_ErrorCodes.CheckAndThrowException(err);
 		}
 
@@ -213,43 +207,6 @@ namespace Soomla {
 		/// <exception cref="VirtualItemNotFoundException">Thrown if the item is not found.</exception>
 		override protected void _removeGoodUpgrades(string goodItemId) {
 			int err = storeInventory_RemoveGoodUpgrades(goodItemId);
-			IOS_ErrorCodes.CheckAndThrowException(err);
-		}
-
-		
-		/** NON-CONSUMABLES **/
-		
-		/// <summary>
-		/// Checks if the non-consumable with the given <c>nonConsItemId</c> exists.
-		/// </summary>
-		/// <param name="nonConsItemId">Id of the item to check if exists.</param>
-		/// <returns>True if non-consumable item with nonConsItemId exists, false otherwise.</returns>
-		/// <exception cref="VirtualItemNotFoundException">Thrown if the item is not found.</exception>
-		override protected bool _nonConsumableItemExists(string nonConsItemId) {
-			bool result = false;
-			int err = storeInventory_NonConsumableItemExists(nonConsItemId, out result);
-			IOS_ErrorCodes.CheckAndThrowException(err);
-			return result;
-		}
-
-		/// <summary>
-		/// Adds the non-consumable item with the given <c>nonConsItemId</c> to the non-consumable items storage.
-		/// </summary>
-		/// <param name="nonConsItemId">Id of the item to be added.</param>
-		/// <exception cref="VirtualItemNotFoundException">Thrown if the item is not found.</exception>
-		override protected void _addNonConsumableItem(string nonConsItemId) {
-			int err = storeInventory_AddNonConsumableItem(nonConsItemId);
-			IOS_ErrorCodes.CheckAndThrowException(err);
-		}
-
-		/// <summary>
-		/// Removes the non-consumable item with the given <c>nonConsItemId</c> from the non-consumable 
-		/// items storage.
-		/// </summary>
-		/// <param name="nonConsItemId">Id of the item to be removed.</param>
-		/// <exception cref="VirtualItemNotFoundException">Thrown if the item is not found.</exception>
-		override protected void _removeNonConsumableItem(string nonConsItemId) {
-			int err = storeInventory_RemoveNonConsumableItem(nonConsItemId);
 			IOS_ErrorCodes.CheckAndThrowException(err);
 		}
 #endif

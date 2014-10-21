@@ -18,27 +18,26 @@ using System;
 using System.Runtime.InteropServices;
 using System.Linq;
 
-namespace Soomla
+namespace Soomla.Store
 {
 	/// <summary>
 	/// This class holds the store's meta data including:
-	/// virtual currencies definitions, 
-	/// virtual currency packs definitions, 
-	/// virtual goods definitions, 
-	/// virtual categories definitions, and 
+	/// virtual currencies definitions,
+	/// virtual currency packs definitions,
+	/// virtual goods definitions,
+	/// virtual categories definitions, and
 	/// virtual non-consumable items definitions
 	/// </summary>
 	public class StoreInfo
 	{
 
 
-		// Create a local copy of VirtualGoods for display in the Unity editor window 
+		// Create a local copy of VirtualGoods for display in the Unity editor window
 		private static VirtualCurrency[] localCurrencies;
 		private static VirtualCurrencyPack[] localCurrencyPacks;
 		private static VirtualGood[] localVirtualGoods;
 		private static VirtualCategory[] localCategories;
-		private static NonConsumableItem[] localNonConsumableItems;
-		
+
 		private static Dictionary<String, VirtualItem> localVirtualItems = new Dictionary<String, VirtualItem>();
 		private static Dictionary<String, PurchasableVirtualItem> localPurchasableItems = new Dictionary<String, PurchasableVirtualItem>();
 		private static Dictionary<String, VirtualCategory> localGoodsCategories = new Dictionary<String, VirtualCategory>();
@@ -69,28 +68,26 @@ namespace Soomla
 			localCurrencyPacks = null;
 			localVirtualGoods = null;
 			localCategories = null;
-			localNonConsumableItems = null;
 			localCurrencies = GetVirtualCurrencies().ToArray();
 			localVirtualGoods = GetVirtualGoods().ToArray();
-			localCurrencyPacks = GetVirtualCurrencyPacks().ToArray();	
+			localCurrencyPacks = GetVirtualCurrencyPacks().ToArray();
 			localCategories = GetVirtualCategories().ToArray();
-			localNonConsumableItems = GetNonConsumableItems().ToArray();
-			
+
 			updateAggregatedLists();
 			#endif
-			
+
 			StoreInventory.Instance.RefreshLocalInventory();
 		}
 
 		/// <summary>
-		/// Initializes <c>StoreInfo</c>. 
+		/// Initializes <c>StoreInfo</c>.
 		/// On first initialization, when the database doesn't have any previous version of the store
 		/// metadata, <c>StoreInfo</c> gets loaded from the given <c>IStoreAssets</c>.
 		/// After the first initialization, <c>StoreInfo</c> will be initialized from the database.
-	    /// 
+	    ///
 	    /// IMPORTANT: If you want to override the current <c>StoreInfo</c>, you'll have to bump
 		/// the version of your implementation of <c>IStoreAssets</c> in order to remove the
-		/// metadata when the application loads. Bumping the version is done by returning a higher 
+		/// metadata when the application loads. Bumping the version is done by returning a higher
 		/// number in <c>IStoreAssets</c>'s <c>getVersion</c>.
 		/// </summary>
 		/// <param name="storeAssets">your game's economy</param>
@@ -110,8 +107,7 @@ namespace Soomla
 				return item;
 			}
 
-			Utils.LogDebug(TAG, "Trying to fetch an item with itemId: " + itemId);
-
+			SoomlaUtils.LogDebug(TAG, "Trying to fetch an item with itemId: " + itemId);
 			return instance._getItemByItemId(itemId);
 		}
 
@@ -153,7 +149,7 @@ namespace Soomla
 		public static UpgradeVG GetFirstUpgradeForVirtualGood(string goodItemId) {
 			List<UpgradeVG> upgrades;
 			if (localGoodsUpgrades != null && localGoodsUpgrades.TryGetValue(goodItemId, out upgrades)) {
-				return upgrades.FirstOrDefault(up => string.IsNullOrEmpty(up.PrevItemId));			
+				return upgrades.FirstOrDefault(up => string.IsNullOrEmpty(up.PrevItemId));
 			}
 
 			return instance._getFirstUpgradeForVirtualGood(goodItemId);
@@ -184,8 +180,7 @@ namespace Soomla
 				return upgrades;
 			}
 
-			Utils.LogDebug(TAG, "Trying to fetch upgrades for " + goodItemId);
-
+			SoomlaUtils.LogDebug(TAG, "Trying to fetch upgrades for " + goodItemId);
 			return instance._getUpgradesForVirtualGood(goodItemId);
 		}
 
@@ -198,8 +193,7 @@ namespace Soomla
 				return localCurrencies.ToList();
 			}
 
-			Utils.LogDebug(TAG, "Trying to fetch currencies");
-
+			SoomlaUtils.LogDebug(TAG, "Trying to fetch currencies");
 			return instance._getVirtualCurrencies();
 		}
 
@@ -212,8 +206,7 @@ namespace Soomla
 				return localVirtualGoods.ToList();
 			}
 
-			Utils.LogDebug(TAG, "Trying to fetch goods");
-
+			SoomlaUtils.LogDebug(TAG, "Trying to fetch goods");
 			return instance._getVirtualGoods();
 		}
 
@@ -226,23 +219,9 @@ namespace Soomla
 				return localCurrencyPacks.ToList();
 			}
 
-			Utils.LogDebug(TAG, "Trying to fetch packs");
+			SoomlaUtils.LogDebug(TAG, "Trying to fetch packs");
 
 			return instance._getVirtualCurrencyPacks();
-		}
-
-		/// <summary>
-		/// Fetches the non consumable items of your game.
-		/// </summary>
-		/// <returns>All non consumable items.</returns>
-		public static List<NonConsumableItem> GetNonConsumableItems() {
-			if (localNonConsumableItems != null) {
-				return localNonConsumableItems.ToList();
-			}
-
-			Utils.LogDebug(TAG, "Trying to fetch noncons");
-
-			return instance._getNonConsumableItems();
 		}
 
 		/// <summary>
@@ -254,8 +233,7 @@ namespace Soomla
 				return localCategories.ToList();
 			}
 
-			Utils.LogDebug(TAG, "Trying to fetch categories");
-
+			SoomlaUtils.LogDebug(TAG, "Trying to fetch categories");
 			return instance._getVirtualCategories();
 		}
 
@@ -269,8 +247,7 @@ namespace Soomla
 			localCurrencyPacks = storeAssets.GetCurrencyPacks();
 			localVirtualGoods = storeAssets.GetGoods();
 			localCategories = storeAssets.GetCategories();
-			localNonConsumableItems = storeAssets.GetNonConsumableItems();
-			
+
 			updateAggregatedLists ();
 #endif
 		}
@@ -312,7 +289,7 @@ namespace Soomla
 #if UNITY_EDITOR
 			List<UpgradeVG> upgrades;
 			if (localGoodsUpgrades.TryGetValue(goodItemId, out upgrades)) {
-				return upgrades.FirstOrDefault(up => string.IsNullOrEmpty(up.PrevItemId));			
+				return upgrades.FirstOrDefault(up => string.IsNullOrEmpty(up.PrevItemId));
 			}
 #endif
 			return null;
@@ -365,14 +342,6 @@ namespace Soomla
 			return null;
 #endif
 		}
-		
-		virtual protected List<NonConsumableItem> _getNonConsumableItems() {
-#if UNITY_EDITOR
-			return localNonConsumableItems.ToList();
-#else
-			return null;
-#endif
-		}
 
 		virtual protected List<VirtualCategory> _getVirtualCategories() {
 #if UNITY_EDITOR
@@ -385,18 +354,19 @@ namespace Soomla
 		/** Protected Functions **/
 
 		protected string IStoreAssetsToJSON(IStoreAssets storeAssets) {
+
 			//			Utils.LogDebug(TAG, "Adding currency");
 			JSONObject currencies = new JSONObject(JSONObject.Type.ARRAY);
 			foreach(VirtualCurrency vi in storeAssets.GetCurrencies()) {
 				currencies.Add(vi.toJSONObject());
 			}
-			
+
 			//			Utils.LogDebug(TAG, "Adding packs");
 			JSONObject packs = new JSONObject(JSONObject.Type.ARRAY);
 			foreach(VirtualCurrencyPack vi in storeAssets.GetCurrencyPacks()) {
 				packs.Add(vi.toJSONObject());
 			}
-			
+
 			//			Utils.LogDebug(TAG, "Adding goods");
 			JSONObject suGoods = new JSONObject(JSONObject.Type.ARRAY);
 			JSONObject ltGoods = new JSONObject(JSONObject.Type.ARRAY);
@@ -422,27 +392,20 @@ namespace Soomla
 			goods.AddField(JSONConsts.STORE_GOODS_EQ, eqGoods);
 			goods.AddField(JSONConsts.STORE_GOODS_UP, upGoods);
 			goods.AddField(JSONConsts.STORE_GOODS_PA, paGoods);
-			
+
 			//			Utils.LogDebug(TAG, "Adding categories");
 			JSONObject categories = new JSONObject(JSONObject.Type.ARRAY);
 			foreach(VirtualCategory vi in storeAssets.GetCategories()) {
 				categories.Add(vi.toJSONObject());
 			}
-			
-			//			Utils.LogDebug(TAG, "Adding nonConsumables");
-			JSONObject nonConsumables = new JSONObject(JSONObject.Type.ARRAY);
-			foreach(NonConsumableItem vi in storeAssets.GetNonConsumableItems()) {
-				nonConsumables.Add(vi.toJSONObject());
-			}
-			
+
 			//			Utils.LogDebug(TAG, "Preparing StoreAssets  JSONObject");
 			JSONObject storeAssetsObj = new JSONObject(JSONObject.Type.OBJECT);
 			storeAssetsObj.AddField(JSONConsts.STORE_CATEGORIES, categories);
 			storeAssetsObj.AddField(JSONConsts.STORE_CURRENCIES, currencies);
 			storeAssetsObj.AddField(JSONConsts.STORE_CURRENCYPACKS, packs);
 			storeAssetsObj.AddField(JSONConsts.STORE_GOODS, goods);
-			storeAssetsObj.AddField(JSONConsts.STORE_NONCONSUMABLES, nonConsumables);
-			
+
 			return storeAssetsObj.print();
 		}
 
@@ -476,13 +439,6 @@ namespace Soomla
 					localPurchasableItems.Add (((PurchaseWithMarket)purchaseType).MarketItem.ProductId, vi);
 				}
 			}
-			foreach (NonConsumableItem vi in localNonConsumableItems) {
-				localVirtualItems.Add (vi.ItemId, vi);
-				PurchaseType purchaseType = vi.PurchaseType;
-				if (purchaseType is PurchaseWithMarket) {
-					localPurchasableItems.Add (((PurchaseWithMarket)purchaseType).MarketItem.ProductId, vi);
-				}
-			}
 			foreach (VirtualCategory category in localCategories) {
 				foreach (string goodItemId in category.GoodItemIds) {
 					localGoodsCategories.Add (goodItemId, category);
@@ -491,4 +447,3 @@ namespace Soomla
 		}
 	}
 }
-

@@ -16,7 +16,7 @@ using UnityEngine;
 using System;
 using System.Runtime.InteropServices;
 
-namespace Soomla {
+namespace Soomla.Store {
 
 	/// <summary>
 	/// <c>StoreInventory</c> for Android.
@@ -34,10 +34,10 @@ namespace Soomla {
 		/// <param name="itemId">id of item to be bought</param>
 		/// <exception cref="VirtualItemNotFoundException">Thrown if the item to be bought is not found.</exception>
 		/// <exception cref="InsufficientFundsException">Thrown if the user does not have enough funds.</exception>
-		override protected void _buyItem(string itemId) {
+		override protected void _buyItem(string itemId, string payload) {
 			AndroidJNI.PushLocalFrame(100);
 			using(AndroidJavaClass jniStoreInventory = new AndroidJavaClass("com.soomla.store.StoreInventory")) {
-				AndroidJNIHandler.CallStaticVoid(jniStoreInventory, "buy", itemId);
+				AndroidJNIHandler.CallStaticVoid(jniStoreInventory, "buy", itemId, payload);
 			}
 			AndroidJNI.PopLocalFrame(IntPtr.Zero);
 		}
@@ -213,52 +213,6 @@ namespace Soomla {
 			AndroidJNI.PushLocalFrame(100);
 			using(AndroidJavaClass jniStoreInventory = new AndroidJavaClass("com.soomla.store.StoreInventory")) {
 				AndroidJNIHandler.CallStaticVoid(jniStoreInventory, "removeUpgrades", goodItemId);
-			}
-			AndroidJNI.PopLocalFrame(IntPtr.Zero);
-		}
-
-
-		/** NON-CONSUMABLES **/
-		
-		/// <summary>
-		/// Checks if the non-consumable with the given <c>nonConsItemId</c> exists.
-		/// </summary>
-		/// <param name="nonConsItemId">Id of the item to check if exists.</param>
-		/// <returns>True if non-consumable item with nonConsItemId exists, false otherwise.</returns>
-		/// <exception cref="VirtualItemNotFoundException">Thrown if the item is not found.</exception>
-		override protected bool _nonConsumableItemExists(string nonConsItemId) {
-			bool result = false;
-			AndroidJNI.PushLocalFrame(100);
-			using(AndroidJavaClass jniStoreInventory = new AndroidJavaClass("com.soomla.store.StoreInventory")) {
-				result = AndroidJNIHandler.CallStatic<bool>(jniStoreInventory, "nonConsumableItemExists", nonConsItemId);
-			}
-			AndroidJNI.PopLocalFrame(IntPtr.Zero);
-			return result;
-		}
-
-		/// <summary>
-		/// Adds the non-consumable item with the given <c>nonConsItemId</c> to the non-consumable items storage.
-		/// </summary>
-		/// <param name="nonConsItemId">Id of the item to be added.</param>
-		/// <exception cref="VirtualItemNotFoundException">Thrown if the item is not found.</exception>
-		override protected void _addNonConsumableItem(string nonConsItemId) {
-			AndroidJNI.PushLocalFrame(100);
-			using(AndroidJavaClass jniStoreInventory = new AndroidJavaClass("com.soomla.store.StoreInventory")) {
-				AndroidJNIHandler.CallStaticVoid(jniStoreInventory, "addNonConsumableItem", nonConsItemId);
-			}
-			AndroidJNI.PopLocalFrame(IntPtr.Zero);
-		}
-
-		/// <summary>
-		/// Removes the non-consumable item with the given <c>nonConsItemId</c> from the non-consumable 
-		/// items storage.
-		/// </summary>
-		/// <param name="nonConsItemId">Id of the item to be removed.</param>
-		/// <exception cref="VirtualItemNotFoundException">Thrown if the item is not found.</exception>
-		override protected void _removeNonConsumableItem(string nonConsItemId) {
-			AndroidJNI.PushLocalFrame(100);
-			using(AndroidJavaClass jniStoreInventory = new AndroidJavaClass("com.soomla.store.StoreInventory")) {
-				AndroidJNIHandler.CallStaticVoid(jniStoreInventory, "removeNonConsumableItem", nonConsItemId);
 			}
 			AndroidJNI.PopLocalFrame(IntPtr.Zero);
 		}

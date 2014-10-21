@@ -18,7 +18,7 @@ using System.Collections.Generic;
 using System;
 using Soomla;
 
-namespace Soomla.Example {
+namespace Soomla.Store.Example {
 
 	/// <summary>
 	/// This class contains functions that initialize the game and that display the different screens of the game.
@@ -26,25 +26,25 @@ namespace Soomla.Example {
 	public class ExampleWindow : MonoBehaviour {
 
 		private static ExampleWindow instance = null;
-		
+
 		private GUIState guiState = GUIState.WELCOME;
 		private Vector2 goodsScrollPosition = Vector2.zero;
 		private Vector2 productScrollPosition = Vector2.zero;
 		private bool isDragging = false;
 		private Vector2 startTouch = Vector2.zero;
-		
+
 		public string fontSuffix = "";
-	
+
 		private enum GUIState{
 			WELCOME,
 			PRODUCTS,
 			GOODS
 		}
-		
+
 		private static bool isVisible = false;
 
 		/// <summary>
-		/// Initializes the game state before the game starts. 
+		/// Initializes the game state before the game starts.
 		/// </summary>
 		void Awake(){
 			if(instance == null){ 	//making sure we only initialize one instance.
@@ -53,10 +53,10 @@ namespace Soomla.Example {
 			} else {					//Destroying unused instances.
 				GameObject.Destroy(this);
 			}
-			
+
 			//FONT
 			//using max to be certain we have the longest side of the screen, even if we are in portrait.
-			if(Mathf.Max(Screen.width, Screen.height) > 640){ 
+			if(Mathf.Max(Screen.width, Screen.height) > 640){
 				fontSuffix = "_2X"; //a nice suffix to show the fonts are twice as big as the original
 			}
 		}
@@ -82,7 +82,7 @@ namespace Soomla.Example {
 		/// Use this for initialization.
 		/// </summary>
 		void Start () {
-			StoreEvents.OnStoreControllerInitialized += onStoreControllerInitialized;
+			StoreEvents.OnSoomlaStoreInitialized += onSoomlaStoreInitialized;
 
 			tImgDirect = (Texture2D)Resources.Load("SoomlaStore/images/img_direct");
 			fgoodDog = (Font)Resources.Load("SoomlaStore/GoodDog" + fontSuffix);
@@ -97,23 +97,38 @@ namespace Soomla.Example {
 			tBack = (Texture2D)Resources.Load("SoomlaStore/images/back");
 			tGetMore = (Texture2D)Resources.Load("SoomlaStore/images/GetMore");
 			tTitle = (Font)Resources.Load("SoomlaStore/Title" + fontSuffix);
-			
-			StoreController.Initialize(new MuffinRushAssets());
+
+			SoomlaStore.Initialize(new MuffinRushAssets());
 		}
 
-		public void onStoreControllerInitialized() {
-			
+		public void onSoomlaStoreInitialized() {
+
+// ExampleLocalStoreInfo.Init();
+//
+// // some usage examples for add/remove currency
+// 			// some examples
+// 			if (ExampleLocalStoreInfo.VirtualCurrencies.Count>0) {
+// 					try {
+// 							StoreInventory.GiveItem(ExampleLocalStoreInfo.VirtualCurrencies[0].ItemId,4000);
+// 							SoomlaUtils.LogDebug("SOOMLA ExampleEventHandler", "Currency balance:" + StoreInventory.GetItemBalance(ExampleLocalStoreInfo.VirtualCurrencies[0].ItemId));
+// 					} catch (VirtualItemNotFoundException ex){
+// 							SoomlaUtils.LogError("SOOMLA ExampleEventHandler", ex.Message);
+// 					}
+// 			}
+//
+// ExampleWindow.GetInstance().setupItemsTextures();
+
 			// some usage examples for add/remove currency
 			// some examples
 			if (StoreInfo.GetVirtualCurrencies().Count>0) {
 				try {
 					StoreInventory.GiveItem(StoreInfo.GetVirtualCurrencies()[0].ItemId,4000);
-					Utils.LogDebug("SOOMLA ExampleEventHandler", "Currency balance:" + StoreInventory.GetItemBalance(StoreInfo.GetVirtualCurrencies()[0].ItemId));
+					SoomlaUtils.LogDebug("SOOMLA ExampleEventHandler", "Currency balance:" + StoreInventory.GetItemBalance(StoreInfo.GetVirtualCurrencies()[0].ItemId));
 				} catch (VirtualItemNotFoundException ex){
-					Utils.LogError("SOOMLA ExampleEventHandler", ex.Message);
+					SoomlaUtils.LogError("SOOMLA ExampleEventHandler", ex.Message);
 				}
 			}
-			
+
 			setupItemsTextures();
 		}
 
@@ -129,7 +144,7 @@ namespace Soomla.Example {
 		}
 
 		/// <summary>
-		/// Sets the window to open, and sets the GUI state to welcome. 
+		/// Sets the window to open, and sets the GUI state to welcome.
 		/// </summary>
 		public static void OpenWindow(){
 			instance.guiState = GUIState.WELCOME;
@@ -137,15 +152,15 @@ namespace Soomla.Example {
 		}
 
 		/// <summary>
-		/// Sets the window to closed. 
+		/// Sets the window to closed.
 		/// </summary>
 		public static void CloseWindow(){
 			isVisible = false;
 		}
 
 		/// <summary>
-		/// Implements the game behavior of MuffinRush. 
-		/// Overrides the superclass function in order to provide functionality for our game. 
+		/// Implements the game behavior of MuffinRush.
+		/// Overrides the superclass function in order to provide functionality for our game.
 		/// </summary>
 		void Update () {
 			if(isVisible){
@@ -170,6 +185,14 @@ namespace Soomla.Example {
 					}
 				}
 			}
+
+			if (Application.platform == RuntimePlatform.Android) {
+				if (Input.GetKeyUp(KeyCode.Escape)) {
+					//quit application on back button
+					Application.Quit();
+					return;
+				}
+			}
 		}
 
 		/// <summary>
@@ -185,7 +208,7 @@ namespace Soomla.Example {
 			//GUI.skin.horizontalScrollbar.fixedHeight = 0;
 			GUI.skin.horizontalScrollbar = GUIStyle.none;
 			GUI.skin.verticalScrollbar = GUIStyle.none;
-			
+
 			//disabling warnings because we use GUIStyle.none which result in warnings
 			if(guiState == GUIState.WELCOME){
 				welcomeScreen();
@@ -193,11 +216,11 @@ namespace Soomla.Example {
 				goodsScreen();
 			}else if(guiState == GUIState.PRODUCTS){
 				currencyScreen();
-			}	
+			}
 		}
-	
+
 		/// <summary>
-		/// Displays the welcome screen of the game. 
+		/// Displays the welcome screen of the game.
 		/// </summary>
 		void welcomeScreen()
 		{
@@ -220,15 +243,15 @@ namespace Soomla.Example {
 			if(GUI.Button(new Rect(Screen.width*2/6,Screen.height*5f/8f,Screen.width*2/6,Screen.width*2/6),tLogoNew)){
 				guiState = GUIState.GOODS;
 #if UNITY_ANDROID && !UNITY_EDITOR
-				StoreController.StartIabServiceInBg();
+				SoomlaStore.StartIabServiceInBg();
 #endif
 			}
 			//set alignment to backup
 			GUI.skin.label.alignment = backupAlignment;
 		}
-	
+
 		/// <summary>
-		/// Display the goods screen of the game's store. 
+		/// Display the goods screen of the game's store.
 		/// </summary>
 		void goodsScreen()
 		{
@@ -237,7 +260,7 @@ namespace Soomla.Example {
 			Color backupColor = GUI.color;
 			TextAnchor backupAlignment = GUI.skin.label.alignment;
 			Font backupFont = GUI.skin.label.font;
-			
+
 			GUI.color = Color.red;
 			GUI.skin.label.alignment = TextAnchor.UpperLeft;
 			GUI.Label(new Rect(10,10,Screen.width-10,Screen.height-10),"SOOMLA Example Store");
@@ -248,7 +271,7 @@ namespace Soomla.Example {
 			GUI.skin.label.alignment = TextAnchor.MiddleCenter;
 			GUI.skin.label.font = fTitle;
 			GUI.Label(new Rect(0,Screen.height/8f,Screen.width,Screen.height/8f),"Virtual Goods");
-			
+
 			GUI.color = backupColor;
 			GUI.DrawTexture(new Rect(Screen.width-30,10,30,30), tMuffins);
 			float productSize = Screen.width*0.30f;
@@ -281,8 +304,13 @@ namespace Soomla.Example {
 				GUI.Label(new Rect(productSize,y,Screen.width,productSize/3f),vg.Name);
 				GUI.skin.label.font = fDesc;
 				GUI.Label(new Rect(productSize + 10f,y+productSize/3f,Screen.width-productSize-15f,productSize/3f),vg.Description);
-				GUI.Label(new Rect(Screen.width/2f,y+productSize*2/3f,Screen.width,productSize/3f),"price:" + ((PurchaseWithVirtualItem)vg.PurchaseType).Amount);
+				//set price
+				if (vg.PurchaseType is PurchaseWithVirtualItem)
+					GUI.Label(new Rect(Screen.width/2f,y+productSize*2/3f,Screen.width,productSize/3f),"price:" + ((PurchaseWithVirtualItem)vg.PurchaseType).Amount);
+				else
+					GUI.Label(new Rect(Screen.width/2f,y+productSize*2/3f,Screen.width,productSize/3f),"price:$ " + ((PurchaseWithMarket)vg.PurchaseType).MarketItem.Price.ToString("0.00"));
 				GUI.Label(new Rect(Screen.width*3/4f,y+productSize*2/3f,Screen.width,productSize/3f), "Balance:" + StoreInventory.GetItemBalance(vg.ItemId));
+
 				GUI.skin.label.alignment = TextAnchor.UpperRight;
 				GUI.skin.label.font = fBuy;
 				GUI.Label(new Rect(0,y,Screen.width-10,productSize),"Click to buy");
@@ -295,7 +323,7 @@ namespace Soomla.Example {
 			GUI.skin.label.alignment = backupAlignment;
 			GUI.color = backupColor;
 			GUI.skin.label.font = backupFont;
-			
+
 			float height = Screen.height/8f;
 			float borderSize = height/8f;
 			float buttonHeight = height-2*borderSize;
@@ -303,7 +331,7 @@ namespace Soomla.Example {
 			if(GUI.Button(new Rect(Screen.width*2f/7f-width/2f,Screen.height*7f/8f+borderSize,width,buttonHeight), "back")){
 				guiState = GUIState.WELCOME;
 #if UNITY_ANDROID && !UNITY_EDITOR
-				StoreController.StopIabServiceInBg();
+				SoomlaStore.StopIabServiceInBg();
 #endif
 			}
 			GUI.DrawTexture(new Rect(Screen.width*2f/7f-width/2f,Screen.height*7f/8f+borderSize,width,buttonHeight),tBack);
@@ -313,9 +341,9 @@ namespace Soomla.Example {
 			}
 			GUI.DrawTexture(new Rect(Screen.width*5f/7f-width/2f,Screen.height*7f/8f+borderSize,width,buttonHeight),tGetMore);
 		}
-	
+
 		/// <summary>
-		/// Displays the currencies screen of the game's store. 
+		/// Displays the currencies screen of the game's store.
 		/// </summary>
 		void currencyScreen()
 		{
@@ -324,7 +352,7 @@ namespace Soomla.Example {
 			Color backupColor = GUI.color;
 			TextAnchor backupAlignment = GUI.skin.label.alignment;
 			Font backupFont = GUI.skin.label.font;
-			
+
 			GUI.color = Color.red;
 			GUI.skin.label.alignment = TextAnchor.UpperLeft;
 			GUI.Label(new Rect(10,10,Screen.width-10,Screen.height-10),"SOOMLA Example Store");
@@ -335,7 +363,7 @@ namespace Soomla.Example {
 			GUI.skin.label.alignment = TextAnchor.MiddleCenter;
 			GUI.skin.label.font = tTitle;
 			GUI.Label(new Rect(0,Screen.height/8f,Screen.width,Screen.height/8f),"Virtual Currency Packs");
-			
+
 			GUI.color = backupColor;
 			GUI.DrawTexture(new Rect(Screen.width-30,10,30,30),tMuffins);
 			float productSize = Screen.width*0.30f;
@@ -379,7 +407,7 @@ namespace Soomla.Example {
 			GUI.skin.label.alignment = backupAlignment;
 			GUI.color = backupColor;
 			GUI.skin.label.font = backupFont;
-			
+
 			float height = Screen.height/8f;
 			float borderSize = height/8f;
 			float buttonHeight = height-2*borderSize;
@@ -389,7 +417,6 @@ namespace Soomla.Example {
 			}
 			GUI.DrawTexture(new Rect(Screen.width/2f-width/2f,Screen.height*7f/8f+borderSize,width,buttonHeight),tBack);
 		}
-	
+
 	}
 }
-

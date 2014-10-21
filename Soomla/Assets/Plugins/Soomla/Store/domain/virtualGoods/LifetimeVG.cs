@@ -16,7 +16,7 @@ using UnityEngine;
 using System.Collections;
 
 
-namespace Soomla {	
+namespace Soomla.Store {	
 	
 	/// <summary>
 	/// A <c>LifetimeVG</c> is a virtual good that is bought once and kept forever.
@@ -83,7 +83,7 @@ namespace Soomla {
 		/// <summary>
 		/// Saves this instance.
 		/// </summary>
-		public void save() 
+		public override void save() 
 		{
 			save("LifetimeVG");
 		}

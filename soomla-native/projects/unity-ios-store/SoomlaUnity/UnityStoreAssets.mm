@@ -1,16 +1,15 @@
 #import "UnityStoreAssets.h"
-#import "JSONConsts.h"
+#import "StoreJSONConsts.h"
 #import "VirtualCurrencyPack.h"
 #import "VirtualCurrency.h"
 #import "VirtualGood.h"
 #import "VirtualCategory.h"
-#import "NonConsumableItem.h"
 #import "SingleUseVG.h"
 #import "LifetimeVG.h"
 #import "EquippableVG.h"
 #import "SingleUsePackVG.h"
 #import "UpgradeVG.h"
-#import "StoreUtils.h"
+#import "SoomlaUtils.h"
 #import "StoreInfo.h"
 
 extern "C"{
@@ -22,7 +21,7 @@ extern "C"{
     void storeAssets_Save(const char* type, const char* viJSON) {
         NSString* viJSONS = [NSString stringWithUTF8String:viJSON];
         NSString* typeS = [NSString stringWithUTF8String:type];
-        NSDictionary* itemDict = [StoreUtils jsonStringToDict:viJSONS];
+        NSDictionary* itemDict = [SoomlaUtils jsonStringToDict:viJSONS];
         
         if ([typeS isEqualToString:@"EquippableVG"]) {
             [[StoreInfo getInstance] save:[[EquippableVG alloc] initWithDictionary:itemDict]];
@@ -44,9 +43,6 @@ extern "C"{
             
         } else if ([typeS isEqualToString:@"VirtualCurrencyPack"]) {
             [[StoreInfo getInstance] save:[[VirtualCurrencyPack alloc] initWithDictionary:itemDict]];
-            
-        } else if ([typeS isEqualToString:@"NonConsumableItem"]) {
-            [[StoreInfo getInstance] save:[[NonConsumableItem alloc] initWithDictionary:itemDict]];
 
         } else {
             LogError(@"SOOMLA UnityStoreAssets", ([NSString stringWithFormat:@"Don't understand what's the type of the item i need to save... type: %@",typeS]));
@@ -61,7 +57,6 @@ static NSMutableArray* virtualCurrenciesArray;
 static NSMutableArray* virtualGoodsArray;
 static NSMutableArray* virtualCurrencyPacksArray;
 static NSMutableArray* virtualCategoriesArray;
-static NSMutableArray* nonConsumablesArray;
 
 static NSString* TAG = @"SOOMLA UnityStoreAssets";
 
@@ -79,7 +74,7 @@ static NSString* TAG = @"SOOMLA UnityStoreAssets";
    
     @try {
 
-        NSDictionary* storeInfo = [StoreUtils jsonStringToDict:storeAssetsJSON];
+        NSDictionary* storeInfo = [SoomlaUtils jsonStringToDict:storeAssetsJSON];
         
         NSMutableArray* currencies = [[[NSMutableArray alloc] init] autorelease];
         NSArray* currenciesDicts = [storeInfo objectForKey:JSON_STORE_CURRENCIES];
@@ -158,19 +153,6 @@ static NSString* TAG = @"SOOMLA UnityStoreAssets";
         }
         virtualCategoriesArray = categories;
         
-        NSMutableArray* nonConsumables = [[[NSMutableArray alloc] init] autorelease];
-        NSArray* nonConsumableItemsDict = [storeInfo objectForKey:JSON_STORE_NONCONSUMABLES];
-        for(NSDictionary* nonConsumableItemDict in nonConsumableItemsDict){
-            NonConsumableItem* non = [[NonConsumableItem alloc] initWithDictionary:nonConsumableItemDict];
-            [nonConsumables addObject:non];
-            [non release];
-        }
-        if (nonConsumablesArray) {
-            [nonConsumablesArray release];
-            nonConsumablesArray = nil;
-        }
-        nonConsumablesArray = nonConsumables;
-        
         version = oVersion;
         
         return YES;
@@ -201,10 +183,6 @@ static NSString* TAG = @"SOOMLA UnityStoreAssets";
     return virtualCategoriesArray;
 }
 
-- (NSArray*)nonConsumableItems {
-    return nonConsumablesArray;
-}
-
 - (void)dealloc {
 //    [virtualCurrenciesArray release];
 //    virtualCurrenciesArray = nil;
@@ -214,8 +192,6 @@ static NSString* TAG = @"SOOMLA UnityStoreAssets";
 //    virtualCurrencyPacksArray = nil;
 //    [virtualCategoriesArray release];
 //    virtualCategoriesArray = nil;
-//    [nonConsumablesArray release];
-//    nonConsumablesArray = nil;
     [super dealloc];
 }
 

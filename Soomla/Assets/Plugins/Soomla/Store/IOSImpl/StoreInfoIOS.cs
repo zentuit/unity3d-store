@@ -17,15 +17,15 @@ using System.Collections.Generic;
 using System;
 using System.Runtime.InteropServices;
 
-namespace Soomla {
+namespace Soomla.Store {
 
 	/// <summary>
 	/// <c>StoreInfo</c> for iOS.
 	/// This class holds the store's meta data including:
-	/// virtual currencies definitions, 
-	/// virtual currency packs definitions, 
-	/// virtual goods definitions, 
-	/// virtual categories definitions, and 
+	/// virtual currencies definitions,
+	/// virtual currency packs definitions,
+	/// virtual goods definitions,
+	/// virtual categories definitions, and
 	/// virtual non-consumable items definitions
 	/// </summary>
 	public class StoreInfoIOS : StoreInfo {
@@ -52,30 +52,30 @@ namespace Soomla {
 		[DllImport ("__Internal")]
 		private static extern int storeInfo_GetVirtualCurrencyPacks(out IntPtr json);
 		[DllImport ("__Internal")]
-		private static extern int storeInfo_GetNonConsumableItems(out IntPtr json);
-		[DllImport ("__Internal")]
 		private static extern int storeInfo_GetVirtualCategories(out IntPtr json);
 		[DllImport ("__Internal")]
 		private static extern void storeAssets_Init(int version, string storeAssetsJSON);
 
 		/// <summary>
-		/// Initializes <c>StoreInfo</c>. 
+		/// Initializes <c>StoreInfo</c>.
 		/// On first initialization, when the database doesn't have any previous version of the store
 		/// metadata, <c>StoreInfo</c> gets loaded from the given <c>IStoreAssets</c>.
 		/// After the first initialization, <c>StoreInfo</c> will be initialized from the database.
-		/// 
+		///
 		/// IMPORTANT: If you want to override the current <c>StoreInfo</c>, you'll have to bump
 		/// the version of your implementation of <c>IStoreAssets</c> in order to remove the
-		/// metadata when the application loads. Bumping the version is done by returning a higher 
+		/// metadata when the application loads. Bumping the version is done by returning a higher
 		/// number in <c>IStoreAssets</c>'s <c>getVersion</c>.
 		/// </summary>
 		/// <param name="storeAssets">your game's economy</param>
 		override protected void _initialize(IStoreAssets storeAssets) {
-			Utils.LogDebug(TAG, "pushing data to StoreAssets on ios side");
+			SoomlaUtils.LogDebug(TAG, "pushing data to StoreAssets on java side");
+			
 			string storeAssetsJSON = IStoreAssetsToJSON(storeAssets);
 			int version = storeAssets.GetVersion();
+
 			storeAssets_Init(version, storeAssetsJSON);
-			Utils.LogDebug(TAG, "done! (pushing data to StoreAssets on ios side)");
+			SoomlaUtils.LogDebug(TAG, "done! (pushing data to StoreAssets on ios side)");
 		}
 
 		/// <summary>
@@ -88,10 +88,10 @@ namespace Soomla {
 			IntPtr p = IntPtr.Zero;
 			int err = storeInfo_GetItemByItemId(itemId, out p);
 			IOS_ErrorCodes.CheckAndThrowException(err);
-			
+
 			string json = Marshal.PtrToStringAnsi(p);
 			Marshal.FreeHGlobal(p);
-			Utils.LogDebug(TAG, "Got json: " + json);
+			SoomlaUtils.LogDebug(TAG, "Got json: " + json);
 
 			JSONObject obj = new JSONObject(json);
 			return VirtualItem.factoryItemFromJSONObject(obj);
@@ -107,7 +107,7 @@ namespace Soomla {
 			IntPtr p = IntPtr.Zero;
 			int err = storeInfo_GetPurchasableItemWithProductId(productId, out p);
 			IOS_ErrorCodes.CheckAndThrowException(err);
-			
+
 			string nonConsJson = Marshal.PtrToStringAnsi(p);
 			Marshal.FreeHGlobal(p);
 
@@ -125,10 +125,10 @@ namespace Soomla {
 			IntPtr p = IntPtr.Zero;
 			int err = storeInfo_GetCategoryForVirtualGood(goodItemId, out p);
 			IOS_ErrorCodes.CheckAndThrowException(err);
-			
+
 			string json = Marshal.PtrToStringAnsi(p);
 			Marshal.FreeHGlobal(p);
-			
+
 			JSONObject obj = new JSONObject(json);
 			return new VirtualCategory(obj);
 		}
@@ -142,10 +142,10 @@ namespace Soomla {
 			IntPtr p = IntPtr.Zero;
 			int err = storeInfo_GetFirstUpgradeForVirtualGood(goodItemId, out p);
 			IOS_ErrorCodes.CheckAndThrowException(err);
-			
+
 			string json = Marshal.PtrToStringAnsi(p);
 			Marshal.FreeHGlobal(p);
-			
+
 			JSONObject obj = new JSONObject(json);
 			return new UpgradeVG(obj);
 		}
@@ -159,10 +159,10 @@ namespace Soomla {
 			IntPtr p = IntPtr.Zero;
 			int err = storeInfo_GetLastUpgradeForVirtualGood(goodItemId, out p);
 			IOS_ErrorCodes.CheckAndThrowException(err);
-			
+
 			string json = Marshal.PtrToStringAnsi(p);
 			Marshal.FreeHGlobal(p);
-			
+
 			JSONObject obj = new JSONObject(json);
 			return new UpgradeVG(obj);
 		}
@@ -177,15 +177,17 @@ namespace Soomla {
 			IntPtr p = IntPtr.Zero;
 			int err = storeInfo_GetUpgradesForVirtualGood(goodItemId, out p);
 			IOS_ErrorCodes.CheckAndThrowException(err);
-			
+
 			string upgradesJson = Marshal.PtrToStringAnsi(p);
 			Marshal.FreeHGlobal(p);
-			
-			Utils.LogDebug(TAG, "Got json: " + upgradesJson);
-			
+
+			SoomlaUtils.LogDebug(TAG, "Got json: " + upgradesJson);
+
 			JSONObject upgradesArr = new JSONObject(upgradesJson);
-			foreach(JSONObject obj in upgradesArr.list) {
-				vgus.Add(new UpgradeVG(obj));
+			if (upgradesArr.list != null) {
+				foreach(JSONObject obj in upgradesArr.list) {
+					vgus.Add(new UpgradeVG(obj));
+				}
 			}
 			return vgus;
 		}
@@ -199,15 +201,17 @@ namespace Soomla {
 			IntPtr p = IntPtr.Zero;
 			int err = storeInfo_GetVirtualCurrencies(out p);
 			IOS_ErrorCodes.CheckAndThrowException(err);
-			
+
 			string currenciesJson = Marshal.PtrToStringAnsi(p);
 			Marshal.FreeHGlobal(p);
-			
-			Utils.LogDebug(TAG, "Got json: " + currenciesJson);
-			
+
+			SoomlaUtils.LogDebug(TAG, "Got json: " + currenciesJson);
+
 			JSONObject currenciesArr = new JSONObject(currenciesJson);
-			foreach(JSONObject obj in currenciesArr.list) {
-				vcs.Add(new VirtualCurrency(obj));
+			if (currenciesArr.list != null) {
+				foreach(JSONObject obj in currenciesArr.list) {
+					vcs.Add(new VirtualCurrency(obj));
+				}
 			}
 			return vcs;
 		}
@@ -221,15 +225,17 @@ namespace Soomla {
 			IntPtr p = IntPtr.Zero;
 			int err = storeInfo_GetVirtualGoods(out p);
 			IOS_ErrorCodes.CheckAndThrowException(err);
-			
+
 			string goodsJson = Marshal.PtrToStringAnsi(p);
 			Marshal.FreeHGlobal(p);
-			
-			Utils.LogDebug(TAG, "Got json: " + goodsJson);
-			
+
+			SoomlaUtils.LogDebug(TAG, "Got json: " + goodsJson);
+
 			JSONObject goodsArr = new JSONObject(goodsJson);
-			foreach(JSONObject obj in goodsArr.list) {
-				virtualGoods.Add((VirtualGood)VirtualItem.factoryItemFromJSONObject(obj));
+			if (goodsArr.list != null) {
+				foreach(JSONObject obj in goodsArr.list) {
+					virtualGoods.Add((VirtualGood)VirtualItem.factoryItemFromJSONObject(obj));
+				}
 			}
 			return virtualGoods;
 		}
@@ -243,39 +249,19 @@ namespace Soomla {
 			IntPtr p = IntPtr.Zero;
 			int err = storeInfo_GetVirtualCurrencyPacks(out p);
 			IOS_ErrorCodes.CheckAndThrowException(err);
-			
+
 			string packsJson = Marshal.PtrToStringAnsi(p);
 			Marshal.FreeHGlobal(p);
-			
-			Utils.LogDebug(TAG, "Got json: " + packsJson);
-			
+
+			SoomlaUtils.LogDebug(TAG, "Got json: " + packsJson);
+
 			JSONObject packsArr = new JSONObject(packsJson);
-			foreach(JSONObject obj in packsArr.list) {
-				vcps.Add(new VirtualCurrencyPack(obj));
+			if (packsArr.list != null) {
+				foreach(JSONObject obj in packsArr.list) {
+					vcps.Add(new VirtualCurrencyPack(obj));
+				}
 			}
 			return vcps;
-		}
-
-		/// <summary>
-		/// Fetches the non consumable items of your game.
-		/// </summary>
-		/// <returns>All non consumable items.</returns>
-		override protected List<NonConsumableItem> _getNonConsumableItems() {
-			List<NonConsumableItem> nonConsumableItems = new List<NonConsumableItem>();
-			IntPtr p = IntPtr.Zero;
-			int err = storeInfo_GetNonConsumableItems(out p);
-			IOS_ErrorCodes.CheckAndThrowException(err);
-			
-			string nonConsumableJson = Marshal.PtrToStringAnsi(p);
-			Marshal.FreeHGlobal(p);
-			
-			Utils.LogDebug(TAG, "Got json: " + nonConsumableJson);
-			
-			JSONObject nonConsArr = new JSONObject(nonConsumableJson);
-			foreach(JSONObject obj in nonConsArr.list) {
-				nonConsumableItems.Add(new NonConsumableItem(obj));
-			}
-			return nonConsumableItems;
 		}
 
 		/// <summary>
@@ -287,15 +273,17 @@ namespace Soomla {
 			IntPtr p = IntPtr.Zero;
 			int err = storeInfo_GetVirtualCategories(out p);
 			IOS_ErrorCodes.CheckAndThrowException(err);
-			
+
 			string categoriesJson = Marshal.PtrToStringAnsi(p);
 			Marshal.FreeHGlobal(p);
-			
-			Utils.LogDebug(TAG, "Got json: " + categoriesJson);
-			
+
+			SoomlaUtils.LogDebug(TAG, "Got json: " + categoriesJson);
+
 			JSONObject categoriesArr = new JSONObject(categoriesJson);
-			foreach(JSONObject obj in categoriesArr.list) {
-				virtualCategories.Add(new VirtualCategory(obj));
+			if (categoriesArr.list != null) {
+				foreach(JSONObject obj in categoriesArr.list) {
+					virtualCategories.Add(new VirtualCategory(obj));
+				}
 			}
 			return virtualCategories;
 		}

@@ -1,20 +1,17 @@
-#import "UnityStoreAssets.h"
-#import "VirtualCategory.h"
-#import "VirtualCurrency.h"
-#import "VirtualGood.h"
-#import "VirtualCurrencyPack.h"
 #import "StoreInventory.h"
-#import "StoreController.h"
 #import "VirtualItemNotFoundException.h"
 #import "UnityCommons.h"
+#import "UnityStoreCommons.h"
 #import "InsufficientFundsException.h"
+#import "SoomlaUtils.h"
 
 extern "C"{
 	
-	int storeInventory_BuyItem(const char* itemId) {
+	int storeInventory_BuyItem(const char* itemId, const char* payload) {
         NSString* itemIdS = [NSString stringWithUTF8String:itemId];
+        NSString* payloadS = [NSString stringWithUTF8String:payload];
 		@try {
-			[StoreInventory buyItemWithItemId: itemIdS];
+			[StoreInventory buyItemWithItemId: itemIdS andPayload:payloadS];
 		}
 		
 		@catch (VirtualItemNotFoundException* e) {
@@ -126,11 +123,11 @@ extern "C"{
 
 		return NO_ERR;
 	}
-	
+
 	int storeInventory_GetGoodCurrentUpgrade(const char* itemId, const char** outResult){
         NSString* itemIdS = [NSString stringWithUTF8String:itemId];
 		@try {
-			*outResult = [[StoreInventory goodCurrentUpgrade:itemIdS] UTF8String];
+			*outResult = Soom_AutonomousStringCopy([[StoreInventory goodCurrentUpgrade:itemIdS] UTF8String]);
 		}
 		
 		@catch (VirtualItemNotFoundException* e) {
@@ -165,48 +162,6 @@ extern "C"{
             NSLog(@"Couldn't find a VirtualGood with itemId: %@.", itemIdS);
 			return EXCEPTION_ITEM_NOT_FOUND;
         }
-
-		return NO_ERR;
-	}
-	
-	int storeInventory_NonConsumableItemExists(const char* itemId, bool* outResult){
-		NSString* itemIdS = [NSString stringWithUTF8String:itemId];
-		@try {
-			*outResult = [StoreInventory nonConsumableItemExists:itemIdS];
-		}
-
-		@catch (VirtualItemNotFoundException* e) {
-	    NSLog(@"Couldn't find a NonConsumableItem with itemId: %@.", itemIdS);
-			return EXCEPTION_ITEM_NOT_FOUND;
-		}
-
-		return NO_ERR;
-	}
-
-	int storeInventory_AddNonConsumableItem(const char* itemId){
-	NSString* itemIdS = [NSString stringWithUTF8String:itemId];
-		@try {
-			[StoreInventory addNonConsumableItem:itemIdS];
-		}
-
-		@catch (VirtualItemNotFoundException* e) {
-	    NSLog(@"Couldn't find a NonConsumableItem with itemId: %@.", itemIdS);
-			return EXCEPTION_ITEM_NOT_FOUND;
-		}
-
-		return NO_ERR;
-	}
-
-	int storeInventory_RemoveNonConsumableItem(const char* itemId){
-	NSString* itemIdS = [NSString stringWithUTF8String:itemId];
-		@try {
-			[StoreInventory removeNonConsumableItem:itemIdS];
-		}
-
-		@catch (VirtualItemNotFoundException* e) {
-	    NSLog(@"Couldn't find a NonConsumableItem with itemId: %@.", itemIdS);
-			return EXCEPTION_ITEM_NOT_FOUND;
-		}
 
 		return NO_ERR;
 	}
