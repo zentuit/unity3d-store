@@ -130,7 +130,69 @@ namespace Soomla.Store {
 			return base.GetHashCode ();
 		}
 
-		public abstract void save();
+		/// <summary>
+		/// Gives your user the given amount of the specific virtual item.
+		/// For example, when your users play your game for the first time you GIVE them 1000 gems.
+		///
+		/// NOTE: This action is different than <code>PurchasableVirtualItem</code>'s <code>buy()</code>:
+     	/// You use <code>give(int amount)</code> to give your user something for free.
+        /// You use <code>buy()</code> to give your user something and get something in return.
+		/// 
+		/// </summary>
+		/// <param name="amount">amount the amount of the specific item to be given</param>
+		public int Give(int amount) {
+			return Give(amount, true);
+		}
+
+		/// <summary>
+		/// Works like "give" but receives an argument, notify, to indicate
+		/// </summary>
+		/// <param name="amount">amount the amount of the specific item to be given.</param>
+		/// <param name="notify">notify of change in user's balance of current virtual item.</param>
+		public abstract int Give(int amount, bool notify);
+
+		/// <summary>
+		/// Takes from your user the given amount of the specific virtual item.
+		/// For example, when your user requests a refund, you need to TAKE the item he/she is returning.
+		/// </summary>
+		/// <param name="amount">The amount of the specific item to be taken.</param>
+		public int Take(int amount) {
+			return Take(amount, true);
+		}
+
+		/// <summary>
+		/// Works like "take" but receives an argument, notify, to indicate
+		/// if there has been a change in the balance of the current virtual item.
+		/// </summary>
+		/// <param name="amount">the amount of the specific item to be taken.</param>
+		/// <param name="notify">notify of change in user's balance of current virtual item.</param>
+		public abstract int Take(int amount, bool notify);
+
+		/// <summary>
+		/// Resets this <code>VirtualItem</code>'s balance to the given balance.
+		/// </summary>
+		/// <returns>The balance of the current virtual item.</returns>
+		/// <param name="balance">Balance.</param>
+		public int ResetBalance(int balance) {
+			return ResetBalance(balance, true);
+		}
+
+		/// <summary>
+		/// Works like "resetBalance" but receives an argument, notify, to indicate
+		/// if there has been a change in the balance of the current virtual item.
+		/// </summary>
+		/// <returns>The balance after the reset process.</returns>
+		/// <param name="balance">The balance of the current virtual item.</param>
+		/// <param name="notify">Notify of change in user's balance of current virtual item.</param>
+		public abstract int ResetBalance(int balance, bool notify);
+
+		public abstract int GetBalance();
+
+		/// <summary>
+		/// Save this instance with changes that were made to it.
+		/// The saving is done in the metadata in StoreInfo and being persisted to the local DB.
+		/// </summary>
+		public abstract void Save();
 
 		/// <summary>
 		/// Saves this instance according to type.

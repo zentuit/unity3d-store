@@ -74,9 +74,21 @@ namespace Soomla.Store {
 		/// <summary>
 		/// Saves this instance.
 		/// </summary>
-		public override void save() 
+		public override void Save() 
 		{
 			save("SingleUseVG");
+		}
+
+		protected override bool canBuy() {
+			return true;
+		}
+
+		public override int Give(int amount, bool notify) {
+			return VirtualGoodsStorage.Add(this, amount, notify);
+		}
+
+		public override int Take(int amount, bool notify) {
+			return VirtualGoodsStorage.Remove(this, amount, notify);
 		}
 	}
 }

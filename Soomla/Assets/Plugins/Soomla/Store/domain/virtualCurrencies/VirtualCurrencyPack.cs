@@ -30,7 +30,7 @@ namespace Soomla.Store{
 	/// <see cref="com.soomla.store.domain.VirtualItem"/> 
 	/// </summary>
 	public class VirtualCurrencyPack : PurchasableVirtualItem {
-//		private static string TAG = "SOOMLA VirtualCurrencyPack";
+		private static string TAG = "SOOMLA VirtualCurrencyPack";
 		
 		public int CurrencyAmount;
 		public string CurrencyItemId;
@@ -50,14 +50,6 @@ namespace Soomla.Store{
 			this.CurrencyAmount = currencyAmount;
 			this.CurrencyItemId = currencyItemId;
 		}
-
-#if (!UNITY_IOS && !UNITY_ANDROID) || UNITY_EDITOR
-		public override void Buy()
-		{
-			PurchaseType.Buy();
-			StoreInventory.GiveItem(CurrencyItemId, CurrencyAmount);
-		}
-#endif
 
 #if UNITY_ANDROID && !UNITY_EDITOR
 		public VirtualCurrencyPack(AndroidJavaObject jniVirtualCurrencyPack) 
@@ -96,9 +88,63 @@ namespace Soomla.Store{
 		/// <summary>
 		/// Saves this instance.
 		/// </summary>
-		public override void save() 
+		public override void Save() 
 		{
 			save("VirtualCurrencyPack");
+		}
+
+		protected override bool canBuy() {
+			return true;
+		}
+
+		/// <summary>
+		/// Works like "give" but receives an argument, notify, to indicate
+		/// </summary>
+		/// <param name="amount">amount the amount of the specific item to be given.</param>
+		/// <param name="notify">notify of change in user's balance of current virtual item.</param>
+		public override int Give(int amount, bool notify) {
+			VirtualCurrency currency = null;
+			try {
+				currency = (VirtualCurrency) StoreInfo.GetItemByItemId(CurrencyItemId);
+			} catch (VirtualItemNotFoundException) {
+				SoomlaUtils.LogError(TAG, "VirtualCurrency with itemId: " + CurrencyItemId
+				                     + " doesn't exist! Can't give this pack.");
+				return 0;
+			}
+			return VirtualCurrencyStorage.Add(
+				currency, CurrencyAmount * amount, notify);
+		}
+
+		/// <summary>
+		/// Works like "take" but receives an argument, notify, to indicate
+		/// if there has been a change in the balance of the current virtual item.
+		/// </summary>
+		/// <param name="amount">the amount of the specific item to be taken.</param>
+		/// <param name="notify">notify of change in user's balance of current virtual item.</param>
+		public override int Take(int amount, bool notify) {
+			VirtualCurrency currency = null;
+			try {
+				currency = (VirtualCurrency)StoreInfo.GetItemByItemId(CurrencyItemId);
+			} catch (VirtualItemNotFoundException) {
+				SoomlaUtils.LogError(TAG, "VirtualCurrency with itemId: " + CurrencyItemId +
+				                     " doesn't exist! Can't take this pack.");
+				return 0;
+			}
+			return VirtualCurrencyStorage.Remove(currency, CurrencyAmount * amount, notify);
+		}
+
+		public override int ResetBalance(int balance, bool notify) {
+			// Not supported for VirtualCurrencyPacks !
+			SoomlaUtils.LogError(TAG, "Someone tried to reset balance of CurrencyPack. "
+			                     + "That's not right.");
+			return 0;
+		}
+
+		public override int GetBalance() {
+			// Not supported for VirtualCurrencyPacks !
+			SoomlaUtils.LogError(TAG, "Someone tried to check balance of CurrencyPack. "
+			                     + "That's not right.");
+			return 0;
 		}
 
 	}

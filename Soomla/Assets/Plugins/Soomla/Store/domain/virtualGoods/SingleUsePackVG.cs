@@ -39,8 +39,8 @@ namespace Soomla.Store {
 	/// <see cref="com.soomla.store.domain.VirtualItem"/>
 	/// </summary>
 	public class SingleUsePackVG : VirtualGood {
-		
-//		private static string TAG = "SOOMLA SingleUsePackVG";
+		private static string TAG = "SOOMLA SingleUsePackVG";
+
 		public string GoodItemId;
 		public int GoodAmount;
 		
@@ -59,15 +59,6 @@ namespace Soomla.Store {
 			this.GoodItemId = goodItemId;
 			this.GoodAmount = amount;
 		}
-
-#if (!UNITY_IOS && !UNITY_ANDROID) || UNITY_EDITOR
-		public override void Buy()
-		{
-			PurchaseType.Buy(ItemId);
-			StoreInventory.GiveItem(GoodItemId, GoodAmount);
-			PurchaseType.Success(ItemId);
-		}
-#endif
 		
 #if UNITY_ANDROID && !UNITY_EDITOR
 		public SingleUsePackVG(AndroidJavaObject jniSingleUsePackVG) 
@@ -103,9 +94,35 @@ namespace Soomla.Store {
 		/// <summary>
 		/// Saves this instance.
 		/// </summary>
-		public override void save() 
+		public override void Save() 
 		{
 			save("SingleUsePackVG");
+		}
+
+		protected override bool canBuy() {
+			return true;
+		}
+		
+		public override int Give(int amount, bool notify) {
+			SingleUseVG good = null;
+			try {
+				good = (SingleUseVG) StoreInfo.GetItemByItemId(GoodItemId);
+			} catch (VirtualItemNotFoundException) {
+				SoomlaUtils.LogError(TAG, "SingleUseVG with itemId: " + GoodItemId + " doesn't exist! Can't give this pack.");
+				return 0;
+			}
+			return VirtualGoodsStorage.Add(good, GoodAmount*amount, notify);
+		}
+		
+		public override int Take(int amount, bool notify) {
+			SingleUseVG good = null;
+			try {
+				good = (SingleUseVG) StoreInfo.GetItemByItemId(GoodItemId);
+			} catch (VirtualItemNotFoundException) {
+				SoomlaUtils.LogError(TAG, "SingleUseVG with itemId: " + GoodItemId + " doesn't exist! Can't give this pack.");
+				return 0;
+			}
+			return VirtualGoodsStorage.Remove(good, GoodAmount*amount, notify);
 		}
 	}
 }

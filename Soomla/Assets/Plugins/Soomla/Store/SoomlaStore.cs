@@ -48,18 +48,41 @@ namespace Soomla.Store
 		/// <param name="storeAssets">Your game's economy.</param>
 		/// <exception cref="ExitGUIException">Thrown if soomlaSecret is missing or has not been changed.
 		/// </exception>
-		public static void Initialize(IStoreAssets storeAssets) {
+		public static bool Initialize(IStoreAssets storeAssets) {
 			if (string.IsNullOrEmpty(CoreSettings.SoomlaSecret)) {
-				SoomlaUtils.LogError(TAG, "SOOMLA/UNITY MISSING SoomlaSecret !!! Stopping here !!");
+				SoomlaUtils.LogError(TAG, "MISSING SoomlaSecret !!! Stopping here !!");
 				throw new ExitGUIException();
 			}
-
+			
 			if (CoreSettings.SoomlaSecret==CoreSettings.ONLY_ONCE_DEFAULT) {
-				SoomlaUtils.LogError(TAG, "SOOMLA/UNITY You have to change SoomlaSecret !!! Stopping here !!");
+				SoomlaUtils.LogError(TAG, "You have to change SoomlaSecret !!! Stopping here !!");
 				throw new ExitGUIException();
 			}
 
-			instance._initialize(storeAssets);
+			var storeEvents = GameObject.FindObjectOfType<StoreEvents> ();
+			if (storeEvents == null) {
+				SoomlaUtils.LogDebug(TAG, "StoreEvents Component not found in scene. We're continuing from here but you won't get many events.");
+			}
+
+			if (initialized) {
+				string err = "SoomlaStore is already initialized. You can't initialize it twice!";
+				StoreEvents.Instance.onUnexpectedErrorInStore(err);
+				SoomlaUtils.LogError(TAG, err);
+				return false;
+			}
+
+			SoomlaUtils.LogDebug(TAG, "SoomlaStore Initializing ...");
+
+			instance._loadBillingService();
+
+			StoreInfo.SetStoreAssets(storeAssets);
+
+			instance._refreshInventory();
+
+			initialized = true;
+			StoreEvents.Instance.onSoomlaStoreInitialized("");
+
+			return true;
 		}
 
 		/// <summary>
@@ -120,26 +143,20 @@ namespace Soomla.Store
 			instance._stopIabServiceInBg();
 		}
 
+		protected virtual void _loadBillingService() {
 
-		protected virtual void _initialize(IStoreAssets storeAssets) {
-			StoreInfo.Initialize(storeAssets);
-
-			var storeEvents = GameObject.FindObjectOfType<StoreEvents> ();
-			if (storeEvents != null) {
-				storeEvents.onSoomlaStoreInitialized(null);
-			}
-			else {
-				Debug.LogError("SOOMLA/UNITY StoreEvents Component not found in scene");
-			}
 		}
 
 		protected virtual void _buyMarketItem(string productId, string payload) {
+#if UNITY_EDITOR
 			PurchasableVirtualItem item = StoreInfo.GetPurchasableItemWithProductId(productId);
 			if (item == null) {
 				throw new VirtualItemNotFoundException("ProductId", productId);
 			}
 
-			StoreInventory.BuyItem(item.ItemId, payload);
+			// in the editor we just give the item... no real market.
+			item.Give(1);
+#endif
 		}
 
 		protected virtual void _refreshInventory() { }
@@ -160,6 +177,8 @@ namespace Soomla.Store
 		/// <summary> Class Members </summary>
 
 		protected const string TAG = "SOOMLA SoomlaStore";
+
+		private static bool initialized;
 
 	}
 }

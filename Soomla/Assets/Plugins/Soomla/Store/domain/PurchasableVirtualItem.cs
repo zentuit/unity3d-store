@@ -41,16 +41,25 @@ namespace Soomla.Store {
 			}
 		}
 
-
-#if UNITY_EDITOR
-		public virtual void Buy(string payload)
-		{
+		/// <summary>
+		/// Buys the <code>PurchasableVirtualItem</code>, after checking if the user is in a state that
+		/// allows him/her to buy. This action uses the associated <code>PurchaseType</code> to perform
+		/// the purchase.
+		/// </summary>
+		/// <param name="payload">a string you want to be assigned to the purchase. This string
+		/// is saved in a static variable and will be given bacl to you when the
+		///   purchase is completed..</param>
+		/// <exception cref="Soomla.Store.InsufficientFundsException">InsufficientFundsException if the user does not have enough funds for buying.</exception>
+		public void Buy(string payload) {
 			if (!canBuy()) return;
-			
+
 			PurchaseType.Buy(payload);
 		}
-#endif
 
+		/// <summary>
+		/// Determines if user is in a state that allows him/her to buy a specific <code>VirtualItem</code>.
+		/// </summary>
+		protected abstract bool canBuy();
 		
 #if UNITY_ANDROID && !UNITY_EDITOR
 		protected PurchasableVirtualItem(AndroidJavaObject jniVirtualItem) :
@@ -98,11 +107,14 @@ namespace Soomla.Store {
 	        } else if (purchaseType == JSONConsts.PURCHASE_TYPE_VI) {
 	            string itemId = purchasableObj[JSONConsts.PURCHASE_VI_ITEMID].str;
 	            int amount = System.Convert.ToInt32(((JSONObject)purchasableObj[JSONConsts.PURCHASE_VI_AMOUNT]).n);
-	
 				PurchaseType = new PurchaseWithVirtualItem(itemId, amount);
 	        } else {
 	            SoomlaUtils.LogError(TAG, "Couldn't determine what type of class is the given purchaseType.");
 	        }
+
+			if (this.PurchaseType != null) {
+				this.PurchaseType.AssociatedItem = this;
+			}
 		}
 		
 		/// <summary>

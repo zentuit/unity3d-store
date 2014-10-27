@@ -59,6 +59,7 @@ namespace Soomla.Store {
 	/// <see cref="com.soomla.store.domain.VirtualItem"/>
 	/// </summary>
 	public class EquippableVG : LifetimeVG {
+		private static string TAG = "SOOMLA EquippableVG";
 		
 		///Equipping model is described above in the class description.
 		public sealed class EquippingModel {
@@ -158,9 +159,87 @@ namespace Soomla.Store {
 		/// <summary>
 		/// Saves this instance.
 		/// </summary>
-		public override void save() 
+		public override void Save() 
 		{
 			save("EquippableVG");
+		}
+
+		/// <summary>
+		/// Equips the current <code>EquippableVG</code>
+		/// </summary>
+		/// <exception cref="Soomla.Store.NotEnoughGoodsException">Throws NotEnoughGoodsException</exception>
+		public void Equip() {
+			Equip(true);
+		}
+
+		/// <summary>
+		/// Equips the current <code>EquippableVG</code>.
+		/// The equipping is done according to the equipping model ('GLOBAL', 'CATEGORY', or 'LOCAL').
+		/// </summary>
+		/// <exception cref="Soomla.Store.NotEnoughGoodsException">Throws NotEnoughGoodsException</exception>
+		/// <param name="notify">if true, the relevant event will be posted when equipped.</param>
+		public void Equip(bool notify) {
+			// only if the user has bought this EquippableVG, the EquippableVG is equipped.
+			if (VirtualGoodsStorage.GetBalance(this) > 0){
+				
+				if (Equipping == EquippingModel.CATEGORY) {
+					VirtualCategory category = null;
+					try {
+						category = StoreInfo.GetCategoryForVirtualGood(this.ItemId);
+					} catch (VirtualItemNotFoundException) {
+						SoomlaUtils.LogError(TAG,
+						                     "Tried to unequip all other category VirtualGoods but there was no " +
+						                     "associated category. virtual good itemId: " + this.ItemId);
+						return;
+					}
+					
+					foreach (string goodItemId in category.GoodItemIds) {
+						EquippableVG equippableVG = null;
+						try {
+							equippableVG = (EquippableVG) StoreInfo.GetItemByItemId(goodItemId);
+							
+							if (equippableVG != null && equippableVG != this) {
+								equippableVG.Unequip(notify);
+							}
+						} catch (VirtualItemNotFoundException) {
+							SoomlaUtils.LogError(TAG, "On equip, couldn't find one of the itemIds "
+							                     + "in the category. Continuing to the next one. itemId: "
+							                     + goodItemId);
+						} catch (System.InvalidCastException) {
+							SoomlaUtils.LogDebug(TAG, "On equip, an error occurred. It's a debug "
+							                     + "message b/c the VirtualGood may just not be an EquippableVG. "
+							                     + "itemId: " + goodItemId);
+						}
+					}
+				} else if (Equipping == EquippingModel.GLOBAL) {
+					foreach(VirtualGood good in StoreInfo.Goods) {
+						if (good != this &&
+						    good is EquippableVG) {
+							((EquippableVG)good).Unequip(notify);
+						}
+					}
+				}
+
+				VirtualGoodsStorage.Equip(this, notify);
+			}
+			else {
+				throw new NotEnoughGoodsException(ItemId);
+			}
+		}
+
+		/// <summary>
+		/// Unequips the current <code>EquippableVG</code>
+		/// </summary>
+		public void Unequip() {
+			Unequip(true);
+		}
+
+		/// <summary>
+		/// Unequips the current <code>EquippableVG</code>
+		/// </summary>
+		/// <param name="notify">if true, the relevant event will be posted when unequipped.</param>
+		public void Unequip(bool notify) {
+			VirtualGoodsStorage.UnEquip(this, notify);
 		}
 
 	}

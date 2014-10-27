@@ -63,5 +63,16 @@ namespace Soomla.Store {
 			return base.toJSONObject();
 		}
 
+		/// <summary>
+		/// <see cref="Soomla.Store.VirtualItem"/>
+		/// </summary>
+		public override int ResetBalance(int balance, bool notify) {
+			return VirtualGoodsStorage.SetBalance(this, balance, notify);
+		}
+
+		public override int GetBalance() {
+			return VirtualGoodsStorage.GetBalance(this);
+		}
+
 	}
 }

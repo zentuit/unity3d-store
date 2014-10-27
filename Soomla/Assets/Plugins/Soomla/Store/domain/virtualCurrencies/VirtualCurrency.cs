@@ -68,9 +68,25 @@ namespace Soomla.Store{
 		/// <summary>
 		/// Saves this instance.
 		/// </summary>
-		public override void save() 
+		public override void Save() 
 		{
 			save("VirtualCurrency");
+		}
+		
+		public override int Give(int amount, bool notify) {
+			return VirtualCurrencyStorage.Add(this, amount, notify);
+		}
+		
+		public override int Take(int amount, bool notify) {
+			return VirtualCurrencyStorage.Remove(this, amount, notify);
+		}
+
+		public override int ResetBalance(int balance, bool notify) {
+			return VirtualCurrencyStorage.SetBalance(this, balance, notify);
+		}
+
+		public override int GetBalance() {
+			return VirtualCurrencyStorage.GetBalance(this);
 		}
 	}
 }

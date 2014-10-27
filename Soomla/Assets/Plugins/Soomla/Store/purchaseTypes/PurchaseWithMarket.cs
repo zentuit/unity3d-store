@@ -24,6 +24,8 @@ namespace Soomla.Store
 	/// </summary>
 	public class PurchaseWithMarket : PurchaseType
 	{
+		private const string TAG = "SOOMLA PurchaseWithMarket";
+
 		public MarketItem MarketItem;
 		
 		/// <summary>
@@ -49,24 +51,16 @@ namespace Soomla.Store
 			this.MarketItem = marketItem;
 		}
 
-#if UNITY_EDITOR
 		public override void Buy(string payload)
 		{
-			SoomlaUtils.LogDebug("SOOMLA PurchaseWithMarket", "PurchaseWithMarket is being run on the editor. Success is inevitable.");
+			SoomlaUtils.LogDebug(TAG, "Starting in-app purchase for productId: "
+			                     + MarketItem.ProductId);
 
-			StoreEvents.Instance.onItemPurchaseStarted(AssociatedItem.ItemId);
-			StoreEvents.Instance.onMarketPurchaseStarted(AssociatedItem.ItemId);
-
-			StoreInventory.GiveItem(AssociatedItem.ItemId, 1);
-
-			string token = "[InEditor Token] " + System.Guid.NewGuid().ToString();
-			string orderId = "[InEditor OrderId] " + System.Guid.NewGuid().ToString();
-			string message = AssociatedItem.ItemId + "#SOOM#" + payload + "#SOOM#" + token + "#SOOM#" + orderId;
-
-			StoreEvents.Instance.onItemPurchased(message);
-			StoreEvents.Instance.onMarketPurchase(message);
+			JSONObject eventJSON = new JSONObject();
+			eventJSON.AddField("itemId", AssociatedItem.ItemId);
+			StoreEvents.Instance.onItemPurchaseStarted(eventJSON.print());
+			SoomlaStore.BuyMarketItem(MarketItem.ProductId, payload);
 		}
-#endif
 	}
 }
 

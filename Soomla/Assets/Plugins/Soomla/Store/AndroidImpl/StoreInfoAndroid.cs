@@ -1,4 +1,4 @@
-﻿/// Copyright (C) 2012-2014 Soomla Inc.
+﻿/// Copyright (C) 2012-2014 Soomla Inc
 ///
 /// Licensed under the Apache License, Version 2.0 (the "License");
 /// you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ namespace Soomla.Store {
 	/// </summary>
 	public class StoreInfoAndroid : StoreInfo {
 
-#if UNITY_ANDROID && !UNITY_EDITOR
+//#if UNITY_ANDROID && !UNITY_EDITOR
 
 		/// <summary>
 		/// Initializes <c>StoreInfo</c>.
@@ -43,193 +43,17 @@ namespace Soomla.Store {
 		/// metadata when the application loads. Bumping the version is done by returning a higher
 		/// number in <c>IStoreAssets</c>'s <c>getVersion</c>.
 		/// </summary>
-		override protected void _initialize(IStoreAssets storeAssets) {
-			SoomlaUtils.LogDebug(TAG, "pushing data to StoreAssets on java side");
+		override protected void _setStoreAssets(IStoreAssets storeAssets) {
+			SoomlaUtils.LogDebug(TAG, "pushing IStoreAssets to StoreInfo on java side");
 
 			string storeAssetsJSON = IStoreAssetsToJSON(storeAssets);
 			int version = storeAssets.GetVersion();
-
-			using(AndroidJavaClass jniStoreAssets = new AndroidJavaClass("com.soomla.unity.StoreAssets")) {
-				jniStoreAssets.CallStatic("prepare", version, storeAssetsJSON);
+			using(AndroidJavaClass jniStoreInfoClass = new AndroidJavaClass("com.soomla.store.data.StoreInfo")) {
+				jniStoreInfoClass.CallStatic("setStoreAssets", version, storeAssetsJSON);
 			}
 			SoomlaUtils.LogDebug(TAG, "done! (pushing data to StoreAssets on java side)");
 		}
 
-		/// <summary>
-		/// Gets the item with the given <c>itemId</c>.
-		/// </summary>
-		/// <param name="itemId">Item id.</param>
-		/// <returns>Item with the given id.</returns>
-		/// <exception cref="VirtualItemNotFoundException">Exception is thrown if item is not found.</exception>
-		override protected VirtualItem _getItemByItemId(string itemId) {
-			VirtualItem vi = null;
-			AndroidJNI.PushLocalFrame(100);
-			using(AndroidJavaObject jniVirtualItem = AndroidJNIHandler.CallStatic<AndroidJavaObject>(
-				new AndroidJavaClass("com.soomla.store.data.StoreInfo"),"getVirtualItem", itemId)) {
-				vi = VirtualItem.factoryItemFromJNI(jniVirtualItem);
-			}
-			AndroidJNI.PopLocalFrame(IntPtr.Zero);
-			return vi;
-		}
-
-		/// <summary>
-		/// Gets the purchasable item with the given <c>productId</c>.
-		/// </summary>
-		/// <param name="productId">Product id.</param>
-		/// <returns>Purchasable virtual item with the given id.</returns>
-		/// <exception cref="VirtualItemNotFoundException">Exception is thrown if item is not found.</exception>
-		override protected PurchasableVirtualItem _getPurchasableItemWithProductId(string productId) {
-			VirtualItem vi = null;
-			AndroidJNI.PushLocalFrame(100);
-			using(AndroidJavaObject jniVirtualItem = AndroidJNIHandler.CallStatic<AndroidJavaObject>(
-				new AndroidJavaClass("com.soomla.store.data.StoreInfo"),"getPurchasableItem", productId)) {
-				vi = VirtualItem.factoryItemFromJNI(jniVirtualItem);
-			}
-			AndroidJNI.PopLocalFrame(IntPtr.Zero);
-			return (PurchasableVirtualItem)vi;
-		}
-
-		/// <summary>
-		/// Gets the category that the virtual good with the given <c>goodItemId</c> belongs to.
-		/// </summary>
-		/// <param name="goodItemId">Item id.</param>
-		/// <returns>Category that the item with given id belongs to.</returns>
-		/// <exception cref="VirtualItemNotFoundException">Exception is thrown if category is not found.</exception>
-		override protected VirtualCategory _getCategoryForVirtualGood(string goodItemId) {
-			VirtualCategory vc = null;
-			AndroidJNI.PushLocalFrame(100);
-			using(AndroidJavaObject jniVirtualVategory = AndroidJNIHandler.CallStatic<AndroidJavaObject>(
-				new AndroidJavaClass("com.soomla.store.data.StoreInfo"),"getCategory", goodItemId)) {
-				vc = new VirtualCategory(jniVirtualVategory);
-			}
-			AndroidJNI.PopLocalFrame(IntPtr.Zero);
-			return vc;
-		}
-
-		/// <summary>
-		/// Gets the first upgrade for virtual good with the given <c>goodItemId</c>.
-		/// </summary>
-		/// <param name="goodItemId">Item id.</param>
-		/// <returns>The first upgrade for virtual good with the given id.</returns>
-		override protected UpgradeVG _getFirstUpgradeForVirtualGood(string goodItemId) {
-			UpgradeVG vgu = null;
-			AndroidJNI.PushLocalFrame(100);
-			using(AndroidJavaObject jniUpgradeVG = AndroidJNIHandler.CallStatic<AndroidJavaObject>(
-				new AndroidJavaClass("com.soomla.store.data.StoreInfo"),"getGoodFirstUpgrade", goodItemId)) {
-				vgu = new UpgradeVG(jniUpgradeVG);
-			}
-			AndroidJNI.PopLocalFrame(IntPtr.Zero);
-			return vgu;
-		}
-
-		/// <summary>
-		/// Gets the last upgrade for the virtual good with the given <c>goodItemId</c>.
-		/// </summary>
-		/// <param name="goodItemId">item id</param>
-		/// <returns>last upgrade for virtual good with the given id</returns>
-		override protected UpgradeVG _getLastUpgradeForVirtualGood(string goodItemId) {
-			UpgradeVG vgu = null;
-			AndroidJNI.PushLocalFrame(100);
-			using(AndroidJavaObject jniUpgradeVG = AndroidJNIHandler.CallStatic<AndroidJavaObject>(
-				new AndroidJavaClass("com.soomla.store.data.StoreInfo"),"getGoodLastUpgrade", goodItemId)) {
-				vgu = new UpgradeVG(jniUpgradeVG);
-			}
-			AndroidJNI.PopLocalFrame(IntPtr.Zero);
-			return vgu;
-		}
-
-		/// <summary>
-		/// Gets all the upgrades for the virtual good with the given <c>goodItemId</c>.
-		/// </summary>
-		/// <param name="goodItemId">Item id.</param>
-		/// <returns>All upgrades for virtual good with the given id.</returns>
-		override protected List<UpgradeVG> _getUpgradesForVirtualGood(string goodItemId) {
-			List<UpgradeVG> vgus = new List<UpgradeVG>();
-			AndroidJNI.PushLocalFrame(100);
-			using(AndroidJavaObject jniUpgradeVGs = new AndroidJavaClass("com.soomla.store.data.StoreInfo").CallStatic<AndroidJavaObject>("getGoodUpgrades", goodItemId)) {
-				for(int i=0; i<jniUpgradeVGs.Call<int>("size"); i++) {
-					using(AndroidJavaObject jnivgu = jniUpgradeVGs.Call<AndroidJavaObject>("get", i)) {
-						vgus.Add(new UpgradeVG(jnivgu));
-					}
-				}
-			}
-			AndroidJNI.PopLocalFrame(IntPtr.Zero);
-			return vgus;
-		}
-
-		/// <summary>
-		/// Fetches the virtual currencies of your game.
-		/// </summary>
-		/// <returns>The virtual currencies.</returns>
-		override protected List<VirtualCurrency> _getVirtualCurrencies() {
-			List<VirtualCurrency> vcs = new List<VirtualCurrency>();
-			AndroidJNI.PushLocalFrame(100);
-			using(AndroidJavaObject jniVirtualCurrencies = new AndroidJavaClass("com.soomla.store.data.StoreInfo").CallStatic<AndroidJavaObject>("getCurrencies")) {
-				for(int i=0; i<jniVirtualCurrencies.Call<int>("size"); i++) {
-					using(AndroidJavaObject jnivc = jniVirtualCurrencies.Call<AndroidJavaObject>("get", i)) {
-						vcs.Add(new VirtualCurrency(jnivc));
-					}
-				}
-			}
-			AndroidJNI.PopLocalFrame(IntPtr.Zero);
-			return vcs;
-		}
-
-		/// <summary>
-		/// Fetches the virtual goods of your game.
-		/// </summary>
-		/// <returns>All virtual goods.</returns>
-		override protected List<VirtualGood> _getVirtualGoods() {
-			List<VirtualGood> virtualGoods = new List<VirtualGood>();
-			AndroidJNI.PushLocalFrame(100);
-			using(AndroidJavaObject jniVirtualGoods = new AndroidJavaClass("com.soomla.store.data.StoreInfo").CallStatic<AndroidJavaObject>("getGoods")) {
-				for(int i=0; i<jniVirtualGoods.Call<int>("size"); i++) {
-					AndroidJNI.PushLocalFrame(100);
-					using(AndroidJavaObject jniGood = jniVirtualGoods.Call<AndroidJavaObject>("get", i)) {
-						virtualGoods.Add((VirtualGood)VirtualItem.factoryItemFromJNI(jniGood));
-					}
-					AndroidJNI.PopLocalFrame(IntPtr.Zero);
-				}
-			}
-			AndroidJNI.PopLocalFrame(IntPtr.Zero);
-			return virtualGoods;
-		}
-
-		/// <summary>
-		/// Fetches the virtual currency packs of your game.
-		/// </summary>
-		/// <returns>All virtual currency packs.</returns>
-		override protected List<VirtualCurrencyPack> _getVirtualCurrencyPacks() {
-			List<VirtualCurrencyPack> vcps = new List<VirtualCurrencyPack>();
-			AndroidJNI.PushLocalFrame(100);
-			using(AndroidJavaObject jniVirtualCurrencyPacks = new AndroidJavaClass("com.soomla.store.data.StoreInfo").CallStatic<AndroidJavaObject>("getCurrencyPacks")) {
-				for(int i=0; i<jniVirtualCurrencyPacks.Call<int>("size"); i++) {
-					using(AndroidJavaObject jnivcp = jniVirtualCurrencyPacks.Call<AndroidJavaObject>("get", i)) {
-						vcps.Add(new VirtualCurrencyPack(jnivcp));
-					}
-				}
-			}
-			AndroidJNI.PopLocalFrame(IntPtr.Zero);
-			return vcps;
-		}
-
-		/// <summary>
-		/// Fetches the virtual categories of your game.
-		/// </summary>
-		/// <returns>All virtual categories.</returns>
-		override protected List<VirtualCategory> _getVirtualCategories() {
-			List<VirtualCategory> virtualCategories = new List<VirtualCategory>();
-			AndroidJNI.PushLocalFrame(100);
-			using(AndroidJavaObject jniVirtualCategories = new AndroidJavaClass("com.soomla.store.data.StoreInfo").CallStatic<AndroidJavaObject>("getCategories")) {
-				for(int i=0; i<jniVirtualCategories.Call<int>("size"); i++) {
-					using(AndroidJavaObject jniCat = jniVirtualCategories.Call<AndroidJavaObject>("get", i)) {
-						virtualCategories.Add(new VirtualCategory(jniCat));
-					}
-				}
-			}
-			AndroidJNI.PopLocalFrame(IntPtr.Zero);
-			return virtualCategories;
-		}
-#endif
+//#endif
 	}
 }

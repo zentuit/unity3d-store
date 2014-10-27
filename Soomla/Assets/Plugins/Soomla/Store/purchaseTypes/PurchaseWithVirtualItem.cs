@@ -25,6 +25,8 @@ namespace Soomla.Store
 	/// </summary>
 	public class PurchaseWithVirtualItem : PurchaseType
 	{
+		private const string TAG = "SOOMLA PurchaseWithVirtualItem";
+
 		public String TargetItemId;
 		public int Amount;
 		
@@ -42,34 +44,43 @@ namespace Soomla.Store
 			this.Amount = amount;
 		}
 
-#if UNITY_EDITOR
 		public override void Buy(string payload)
 		{
 			SoomlaUtils.LogDebug("SOOMLA PurchaseWithVirtualItem", "Trying to buy a " + AssociatedItem.Name + " with "
 			                     + Amount + " pieces of " + TargetItemId);
 
-			StoreEvents.Instance.onItemPurchaseStarted(AssociatedItem.ItemId);
-
 			VirtualItem item = null;
 			try {
 				item = StoreInfo.GetItemByItemId(TargetItemId);
-			} catch (VirtualItemNotFoundException e) {
+			} catch (VirtualItemNotFoundException) {
 				SoomlaUtils.LogError(TAG, "Target virtual item doesn't exist !");
 				return;
 			}
 
-			int balance = StoreInventory.GetItemBalance(TargetItemId);
+			JSONObject eventJSON = new JSONObject();
+			eventJSON.AddField("itemId", AssociatedItem.ItemId);
+			StoreEvents.Instance.onItemPurchaseStarted(eventJSON.print());
+
+			int balance = item.GetBalance();
+			if (item is VirtualCurrency) {
+				balance = VirtualCurrencyStorage.GetBalance(item);
+			} else {
+				balance = VirtualGoodsStorage.GetBalance(item);
+			}
+
 			if (balance < Amount){
 				throw new InsufficientFundsException(TargetItemId);
 			}
 
-			StoreInventory.TakeItem(TargetItemId, Amount);
+			item.Take(Amount);
 
-			StoreInventory.GiveItem(AssociatedItem.ItemId, 1);
+			AssociatedItem.Give(1);
 
-			StoreEvents.Instance.onItemPurchased(AssociatedItem.ItemId + "#SOOM#" + payload);
+			eventJSON = new JSONObject();
+			eventJSON.AddField("itemId", AssociatedItem.ItemId);
+			eventJSON.AddField("payload", payload);
+			StoreEvents.Instance.onItemPurchased(eventJSON.print());
 		}
-#endif
 	}
 }
 

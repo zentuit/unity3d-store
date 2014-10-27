@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System;
 using System.Runtime.InteropServices;
 using System.Linq;
+using System.Collections;
 
 namespace Soomla.Store
 {
@@ -30,19 +31,6 @@ namespace Soomla.Store
 	/// </summary>
 	public class StoreInfo
 	{
-
-
-		// Create a local copy of VirtualGoods for display in the Unity editor window
-		private static VirtualCurrency[] localCurrencies;
-		private static VirtualCurrencyPack[] localCurrencyPacks;
-		private static VirtualGood[] localVirtualGoods;
-		private static VirtualCategory[] localCategories;
-
-		private static Dictionary<String, VirtualItem> localVirtualItems = new Dictionary<String, VirtualItem>();
-		private static Dictionary<String, PurchasableVirtualItem> localPurchasableItems = new Dictionary<String, PurchasableVirtualItem>();
-		private static Dictionary<String, VirtualCategory> localGoodsCategories = new Dictionary<String, VirtualCategory>();
-		private static Dictionary<String, List<UpgradeVG>> localGoodsUpgrades = new Dictionary<String, List<UpgradeVG>>();
-
 
 		protected const string TAG = "SOOMLA/UNITY StoreInfo"; // used for Log error messages
 
@@ -62,37 +50,35 @@ namespace Soomla.Store
 			}
 		}
 
-		public static void RefreshLocalStoreInfo() {
-			#if !UNITY_EDITOR
-			localCurrencies = null;
-			localCurrencyPacks = null;
-			localVirtualGoods = null;
-			localCategories = null;
-			localCurrencies = GetVirtualCurrencies().ToArray();
-			localVirtualGoods = GetVirtualGoods().ToArray();
-			localCurrencyPacks = GetVirtualCurrencyPacks().ToArray();
-			localCategories = GetVirtualCategories().ToArray();
-
-			updateAggregatedLists();
-			#endif
-
-			StoreInventory.Instance.RefreshLocalInventory();
-		}
 
 		/// <summary>
-		/// Initializes <c>StoreInfo</c>.
+		/// NOTE: This function is manually called when you initialize SoomlaStore. You won't need to call
+		/// 		it on regular use of SOOMLA Store.
+		/// 
+		/// Initializes <code>StoreInfo</code>.
 		/// On first initialization, when the database doesn't have any previous version of the store
-		/// metadata, <c>StoreInfo</c> gets loaded from the given <c>IStoreAssets</c>.
-		/// After the first initialization, <c>StoreInfo</c> will be initialized from the database.
-	    ///
-	    /// IMPORTANT: If you want to override the current <c>StoreInfo</c>, you'll have to bump
-		/// the version of your implementation of <c>IStoreAssets</c> in order to remove the
-		/// metadata when the application loads. Bumping the version is done by returning a higher
-		/// number in <c>IStoreAssets</c>'s <c>getVersion</c>.
+     	/// metadata, <code>StoreInfo</code> gets loaded from the given <code>IStoreAssets</code>.
+     	/// After the first initialization, <code>StoreInfo</code> will be initialized from the database.
+		/// 
+		/// IMPORTANT: If you want to override the current <code>StoreInfo</code>, you'll have to bump
+		/// the version of your implementation of <code>IStoreAssets</code> in order to remove the
+		/// metadata when the application loads. Bumping the version is done by returning a higher number
+		/// in {@link com.soomla.store.IStoreAssets#getVersion()}.
 		/// </summary>
-		/// <param name="storeAssets">your game's economy</param>
-		public static void Initialize(IStoreAssets storeAssets) {
-			instance._initialize(storeAssets);
+		public static void SetStoreAssets(IStoreAssets storeAssets){
+			SoomlaUtils.LogDebug(TAG, "Setting store assets in SoomlaInfo");
+
+			if (storeAssets == null){
+				SoomlaUtils.LogError(TAG, "The given store assets can't be null!");
+				return;
+			}
+
+			instance._setStoreAssets(storeAssets);
+
+			// At this point we have StoreInfo JSON saved at the local key-value storage. We can just
+			// continue by initializing from DB.
+
+			initializeFromDB();
 		}
 
 		/// <summary>
@@ -105,11 +91,11 @@ namespace Soomla.Store
 			SoomlaUtils.LogDebug(TAG, "Trying to fetch an item with itemId: " + itemId);
 
 			VirtualItem item;
-			if (localVirtualItems != null && localVirtualItems.TryGetValue(itemId, out item)) {
+			if (VirtualItems != null && VirtualItems.TryGetValue(itemId, out item)) {
 				return item;
 			}
 
-			return instance._getItemByItemId(itemId);
+			throw new VirtualItemNotFoundException("itemId", itemId);
 		}
 
 		/// <summary>
@@ -119,12 +105,14 @@ namespace Soomla.Store
 		/// <exception cref="VirtualItemNotFoundException">Exception is thrown if item is not found.</exception>
 		/// <returns>Purchasable virtual item with the given id.</returns>
 		public static PurchasableVirtualItem GetPurchasableItemWithProductId(string productId) {
+			SoomlaUtils.LogDebug(TAG, "Trying to fetch a purchasable item with productId: " + productId);
+
 			PurchasableVirtualItem item;
-			if (localPurchasableItems != null && localPurchasableItems.TryGetValue(productId, out item)) {
+			if (PurchasableItems != null && PurchasableItems.TryGetValue(productId, out item)) {
 				return item;
 			}
 
-			return instance._getPurchasableItemWithProductId(productId);
+			throw new VirtualItemNotFoundException("productId", productId);
 		}
 
 		/// <summary>
@@ -134,12 +122,14 @@ namespace Soomla.Store
 		/// <exception cref="VirtualItemNotFoundException">Exception is thrown if category is not found.</exception>
 		/// <returns>Category that the item with given id belongs to.</returns>
 		public static VirtualCategory GetCategoryForVirtualGood(string goodItemId) {
+			SoomlaUtils.LogDebug(TAG, "Trying to fetch a category for a good with itemId: " + goodItemId);
+
 			VirtualCategory category;
-			if (localGoodsCategories != null && localGoodsCategories.TryGetValue(goodItemId, out category)) {
+			if (GoodsCategories != null && GoodsCategories.TryGetValue(goodItemId, out category)) {
 				return category;
 			}
 
-			return instance._getCategoryForVirtualGood(goodItemId);
+			throw new VirtualItemNotFoundException("goodItemId of category", goodItemId);
 		}
 
 		/// <summary>
@@ -148,12 +138,14 @@ namespace Soomla.Store
 		/// <param name="goodItemId">Item id.</param>
 		/// <returns>The first upgrade for virtual good with the given id.</returns>
 		public static UpgradeVG GetFirstUpgradeForVirtualGood(string goodItemId) {
+			SoomlaUtils.LogDebug(TAG, "Trying to fetch first upgrade of a good with itemId: " + goodItemId);
+
 			List<UpgradeVG> upgrades;
-			if (localGoodsUpgrades != null && localGoodsUpgrades.TryGetValue(goodItemId, out upgrades)) {
+			if (GoodsUpgrades != null && GoodsUpgrades.TryGetValue(goodItemId, out upgrades)) {
 				return upgrades.FirstOrDefault(up => string.IsNullOrEmpty(up.PrevItemId));
 			}
 
-			return instance._getFirstUpgradeForVirtualGood(goodItemId);
+			return null;
 		}
 
 		/// <summary>
@@ -162,12 +154,14 @@ namespace Soomla.Store
 		/// <param name="goodItemId">item id</param>
 		/// <returns>last upgrade for virtual good with the given id</returns>
 		public static UpgradeVG GetLastUpgradeForVirtualGood(string goodItemId) {
+			SoomlaUtils.LogDebug(TAG, "Trying to fetch last upgrade of a good with itemId: " + goodItemId);
+
 			List<UpgradeVG> upgrades;
-			if (localGoodsUpgrades != null && localGoodsUpgrades.TryGetValue(goodItemId, out upgrades)) {
+			if (GoodsUpgrades != null && GoodsUpgrades.TryGetValue(goodItemId, out upgrades)) {
 				return upgrades.FirstOrDefault(up => string.IsNullOrEmpty(up.NextItemId));
 			}
 
-			return instance._getLastUpgradeForVirtualGood(goodItemId);
+			return null;
 		}
 
 		/// <summary>
@@ -176,199 +170,46 @@ namespace Soomla.Store
 		/// <param name="goodItemId">Item id.</param>
 		/// <returns>All upgrades for virtual good with the given id.</returns>
 		public static List<UpgradeVG> GetUpgradesForVirtualGood(string goodItemId) {
+			SoomlaUtils.LogDebug(TAG, "Trying to fetch upgrades of a good with itemId: " + goodItemId);
+
 			List<UpgradeVG> upgrades;
-			if (localGoodsUpgrades != null && localGoodsUpgrades.TryGetValue(goodItemId, out upgrades)) {
+			if (GoodsUpgrades != null && GoodsUpgrades.TryGetValue(goodItemId, out upgrades)) {
 				return upgrades;
 			}
 
-			SoomlaUtils.LogDebug(TAG, "Trying to fetch upgrades for " + goodItemId);
-			return instance._getUpgradesForVirtualGood(goodItemId);
+			return null;
 		}
 
-		/// <summary>
-		/// Fetches the virtual currencies of your game.
-		/// </summary>
-		/// <returns>The virtual currencies.</returns>
-		public static List<VirtualCurrency> GetVirtualCurrencies() {
-			if (localCurrencies != null) {
-				return localCurrencies.ToList();
-			}
-
-			SoomlaUtils.LogDebug(TAG, "Trying to fetch currencies");
-			return instance._getVirtualCurrencies();
-		}
-
-		/// <summary>
-		/// Fetches the virtual goods of your game.
-		/// </summary>
-		/// <returns>All virtual goods.</returns>
-		public static List<VirtualGood> GetVirtualGoods() {
-			if (localVirtualGoods != null) {
-				return localVirtualGoods.ToList();
-			}
-
-			SoomlaUtils.LogDebug(TAG, "Trying to fetch goods");
-			return instance._getVirtualGoods();
-		}
-
-		/// <summary>
-		/// Fetches the virtual currency packs of your game.
-		/// </summary>
-		/// <returns>All virtual currency packs.</returns>
-		public static List<VirtualCurrencyPack> GetVirtualCurrencyPacks() {
-			if (localCurrencyPacks != null) {
-				return localCurrencyPacks.ToList();
-			}
-
-			SoomlaUtils.LogDebug(TAG, "Trying to fetch packs");
-
-			return instance._getVirtualCurrencyPacks();
-		}
-
-		/// <summary>
-		/// Fetches the virtual categories of your game.
-		/// </summary>
-		/// <returns>All virtual categories.</returns>
-		public static List<VirtualCategory> GetVirtualCategories() {
-			if (localCategories != null) {
-				return localCategories.ToList();
-			}
-
-			SoomlaUtils.LogDebug(TAG, "Trying to fetch categories");
-			return instance._getVirtualCategories();
-		}
 
 		/** Protected Functions **/
 		/** These protected virtual functions will only run when in editor **/
 
-		virtual protected void _initialize(IStoreAssets storeAssets) {
+		virtual protected void _setStoreAssets(IStoreAssets storeAssets) {
 #if UNITY_EDITOR
-			// Initialise lists of local data for viewing in the Unity editor
-			localCurrencies = storeAssets.GetCurrencies();
-			localCurrencyPacks = storeAssets.GetCurrencyPacks();
-			localVirtualGoods = storeAssets.GetGoods();
-			localCategories = storeAssets.GetCategories();
+			string storeJSON = IStoreAssetsToJSON(storeAssets);
 
-			updateAggregatedLists ();
+			KeyValueStorage.SetValue(keyMetaStoreInfo(), storeJSON);
 #endif
 		}
 
-		virtual protected VirtualItem _getItemByItemId(string itemId) {
-#if UNITY_EDITOR
-			VirtualItem item;
-			if (localVirtualItems.TryGetValue(itemId, out item)) {
-				return item;
-			}
-#endif
-			return null;
-		}
-
-		virtual protected PurchasableVirtualItem _getPurchasableItemWithProductId(string productId) {
-#if UNITY_EDITOR
-			PurchasableVirtualItem item;
-			if (localPurchasableItems.TryGetValue(productId, out item)) {
-				return item;
-			}
-#endif
-			return null;
-		}
-
-		virtual protected VirtualCategory _getCategoryForVirtualGood(string goodItemId) {
-#if UNITY_EDITOR
-			VirtualCategory category;
-			if (localGoodsCategories.TryGetValue(goodItemId, out category)) {
-				return category;
-			}
-
-			throw new VirtualItemNotFoundException("GoodItemId", goodItemId);
-#else
-			return null;
-#endif
-		}
-
-		virtual protected UpgradeVG _getFirstUpgradeForVirtualGood(string goodItemId) {
-#if UNITY_EDITOR
-			List<UpgradeVG> upgrades;
-			if (localGoodsUpgrades.TryGetValue(goodItemId, out upgrades)) {
-				return upgrades.FirstOrDefault(up => string.IsNullOrEmpty(up.PrevItemId));
-			}
-#endif
-			return null;
-		}
-
-		virtual protected UpgradeVG _getLastUpgradeForVirtualGood(string goodItemId) {
-#if UNITY_EDITOR
-			List<UpgradeVG> upgrades;
-			if (localGoodsUpgrades.TryGetValue(goodItemId, out upgrades)) {
-				return upgrades.FirstOrDefault(up => string.IsNullOrEmpty(up.NextItemId));
-			}
-#endif
-
-			return null;
-		}
-
-		virtual protected List<UpgradeVG> _getUpgradesForVirtualGood(string goodItemId) {
-			List<UpgradeVG> vgus = new List<UpgradeVG>();
-#if UNITY_EDITOR
-			List<UpgradeVG> upgrades;
-			if (localGoodsUpgrades.TryGetValue(goodItemId, out upgrades)) {
-				vgus = upgrades;
-			}
-#endif
-
-			return vgus;
-		}
-
-		virtual protected List<VirtualCurrency> _getVirtualCurrencies() {
-#if UNITY_EDITOR
-			return localCurrencies.ToList();
-#else
-			return null;
-#endif
-
-		}
-
-		virtual protected List<VirtualGood> _getVirtualGoods() {
-#if UNITY_EDITOR
-			return localVirtualGoods.ToList();
-#else
-			return null;
-#endif
-		}
-
-		virtual protected List<VirtualCurrencyPack> _getVirtualCurrencyPacks() {
-#if UNITY_EDITOR
-			return localCurrencyPacks.ToList();
-#else
-			return null;
-#endif
-		}
-
-		virtual protected List<VirtualCategory> _getVirtualCategories() {
-#if UNITY_EDITOR
-			return localCategories.ToList();
-#else
-			return null;
-#endif
-		}
 
 		/** Protected Functions **/
 
-		protected string IStoreAssetsToJSON(IStoreAssets storeAssets) {
+		protected static string IStoreAssetsToJSON(IStoreAssets storeAssets) {
 
-			//			Utils.LogDebug(TAG, "Adding currency");
+			// Utils.LogDebug(TAG, "Adding currency");
 			JSONObject currencies = new JSONObject(JSONObject.Type.ARRAY);
 			foreach(VirtualCurrency vi in storeAssets.GetCurrencies()) {
 				currencies.Add(vi.toJSONObject());
 			}
 
-			//			Utils.LogDebug(TAG, "Adding packs");
+			// Utils.LogDebug(TAG, "Adding packs");
 			JSONObject packs = new JSONObject(JSONObject.Type.ARRAY);
 			foreach(VirtualCurrencyPack vi in storeAssets.GetCurrencyPacks()) {
 				packs.Add(vi.toJSONObject());
 			}
 
-			//			Utils.LogDebug(TAG, "Adding goods");
+			// Utils.LogDebug(TAG, "Adding goods");
 			JSONObject suGoods = new JSONObject(JSONObject.Type.ARRAY);
 			JSONObject ltGoods = new JSONObject(JSONObject.Type.ARRAY);
 			JSONObject eqGoods = new JSONObject(JSONObject.Type.ARRAY);
@@ -394,13 +235,13 @@ namespace Soomla.Store
 			goods.AddField(JSONConsts.STORE_GOODS_UP, upGoods);
 			goods.AddField(JSONConsts.STORE_GOODS_PA, paGoods);
 
-			//			Utils.LogDebug(TAG, "Adding categories");
+			// Utils.LogDebug(TAG, "Adding categories");
 			JSONObject categories = new JSONObject(JSONObject.Type.ARRAY);
 			foreach(VirtualCategory vi in storeAssets.GetCategories()) {
 				categories.Add(vi.toJSONObject());
 			}
 
-			//			Utils.LogDebug(TAG, "Preparing StoreAssets  JSONObject");
+			// Utils.LogDebug(TAG, "Preparing StoreAssets  JSONObject");
 			JSONObject storeAssetsObj = new JSONObject(JSONObject.Type.OBJECT);
 			storeAssetsObj.AddField(JSONConsts.STORE_CATEGORIES, categories);
 			storeAssetsObj.AddField(JSONConsts.STORE_CURRENCIES, currencies);
@@ -413,38 +254,153 @@ namespace Soomla.Store
 
 		/** Private functions **/
 
-		private static void updateAggregatedLists (){
-			// rewritten from android java code
-			foreach (VirtualCurrency vi in localCurrencies) {
-				localVirtualItems.Add (vi.ItemId, vi);
+		private static void initializeFromDB() {
+			string key = keyMetaStoreInfo();
+			string val = KeyValueStorage.GetValue(key);
+			
+			if (string.IsNullOrEmpty(val)){
+				SoomlaUtils.LogError(TAG, "store json is not in DB. Make sure you initialized SoomlaStore with your Store assets. The App will shut down now.");
+				Application.Quit();
 			}
-			foreach (VirtualCurrencyPack vi in localCurrencyPacks) {
-				localVirtualItems.Add (vi.ItemId, vi);
-				PurchaseType purchaseType = vi.PurchaseType;
-				if (purchaseType is PurchaseWithMarket) {
-					localPurchasableItems.Add (((PurchaseWithMarket)purchaseType).MarketItem.ProductId, vi);
+			
+			SoomlaUtils.LogDebug(TAG, "the metadata-economy json (from DB) is " + val);
+			
+			JSONObject storeJSON = new JSONObject(val);
+			VirtualItems = new Dictionary<string, VirtualItem>();
+			PurchasableItems = new Dictionary<string, PurchasableVirtualItem>();
+			GoodsCategories = new Dictionary<string, VirtualCategory>();
+			GoodsUpgrades = new Dictionary<string, List<UpgradeVG>>();
+			CurrencyPacks = new List<VirtualCurrencyPack>();
+			Goods = new List<VirtualGood>();
+			Categories = new List<VirtualCategory>();
+			Currencies = new List<VirtualCurrency>();
+			
+			if (storeJSON.HasField(JSONConsts.STORE_CURRENCIES)) {
+				List<JSONObject> objs = storeJSON[JSONConsts.STORE_CURRENCIES].list;
+				foreach(JSONObject o in objs) {
+					VirtualCurrency c = new VirtualCurrency(o);
+					Currencies.Add(c);
 				}
 			}
-			foreach (VirtualGood vi in localVirtualGoods) {
-				localVirtualItems.Add (vi.ItemId, vi);
+			
+			if (storeJSON.HasField(JSONConsts.STORE_CURRENCYPACKS)) {
+				List<JSONObject> objs = storeJSON[JSONConsts.STORE_CURRENCYPACKS].list;
+				foreach(JSONObject o in objs) {
+					VirtualCurrencyPack c = new VirtualCurrencyPack(o);
+					CurrencyPacks.Add(c);
+				}
+			}
+			
+			if (storeJSON.HasField(JSONConsts.STORE_GOODS)) {
+				JSONObject goods = storeJSON[JSONConsts.STORE_GOODS];
+				
+				if (goods.HasField(JSONConsts.STORE_GOODS_SU)) {
+					List<JSONObject> suGoods = goods[JSONConsts.STORE_GOODS_SU].list;
+					foreach(JSONObject o in suGoods) {
+						var c = new SingleUseVG(o);
+						Goods.Add(c);
+					}
+				}
+				
+				if (goods.HasField(JSONConsts.STORE_GOODS_LT)) {
+					List<JSONObject> ltGoods = goods[JSONConsts.STORE_GOODS_LT].list;
+					foreach(JSONObject o in ltGoods) {
+						LifetimeVG c = new LifetimeVG(o);
+						Goods.Add(c);
+					}
+				}
+				
+				if (goods.HasField(JSONConsts.STORE_GOODS_PA)) {
+					List<JSONObject> paGoods = goods[JSONConsts.STORE_GOODS_PA].list;
+					foreach(JSONObject o in paGoods) {
+						SingleUsePackVG c = new SingleUsePackVG(o);
+						Goods.Add(c);
+					}
+				}
+				
+				if (goods.HasField(JSONConsts.STORE_GOODS_UP)) {
+					List<JSONObject> upGoods = goods[JSONConsts.STORE_GOODS_UP].list;
+					foreach(JSONObject o in upGoods) {
+						UpgradeVG c = new UpgradeVG(o);
+						Goods.Add(c);
+					}
+				}
+			}
+			
+			updateAggregatedLists();
+		}
+
+		private static void updateAggregatedLists (){
+			// rewritten from android java code
+			foreach (VirtualCurrency vi in Currencies) {
+				VirtualItems.Add (vi.ItemId, vi);
+			}
+			foreach (VirtualCurrencyPack vi in CurrencyPacks) {
+				VirtualItems.Add (vi.ItemId, vi);
+				PurchaseType purchaseType = vi.PurchaseType;
+				if (purchaseType is PurchaseWithMarket) {
+					PurchasableItems.Add (((PurchaseWithMarket)purchaseType).MarketItem.ProductId, vi);
+				}
+			}
+			foreach (VirtualGood vi in Goods) {
+				VirtualItems.Add (vi.ItemId, vi);
 				if (vi is UpgradeVG) {
 					List<UpgradeVG> upgrades;
-					if (!localGoodsUpgrades.TryGetValue (((UpgradeVG)vi).GoodItemId, out upgrades)) {
+					if (!GoodsUpgrades.TryGetValue (((UpgradeVG)vi).GoodItemId, out upgrades)) {
 						upgrades = new List<UpgradeVG> ();
-						localGoodsUpgrades.Add (((UpgradeVG)vi).GoodItemId, upgrades);
+						GoodsUpgrades.Add (((UpgradeVG)vi).GoodItemId, upgrades);
 					}
 					upgrades.Add ((UpgradeVG)vi);
 				}
 				PurchaseType purchaseType = vi.PurchaseType;
 				if (purchaseType is PurchaseWithMarket) {
-					localPurchasableItems.Add (((PurchaseWithMarket)purchaseType).MarketItem.ProductId, vi);
+					PurchasableItems.Add (((PurchaseWithMarket)purchaseType).MarketItem.ProductId, vi);
 				}
 			}
-			foreach (VirtualCategory category in localCategories) {
+			foreach (VirtualCategory category in Categories) {
 				foreach (string goodItemId in category.GoodItemIds) {
-					localGoodsCategories.Add (goodItemId, category);
+					GoodsCategories.Add (goodItemId, category);
 				}
 			}
 		}
+
+
+
+
+
+		/** Lists containing Store metadata **/
+		
+		// convenient hash of virtual items
+		public static Dictionary<string, VirtualItem> VirtualItems = new Dictionary<string, VirtualItem>();
+		
+		// convenient hash of purchasable virtual items
+		public static Dictionary<string, PurchasableVirtualItem> PurchasableItems = new Dictionary<string, PurchasableVirtualItem>();
+
+		// convenient hash of goods-categories
+		public static Dictionary<string, VirtualCategory> GoodsCategories = new Dictionary<string, VirtualCategory>();
+		
+		// convenient hash of good-upgrades
+		public static Dictionary<string, List<UpgradeVG>> GoodsUpgrades = new Dictionary<string, List<UpgradeVG>>();
+		
+		// list of virtual currencies
+		public static List<VirtualCurrency> Currencies = new List<VirtualCurrency>();
+		
+		// list of currency-packs
+		public static List<VirtualCurrencyPack> CurrencyPacks = new List<VirtualCurrencyPack>();
+		
+		// list of virtual goods
+		public static List<VirtualGood> Goods = new List<VirtualGood>();
+		
+		// list of virtul categories
+		public static List<VirtualCategory> Categories = new List<VirtualCategory>();
+
+
+		/** Private Members **/
+
+		private static string keyMetaStoreInfo() {
+			return "meta.storeinfo";
+		}
+
+//		private static int currentAssetsVersion = 0;
 	}
 }
