@@ -26,7 +26,7 @@ namespace Soomla.Store {
 	/// </summary>
 	public class SoomlaStoreAndroid : SoomlaStore {
 
-//#if UNITY_ANDROID && !UNITY_EDITOR
+#if UNITY_ANDROID && !UNITY_EDITOR
 		private static AndroidJavaObject jniSoomlaStore = null;
 
 		/// <summary>
@@ -120,6 +120,6 @@ namespace Soomla.Store {
 			jniSoomlaStore.Call("stopIabServiceInBg");
 			AndroidJNI.PopLocalFrame(IntPtr.Zero);
 		}
-//#endif
+#endif
 	}
 }

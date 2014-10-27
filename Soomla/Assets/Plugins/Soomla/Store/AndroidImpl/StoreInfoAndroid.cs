@@ -30,7 +30,7 @@ namespace Soomla.Store {
 	/// </summary>
 	public class StoreInfoAndroid : StoreInfo {
 
-//#if UNITY_ANDROID && !UNITY_EDITOR
+#if UNITY_ANDROID && !UNITY_EDITOR
 
 		/// <summary>
 		/// Initializes <c>StoreInfo</c>.
@@ -63,6 +63,6 @@ namespace Soomla.Store {
 			AndroidJNI.PopLocalFrame(IntPtr.Zero);
 		}
 
-//#endif
+#endif
 	}
 }

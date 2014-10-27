@@ -21,7 +21,7 @@ namespace Soomla.Store
 	/// abstract <c>VirtualCurrencyStorage</c> for Android.
 	/// </summary>
 	public class VirtualCurrencyStorageAndroid : VirtualCurrencyStorage {
-//#if UNITY_ANDROID && !UNITY_EDITOR
+#if UNITY_ANDROID && !UNITY_EDITOR
 
 		protected override int _getBalance(VirtualItem item) {
 			int retBalance;
@@ -71,7 +71,7 @@ namespace Soomla.Store
 			return retBalance;
 		}
 	
-//#endif
+#endif
 	}
 }
 

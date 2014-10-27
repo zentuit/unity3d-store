@@ -20,7 +20,7 @@ namespace Soomla.Store {
 
 	public class StoreEventPusherAndroid : StoreEvents.StoreEventPusher {
 
-//#if UNITY_ANDROID && !UNITY_EDITOR
+#if UNITY_ANDROID && !UNITY_EDITOR
 
 		protected override void _pushEventSoomlaStoreInitialized(string message) {
 			pushEvent("SoomlaStoreInitialized", message);
@@ -60,6 +60,6 @@ namespace Soomla.Store {
 			AndroidJNI.PopLocalFrame(IntPtr.Zero);
 		}
 
-//#endif
+#endif
 	}
 }

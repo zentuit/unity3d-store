@@ -21,7 +21,7 @@ namespace Soomla.Store
 	/// abstract <c>VirtualGoodsStorage</c> for Android.
 	/// </summary>
 	public class VirtualGoodsStorageAndroid : VirtualGoodsStorage {
-//#if UNITY_ANDROID && !UNITY_EDITOR
+#if UNITY_ANDROID && !UNITY_EDITOR
 
 		protected override void _removeUpgrades(VirtualGood good, bool notify) {
 			AndroidJNI.PushLocalFrame(100);
@@ -142,7 +142,7 @@ namespace Soomla.Store
 			return retBalance;
 		}
 	
-//#endif
+#endif
 	}
 }
 

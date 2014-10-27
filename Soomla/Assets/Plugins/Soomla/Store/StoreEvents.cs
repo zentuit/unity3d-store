@@ -421,15 +421,14 @@ namespace Soomla.Store {
 
 		public static Action OnSoomlaStoreInitialized = delegate {};
 
-		#if UNITY_ANDROID && !UNITY_EDITOR
+#if UNITY_ANDROID && !UNITY_EDITOR
 		public static Action OnIabServiceStarted = delegate {};
 
 		public static Action OnIabServiceStopped = delegate {};
-		#endif
-
+#endif
 
 		public abstract class StoreEventPusher {
-			
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR			
 			/// <summary>
 			/// Registers all events. 
 			/// </summary>
@@ -500,6 +499,7 @@ namespace Soomla.Store {
 				_pushEventItemPurchaseStarted(eventJSON.print());
 			}
 
+
 			// Event pushing back to native
 			protected abstract void _pushEventSoomlaStoreInitialized(string message);
 			protected abstract void _pushEventUnexpectedStoreError(string message);
@@ -510,7 +510,9 @@ namespace Soomla.Store {
 			protected abstract void _pushEventGoodUpgrade(string message);
 			protected abstract void _pushEventItemPurchased(string message);
 			protected abstract void _pushEventItemPurchaseStarted(string message);
+#endif
 		}
+
 
 	}
 }
