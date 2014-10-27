@@ -71,7 +71,7 @@ namespace Soomla.Store {
 		public override JSONObject toJSONObject() {
 			return base.toJSONObject();
 		}
-
+	
 
 		/// <summary>
 		/// Gives your user exactly one <code>LifetimeVG</code>.
