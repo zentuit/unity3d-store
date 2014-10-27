@@ -192,26 +192,8 @@ namespace Soomla.Store {
 		/// Save this instance with changes that were made to it.
 		/// The saving is done in the metadata in StoreInfo and being persisted to the local DB.
 		/// </summary>
-		public abstract void Save();
-
-		/// <summary>
-		/// Saves this instance according to type.
-		/// </summary>
-		/// <param name="type">type</param>
-		protected void save(string type)
-		{
-#if !UNITY_EDITOR
-			string viJSON = this.toJSONObject().print();
-#if UNITY_IOS
-			storeAssets_Save(type, viJSON);
-#elif UNITY_ANDROID
-			AndroidJNI.PushLocalFrame(100);
-			using(AndroidJavaClass jniStoreAssets = new AndroidJavaClass("com.soomla.unity.StoreAssets")) {
-				jniStoreAssets.CallStatic("save", type, viJSON);
-			}
-			AndroidJNI.PopLocalFrame(IntPtr.Zero);
-#endif
-#endif
+		public void Save() {
+			StoreInfo.Save(this);
 		}
 	}
 }

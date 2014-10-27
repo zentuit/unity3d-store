@@ -180,6 +180,27 @@ namespace Soomla.Store
 			return null;
 		}
 
+		/// <summary>
+		/// Saves the store's metadata in the database as JSON.
+		/// </summary>
+		public static void Save() {
+			string store_json = toJSONObject().print();
+			SoomlaUtils.LogDebug(TAG, "saving StoreInfo to DB. json is: " + store_json);
+			string key = keyMetaStoreInfo();
+			KeyValueStorage.SetValue(key, store_json);
+
+			instance.loadNativeFromDB();
+		}
+
+		/// <summary>
+		/// Replaces the given virtual item, and then saves the store's metadata.
+		/// </summary>
+		/// <param name="virtualItem">the virtual item to replace.</param>
+		public static void Save(VirtualItem virtualItem) {
+			replaceVirtualItem(virtualItem);
+			Save();
+		}
+
 
 		/** Protected Functions **/
 		/** These protected virtual functions will only run when in editor **/
@@ -191,6 +212,8 @@ namespace Soomla.Store
 			KeyValueStorage.SetValue(keyMetaStoreInfo(), storeJSON);
 #endif
 		}
+
+		protected virtual void loadNativeFromDB() { /* no implementation for this in editor... only devcies */ }
 
 
 		/** Protected Functions **/
@@ -229,11 +252,11 @@ namespace Soomla.Store
 				}
 			}
 			JSONObject goods = new JSONObject(JSONObject.Type.OBJECT);
-			goods.AddField(JSONConsts.STORE_GOODS_SU, suGoods);
-			goods.AddField(JSONConsts.STORE_GOODS_LT, ltGoods);
-			goods.AddField(JSONConsts.STORE_GOODS_EQ, eqGoods);
-			goods.AddField(JSONConsts.STORE_GOODS_UP, upGoods);
-			goods.AddField(JSONConsts.STORE_GOODS_PA, paGoods);
+			goods.AddField(StoreJSONConsts.STORE_GOODS_SU, suGoods);
+			goods.AddField(StoreJSONConsts.STORE_GOODS_LT, ltGoods);
+			goods.AddField(StoreJSONConsts.STORE_GOODS_EQ, eqGoods);
+			goods.AddField(StoreJSONConsts.STORE_GOODS_UP, upGoods);
+			goods.AddField(StoreJSONConsts.STORE_GOODS_PA, paGoods);
 
 			// Utils.LogDebug(TAG, "Adding categories");
 			JSONObject categories = new JSONObject(JSONObject.Type.ARRAY);
@@ -243,10 +266,10 @@ namespace Soomla.Store
 
 			// Utils.LogDebug(TAG, "Preparing StoreAssets  JSONObject");
 			JSONObject storeAssetsObj = new JSONObject(JSONObject.Type.OBJECT);
-			storeAssetsObj.AddField(JSONConsts.STORE_CATEGORIES, categories);
-			storeAssetsObj.AddField(JSONConsts.STORE_CURRENCIES, currencies);
-			storeAssetsObj.AddField(JSONConsts.STORE_CURRENCYPACKS, packs);
-			storeAssetsObj.AddField(JSONConsts.STORE_GOODS, goods);
+			storeAssetsObj.AddField(StoreJSONConsts.STORE_CATEGORIES, categories);
+			storeAssetsObj.AddField(StoreJSONConsts.STORE_CURRENCIES, currencies);
+			storeAssetsObj.AddField(StoreJSONConsts.STORE_CURRENCYPACKS, packs);
+			storeAssetsObj.AddField(StoreJSONConsts.STORE_GOODS, goods);
 
 			return storeAssetsObj.print();
 		}
@@ -264,70 +287,67 @@ namespace Soomla.Store
 			}
 			
 			SoomlaUtils.LogDebug(TAG, "the metadata-economy json (from DB) is " + val);
-			
-			JSONObject storeJSON = new JSONObject(val);
-			VirtualItems = new Dictionary<string, VirtualItem>();
-			PurchasableItems = new Dictionary<string, PurchasableVirtualItem>();
-			GoodsCategories = new Dictionary<string, VirtualCategory>();
-			GoodsUpgrades = new Dictionary<string, List<UpgradeVG>>();
-			CurrencyPacks = new List<VirtualCurrencyPack>();
-			Goods = new List<VirtualGood>();
-			Categories = new List<VirtualCategory>();
-			Currencies = new List<VirtualCurrency>();
-			
-			if (storeJSON.HasField(JSONConsts.STORE_CURRENCIES)) {
-				List<JSONObject> objs = storeJSON[JSONConsts.STORE_CURRENCIES].list;
-				foreach(JSONObject o in objs) {
-					VirtualCurrency c = new VirtualCurrency(o);
-					Currencies.Add(c);
+
+			JSONObject storeJSON = new JSONObject (val);
+			fromJSONObject (storeJSON);
+		}
+
+		private static void fromJSONObject(JSONObject storeJSON)
+		{
+			VirtualItems = new Dictionary<string, VirtualItem> ();
+			PurchasableItems = new Dictionary<string, PurchasableVirtualItem> ();
+			GoodsCategories = new Dictionary<string, VirtualCategory> ();
+			GoodsUpgrades = new Dictionary<string, List<UpgradeVG>> ();
+			CurrencyPacks = new List<VirtualCurrencyPack> ();
+			Goods = new List<VirtualGood> ();
+			Categories = new List<VirtualCategory> ();
+			Currencies = new List<VirtualCurrency> ();
+			if (storeJSON.HasField (StoreJSONConsts.STORE_CURRENCIES)) {
+				List<JSONObject> objs = storeJSON [StoreJSONConsts.STORE_CURRENCIES].list;
+				foreach (JSONObject o in objs) {
+					VirtualCurrency c = new VirtualCurrency (o);
+					Currencies.Add (c);
 				}
 			}
-			
-			if (storeJSON.HasField(JSONConsts.STORE_CURRENCYPACKS)) {
-				List<JSONObject> objs = storeJSON[JSONConsts.STORE_CURRENCYPACKS].list;
-				foreach(JSONObject o in objs) {
-					VirtualCurrencyPack c = new VirtualCurrencyPack(o);
-					CurrencyPacks.Add(c);
+			if (storeJSON.HasField (StoreJSONConsts.STORE_CURRENCYPACKS)) {
+				List<JSONObject> objs = storeJSON [StoreJSONConsts.STORE_CURRENCYPACKS].list;
+				foreach (JSONObject o in objs) {
+					VirtualCurrencyPack c = new VirtualCurrencyPack (o);
+					CurrencyPacks.Add (c);
 				}
 			}
-			
-			if (storeJSON.HasField(JSONConsts.STORE_GOODS)) {
-				JSONObject goods = storeJSON[JSONConsts.STORE_GOODS];
-				
-				if (goods.HasField(JSONConsts.STORE_GOODS_SU)) {
-					List<JSONObject> suGoods = goods[JSONConsts.STORE_GOODS_SU].list;
-					foreach(JSONObject o in suGoods) {
-						var c = new SingleUseVG(o);
-						Goods.Add(c);
+			if (storeJSON.HasField (StoreJSONConsts.STORE_GOODS)) {
+				JSONObject goods = storeJSON [StoreJSONConsts.STORE_GOODS];
+				if (goods.HasField (StoreJSONConsts.STORE_GOODS_SU)) {
+					List<JSONObject> suGoods = goods [StoreJSONConsts.STORE_GOODS_SU].list;
+					foreach (JSONObject o in suGoods) {
+						var c = new SingleUseVG (o);
+						Goods.Add (c);
 					}
 				}
-				
-				if (goods.HasField(JSONConsts.STORE_GOODS_LT)) {
-					List<JSONObject> ltGoods = goods[JSONConsts.STORE_GOODS_LT].list;
-					foreach(JSONObject o in ltGoods) {
-						LifetimeVG c = new LifetimeVG(o);
-						Goods.Add(c);
+				if (goods.HasField (StoreJSONConsts.STORE_GOODS_LT)) {
+					List<JSONObject> ltGoods = goods [StoreJSONConsts.STORE_GOODS_LT].list;
+					foreach (JSONObject o in ltGoods) {
+						LifetimeVG c = new LifetimeVG (o);
+						Goods.Add (c);
 					}
 				}
-				
-				if (goods.HasField(JSONConsts.STORE_GOODS_PA)) {
-					List<JSONObject> paGoods = goods[JSONConsts.STORE_GOODS_PA].list;
-					foreach(JSONObject o in paGoods) {
-						SingleUsePackVG c = new SingleUsePackVG(o);
-						Goods.Add(c);
+				if (goods.HasField (StoreJSONConsts.STORE_GOODS_PA)) {
+					List<JSONObject> paGoods = goods [StoreJSONConsts.STORE_GOODS_PA].list;
+					foreach (JSONObject o in paGoods) {
+						SingleUsePackVG c = new SingleUsePackVG (o);
+						Goods.Add (c);
 					}
 				}
-				
-				if (goods.HasField(JSONConsts.STORE_GOODS_UP)) {
-					List<JSONObject> upGoods = goods[JSONConsts.STORE_GOODS_UP].list;
-					foreach(JSONObject o in upGoods) {
-						UpgradeVG c = new UpgradeVG(o);
-						Goods.Add(c);
+				if (goods.HasField (StoreJSONConsts.STORE_GOODS_UP)) {
+					List<JSONObject> upGoods = goods [StoreJSONConsts.STORE_GOODS_UP].list;
+					foreach (JSONObject o in upGoods) {
+						UpgradeVG c = new UpgradeVG (o);
+						Goods.Add (c);
 					}
 				}
 			}
-			
-			updateAggregatedLists();
+			updateAggregatedLists ();
 		}
 
 		private static void updateAggregatedLists (){
@@ -362,6 +382,127 @@ namespace Soomla.Store
 					GoodsCategories.Add (goodItemId, category);
 				}
 			}
+		}
+
+		/// <summary>
+		/// Replaces an old virtual item with a new one by doing the following:
+		/// 1. Determines the type of the given virtual item.
+		/// 2. Looks for the given virtual item in the relevant list, according to its type.
+		/// 3. If found, removes it.
+		/// 4. Adds the given virtual item.
+		/// </summary>
+		/// <param name="virtualItem">the virtual item that replaces the old one if exists.</param>
+		private static void replaceVirtualItem(VirtualItem virtualItem) {
+			VirtualItems[virtualItem.ItemId] = virtualItem;
+			
+			if (virtualItem is VirtualCurrency) {
+				for(int i=0; i<Currencies.Count(); i++) {
+					if (Currencies[i].ItemId == virtualItem.ItemId) {
+						Currencies.RemoveAt(i);
+						break;
+					}
+				}
+				Currencies.Add((VirtualCurrency)virtualItem);
+			}
+			
+			if (virtualItem is VirtualCurrencyPack) {
+				VirtualCurrencyPack vcp = (VirtualCurrencyPack)virtualItem;
+				if (vcp.PurchaseType is PurchaseWithMarket) {
+					PurchasableItems.Add(((PurchaseWithMarket) vcp.PurchaseType).MarketItem
+					                      .ProductId, vcp);
+				}
+				
+				for(int i=0; i<CurrencyPacks.Count(); i++) {
+					if (CurrencyPacks[i].ItemId == vcp.ItemId) {
+						CurrencyPacks.RemoveAt(i);
+						break;
+					}
+				}
+				CurrencyPacks.Add(vcp);
+			}
+			
+			if (virtualItem is VirtualGood) {
+				VirtualGood vg = (VirtualGood)virtualItem;
+				
+				if (vg is UpgradeVG) {
+					List<UpgradeVG> upgrades = GoodsUpgrades[((UpgradeVG) vg).GoodItemId];
+					if (upgrades == null) {
+						upgrades = new List<UpgradeVG>();
+						GoodsUpgrades.Add(((UpgradeVG) vg).ItemId, upgrades);
+					}
+					upgrades.Add((UpgradeVG) vg);
+				}
+
+				if (vg.PurchaseType is PurchaseWithMarket) {
+					PurchasableItems.Add(((PurchaseWithMarket) vg.PurchaseType).MarketItem
+					                      .ProductId, vg);
+				}
+				
+				for(int i=0; i<Goods.Count(); i++) {
+					if (Goods[i].ItemId == vg.ItemId) {
+						Goods.RemoveAt(i);
+						break;
+					}
+				}
+				Goods.Add(vg);
+			}
+		}
+
+		/// <summary>
+		/// Converts <code>StoreInfo</code> to a <code>JSONObject</code>.
+		/// </summary>
+		/// <returns><code>JSONObject</code> representation of <code>StoreInfo</code>.</returns>
+		private static JSONObject toJSONObject(){
+			
+			JSONObject currencies = new JSONObject(JSONObject.Type.ARRAY);
+			foreach(VirtualCurrency c in Currencies){
+				currencies.Add(c.toJSONObject());
+			}
+
+			JSONObject currencyPacks = new JSONObject(JSONObject.Type.ARRAY);
+			foreach (VirtualCurrencyPack pack in CurrencyPacks){
+				currencyPacks.Add(pack.toJSONObject());
+			}
+			
+			JSONObject goods = new JSONObject();
+			JSONObject suGoods = new JSONObject(JSONObject.Type.ARRAY);
+			JSONObject ltGoods = new JSONObject(JSONObject.Type.ARRAY);
+			JSONObject eqGoods = new JSONObject(JSONObject.Type.ARRAY);
+			JSONObject paGoods = new JSONObject(JSONObject.Type.ARRAY);
+			JSONObject upGoods = new JSONObject(JSONObject.Type.ARRAY);
+			foreach (VirtualGood good in Goods){
+				if (good is SingleUseVG) {
+					suGoods.Add(good.toJSONObject());
+				} else if (good is UpgradeVG) {
+					upGoods.Add(good.toJSONObject());
+				} else if (good is EquippableVG) {
+					eqGoods.Add(good.toJSONObject());
+				} else if (good is SingleUsePackVG) {
+					paGoods.Add(good.toJSONObject());
+				} else if (good is LifetimeVG) {
+					ltGoods.Add(good.toJSONObject());
+				}
+			}
+			
+
+			JSONObject categories = new JSONObject(JSONObject.Type.ARRAY);
+			foreach (VirtualCategory cat in Categories){
+				categories.Add(cat.toJSONObject());
+			}
+			
+			JSONObject jsonObject = new JSONObject();
+			goods.AddField(StoreJSONConsts.STORE_GOODS_SU, suGoods);
+			goods.AddField(StoreJSONConsts.STORE_GOODS_LT, ltGoods);
+			goods.AddField(StoreJSONConsts.STORE_GOODS_EQ, eqGoods);
+			goods.AddField(StoreJSONConsts.STORE_GOODS_PA, paGoods);
+			goods.AddField(StoreJSONConsts.STORE_GOODS_UP, upGoods);
+			
+			jsonObject.AddField(StoreJSONConsts.STORE_CATEGORIES, categories);
+			jsonObject.AddField(StoreJSONConsts.STORE_CURRENCIES, currencies);
+			jsonObject.AddField(StoreJSONConsts.STORE_GOODS, goods);
+			jsonObject.AddField(StoreJSONConsts.STORE_CURRENCYPACKS, currencyPacks);
+			
+			return jsonObject;
 		}
 
 

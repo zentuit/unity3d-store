@@ -45,13 +45,22 @@ namespace Soomla.Store {
 		/// </summary>
 		override protected void _setStoreAssets(IStoreAssets storeAssets) {
 			SoomlaUtils.LogDebug(TAG, "pushing IStoreAssets to StoreInfo on java side");
-
+			AndroidJNI.PushLocalFrame(100);
 			string storeAssetsJSON = IStoreAssetsToJSON(storeAssets);
 			int version = storeAssets.GetVersion();
 			using(AndroidJavaClass jniStoreInfoClass = new AndroidJavaClass("com.soomla.store.data.StoreInfo")) {
 				jniStoreInfoClass.CallStatic("setStoreAssets", version, storeAssetsJSON);
 			}
+			AndroidJNI.PopLocalFrame(IntPtr.Zero);
 			SoomlaUtils.LogDebug(TAG, "done! (pushing data to StoreAssets on java side)");
+		}
+
+		protected override void loadNativeFromDB() {
+			AndroidJNI.PushLocalFrame(100);
+			using(AndroidJavaClass jniStoreInfoClass = new AndroidJavaClass("com.soomla.store.data.StoreInfo")) {
+				jniStoreInfoClass.CallStatic("loadFromDB");
+			}
+			AndroidJNI.PopLocalFrame(IntPtr.Zero);
 		}
 
 //#endif

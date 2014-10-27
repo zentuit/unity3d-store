@@ -31,9 +31,8 @@ namespace Soomla.Store {
 #else
 		public static StoreEvents Instance = null;
 		private static StoreEventPusher sep = null;
-#endif
-
 		#pragma warning restore 414
+#endif
 
 		/// <summary>
 		/// Initializes game state before the game starts.
@@ -318,12 +317,12 @@ namespace Soomla.Store {
 
 			List<MarketItem> marketItems = new List<MarketItem>();
 			foreach (var micJSON in eventJSON.list) {
-				string productId = micJSON[JSONConsts.MARKETITEM_PRODUCT_ID].str;
-				string marketPrice = micJSON[JSONConsts.MARKETITEM_MARKETPRICE].str;
-				string marketTitle = micJSON[JSONConsts.MARKETITEM_MARKETTITLE].str;
-				string marketDescription = micJSON[JSONConsts.MARKETITEM_MARKETDESC].str;
-				string marketCurrencyCode = micJSON[JSONConsts.MARKETITEM_MARKETCURRENCYCODE].str;
-				long marketPriceMicros = System.Convert.ToInt64(micJSON[JSONConsts.MARKETITEM_MARKETPRICEMICROS].n);
+				string productId = micJSON[StoreJSONConsts.MARKETITEM_PRODUCT_ID].str;
+				string marketPrice = micJSON[StoreJSONConsts.MARKETITEM_MARKETPRICE].str;
+				string marketTitle = micJSON[StoreJSONConsts.MARKETITEM_MARKETTITLE].str;
+				string marketDescription = micJSON[StoreJSONConsts.MARKETITEM_MARKETDESC].str;
+				string marketCurrencyCode = micJSON[StoreJSONConsts.MARKETITEM_MARKETCURRENCYCODE].str;
+				long marketPriceMicros = System.Convert.ToInt64(micJSON[StoreJSONConsts.MARKETITEM_MARKETPRICEMICROS].n);
 				try {
 					PurchasableVirtualItem pvi = StoreInfo.GetPurchasableItemWithProductId(productId);
 					MarketItem mi = ((PurchaseWithMarket)pvi.PurchaseType).MarketItem;

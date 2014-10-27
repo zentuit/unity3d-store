@@ -75,8 +75,8 @@ namespace Soomla.Store {
 		public SingleUsePackVG(JSONObject jsonItem)
 			: base(jsonItem)
 		{
-			GoodItemId = jsonItem[JSONConsts.VGP_GOOD_ITEMID].str;
-	        this.GoodAmount = System.Convert.ToInt32(((JSONObject)jsonItem[JSONConsts.VGP_GOOD_AMOUNT]).n);
+			GoodItemId = jsonItem[StoreJSONConsts.VGP_GOOD_ITEMID].str;
+	        this.GoodAmount = System.Convert.ToInt32(((JSONObject)jsonItem[StoreJSONConsts.VGP_GOOD_AMOUNT]).n);
 		}
 
 		/// <summary>
@@ -85,18 +85,10 @@ namespace Soomla.Store {
 		public override JSONObject toJSONObject() 
 		{
 			JSONObject jsonObject = base.toJSONObject();
-	        jsonObject.AddField(JSONConsts.VGP_GOOD_ITEMID, GoodItemId);
-	        jsonObject.AddField(JSONConsts.VGP_GOOD_AMOUNT, GoodAmount);
+	        jsonObject.AddField(StoreJSONConsts.VGP_GOOD_ITEMID, GoodItemId);
+	        jsonObject.AddField(StoreJSONConsts.VGP_GOOD_AMOUNT, GoodAmount);
 	
 	        return jsonObject;
-		}
-
-		/// <summary>
-		/// Saves this instance.
-		/// </summary>
-		public override void Save() 
-		{
-			save("SingleUsePackVG");
 		}
 
 		protected override bool canBuy() {

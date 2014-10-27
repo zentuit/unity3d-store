@@ -64,14 +64,6 @@ namespace Soomla.Store{
 		public override JSONObject toJSONObject() {
 			return base.toJSONObject();
 		}
-
-		/// <summary>
-		/// Saves this instance.
-		/// </summary>
-		public override void Save() 
-		{
-			save("VirtualCurrency");
-		}
 		
 		public override int Give(int amount, bool notify) {
 			return VirtualCurrencyStorage.Add(this, amount, notify);

@@ -19,7 +19,7 @@ namespace Soomla.Store {
 	/// <summary>
 	/// This class contains all string names of the keys/vals in the JSON being parsed all around the SDK.
 	/// </summary>
-	public static class JSONConsts
+	public static class StoreJSONConsts
 	{
 	    public const string STORE_CURRENCIES         = "currencies";
 	    public const string STORE_CURRENCYPACKS      = "currencyPacks";

@@ -69,9 +69,9 @@ namespace Soomla.Store{
 		public VirtualCurrencyPack(JSONObject jsonItem)
 			: base(jsonItem)
 		{
-			this.CurrencyAmount = System.Convert.ToInt32(((JSONObject)jsonItem[JSONConsts.CURRENCYPACK_CURRENCYAMOUNT]).n);
+			this.CurrencyAmount = System.Convert.ToInt32(((JSONObject)jsonItem[StoreJSONConsts.CURRENCYPACK_CURRENCYAMOUNT]).n);
 			
-			CurrencyItemId = jsonItem[JSONConsts.CURRENCYPACK_CURRENCYITEMID].str;
+			CurrencyItemId = jsonItem[StoreJSONConsts.CURRENCYPACK_CURRENCYITEMID].str;
 		}
 		
 		/// <summary>
@@ -80,19 +80,11 @@ namespace Soomla.Store{
 		/// <returns>JSON object.</returns>
 		public override JSONObject toJSONObject() {
 			JSONObject obj = base.toJSONObject();
-			obj.AddField(JSONConsts.CURRENCYPACK_CURRENCYAMOUNT, this.CurrencyAmount);
-			obj.AddField(JSONConsts.CURRENCYPACK_CURRENCYITEMID, this.CurrencyItemId);
+			obj.AddField(StoreJSONConsts.CURRENCYPACK_CURRENCYAMOUNT, this.CurrencyAmount);
+			obj.AddField(StoreJSONConsts.CURRENCYPACK_CURRENCYITEMID, this.CurrencyItemId);
 			return obj;
 		}
-
-		/// <summary>
-		/// Saves this instance.
-		/// </summary>
-		public override void Save() 
-		{
-			save("VirtualCurrencyPack");
-		}
-
+	
 		protected override bool canBuy() {
 			return true;
 		}

@@ -61,9 +61,9 @@ namespace Soomla.Store {
 		/// </summary>
 		/// <param name="jsonItem">A JSONObject representation of the wanted <c>VirtualCategory</c>.</param>
 		public VirtualCategory(JSONObject jsonItem) {
-			this.Name = jsonItem[JSONConsts.CATEGORY_NAME].str;
+			this.Name = jsonItem[StoreJSONConsts.CATEGORY_NAME].str;
 
-	        JSONObject goodsArr = (JSONObject)jsonItem[JSONConsts.CATEGORY_GOODSITEMIDS];
+	        JSONObject goodsArr = (JSONObject)jsonItem[StoreJSONConsts.CATEGORY_GOODSITEMIDS];
 			
 	        foreach(JSONObject obj in goodsArr.list) {
 	            GoodItemIds.Add(obj.str);
@@ -77,14 +77,14 @@ namespace Soomla.Store {
 		public JSONObject toJSONObject() {
 			JSONObject obj = new JSONObject(JSONObject.Type.OBJECT);
 			obj.AddField (Soomla.JSONConsts.SOOM_CLASSNAME, SoomlaUtils.GetClassName (this));
-			obj.AddField(JSONConsts.CATEGORY_NAME, this.Name);
+			obj.AddField(StoreJSONConsts.CATEGORY_NAME, this.Name);
 			
 			JSONObject goodsArr = new JSONObject(JSONObject.Type.ARRAY);
 			foreach(string goodItemId in this.GoodItemIds) {
 				goodsArr.Add(goodItemId);
 			}
 			
-			obj.AddField(JSONConsts.CATEGORY_GOODSITEMIDS, goodsArr);
+			obj.AddField(StoreJSONConsts.CATEGORY_GOODSITEMIDS, goodsArr);
 			
 			return obj;
 		}

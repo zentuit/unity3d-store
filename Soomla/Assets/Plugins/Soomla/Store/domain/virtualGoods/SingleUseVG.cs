@@ -71,14 +71,6 @@ namespace Soomla.Store {
 			return base.toJSONObject();
 		}
 
-		/// <summary>
-		/// Saves this instance.
-		/// </summary>
-		public override void Save() 
-		{
-			save("SingleUseVG");
-		}
-
 		protected override bool canBuy() {
 			return true;
 		}

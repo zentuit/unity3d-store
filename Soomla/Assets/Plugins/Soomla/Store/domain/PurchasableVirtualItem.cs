@@ -97,16 +97,16 @@ namespace Soomla.Store {
 		protected PurchasableVirtualItem(JSONObject jsonItem) :
 			base(jsonItem)
 		{
-			JSONObject purchasableObj = (JSONObject)jsonItem[JSONConsts.PURCHASABLE_ITEM];
-			string purchaseType = purchasableObj[JSONConsts.PURCHASE_TYPE].str;
+			JSONObject purchasableObj = (JSONObject)jsonItem[StoreJSONConsts.PURCHASABLE_ITEM];
+			string purchaseType = purchasableObj[StoreJSONConsts.PURCHASE_TYPE].str;
 
-	        if (purchaseType == JSONConsts.PURCHASE_TYPE_MARKET) {
-	            JSONObject marketItemObj = (JSONObject)purchasableObj[JSONConsts.PURCHASE_MARKET_ITEM];
+	        if (purchaseType == StoreJSONConsts.PURCHASE_TYPE_MARKET) {
+	            JSONObject marketItemObj = (JSONObject)purchasableObj[StoreJSONConsts.PURCHASE_MARKET_ITEM];
 	
 	            PurchaseType = new PurchaseWithMarket(new MarketItem(marketItemObj));
-	        } else if (purchaseType == JSONConsts.PURCHASE_TYPE_VI) {
-	            string itemId = purchasableObj[JSONConsts.PURCHASE_VI_ITEMID].str;
-	            int amount = System.Convert.ToInt32(((JSONObject)purchasableObj[JSONConsts.PURCHASE_VI_AMOUNT]).n);
+	        } else if (purchaseType == StoreJSONConsts.PURCHASE_TYPE_VI) {
+	            string itemId = purchasableObj[StoreJSONConsts.PURCHASE_VI_ITEMID].str;
+	            int amount = System.Convert.ToInt32(((JSONObject)purchasableObj[StoreJSONConsts.PURCHASE_VI_AMOUNT]).n);
 				PurchaseType = new PurchaseWithVirtualItem(itemId, amount);
 	        } else {
 	            SoomlaUtils.LogError(TAG, "Couldn't determine what type of class is the given purchaseType.");
@@ -127,18 +127,18 @@ namespace Soomla.Store {
 	            JSONObject purchasableObj = new JSONObject(JSONObject.Type.OBJECT);
 	
 	            if(PurchaseType is PurchaseWithMarket) {
-	                purchasableObj.AddField(JSONConsts.PURCHASE_TYPE, JSONConsts.PURCHASE_TYPE_MARKET);
+	                purchasableObj.AddField(StoreJSONConsts.PURCHASE_TYPE, StoreJSONConsts.PURCHASE_TYPE_MARKET);
 	
 	                MarketItem  mi = ((PurchaseWithMarket) PurchaseType).MarketItem;
-	                purchasableObj.AddField(JSONConsts.PURCHASE_MARKET_ITEM, mi.toJSONObject());
+	                purchasableObj.AddField(StoreJSONConsts.PURCHASE_MARKET_ITEM, mi.toJSONObject());
 	            } else if(PurchaseType is PurchaseWithVirtualItem) {
-	                purchasableObj.AddField(JSONConsts.PURCHASE_TYPE, JSONConsts.PURCHASE_TYPE_VI);
+	                purchasableObj.AddField(StoreJSONConsts.PURCHASE_TYPE, StoreJSONConsts.PURCHASE_TYPE_VI);
 	
-	                purchasableObj.AddField(JSONConsts.PURCHASE_VI_ITEMID, ((PurchaseWithVirtualItem) PurchaseType).TargetItemId);
-	                purchasableObj.AddField(JSONConsts.PURCHASE_VI_AMOUNT, ((PurchaseWithVirtualItem) PurchaseType).Amount);
+	                purchasableObj.AddField(StoreJSONConsts.PURCHASE_VI_ITEMID, ((PurchaseWithVirtualItem) PurchaseType).TargetItemId);
+	                purchasableObj.AddField(StoreJSONConsts.PURCHASE_VI_AMOUNT, ((PurchaseWithVirtualItem) PurchaseType).Amount);
 	            }
 	
-	            jsonObject.AddField(JSONConsts.PURCHASABLE_ITEM, purchasableObj);
+	            jsonObject.AddField(StoreJSONConsts.PURCHASABLE_ITEM, purchasableObj);
 	        } catch (System.Exception e) {
 	            SoomlaUtils.LogError(TAG, "An error occurred while generating JSON object. " + e.Message);
 	        }

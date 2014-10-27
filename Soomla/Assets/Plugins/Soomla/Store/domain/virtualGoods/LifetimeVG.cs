@@ -72,13 +72,6 @@ namespace Soomla.Store {
 			return base.toJSONObject();
 		}
 
-		/// <summary>
-		/// Saves this instance.
-		/// </summary>
-		public override void Save() 
-		{
-			save("LifetimeVG");
-		}
 
 		/// <summary>
 		/// Gives your user exactly one <code>LifetimeVG</code>.

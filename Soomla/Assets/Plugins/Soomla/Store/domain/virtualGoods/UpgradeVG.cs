@@ -87,9 +87,9 @@ namespace Soomla.Store {
 		public UpgradeVG(JSONObject jsonItem)
 			: base(jsonItem)
 		{
-			GoodItemId = jsonItem[JSONConsts.VGU_GOOD_ITEMID].str;
-	        PrevItemId = jsonItem[JSONConsts.VGU_PREV_ITEMID].str;
-			NextItemId = jsonItem[JSONConsts.VGU_NEXT_ITEMID].str;
+			GoodItemId = jsonItem[StoreJSONConsts.VGU_GOOD_ITEMID].str;
+	        PrevItemId = jsonItem[StoreJSONConsts.VGU_PREV_ITEMID].str;
+			NextItemId = jsonItem[StoreJSONConsts.VGU_NEXT_ITEMID].str;
 		}
 
 		/// <summary>
@@ -98,21 +98,13 @@ namespace Soomla.Store {
 		public override JSONObject toJSONObject() 
 		{
 	        JSONObject jsonObject = base.toJSONObject();
-            jsonObject.AddField(JSONConsts.VGU_GOOD_ITEMID, this.GoodItemId);
-            jsonObject.AddField(JSONConsts.VGU_PREV_ITEMID, string.IsNullOrEmpty(this.PrevItemId) ? "" : this.PrevItemId);
-			jsonObject.AddField(JSONConsts.VGU_NEXT_ITEMID, string.IsNullOrEmpty(this.NextItemId) ? "" : this.NextItemId);
+            jsonObject.AddField(StoreJSONConsts.VGU_GOOD_ITEMID, this.GoodItemId);
+            jsonObject.AddField(StoreJSONConsts.VGU_PREV_ITEMID, string.IsNullOrEmpty(this.PrevItemId) ? "" : this.PrevItemId);
+			jsonObject.AddField(StoreJSONConsts.VGU_NEXT_ITEMID, string.IsNullOrEmpty(this.NextItemId) ? "" : this.NextItemId);
 	
 	        return jsonObject;
 		}
 
-		/// <summary>
-		/// Saves this instance.
-		/// </summary>
-		public override void Save() 
-		{
-			save("UpgradeVG");
-		}
-	
 		/// <summary>
 		/// Determines if the user is in a state that allows him/her to buy an <code>UpgradeVG</code>
 		///	This method enforces allowing/rejecting of upgrades here so users won't buy them when

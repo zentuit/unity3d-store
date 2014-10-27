@@ -105,10 +105,10 @@ namespace Soomla.Store {
 			if (!string.IsNullOrEmpty(keyToLook) && jsonObject.HasField(keyToLook)) {
 				ProductId = jsonObject[keyToLook].str;
 			} else {
-				ProductId = jsonObject[JSONConsts.MARKETITEM_PRODUCT_ID].str;
+				ProductId = jsonObject[StoreJSONConsts.MARKETITEM_PRODUCT_ID].str;
 			}
-			Price = jsonObject[JSONConsts.MARKETITEM_PRICE].n;
-			int cOrdinal = System.Convert.ToInt32(((JSONObject)jsonObject[JSONConsts.MARKETITEM_CONSUMABLE]).n);
+			Price = jsonObject[StoreJSONConsts.MARKETITEM_PRICE].n;
+			int cOrdinal = System.Convert.ToInt32(((JSONObject)jsonObject[StoreJSONConsts.MARKETITEM_CONSUMABLE]).n);
 			if (cOrdinal == 0) {
 				this.consumable = Consumable.NONCONSUMABLE;
 			} else if (cOrdinal == 1){
@@ -117,28 +117,28 @@ namespace Soomla.Store {
 				this.consumable = Consumable.SUBSCRIPTION;
 			}
 
-			if (jsonObject[JSONConsts.MARKETITEM_MARKETPRICE]) {
-				this.MarketPriceAndCurrency = jsonObject[JSONConsts.MARKETITEM_MARKETPRICE].str;
+			if (jsonObject[StoreJSONConsts.MARKETITEM_MARKETPRICE]) {
+				this.MarketPriceAndCurrency = jsonObject[StoreJSONConsts.MARKETITEM_MARKETPRICE].str;
 			} else {
 				this.MarketPriceAndCurrency = "";
 			}
-			if (jsonObject[JSONConsts.MARKETITEM_MARKETTITLE]) {
-				this.MarketTitle = jsonObject[JSONConsts.MARKETITEM_MARKETTITLE].str;
+			if (jsonObject[StoreJSONConsts.MARKETITEM_MARKETTITLE]) {
+				this.MarketTitle = jsonObject[StoreJSONConsts.MARKETITEM_MARKETTITLE].str;
 			} else {
 				this.MarketTitle = "";
 			}
-			if (jsonObject[JSONConsts.MARKETITEM_MARKETDESC]) {
-				this.MarketDescription = jsonObject[JSONConsts.MARKETITEM_MARKETDESC].str;
+			if (jsonObject[StoreJSONConsts.MARKETITEM_MARKETDESC]) {
+				this.MarketDescription = jsonObject[StoreJSONConsts.MARKETITEM_MARKETDESC].str;
 			} else {
 				this.MarketDescription = "";
 			}
-			if (jsonObject[JSONConsts.MARKETITEM_MARKETCURRENCYCODE]) {
-				this.MarketCurrencyCode = jsonObject[JSONConsts.MARKETITEM_MARKETCURRENCYCODE].str;
+			if (jsonObject[StoreJSONConsts.MARKETITEM_MARKETCURRENCYCODE]) {
+				this.MarketCurrencyCode = jsonObject[StoreJSONConsts.MARKETITEM_MARKETCURRENCYCODE].str;
 			} else {
 				this.MarketCurrencyCode = "";
 			}
-			if (jsonObject[JSONConsts.MARKETITEM_MARKETPRICEMICROS]) {
-				this.MarketPriceMicros = System.Convert.ToInt64(jsonObject[JSONConsts.MARKETITEM_MARKETPRICEMICROS].n);
+			if (jsonObject[StoreJSONConsts.MARKETITEM_MARKETPRICEMICROS]) {
+				this.MarketPriceMicros = System.Convert.ToInt64(jsonObject[StoreJSONConsts.MARKETITEM_MARKETPRICEMICROS].n);
 			} else {
 				this.MarketPriceMicros = 0;
 			}
@@ -152,15 +152,15 @@ namespace Soomla.Store {
 		public JSONObject toJSONObject() {
 			JSONObject obj = new JSONObject(JSONObject.Type.OBJECT);
 			obj.AddField (Soomla.JSONConsts.SOOM_CLASSNAME, SoomlaUtils.GetClassName (this));
-			obj.AddField(JSONConsts.MARKETITEM_PRODUCT_ID, this.ProductId);
-			obj.AddField(JSONConsts.MARKETITEM_CONSUMABLE, (int)(consumable));
-			obj.AddField(JSONConsts.MARKETITEM_PRICE, (float)this.Price);
+			obj.AddField(StoreJSONConsts.MARKETITEM_PRODUCT_ID, this.ProductId);
+			obj.AddField(StoreJSONConsts.MARKETITEM_CONSUMABLE, (int)(consumable));
+			obj.AddField(StoreJSONConsts.MARKETITEM_PRICE, (float)this.Price);
 
-			obj.AddField(JSONConsts.MARKETITEM_MARKETPRICE, this.MarketPriceAndCurrency);
-			obj.AddField(JSONConsts.MARKETITEM_MARKETTITLE, this.MarketTitle);
-			obj.AddField(JSONConsts.MARKETITEM_MARKETDESC, this.MarketDescription);
-			obj.AddField(JSONConsts.MARKETITEM_MARKETCURRENCYCODE, this.MarketCurrencyCode);
-			obj.AddField(JSONConsts.MARKETITEM_MARKETPRICEMICROS, (float)this.MarketPriceMicros);
+			obj.AddField(StoreJSONConsts.MARKETITEM_MARKETPRICE, this.MarketPriceAndCurrency);
+			obj.AddField(StoreJSONConsts.MARKETITEM_MARKETTITLE, this.MarketTitle);
+			obj.AddField(StoreJSONConsts.MARKETITEM_MARKETDESC, this.MarketDescription);
+			obj.AddField(StoreJSONConsts.MARKETITEM_MARKETCURRENCYCODE, this.MarketCurrencyCode);
+			obj.AddField(StoreJSONConsts.MARKETITEM_MARKETPRICEMICROS, (float)this.MarketPriceMicros);
 
 			return obj;
 		}

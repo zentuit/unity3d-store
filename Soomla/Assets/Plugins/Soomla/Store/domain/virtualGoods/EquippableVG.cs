@@ -130,7 +130,7 @@ namespace Soomla.Store {
 		public EquippableVG(JSONObject jsonItem)
 			: base(jsonItem)
 		{
-			string equippingStr = jsonItem[JSONConsts.EQUIPPABLE_EQUIPPING].str;
+			string equippingStr = jsonItem[StoreJSONConsts.EQUIPPABLE_EQUIPPING].str;
 			this.Equipping = EquippingModel.CATEGORY;
 			switch(equippingStr){
 				case "local":
@@ -151,17 +151,9 @@ namespace Soomla.Store {
 		public override JSONObject toJSONObject() 
 		{
 			JSONObject obj = base.toJSONObject();
-			obj.AddField(JSONConsts.EQUIPPABLE_EQUIPPING, this.Equipping.ToString());
+			obj.AddField(StoreJSONConsts.EQUIPPABLE_EQUIPPING, this.Equipping.ToString());
 			
 			return obj;
-		}
-
-		/// <summary>
-		/// Saves this instance.
-		/// </summary>
-		public override void Save() 
-		{
-			save("EquippableVG");
 		}
 
 		/// <summary>
