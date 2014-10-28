@@ -32,8 +32,9 @@ namespace Soomla.Store {
 #else
 		public static StoreEvents Instance = null;
 #endif
+		#pragma warning disable 0414
 		private static StoreEventPusher sep = null;
-		#pragma warning restore 414
+		#pragma warning restore 0414
 
 #if UNITY_IOS && !UNITY_EDITOR
 		[DllImport ("__Internal")]
