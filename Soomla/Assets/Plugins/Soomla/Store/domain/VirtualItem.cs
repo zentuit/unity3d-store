@@ -26,11 +26,6 @@ namespace Soomla.Store {
 	/// </summary>
 	public abstract class VirtualItem : SoomlaEntity<VirtualItem> {
 
-#if UNITY_IOS && !UNITY_EDITOR
-		[DllImport ("__Internal")]
-		private static extern int storeAssets_Save(string type, string viJSON);
-#endif
-
 		private const string TAG = "SOOMLA VirtualItem";
 
 		public string ItemId {

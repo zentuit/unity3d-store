@@ -8,14 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		C09D99BA19A0E3C800CBD235 /* UnityStoreCommons.h in Headers */ = {isa = PBXBuildFile; fileRef = C09D99B919A0E3C800CBD235 /* UnityStoreCommons.h */; };
+		C09E141119FE564C00D37693 /* UnityVirtualCurrencyStorage.mm in Sources */ = {isa = PBXBuildFile; fileRef = C09E141019FE564C00D37693 /* UnityVirtualCurrencyStorage.mm */; };
+		C09E141419FE7AD900D37693 /* UnityVirtualGoodStorage.mm in Sources */ = {isa = PBXBuildFile; fileRef = C09E141319FE7AD900D37693 /* UnityVirtualGoodStorage.mm */; };
 		C0B3C5F3168C6D0C00161FAA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0B3C5F2168C6D0C00161FAA /* Foundation.framework */; };
-		C0CF4D61183BDCA80070CC85 /* UnityStoreAssets.h in Headers */ = {isa = PBXBuildFile; fileRef = C0CF4D59183BDCA80070CC85 /* UnityStoreAssets.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		C0CF4D62183BDCA80070CC85 /* UnityStoreAssets.mm in Sources */ = {isa = PBXBuildFile; fileRef = C0CF4D5A183BDCA80070CC85 /* UnityStoreAssets.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C0CF4D63183BDCA80070CC85 /* UnitySoomlaStore.mm in Sources */ = {isa = PBXBuildFile; fileRef = C0CF4D5B183BDCA80070CC85 /* UnitySoomlaStore.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C0CF4D64183BDCA80070CC85 /* UnityStoreEventDispatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = C0CF4D5C183BDCA80070CC85 /* UnityStoreEventDispatcher.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		C0CF4D65183BDCA80070CC85 /* UnityStoreEventDispatcher.mm in Sources */ = {isa = PBXBuildFile; fileRef = C0CF4D5D183BDCA80070CC85 /* UnityStoreEventDispatcher.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C0CF4D66183BDCA80070CC85 /* UnityStoreInfo.mm in Sources */ = {isa = PBXBuildFile; fileRef = C0CF4D5E183BDCA80070CC85 /* UnityStoreInfo.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		C0CF4D67183BDCA80070CC85 /* UnityStoreInventory.mm in Sources */ = {isa = PBXBuildFile; fileRef = C0CF4D5F183BDCA80070CC85 /* UnityStoreInventory.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -32,15 +31,14 @@
 
 /* Begin PBXFileReference section */
 		C09D99B919A0E3C800CBD235 /* UnityStoreCommons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnityStoreCommons.h; sourceTree = "<group>"; };
+		C09E141019FE564C00D37693 /* UnityVirtualCurrencyStorage.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UnityVirtualCurrencyStorage.mm; sourceTree = "<group>"; };
+		C09E141319FE7AD900D37693 /* UnityVirtualGoodStorage.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UnityVirtualGoodStorage.mm; sourceTree = "<group>"; };
 		C0B3C5EF168C6D0C00161FAA /* libUnityiOSStore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libUnityiOSStore.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0B3C5F2168C6D0C00161FAA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		C0CF4D59183BDCA80070CC85 /* UnityStoreAssets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnityStoreAssets.h; sourceTree = "<group>"; };
-		C0CF4D5A183BDCA80070CC85 /* UnityStoreAssets.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UnityStoreAssets.mm; sourceTree = "<group>"; };
 		C0CF4D5B183BDCA80070CC85 /* UnitySoomlaStore.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UnitySoomlaStore.mm; sourceTree = "<group>"; };
 		C0CF4D5C183BDCA80070CC85 /* UnityStoreEventDispatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnityStoreEventDispatcher.h; sourceTree = "<group>"; };
 		C0CF4D5D183BDCA80070CC85 /* UnityStoreEventDispatcher.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UnityStoreEventDispatcher.mm; sourceTree = "<group>"; };
 		C0CF4D5E183BDCA80070CC85 /* UnityStoreInfo.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UnityStoreInfo.mm; sourceTree = "<group>"; };
-		C0CF4D5F183BDCA80070CC85 /* UnityStoreInventory.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UnityStoreInventory.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,13 +82,12 @@
 			isa = PBXGroup;
 			children = (
 				C09D99B919A0E3C800CBD235 /* UnityStoreCommons.h */,
-				C0CF4D59183BDCA80070CC85 /* UnityStoreAssets.h */,
-				C0CF4D5A183BDCA80070CC85 /* UnityStoreAssets.mm */,
 				C0CF4D5B183BDCA80070CC85 /* UnitySoomlaStore.mm */,
 				C0CF4D5C183BDCA80070CC85 /* UnityStoreEventDispatcher.h */,
 				C0CF4D5D183BDCA80070CC85 /* UnityStoreEventDispatcher.mm */,
 				C0CF4D5E183BDCA80070CC85 /* UnityStoreInfo.mm */,
-				C0CF4D5F183BDCA80070CC85 /* UnityStoreInventory.mm */,
+				C09E141019FE564C00D37693 /* UnityVirtualCurrencyStorage.mm */,
+				C09E141319FE7AD900D37693 /* UnityVirtualGoodStorage.mm */,
 			);
 			path = SoomlaUnity;
 			sourceTree = "<group>";
@@ -102,7 +99,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C0CF4D61183BDCA80070CC85 /* UnityStoreAssets.h in Headers */,
 				C09D99BA19A0E3C800CBD235 /* UnityStoreCommons.h in Headers */,
 				C0CF4D64183BDCA80070CC85 /* UnityStoreEventDispatcher.h in Headers */,
 			);
@@ -177,10 +173,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C0CF4D62183BDCA80070CC85 /* UnityStoreAssets.mm in Sources */,
+				C09E141119FE564C00D37693 /* UnityVirtualCurrencyStorage.mm in Sources */,
 				C0CF4D65183BDCA80070CC85 /* UnityStoreEventDispatcher.mm in Sources */,
 				C0CF4D63183BDCA80070CC85 /* UnitySoomlaStore.mm in Sources */,
-				C0CF4D67183BDCA80070CC85 /* UnityStoreInventory.mm in Sources */,
+				C09E141419FE7AD900D37693 /* UnityVirtualGoodStorage.mm in Sources */,
 				C0CF4D66183BDCA80070CC85 /* UnityStoreInfo.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

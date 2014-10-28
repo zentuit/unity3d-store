@@ -76,11 +76,16 @@ namespace Soomla.Store
 			instance._loadBillingService();
 
 			StoreInfo.SetStoreAssets(storeAssets);
-
+#if UNITY_IOS
+			// On iOS we only refresh market items
+			instance._refreshMarketItemsDetails();
+#elif UNITY_ANDROID
+			// On Android we refresh market items and restore transactions
 			instance._refreshInventory();
+#endif
 
 			initialized = true;
-			StoreEvents.Instance.onSoomlaStoreInitialized("");
+			StoreEvents.Instance.onSoomlaStoreInitialized("", true);
 
 			return true;
 		}

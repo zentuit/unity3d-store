@@ -1,4 +1,3 @@
-#import "UnityStoreAssets.h"
 #import "VirtualItemNotFoundException.h"
 #import "UnityCommons.h"
 #import "UnityStoreCommons.h"
@@ -9,41 +8,16 @@
 
 extern "C"{
 	
-	int storeInfo_GetItemByItemId(const char* itemId, char** json) {
-        NSString* itemIdS = [NSString stringWithUTF8String:itemId];
-		@try {
-			VirtualItem* vi = [[StoreInfo getInstance] virtualItemWithId:itemIdS];
-            NSString *className = [SoomlaUtils getClassName:vi];
-		    NSDictionary* nameWithClass = [NSDictionary dictionaryWithObjectsAndKeys:
-		                                   [vi toDictionary], @"item",
-		                                   className, SOOM_CLASSNAME, nil];
-			*json = Soom_AutonomousStringCopy([[SoomlaUtils dictToJsonString:nameWithClass] UTF8String]);
-		}
-		
-		@catch (VirtualItemNotFoundException* e) {
-            NSLog(@"Couldn't find a VirtualItem with itemId: %@.", itemIdS);
-			return EXCEPTION_ITEM_NOT_FOUND;
-        }
-
+	int storeInfo_SetStoreAssets(const char* storeMetaJSON, int version) {
+        NSString* storeMetaJSONS = [NSString stringWithUTF8String:storeMetaJSON];
+        [[StoreInfo getInstance] setStoreAssetsJSON:storeMetaJSONS withVersion:version];
+        
 		return NO_ERR;
 	}
 	
-	int storeInfo_GetPurchasableItemWithProductId(const char* productId, char** json) {
-        NSString* productIdS = [NSString stringWithUTF8String:productId];
-		@try {
-			PurchasableVirtualItem* pvi = [[StoreInfo getInstance] purchasableItemWithProductId:productIdS];
-            NSString *className = [SoomlaUtils getClassName:pvi];
-		    NSDictionary* nameWithClass = [NSDictionary dictionaryWithObjectsAndKeys:
-		                                   [pvi toDictionary], @"item",
-		                                   className, SOOM_CLASSNAME, nil];
-			*json = Soom_AutonomousStringCopy([[SoomlaUtils dictToJsonString:nameWithClass] UTF8String]);
-		}
-		
-		@catch (VirtualItemNotFoundException* e) {
-            NSLog(@"Couldn't find a PurchasableVirtualItem with productId: %@.", productIdS);
-			return EXCEPTION_ITEM_NOT_FOUND;
-        }
-
+	int storeInfo_LoadFromDB() {
+        [[StoreInfo getInstance] loadFromDB];
+        
 		return NO_ERR;
 	}
 	

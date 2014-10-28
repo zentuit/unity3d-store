@@ -98,9 +98,9 @@ namespace Soomla.Store {
 		public MarketItem(JSONObject jsonObject) {
 			string keyToLook = "";
 #if UNITY_IOS && !UNITY_EDITOR
-			keyToLook = JSONConsts.MARKETITEM_IOS_ID;
+			keyToLook = StoreJSONConsts.MARKETITEM_IOS_ID;
 #elif UNITY_ANDROID && !UNITY_EDITOR
-			keyToLook = JSONConsts.MARKETITEM_ANDROID_ID;
+			keyToLook = StoreJSONConsts.MARKETITEM_ANDROID_ID;
 #endif
 			if (!string.IsNullOrEmpty(keyToLook) && jsonObject.HasField(keyToLook)) {
 				ProductId = jsonObject[keyToLook].str;

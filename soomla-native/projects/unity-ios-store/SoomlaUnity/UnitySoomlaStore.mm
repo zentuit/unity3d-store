@@ -1,4 +1,3 @@
-#import "UnityStoreAssets.h"
 #import "UnityStoreEventDispatcher.h"
 #import "SoomlaStore.h"
 #import "VirtualItemNotFoundException.h"
@@ -11,7 +10,7 @@
 #import "SoomlaUtils.h"
 
 extern "C"{
-
+    
     void soomlaStore_SetSSV(bool ssv, const char* verifyUrl) {
 		VERIFY_PURCHASES = ssv;
 
@@ -21,11 +20,8 @@ extern "C"{
         VERIFY_URL = [[NSString stringWithUTF8String:verifyUrl] retain];
     }
 
-	void soomlaStore_Init(){
-        LogDebug(@"SOOMLA Unity UnitySoomlaStore", @"Initializing StoreEventHandler ...");
-        [UnityStoreEventDispatcher initialize];
-
-		[[SoomlaStore getInstance] initializeWithStoreAssets:[UnityStoreAssets getInstance]];
+	void soomlaStore_LoadBillingService(){
+		[[SoomlaStore getInstance] loadBillingService];
 	}
 
 	int soomlaStore_BuyMarketItem(const char* productId, const char* payload) {
