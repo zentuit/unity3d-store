@@ -30,6 +30,11 @@ namespace Soomla.Store
 		{
 		}
 
+		/// <summary>
+		/// The item associated with this purchase type. 
+		/// This item is the one actually being purchased and the assignment of this variable is from the
+		/// <c>PurchasableItem</c>'s constructor.
+		/// </summary>
 		public PurchasableVirtualItem AssociatedItem;
 
 		/// <summary>

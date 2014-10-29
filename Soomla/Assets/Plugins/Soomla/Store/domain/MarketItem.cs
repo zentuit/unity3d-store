@@ -36,13 +36,23 @@ namespace Soomla.Store {
 		public enum Consumable{
 			NONCONSUMABLE,
 			CONSUMABLE,
-			SUBSCRIPTION,
+			SUBSCRIPTION
 		}
-		
+
+		/// <summary>
+		/// The product id as defined in itunesconnect or Google Play
+		/// </summary>
 		public string ProductId;
+		/// <summary>
+		/// The type of the item associated with this item on itunesconnect or Google Play.
+		/// </summary>
 		public Consumable consumable;
+		/// <summary>
+		/// A default price for the item in case the fetching of information from the App Store or Google Play fails.
+		/// </summary>
 		public double Price;
 
+		/** These variable will contain information about the item as fetched from the App Store or Google Play. **/
 		public string MarketPriceAndCurrency;
 		public string MarketTitle;
 		public string MarketDescription;
@@ -60,34 +70,6 @@ namespace Soomla.Store {
 			this.consumable = consumable;
 			this.Price = price;
 		}
-		
-#if UNITY_ANDROID && !UNITY_EDITOR
-		public MarketItem(AndroidJavaObject jniMarketItem) {
-			ProductId = jniMarketItem.Call<string>("getProductId");
-			Price = jniMarketItem.Call<double>("getPrice");
-			int managedOrdinal = jniMarketItem.Call<AndroidJavaObject>("getManaged").Call<int>("ordinal");
-			switch(managedOrdinal){
-				case 0:
-					this.consumable = Consumable.NONCONSUMABLE;
-					break;
-				case 1:
-					this.consumable = Consumable.CONSUMABLE;
-					break;
-				case 2:
-					this.consumable = Consumable.SUBSCRIPTION;
-					break;
-				default:
-					this.consumable = Consumable.CONSUMABLE;
-					break;
-			}
-
-			MarketPriceAndCurrency = jniMarketItem.Call<string>("getMarketPrice");
-			MarketTitle = jniMarketItem.Call<string>("getMarketTitle");
-			MarketDescription = jniMarketItem.Call<string>("getMarketDescription");
-			MarketCurrencyCode = jniMarketItem.Call<string>("getMarketCurrencyCode");
-			MarketPriceMicros = jniMarketItem.Call<long>("getMarketPriceMicros");
-		}
-#endif
 
 		/// <summary>
 		/// Constructor.

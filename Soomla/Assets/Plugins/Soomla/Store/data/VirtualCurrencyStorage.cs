@@ -19,7 +19,7 @@ namespace Soomla.Store
 {
 
 	/// <summary>
-	/// This class is an abstract definition of a Virtual Item Storage.
+	/// This class is an abstract definition of a Virtual Currency Storage.
 	/// </summary>
 	public class VirtualCurrencyStorage : VirtualItemStorage
 	{

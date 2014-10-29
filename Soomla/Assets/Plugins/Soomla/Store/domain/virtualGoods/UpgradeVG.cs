@@ -48,8 +48,17 @@ namespace Soomla.Store {
 	public class UpgradeVG : LifetimeVG {
 		private static string TAG = "SOOMLA UpgradeVG";
 
+		/// <summary>
+		/// The itemId of the associated <c>VirtualGood</c>.
+		/// </summary>
 		public string GoodItemId;
+		/// <summary>
+		/// The itemId of the <c>UpgradeVG</c> that comes after this one (or null this is the last one)
+		/// </summary>
 		public string NextItemId;
+		/// <summary>
+		/// The itemId of the <c>UpgradeVG</c> that comes before this one (or null this is the first one)
+		/// </summary>
 		public string PrevItemId;
 		
 		/// <summary>
@@ -71,16 +80,7 @@ namespace Soomla.Store {
 			this.PrevItemId = prevItemId;
 			this.NextItemId = nextItemId;
 		}
-		
-#if UNITY_ANDROID && !UNITY_EDITOR
-		public UpgradeVG(AndroidJavaObject jniUpgradeVG) 
-			: base(jniUpgradeVG)
-		{
-			GoodItemId = jniUpgradeVG.Call<string>("getGoodItemId");
-			NextItemId = jniUpgradeVG.Call<string>("getNextItemId");
-			PrevItemId = jniUpgradeVG.Call<string>("getPrevItemId");
-		}
-#endif
+
 		/// <summary>
 		/// see parent.
 		/// </summary>

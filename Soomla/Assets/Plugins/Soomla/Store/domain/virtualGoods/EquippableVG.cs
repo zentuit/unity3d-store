@@ -60,8 +60,10 @@ namespace Soomla.Store {
 	/// </summary>
 	public class EquippableVG : LifetimeVG {
 		private static string TAG = "SOOMLA EquippableVG";
-		
-		///Equipping model is described above in the class description.
+
+		/// <summary>
+		/// Equipping model is described above in the class description.
+		/// </summary>
 		public sealed class EquippingModel {
 
     		private readonly string name;
@@ -85,7 +87,10 @@ namespace Soomla.Store {
 			}
 		
 		}
-		
+
+		/// <summary>
+		/// This is the current <c>EquippableVG</c>'s equipping model.
+		/// </summary>
 		public EquippingModel Equipping;
 		
 		/// <summary>
@@ -101,28 +106,6 @@ namespace Soomla.Store {
 		{
 			this.Equipping = equippingModel;
 		}
-		
-#if UNITY_ANDROID && !UNITY_EDITOR
-		public EquippableVG(AndroidJavaObject jniEquippableVG) 
-			: base(jniEquippableVG)
-		{
-			int emOrdinal = jniEquippableVG.Call<AndroidJavaObject>("getEquippingModel").Call<int>("ordinal");
-			switch(emOrdinal){
-				case 0:
-					this.Equipping = EquippingModel.LOCAL;
-					break;
-				case 1:
-					this.Equipping = EquippingModel.CATEGORY;
-					break;
-				case 2:
-					this.Equipping = EquippingModel.GLOBAL;
-					break;
-				default:
-					this.Equipping = EquippingModel.CATEGORY;
-					break;
-			}
-		}
-#endif
 
 		/// <summary>
 		/// see parent.

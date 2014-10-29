@@ -31,8 +31,14 @@ namespace Soomla.Store{
 	/// </summary>
 	public class VirtualCurrencyPack : PurchasableVirtualItem {
 		private static string TAG = "SOOMLA VirtualCurrencyPack";
-		
+
+		/// <summary>
+		/// The amount of instances of the associated <c>VirtualCurrency</c>.
+		/// </summary>
 		public int CurrencyAmount;
+		/// <summary>
+		/// The itemId of the <c>VirtualCurrency</c> associated with this pack.
+		/// </summary>
 		public string CurrencyItemId;
 
 		/// <summary>
@@ -50,17 +56,6 @@ namespace Soomla.Store{
 			this.CurrencyAmount = currencyAmount;
 			this.CurrencyItemId = currencyItemId;
 		}
-
-#if UNITY_ANDROID && !UNITY_EDITOR
-		public VirtualCurrencyPack(AndroidJavaObject jniVirtualCurrencyPack) 
-			: base(jniVirtualCurrencyPack)
-		{
-			this.CurrencyAmount = jniVirtualCurrencyPack.Call<int>("getCurrencyAmount");
-
-			// Virtual Currency
-			CurrencyItemId = jniVirtualCurrencyPack.Call<string>("getCurrencyItemId");
-		}
-#endif
 
 		/// <summary>
 		/// Constructor.
@@ -84,13 +79,9 @@ namespace Soomla.Store{
 			obj.AddField(StoreJSONConsts.CURRENCYPACK_CURRENCYITEMID, this.CurrencyItemId);
 			return obj;
 		}
-	
-		protected override bool canBuy() {
-			return true;
-		}
 
 		/// <summary>
-		/// Works like "give" but receives an argument, notify, to indicate
+		/// Gives a curtain amount of <c>VirtualCurrency</c> according to the given amount and the definition of this pack.
 		/// </summary>
 		/// <param name="amount">amount the amount of the specific item to be given.</param>
 		/// <param name="notify">notify of change in user's balance of current virtual item.</param>
@@ -108,8 +99,7 @@ namespace Soomla.Store{
 		}
 
 		/// <summary>
-		/// Works like "take" but receives an argument, notify, to indicate
-		/// if there has been a change in the balance of the current virtual item.
+		/// Takes a curtain amount of <c>VirtualCurrency</c> according to the given amount and the definition of this pack.
 		/// </summary>
 		/// <param name="amount">the amount of the specific item to be taken.</param>
 		/// <param name="notify">notify of change in user's balance of current virtual item.</param>
@@ -125,6 +115,9 @@ namespace Soomla.Store{
 			return VirtualCurrencyStorage.Remove(currency, CurrencyAmount * amount, notify);
 		}
 
+		/// <summary>
+		/// DON't APPLY FOR A PACK
+		/// </summary>
 		public override int ResetBalance(int balance, bool notify) {
 			// Not supported for VirtualCurrencyPacks !
 			SoomlaUtils.LogError(TAG, "Someone tried to reset balance of CurrencyPack. "
@@ -132,11 +125,18 @@ namespace Soomla.Store{
 			return 0;
 		}
 
+		/// <summary>
+		/// DON'T APPLY FOR A PACK
+		/// </summary>
 		public override int GetBalance() {
 			// Not supported for VirtualCurrencyPacks !
 			SoomlaUtils.LogError(TAG, "Someone tried to check balance of CurrencyPack. "
 			                     + "That's not right.");
 			return 0;
+		}
+
+		protected override bool canBuy() {
+			return true;
 		}
 
 	}

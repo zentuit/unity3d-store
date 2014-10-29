@@ -18,7 +18,7 @@ namespace Soomla.Store {
 
 	/// <summary>
 	/// This interface represents a single game's economy. Use this interface to create your assets 
-	/// class that will be transferred to <c>StoreInfo</c> upon initialization.
+	/// class that will be transferred to <c>SoomlaStore</c> upon initialization.
 	/// </summary>
 	public interface IStoreAssets {
 		

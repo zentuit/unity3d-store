@@ -28,10 +28,13 @@ namespace Soomla.Store {
 
 		private const string TAG = "SOOMLA VirtualItem";
 
+		/// <summary>
+		/// This is the itemId associated with the <c>VirtualItem</c>.
+		/// The itemId is a unique id that every item in the SOOMLA economy have.
+		/// </summary>
 		public string ItemId {
 			get { return this._id; }
 			set { this._id = value; }
-
 		}
 
 		/// <summary>
@@ -45,12 +48,6 @@ namespace Soomla.Store {
 		{
 		}
 
-#if UNITY_ANDROID && !UNITY_EDITOR
-		protected VirtualItem(AndroidJavaObject jniVirtualItem)
-			: base(jniVirtualItem)
-		{
-		}
-#endif
 		/// <summary>
 		/// Constructor.
 		/// Generates an instance of <c>VirtualItem</c> from the given <c>JSONObject</c>.
@@ -60,60 +57,6 @@ namespace Soomla.Store {
 			: base(jsonItem)
 		{
 		}
-
-		/// <summary>
-		/// Creates relevant virtual item according to given JSON object's className.
-		/// </summary>
-		/// <returns>The relevant item according to given JSON object's className.</returns>
-		/// <param name="jsonItem">Json item.</param>
-		public static VirtualItem factoryItemFromJSONObject(JSONObject jsonItem) {
-			string className = jsonItem["className"].str;
-			switch(className) {
-			case "SingleUseVG":
-				return new SingleUseVG((JSONObject)jsonItem[@"item"]);
-			case "LifetimeVG":
-				return new LifetimeVG((JSONObject)jsonItem[@"item"]);
-			case "EquippableVG":
-				return new EquippableVG((JSONObject)jsonItem[@"item"]);
-			case "SingleUsePackVG":
-				return new SingleUsePackVG((JSONObject)jsonItem[@"item"]);
-			case "VirtualCurrency":
-				return new VirtualCurrency((JSONObject)jsonItem[@"item"]);
-			case "VirtualCurrencyPack":
-				return new VirtualCurrencyPack((JSONObject)jsonItem[@"item"]);
-			case "UpgradeVG":
-				return new UpgradeVG((JSONObject)jsonItem[@"item"]);
-			}
-
-			return null;
-		}
-
-#if UNITY_ANDROID && !UNITY_EDITOR
-
-		public static VirtualItem factoryItemFromJNI(AndroidJavaObject jniItem) {
-			SoomlaUtils.LogDebug(TAG, "Trying to create VirtualItem with itemId: " + jniItem.Call<string>("getItemId"));
-
-			if (isInstanceOf(jniItem, "com/soomla/store/domain/virtualGoods/SingleUseVG")) {
-				return new SingleUseVG(jniItem);
-			} else if (isInstanceOf(jniItem, "com/soomla/store/domain/virtualGoods/EquippableVG")) {
-				return new EquippableVG(jniItem);
-			} else if (isInstanceOf(jniItem, "com/soomla/store/domain/virtualGoods/UpgradeVG")) {
-				return new UpgradeVG(jniItem);
-			} else if (isInstanceOf(jniItem, "com/soomla/store/domain/virtualGoods/LifetimeVG")) {
-				return new LifetimeVG(jniItem);
-			} else if (isInstanceOf(jniItem, "com/soomla/store/domain/virtualGoods/SingleUsePackVG")) {
-				return new SingleUsePackVG(jniItem);
-			} else if (isInstanceOf(jniItem, "com/soomla/store/domain/virtualCurrencies/VirtualCurrency")) {
-				return new VirtualCurrency(jniItem);
-			} else if (isInstanceOf(jniItem, "com/soomla/store/domain/virtualCurrencies/VirtualCurrencyPack")) {
-				return new VirtualCurrencyPack(jniItem);
-			} else {
-				SoomlaUtils.LogError(TAG, "Couldn't determine what type of class is the given jniItem.");
-			}
-
-			return null;
-		}
-#endif
 
 		public override bool Equals(object obj)	{
 			return (obj != null) &&
@@ -181,6 +124,10 @@ namespace Soomla.Store {
 		/// <param name="notify">Notify of change in user's balance of current virtual item.</param>
 		public abstract int ResetBalance(int balance, bool notify);
 
+		/// <summary>
+		/// Will fetch the balance for the current VirtualItem according to its type.
+		/// </summary>
+		/// <returns>The balance.</returns>
 		public abstract int GetBalance();
 
 		/// <summary>

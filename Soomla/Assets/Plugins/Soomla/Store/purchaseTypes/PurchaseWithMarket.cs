@@ -26,6 +26,9 @@ namespace Soomla.Store
 	{
 		private const string TAG = "SOOMLA PurchaseWithMarket";
 
+		/// <summary>
+		/// The market item associated with the item that needs to be purchased.
+		/// </summary>
 		public MarketItem MarketItem;
 		
 		/// <summary>
@@ -51,6 +54,14 @@ namespace Soomla.Store
 			this.MarketItem = marketItem;
 		}
 
+		/// <summary>
+		/// Buys the purchasable virtual item.
+		/// Implementation in subclasses will be according to specific type of purchase.
+		/// </summary>
+		/// <param name="payload">a string you want to be assigned to the purchase. This string
+		/// is saved in a static variable and will be given bacl to you when the
+		///  purchase is completed.</param>
+		/// <exception cref="Soomla.Store.InsufficientFundsException">throws InsufficientFundsException</exception>
 		public override void Buy(string payload)
 		{
 			SoomlaUtils.LogDebug(TAG, "Starting in-app purchase for productId: "

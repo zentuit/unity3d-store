@@ -124,18 +124,6 @@ namespace Soomla.Store
 		protected abstract string keyBalance(String itemId);
 
 		protected abstract void postBalanceChangeEvent(VirtualItem item, int balance, int amountAdded);
-
-//		private static string keyWorlds(string worldId, string postfix) {
-//			return SoomlaLevelUp.DB_KEY_PREFIX + "worlds." + worldId + "." + postfix;
-//		}
-//		
-//		private static string keyWorldCompleted(string worldId) {
-//			return keyWorlds(worldId, "completed");
-//		}
-//		
-//		private static string keyReward(string worldId) {
-//			return keyWorlds(worldId, "assignedReward");
-//		}
 #endif
 	}
 }

@@ -50,13 +50,6 @@ namespace Soomla.Store {
 		{
 		}
 
-		
-#if UNITY_ANDROID && !UNITY_EDITOR
-		public LifetimeVG(AndroidJavaObject jniLifetimeVG) 
-			: base(jniLifetimeVG)
-		{
-		}
-#endif
 		/// <summary>
 		/// see parent.
 		/// </summary>

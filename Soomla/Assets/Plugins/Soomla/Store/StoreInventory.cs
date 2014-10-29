@@ -259,6 +259,14 @@ namespace Soomla.Store
 			VirtualGoodsStorage.RemoveUpgrades(good);
 		}
 
+		/// <summary>
+		/// This function refreshes a local set of objects that will hold your user's balances in memory for quick
+		/// and more efficient fetching for your game UI.
+		/// This way, we save many JNI or static calls to native platforms.
+		/// 
+		/// NOTE: You don't need to call this function as it's automatically called when the game initializes.
+		/// NOTE: This is less useful when you work in editor.
+		/// </summary>
 		public static void RefreshLocalInventory() {
 			SoomlaUtils.LogDebug(TAG, "Refreshing local inventory");
 
@@ -303,7 +311,7 @@ namespace Soomla.Store
 		}
 
 
-
+		/** A set of private functions to refresh the local inventory whenever there are changes on runtime. **/
 
 		private static void onGoodUpgrade(VirtualGood vg, UpgradeVG uvg) {
 			if (uvg == null) {

@@ -22,6 +22,10 @@ namespace Soomla.Store {
 	public abstract class PurchasableVirtualItem : VirtualItem {
 
 		private const string TAG = "SOOMLA PurchasableVirtualItem";
+
+		/// <summary>
+		/// When we actually try to purchase this <c>PurchasableVirtualItem</c> this purchase type will be invoked.
+		/// </summary>
 		public PurchaseType PurchaseType;
 		
 		/// <summary>
@@ -60,34 +64,6 @@ namespace Soomla.Store {
 		/// Determines if user is in a state that allows him/her to buy a specific <code>VirtualItem</code>.
 		/// </summary>
 		protected abstract bool canBuy();
-		
-#if UNITY_ANDROID && !UNITY_EDITOR
-		protected PurchasableVirtualItem(AndroidJavaObject jniVirtualItem) :
-			base(jniVirtualItem)
-		{
-			SoomlaUtils.LogDebug(TAG, "Trying to create PurchasableVirtualItem with itemId: " + 
-			                    jniVirtualItem.Call<string>("getItemId"));
-			using(AndroidJavaObject jniPurchaseType = jniVirtualItem.Call<AndroidJavaObject>("getPurchaseType")) {
-				System.IntPtr cls = AndroidJNI.FindClass("com/soomla/store/purchaseTypes/PurchaseWithMarket");
-				if (AndroidJNI.IsInstanceOf(jniPurchaseType.GetRawObject(), cls)) {
-					using(AndroidJavaObject jniMarketItem = jniPurchaseType.Call<AndroidJavaObject>("getMarketItem")) {
-						MarketItem mi = new MarketItem(jniMarketItem);
-						PurchaseType = new PurchaseWithMarket(mi);
-					}
-				} else {
-					cls = AndroidJNI.FindClass("com/soomla/store/purchaseTypes/PurchaseWithVirtualItem");
-					if (AndroidJNI.IsInstanceOf(jniPurchaseType.GetRawObject(), cls)) {
-						string itemId = jniPurchaseType.Call<string>("getTargetItemId");
-			            int amount = jniPurchaseType.Call<int>("getAmount");
-						
-						PurchaseType = new PurchaseWithVirtualItem(itemId, amount);
-					} else {
-						SoomlaUtils.LogError(TAG, "Couldn't determine what type of class is the given purchaseType.");
-					}
-				} 
-			}
-		}
-#endif
 
 		/// <summary>
 		/// Constructor.

@@ -28,7 +28,15 @@ namespace Soomla.Store {
 	public class VirtualCategory {
 		
 		private const string TAG = "SOOMLA VirtualCategory";
+
+		/// <summary>
+		/// The name of the category.
+		/// </summary>
 		public string Name;
+
+		/// <summary>
+		/// A list of virtual goods in this category.
+		/// </summary>
 		public List<String> GoodItemIds = new List<String>();
 		
 		/// <summary>
@@ -40,20 +48,6 @@ namespace Soomla.Store {
 			this.Name = name;
 			this.GoodItemIds = goodItemIds;
 		}
-		
-#if UNITY_ANDROID && !UNITY_EDITOR
-		public VirtualCategory(AndroidJavaObject jniVirtualCategory) {
-			this.Name = jniVirtualCategory.Call<string>("getName");
-			
-			using(AndroidJavaObject jniItemIds = jniVirtualCategory.Call<AndroidJavaObject>("getGoodsItemIds")) {
-				for(int i=0; i<jniItemIds.Call<int>("size"); i++) {
-					using(AndroidJavaObject jniItemId = jniItemIds.Call<AndroidJavaObject>("get", i)) {
-						GoodItemIds.Add(jniItemId.Call<string>("toString"));
-					}
-				}
-			}
-		}
-#endif
 
 		/// <summary>
 		/// Constructor.

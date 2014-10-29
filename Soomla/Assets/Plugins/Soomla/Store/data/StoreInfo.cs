@@ -27,7 +27,6 @@ namespace Soomla.Store
 	/// virtual currency packs definitions,
 	/// virtual goods definitions,
 	/// virtual categories definitions, and
-	/// virtual non-consumable items definitions
 	/// </summary>
 	public class StoreInfo
 	{
@@ -60,7 +59,7 @@ namespace Soomla.Store
      	/// metadata, <code>StoreInfo</code> gets loaded from the given <code>IStoreAssets</code>.
      	/// After the first initialization, <code>StoreInfo</code> will be initialized from the database.
 		/// 
-		/// IMPORTANT: If you want to override the current <code>StoreInfo</code>, you'll have to bump
+		/// IMPORTANT: If you want to override the metadata on the current <code>StoreInfo</code>, you'll have to bump
 		/// the version of your implementation of <code>IStoreAssets</code> in order to remove the
 		/// metadata when the application loads. Bumping the version is done by returning a higher number
 		/// in {@link com.soomla.store.IStoreAssets#getVersion()}.
@@ -332,6 +331,13 @@ namespace Soomla.Store
 						Goods.Add (c);
 					}
 				}
+				if (goods.HasField (StoreJSONConsts.STORE_GOODS_EQ)) {
+					List<JSONObject> eqGoods = goods [StoreJSONConsts.STORE_GOODS_EQ].list;
+					foreach (JSONObject o in eqGoods) {
+						EquippableVG c = new EquippableVG (o);
+						Goods.Add (c);
+					}
+				}
 				if (goods.HasField (StoreJSONConsts.STORE_GOODS_PA)) {
 					List<JSONObject> paGoods = goods [StoreJSONConsts.STORE_GOODS_PA].list;
 					foreach (JSONObject o in paGoods) {
@@ -347,6 +353,15 @@ namespace Soomla.Store
 					}
 				}
 			}
+
+			if (storeJSON.HasField(StoreJSONConsts.STORE_CATEGORIES)) {
+				List<JSONObject> categories = storeJSON[StoreJSONConsts.STORE_CATEGORIES].list;
+				foreach (JSONObject o in categories){
+					VirtualCategory category = new VirtualCategory(o);
+					Categories.Add(category);
+				}
+			}
+
 			updateAggregatedLists ();
 		}
 
@@ -541,7 +556,5 @@ namespace Soomla.Store
 		private static string keyMetaStoreInfo() {
 			return "meta.storeinfo";
 		}
-
-//		private static int currentAssetsVersion = 0;
 	}
 }

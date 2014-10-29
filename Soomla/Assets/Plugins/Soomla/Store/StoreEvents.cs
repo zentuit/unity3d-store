@@ -21,7 +21,7 @@ using System.Runtime.InteropServices;
 namespace Soomla.Store {
 
 	/// <summary>
-	/// This class provides functions for event handling.
+	/// This class provides functionality for event handling.
 	/// </summary>
 	public class StoreEvents : MonoBehaviour {
 
@@ -43,7 +43,7 @@ namespace Soomla.Store {
 
 
 		/// <summary>
-		/// Initializes game state before the game starts.
+		/// Initializes StoreEvents before the game starts.
 		/// </summary>
 		void Awake(){
 			if(Instance == null){ 	// making sure we only initialize one instance.
@@ -55,11 +55,13 @@ namespace Soomla.Store {
 			}
 		}
 
+		/// <summary>
+		/// Initializes the different native event handlers in Android / iOS
+		/// </summary>
 		public static void Initialize() {
 			SoomlaUtils.LogDebug (TAG, "Initializing StoreEvents ...");
 #if UNITY_ANDROID && !UNITY_EDITOR
 			AndroidJNI.PushLocalFrame(100);
-			//init EventHandler
 			using(AndroidJavaClass jniEventHandler = new AndroidJavaClass("com.soomla.unity.StoreEventHandler")) {
 				jniEventHandler.CallStatic("initialize");
 			}
@@ -114,8 +116,7 @@ namespace Soomla.Store {
 			StoreEvents.OnCurrencyBalanceChanged(vc, balance, amountAdded);
 
 			if (alsoPush) {
-#if (UNITY_ANDROID || UNITY_IOS) 
-				//&& !UNITY_EDITOR
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
 				sep.PushEventOnCurrencyBalanceChanged(vc, balance, amountAdded);
 #endif
 			}
@@ -141,8 +142,7 @@ namespace Soomla.Store {
 			StoreEvents.OnGoodBalanceChanged(vg, balance, amountAdded);
 
 			if (alsoPush) {
-#if (UNITY_ANDROID || UNITY_IOS) 
-				//&& !UNITY_EDITOR
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
 				sep.PushEventOnGoodBalanceChanged(vg, balance, amountAdded);
 #endif
 			}
@@ -165,8 +165,7 @@ namespace Soomla.Store {
 			StoreEvents.OnGoodEquipped(vg);
 
 			if (alsoPush) {
-#if (UNITY_ANDROID || UNITY_IOS) 
-				//&& !UNITY_EDITOR
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
 				sep.PushEventOnGoodEquipped(vg);
 #endif
 			}
@@ -189,8 +188,7 @@ namespace Soomla.Store {
 			StoreEvents.OnGoodUnEquipped(vg);
 
 			if (alsoPush) {
-#if (UNITY_ANDROID || UNITY_IOS) 
-				//&& !UNITY_EDITOR
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
 				sep.PushEventOnGoodUnequipped(vg);
 #endif
 			}
@@ -218,8 +216,7 @@ namespace Soomla.Store {
 			StoreEvents.OnGoodUpgrade(vg, vgu);
 
 			if (alsoPush) {
-#if (UNITY_ANDROID || UNITY_IOS) 
-				//&& !UNITY_EDITOR
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
 				sep.PushEventOnGoodUpgrade(vg, vgu);
 #endif
 			}
@@ -247,8 +244,7 @@ namespace Soomla.Store {
 			StoreEvents.OnItemPurchased(pvi, payload);
 
 			if (alsoPush) {
-#if (UNITY_ANDROID || UNITY_IOS) 
-				//&& !UNITY_EDITOR
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
 				sep.PushEventOnItemPurchased(pvi, payload);
 #endif
 			}
@@ -271,8 +267,7 @@ namespace Soomla.Store {
 			StoreEvents.OnItemPurchaseStarted(pvi);
 
 			if (alsoPush) {
-#if (UNITY_ANDROID || UNITY_IOS) 
-				//&& !UNITY_EDITOR
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
 				sep.PushEventOnItemPurchaseStarted(pvi);
 #endif
 			}
@@ -435,8 +430,7 @@ namespace Soomla.Store {
 			StoreEvents.OnUnexpectedErrorInStore(message);
 
 			if (alsoPush) {
-#if (UNITY_ANDROID || UNITY_IOS) 
-				//&& !UNITY_EDITOR
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
 				sep.PushEventSoomlaStoreInitialized();
 #endif
 			}
@@ -458,8 +452,7 @@ namespace Soomla.Store {
 			StoreEvents.OnSoomlaStoreInitialized();
 
 			if (alsoPush) {
-#if (UNITY_ANDROID || UNITY_IOS) 
-				//&& !UNITY_EDITOR
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
 				sep.PushEventSoomlaStoreInitialized();
 #endif
 			}
@@ -527,22 +520,8 @@ namespace Soomla.Store {
 #endif
 
 		public class StoreEventPusher {
-#if (UNITY_ANDROID || UNITY_IOS) 
-			//&& !UNITY_EDITOR			
-			/// <summary>
-			/// Registers all events. 
-			/// </summary>
-			public StoreEventPusher() {
-//				StoreEvents.OnSoomlaStoreInitialized += pushEventSoomlaStoreInitialized;
-//				StoreEvents.OnUnexpectedErrorInStore += pushEventUnexpectedStoreError;
-//				StoreEvents.OnCurrencyBalanceChanged += pushEventOnCurrencyBalanceChanged;
-//				StoreEvents.OnGoodBalanceChanged += pushEventOnGoodBalanceChanged;
-//				StoreEvents.OnGoodEquipped += pushEventOnGoodEquipped;
-//				StoreEvents.OnGoodUnEquipped += pushEventOnGoodUnequipped;
-//				StoreEvents.OnGoodUpgrade += pushEventOnGoodUpgrade;
-//				StoreEvents.OnItemPurchased += pushEventOnItemPurchased;
-//				StoreEvents.OnItemPurchaseStarted += pushEventOnItemPurchaseStarted;
-			}
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR			
+			public StoreEventPusher() {}
 
 			public void PushEventSoomlaStoreInitialized() {
 				_pushEventSoomlaStoreInitialized("");

@@ -27,7 +27,14 @@ namespace Soomla.Store
 	{
 		private const string TAG = "SOOMLA PurchaseWithVirtualItem";
 
+		/// <summary>
+		/// The itemId of the item that will actually be taken for this purchase.
+		/// </summary>
 		public String TargetItemId;
+
+		/// <summary>
+		/// The amount we need to take when we purhcase.
+		/// </summary>
 		public int Amount;
 		
 		/// <summary>
@@ -44,6 +51,14 @@ namespace Soomla.Store
 			this.Amount = amount;
 		}
 
+		/// <summary>
+		/// Buys the purchasable virtual item.
+		/// Implementation in subclasses will be according to specific type of purchase.
+		/// </summary>
+		/// <param name="payload">a string you want to be assigned to the purchase. This string
+		/// is saved in a static variable and will be given bacl to you when the
+		///  purchase is completed.</param>
+		/// <exception cref="Soomla.Store.InsufficientFundsException">throws InsufficientFundsException</exception>
 		public override void Buy(string payload)
 		{
 			SoomlaUtils.LogDebug("SOOMLA PurchaseWithVirtualItem", "Trying to buy a " + AssociatedItem.Name + " with "
