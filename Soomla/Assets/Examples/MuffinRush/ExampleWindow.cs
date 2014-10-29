@@ -103,21 +103,6 @@ namespace Soomla.Store.Example {
 
 		public void onSoomlaStoreInitialized() {
 
-// ExampleLocalStoreInfo.Init();
-//
-// // some usage examples for add/remove currency
-// 			// some examples
-// 			if (ExampleLocalStoreInfo.VirtualCurrencies.Count>0) {
-// 					try {
-// 							StoreInventory.GiveItem(ExampleLocalStoreInfo.VirtualCurrencies[0].ItemId,4000);
-// 							SoomlaUtils.LogDebug("SOOMLA ExampleEventHandler", "Currency balance:" + StoreInventory.GetItemBalance(ExampleLocalStoreInfo.VirtualCurrencies[0].ItemId));
-// 					} catch (VirtualItemNotFoundException ex){
-// 							SoomlaUtils.LogError("SOOMLA ExampleEventHandler", ex.Message);
-// 					}
-// 			}
-//
-// ExampleWindow.GetInstance().setupItemsTextures();
-
 			// some usage examples for add/remove currency
 			// some examples
 			if (StoreInfo.Currencies.Count>0) {

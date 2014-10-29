@@ -32,7 +32,7 @@ unity3d-store is the Unity3d flavor of SOOMLA's Store Module.
 ####Pre baked unitypackages:
 
 [soomla-unity3d-core](https://raw.githubusercontent.com/soomla/unity3d-store/master/soomla-unity3d-core.unitypackage)  
-[unity3d-store v1.5.4](http://bit.ly/1rc21Zo)  
+[unity3d-store v1.7.0](http://bit.ly/1rc21Zo)  
 
 ## Debugging
 
@@ -126,8 +126,6 @@ When you initialize _SoomlaStore_, it automatically initializes two other classe
 * _StoreInventory_ is a convenience class to let you perform operations on VirtualCurrencies and VirtualGoods. Use it to fetch/change the balances of VirtualItems in your game (using their ItemIds!)  
 * _StoreInfo_ is where all meta data information about your specific game can be retrieved. It is initialized with your implementation of `IStoreAssets` and you can use it to retrieve information about your specific game.
 
-**ATTENTION: because we're using JNI (Android) and DllImport (iOS) you should make as little calls as possible to _StoreInfo_. Look in the example project for the way we created a sort of a cache to hold your game's information in order to not make too many calls to _StoreInfo_. We update this cache using an event handler. (see [ExampleLocalStoreInfo](https://github.com/soomla/unity3d-store/blob/master/Soomla/Assets/Examples/MuffinRush/ExampleLocalStoreInfo.cs) and [ExampleEventHandler](https://github.com/soomla/unity3d-store/blob/master/Soomla/Assets/Examples/MuffinRush/ExampleEventHandler.cs)).**
-
 The on-device storage is encrypted and kept in a SQLite database. SOOMLA is preparing a cloud-based storage service that will allow this SQLite to be synced to a cloud-based repository that you'll define.
 
 **Example Usages**
@@ -135,7 +133,7 @@ The on-device storage is encrypted and kept in a SQLite database. SOOMLA is prep
 * Get VirtualCurrency with itemId "currency_coin":
 
     ```cs
-    VirtualCurrency coin = StoreInfo.GetVirtualCurrencyByItemId("currency_coin");
+    VirtualCurrency coin = (VirtualCurrency) StoreInfo.GetItemByItemId("currency_coin");
     ```
 
 * Give the user 10 pieces of a virtual currency with itemId "currency_coin":
@@ -167,22 +165,24 @@ The 'Events' class is where all event go through. To handle various events, just
 
 For example, if you want to 'listen' to a MarketPurchase event:
 
-```cs
+``` cs
 StoreEvents.OnMarketPurchase += onMarketPurchase;
 
-public void onMarketPurchase(PurchasableVirtualItem pvi, string purchaseToken, string payload) {
-    Debug.Log("Just purchased an item with itemId: " + pvi.ItemId);
+public void onMarketPurchase(PurchasableVirtualItem pvi, string payload, Dictionary<string, string> extra) {
+    // pvi is the PurchasableVirtualItem that was just purchased
+    // payload is a text that you can give when you initiate the purchase operation and you want to receive back upon completion
+    // extra will contain platform specific information about the market purchase.
+    //      Android: The "extra" dictionary will contain "orderId" and "purchaseToken".
+    //      iOS: The "extra" dictionary will contain "receipt" and "token".
+
+    // ... your game specific implementation here ...
 }
 ```
 
-One thing you need to make sure is that you instantiate your EventHandler before SoomlaStore.  
-So if you have:
+**NOTE:** One thing you need to notice is that if you want to listen to OnSoomlaStoreInitialized event you have to set up the listener before you initialize SoomlaStore.
+So you'll need to do:
 ````
-private static Soomla.Example.ExampleEventHandler handler;
-````
-you'll need to do:
-````
-handler = new Soomla.Example.ExampleEventHandler();
+StoreEvents.OnSoomlaStoreInitialized += onSoomlaStoreInitialized;
 ````
 before
 ````
