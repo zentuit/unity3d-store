@@ -1,3 +1,16 @@
+### v1.7.0 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.6.0...v1.7.0)
+
+***Important***: there are some breaking changes. Read the changes carefully.
+
+* New Features
+  * Work In Editor!
+  * New local inventory that keeps all balances in memory so you don't need to go to the native DB. Saves JNI calls.
+
+* Changes
+  * In [StoreInfo](https://github.com/soomla/unity3d-store/blob/master/Soomla/Assets/Plugins/Soomla/Store/data/StoreInfo.cs) we replaces some funtions with public [variables](https://github.com/soomla/unity3d-store/blob/master/Soomla/Assets/Plugins/Soomla/Store/data/StoreInfo.cs#L512) that represent the collections of store metadata.
+  * A class like the old [ExampleLocalStoreInfo](https://github.com/soomla/unity3d-store/blob/4dddde50607f83840fa1524f997c2568b90add11/Soomla/Assets/Examples/MuffinRush/ExampleLocalStoreInfo.cs) is **not** needed anymore. [StoreInventory](https://github.com/soomla/unity3d-store/commits/master/Soomla/Assets/Plugins/Soomla/Store/StoreInventory.cs) caches that info in memory and will be updated on runtime.
+  * OnMarketPurchase event signature has changed. It now has a dictionary of extra information about the specific purchase for different native platforms (Android / iOS). More information [here](http://know.soom.la/docs/platforms/unity/events).
+
 ### v1.6.0 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.5.4...v1.6.0)
 
 ***Important***: this is a breaking release. Read the changes carefully.

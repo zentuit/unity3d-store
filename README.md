@@ -11,13 +11,10 @@ unity3d-store
 
 *SOOMLA's Store Module for Unity3d*
 
+**October 29th:** v1.7.0 **Work in editor!** When you're in the Unity editor, data will be saved to PlayerPrefs.
+
 **September 15th:** NonConsumableItem class was removed.
 To create a non-consumable item in your `IStoreAssets` implementation, use `LifeTimeVG` with `PurchaseType` of `PurchaseWithMarket`.
-
-**June 20th, 2014**: v1.5.2 presents some significant changes. [Getting Started](https://github.com/soomla/unity3d-store#getting-started) has changed! see [CHANGELOG](changelog.md).
-> FYI - SOOMLA menu was moved and it's now under "Window -> Soomla"
-
-**May 28th, 2014:** v1.5.0 is released. Supporting Amazon billing service. see [CHANGELOG](changelog.md).
 
 **October 3rd, 2013:** iOS Server Side Verification is now implemented into unity3d-store. The server is a complimentary server provided by [SOOMLA](http://soom.la) to help you get your in-game purchases a bit more secured. This feature is not enabled by default. In order to enable Server Side verification go to the Soomla prefab and set  **ios Server Side Verification -> true**.
 
