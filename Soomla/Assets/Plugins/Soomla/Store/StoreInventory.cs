@@ -293,27 +293,12 @@ namespace Soomla.Store
 					}
 				}
 			}
-			
-			
-			// remove first so you make sure it is added only once.
-			
-			StoreEvents.OnCurrencyBalanceChanged -= onCurrencyBalanceChanged;
-			StoreEvents.OnGoodBalanceChanged -= onGoodBalanceChanged;
-			StoreEvents.OnGoodEquipped -= onGoodEquipped;
-			StoreEvents.OnGoodUnEquipped -= onGoodUnEquipped;
-			StoreEvents.OnGoodUpgrade -= onGoodUpgrade;
-			
-			StoreEvents.OnCurrencyBalanceChanged += onCurrencyBalanceChanged;
-			StoreEvents.OnGoodBalanceChanged += onGoodBalanceChanged;
-			StoreEvents.OnGoodEquipped += onGoodEquipped;
-			StoreEvents.OnGoodUnEquipped += onGoodUnEquipped;
-			StoreEvents.OnGoodUpgrade += onGoodUpgrade;
 		}
 
 
 		/** A set of private functions to refresh the local inventory whenever there are changes on runtime. **/
 
-		private static void onGoodUpgrade(VirtualGood vg, UpgradeVG uvg) {
+		public static void RefreshOnGoodUpgrade(VirtualGood vg, UpgradeVG uvg) {
 			if (uvg == null) {
 				localUpgrades.Remove(vg.ItemId);
 			} else {
@@ -328,19 +313,19 @@ namespace Soomla.Store
 			}
 		}
 		
-		private static void onGoodEquipped(EquippableVG equippable) {
+		public static void RefreshOnGoodEquipped(EquippableVG equippable) {
 			localEquippedGoods.Add(equippable.ItemId);
 		}
 		
-		private static void onGoodUnEquipped(EquippableVG equippable) {
+		public static void RefreshOnGoodUnEquipped(EquippableVG equippable) {
 			localEquippedGoods.Remove(equippable.ItemId);
 		}
 		
-		private static void onCurrencyBalanceChanged(VirtualCurrency virtualCurrency, int balance, int amountAdded) {
+		public static void RefreshOnCurrencyBalanceChanged(VirtualCurrency virtualCurrency, int balance, int amountAdded) {
 			UpdateLocalBalance(virtualCurrency.ItemId, balance);
 		}
 		
-		private static void onGoodBalanceChanged(VirtualGood good, int balance, int amountAdded) {
+		public static void RefreshOnGoodBalanceChanged(VirtualGood good, int balance, int amountAdded) {
 			UpdateLocalBalance(good.ItemId, balance);
 		}
 		
