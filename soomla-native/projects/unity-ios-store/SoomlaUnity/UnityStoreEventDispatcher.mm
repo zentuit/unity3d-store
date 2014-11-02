@@ -76,7 +76,7 @@ extern "C"{
     void eventDispatcher_PushEventItemPurchased(const char* message) {
         NSString* messageS = [NSString stringWithUTF8String:message];
         NSDictionary* eventJSON = [SoomlaUtils jsonStringToDict:messageS];
-        NSDictionary *userInfo = @{ DICT_ELEMENT_PURCHASABLE: [eventJSON objectForKey:@"itemId"], DICT_ELEMENT_DEVELOPERPAYLOAD: [eventJSON objectForKey:@"payload"] };
+        NSDictionary *userInfo = @{ DICT_ELEMENT_PURCHASABLE_ID: [eventJSON objectForKey:@"itemId"], DICT_ELEMENT_DEVELOPERPAYLOAD: [eventJSON objectForKey:@"payload"] };
 
         [[NSNotificationCenter defaultCenter] postNotificationName:EVENT_ITEM_PURCHASED object:instance userInfo:userInfo];
     }
@@ -84,7 +84,7 @@ extern "C"{
     void eventDispatcher_PushEventItemPurchaseStarted(const char* message) {
         NSString* messageS = [NSString stringWithUTF8String:message];
         NSDictionary* eventJSON = [SoomlaUtils jsonStringToDict:messageS];
-        NSDictionary *userInfo = @{ DICT_ELEMENT_PURCHASABLE: [eventJSON objectForKey:@"itemId"] };
+        NSDictionary *userInfo = @{ DICT_ELEMENT_PURCHASABLE_ID: [eventJSON objectForKey:@"itemId"] };
         
         [[NSNotificationCenter defaultCenter] postNotificationName:EVENT_ITEM_PURCHASE_STARTED object:instance userInfo:userInfo];
     }
@@ -160,7 +160,7 @@ extern "C"{
 	else if ([notification.name isEqualToString:EVENT_ITEM_PURCHASED]) {
         NSDictionary* userInfo = [notification userInfo];
         NSString* jsonStr = [SoomlaUtils dictToJsonString:@{
-                                                            @"itemId": [userInfo objectForKey:DICT_ELEMENT_PURCHASABLE],
+                                                            @"itemId": [userInfo objectForKey:DICT_ELEMENT_PURCHASABLE_ID],
                                                             @"payload": [userInfo objectForKey:DICT_ELEMENT_DEVELOPERPAYLOAD]
                                                             }];
         UnitySendMessage("StoreEvents", "onItemPurchased", [jsonStr UTF8String]);
@@ -168,30 +168,33 @@ extern "C"{
 	else if ([notification.name isEqualToString:EVENT_ITEM_PURCHASE_STARTED]) {
         NSDictionary* userInfo = [notification userInfo];
         NSString* jsonStr = [SoomlaUtils dictToJsonString:@{
-                                                            @"itemId": [userInfo objectForKey:DICT_ELEMENT_PURCHASABLE]
+                                                            @"itemId": [userInfo objectForKey:DICT_ELEMENT_PURCHASABLE_ID]
                                                             }];
         UnitySendMessage("StoreEvents", "onItemPurchaseStarted", [jsonStr UTF8String]);
     }
 	else if ([notification.name isEqualToString:EVENT_MARKET_PURCHASE_CANCELLED]) {
         NSDictionary* userInfo = [notification userInfo];
+        PurchasableVirtualItem* pvi = (PurchasableVirtualItem*)[userInfo objectForKey:DICT_ELEMENT_PURCHASABLE];
         NSString* jsonStr = [SoomlaUtils dictToJsonString:@{
-                                                            @"itemId": [userInfo objectForKey:DICT_ELEMENT_PURCHASABLE]
+                                                            @"itemId": pvi.itemId
                                                             }];
         UnitySendMessage("StoreEvents", "onMarketPurchaseCancelled", [jsonStr UTF8String]);
     }
 	else if ([notification.name isEqualToString:EVENT_MARKET_PURCHASED]) {
         NSDictionary* userInfo = [notification userInfo];
+        PurchasableVirtualItem* pvi = (PurchasableVirtualItem*)[userInfo objectForKey:DICT_ELEMENT_PURCHASABLE];
         NSString* jsonStr = [SoomlaUtils dictToJsonString:@{
-                                                            @"itemId": [userInfo objectForKey:DICT_ELEMENT_PURCHASABLE],
-                                                            @"payload": [userInfo objectForKey:DICT_ELEMENT_PURCHASABLE],
+                                                            @"itemId": pvi.itemId,
+                                                            @"payload": [userInfo objectForKey:DICT_ELEMENT_DEVELOPERPAYLOAD],
                                                             @"extra": @{ @"receipt": [userInfo objectForKey:DICT_ELEMENT_RECEIPT], @"token": [userInfo objectForKey:DICT_ELEMENT_TOKEN]}
                                                             }];
         UnitySendMessage("StoreEvents", "onMarketPurchase", [jsonStr UTF8String]);
     }
     else if ([notification.name isEqualToString:EVENT_MARKET_PURCHASE_STARTED]) {
         NSDictionary* userInfo = [notification userInfo];
+        PurchasableVirtualItem* pvi = (PurchasableVirtualItem*)[userInfo objectForKey:DICT_ELEMENT_PURCHASABLE];
         NSString* jsonStr = [SoomlaUtils dictToJsonString:@{
-                                                            @"itemId": [userInfo objectForKey:DICT_ELEMENT_PURCHASABLE]
+                                                            @"itemId": pvi.itemId
                                                             }];
         UnitySendMessage("StoreEvents", "onMarketPurchaseStarted", [jsonStr UTF8String]);
 	}
