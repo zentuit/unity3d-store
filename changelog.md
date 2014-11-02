@@ -1,3 +1,9 @@
+### v1.7.0 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.0...v1.7.1)
+
+* Fixes
+  * Fixed an issue where events were not sent with the correct variables.
+  * Fixed an issue with StoreInventory not refreshing "local" balnces correctly.
+
 ### v1.7.0 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.6.0...v1.7.0)
 
 ***Important***: there are some breaking changes. Read the changes carefully.
