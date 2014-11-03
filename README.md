@@ -11,7 +11,7 @@ unity3d-store
 
 *SOOMLA's Store Module for Unity3d*
 
-**October 29th:** v1.7.0 **Work in editor!** When you're in the Unity editor, data will be saved to PlayerPrefs.
+**October 29th:** v1.7 **Work in editor!** When you're in the Unity editor, data will be saved to PlayerPrefs.
 
 **September 15th:** NonConsumableItem class was removed.
 To create a non-consumable item in your `IStoreAssets` implementation, use `LifeTimeVG` with `PurchaseType` of `PurchaseWithMarket`.
@@ -32,7 +32,7 @@ unity3d-store is the Unity3d flavor of SOOMLA's Store Module.
 ####Pre baked unitypackages:
 
 [soomla-unity3d-core](https://raw.githubusercontent.com/soomla/unity3d-store/master/soomla-unity3d-core.unitypackage)  
-[unity3d-store v1.7.0](http://bit.ly/1rc21Zo)  
+[unity3d-store v1.7.1](http://bit.ly/1rc21Zo)  
 
 ## Debugging
 
