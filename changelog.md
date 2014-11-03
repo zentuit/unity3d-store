@@ -1,4 +1,4 @@
-### v1.7.0 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.0...v1.7.1)
+### v1.7.1 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.0...v1.7.1)
 
 * Fixes
   * Fixed an issue where events were not sent with the correct variables.
