@@ -58,7 +58,7 @@ namespace Soomla.Store {
 		protected override void loadNativeFromDB() {
 			AndroidJNI.PushLocalFrame(100);
 			using(AndroidJavaClass jniStoreInfoClass = new AndroidJavaClass("com.soomla.store.data.StoreInfo")) {
-				jniStoreInfoClass.CallStatic("loadFromDB");
+				jniStoreInfoClass.CallStatic<bool>("loadFromDB");
 			}
 			AndroidJNI.PopLocalFrame(IntPtr.Zero);
 		}

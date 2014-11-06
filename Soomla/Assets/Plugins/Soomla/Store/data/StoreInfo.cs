@@ -18,6 +18,7 @@ using System;
 using System.Runtime.InteropServices;
 using System.Linq;
 using System.Collections;
+using Soomla;
 
 namespace Soomla.Store
 {
@@ -368,33 +369,33 @@ namespace Soomla.Store
 		private static void updateAggregatedLists (){
 			// rewritten from android java code
 			foreach (VirtualCurrency vi in Currencies) {
-				VirtualItems.Add (vi.ItemId, vi);
+				VirtualItems.AddOrUpdate(vi.ItemId, vi);
 			}
 			foreach (VirtualCurrencyPack vi in CurrencyPacks) {
-				VirtualItems.Add (vi.ItemId, vi);
+				VirtualItems.AddOrUpdate(vi.ItemId, vi);
 				PurchaseType purchaseType = vi.PurchaseType;
 				if (purchaseType is PurchaseWithMarket) {
-					PurchasableItems.Add (((PurchaseWithMarket)purchaseType).MarketItem.ProductId, vi);
+					PurchasableItems.AddOrUpdate(((PurchaseWithMarket)purchaseType).MarketItem.ProductId, vi);
 				}
 			}
 			foreach (VirtualGood vi in Goods) {
-				VirtualItems.Add (vi.ItemId, vi);
+				VirtualItems.AddOrUpdate(vi.ItemId, vi);
 				if (vi is UpgradeVG) {
 					List<UpgradeVG> upgrades;
 					if (!GoodsUpgrades.TryGetValue (((UpgradeVG)vi).GoodItemId, out upgrades)) {
 						upgrades = new List<UpgradeVG> ();
-						GoodsUpgrades.Add (((UpgradeVG)vi).GoodItemId, upgrades);
+						GoodsUpgrades.AddOrUpdate(((UpgradeVG)vi).GoodItemId, upgrades);
 					}
 					upgrades.Add ((UpgradeVG)vi);
 				}
 				PurchaseType purchaseType = vi.PurchaseType;
 				if (purchaseType is PurchaseWithMarket) {
-					PurchasableItems.Add (((PurchaseWithMarket)purchaseType).MarketItem.ProductId, vi);
+					PurchasableItems.AddOrUpdate(((PurchaseWithMarket)purchaseType).MarketItem.ProductId, vi);
 				}
 			}
 			foreach (VirtualCategory category in Categories) {
 				foreach (string goodItemId in category.GoodItemIds) {
-					GoodsCategories.Add (goodItemId, category);
+					GoodsCategories.AddOrUpdate(goodItemId, category);
 				}
 			}
 		}
@@ -408,7 +409,7 @@ namespace Soomla.Store
 		/// </summary>
 		/// <param name="virtualItem">the virtual item that replaces the old one if exists.</param>
 		private static void replaceVirtualItem(VirtualItem virtualItem) {
-			VirtualItems[virtualItem.ItemId] = virtualItem;
+			VirtualItems.AddOrUpdate(virtualItem.ItemId, virtualItem);
 			
 			if (virtualItem is VirtualCurrency) {
 				for(int i=0; i<Currencies.Count(); i++) {
@@ -423,7 +424,7 @@ namespace Soomla.Store
 			if (virtualItem is VirtualCurrencyPack) {
 				VirtualCurrencyPack vcp = (VirtualCurrencyPack)virtualItem;
 				if (vcp.PurchaseType is PurchaseWithMarket) {
-					PurchasableItems.Add(((PurchaseWithMarket) vcp.PurchaseType).MarketItem
+					PurchasableItems.AddOrUpdate(((PurchaseWithMarket) vcp.PurchaseType).MarketItem
 					                      .ProductId, vcp);
 				}
 				
@@ -443,13 +444,13 @@ namespace Soomla.Store
 					List<UpgradeVG> upgrades = GoodsUpgrades[((UpgradeVG) vg).GoodItemId];
 					if (upgrades == null) {
 						upgrades = new List<UpgradeVG>();
-						GoodsUpgrades.Add(((UpgradeVG) vg).ItemId, upgrades);
+						GoodsUpgrades.AddOrUpdate(((UpgradeVG) vg).ItemId, upgrades);
 					}
 					upgrades.Add((UpgradeVG) vg);
 				}
 
 				if (vg.PurchaseType is PurchaseWithMarket) {
-					PurchasableItems.Add(((PurchaseWithMarket) vg.PurchaseType).MarketItem
+					PurchasableItems.AddOrUpdate(((PurchaseWithMarket) vg.PurchaseType).MarketItem
 					                      .ProductId, vg);
 				}
 				
