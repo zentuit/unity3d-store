@@ -32,7 +32,7 @@ unity3d-store is the Unity3d flavor of SOOMLA's Store Module.
 ####Pre baked unitypackages:
 
 [soomla-unity3d-core](https://raw.githubusercontent.com/soomla/unity3d-store/master/soomla-unity3d-core.unitypackage)  
-[unity3d-store v1.7.1](http://bit.ly/1rc21Zo)  
+[unity3d-store v1.7.2](http://bit.ly/1rc21Zo)  
 
 ## Debugging
 
