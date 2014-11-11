@@ -56,7 +56,7 @@ namespace Soomla.Store
 		/// Implementation in subclasses will be according to specific type of purchase.
 		/// </summary>
 		/// <param name="payload">a string you want to be assigned to the purchase. This string
-		/// is saved in a static variable and will be given bacl to you when the
+		/// is saved in a static variable and will be given back to you when the
 		///  purchase is completed.</param>
 		/// <exception cref="Soomla.Store.InsufficientFundsException">throws InsufficientFundsException</exception>
 		public override void Buy(string payload)
@@ -96,6 +96,12 @@ namespace Soomla.Store
 			eventJSON.AddField("payload", payload);
 			StoreEvents.Instance.onItemPurchased(eventJSON.print());
 		}
+
+
+        public override string GetPrice()
+        {
+            return Amount.ToString();
+        }
 	}
 }
 
