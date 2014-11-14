@@ -22,7 +22,7 @@ namespace Soomla.Store
 	/// abstract <c>VirtualGoodsStorage</c> for Android.
 	/// </summary>
 	public class VirtualGoodsStorageIOS : VirtualGoodsStorage {
-//#if UNITY_ANDROID && !UNITY_EDITOR
+#if UNITY_ANDROID && !UNITY_EDITOR
 
 		/// Functions that call iOS-store functions.
 		[DllImport ("__Internal")]
@@ -109,12 +109,12 @@ namespace Soomla.Store
 		
 		protected override int _remove(VirtualItem item, int amount, bool notify){
 			int outBalance = 0;
-			int err = vgStorage_Add(item.ItemId, amount, notify, out outBalance);
+			int err = vgStorage_Remove(item.ItemId, amount, notify, out outBalance);
 			IOS_ErrorCodes.CheckAndThrowException(err);
 			return outBalance;
 		}
 	
-//#endif
+#endif
 	}
 }
 

@@ -22,7 +22,7 @@ namespace Soomla.Store
 	/// abstract <c>VirtualCurrencyStorage</c> for iOS.
 	/// </summary>
 	public class VirtualCurrencyStorageIOS : VirtualCurrencyStorage {
-//#if UNITY_IOS && !UNITY_EDITOR
+#if UNITY_IOS && !UNITY_EDITOR
 
 		/// Functions that call iOS-store functions.
 		[DllImport ("__Internal")]
@@ -62,7 +62,7 @@ namespace Soomla.Store
 			return outBalance;
 		}
 	
-//#endif
+#endif
 	}
 }
 
