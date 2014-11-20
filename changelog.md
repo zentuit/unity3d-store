@@ -1,3 +1,8 @@
+### v1.7.3 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.2...v1.7.3)
+
+* Fixes
+  * Fixed some calls to wrong functions in native code.
+
 ### v1.7.2 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.1...v1.7.2)
 
 * New Features
