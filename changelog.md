@@ -1,3 +1,17 @@
+### v1.7.3 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.2...v1.7.3)
+
+* Fixes
+  * Fixed some calls to wrong functions in native code.
+
+### v1.7.2 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.1...v1.7.2)
+
+* New Features
+  * SOOMLA Core now supports custom events.
+
+* Fixes
+  * There was an issue with manipulation of Dictionaries. It's fixed now using an extension method called 'AddOrUpdate' which is implemented in Soomla Core. Make sure to update both Store and Core for 1.7.2.
+  * Fixed issues with Android Store Google Play's handling of some null variables.
+
 ### v1.7.1 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.0...v1.7.1)
 
 * Fixes

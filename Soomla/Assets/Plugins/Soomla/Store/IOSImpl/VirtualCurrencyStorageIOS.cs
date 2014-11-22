@@ -22,7 +22,7 @@ namespace Soomla.Store
 	/// abstract <c>VirtualCurrencyStorage</c> for iOS.
 	/// </summary>
 	public class VirtualCurrencyStorageIOS : VirtualCurrencyStorage {
-//#if UNITY_IOS && !UNITY_EDITOR
+#if UNITY_IOS && !UNITY_EDITOR
 
 		/// Functions that call iOS-store functions.
 		[DllImport ("__Internal")]
@@ -40,29 +40,28 @@ namespace Soomla.Store
 			IOS_ErrorCodes.CheckAndThrowException(err);
 			return outBalance;
 		}
-		
+
 		protected override int _setBalance(VirtualItem item, int balance, bool notify) {
 			int outBalance = 0;
 			int err = vcStorage_SetBalance(item.ItemId, balance, notify, out outBalance);
 			IOS_ErrorCodes.CheckAndThrowException(err);
 			return outBalance;
 		}
-		
+
 		protected override int _add(VirtualItem item, int amount, bool notify){
 			int outBalance = 0;
 			int err = vcStorage_Add(item.ItemId, amount, notify, out outBalance);
 			IOS_ErrorCodes.CheckAndThrowException(err);
 			return outBalance;
 		}
-		
+
 		protected override int _remove(VirtualItem item, int amount, bool notify){
 			int outBalance = 0;
-			int err = vcStorage_Add(item.ItemId, amount, notify, out outBalance);
+			int err = vcStorage_Remove(item.ItemId, amount, notify, out outBalance);
 			IOS_ErrorCodes.CheckAndThrowException(err);
 			return outBalance;
 		}
-	
-//#endif
+
+#endif
 	}
 }
-

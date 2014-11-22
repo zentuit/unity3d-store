@@ -68,7 +68,7 @@ namespace Soomla.Store
 		}
 
 		public void OnInfoGUI() {
-			SoomlaEditorScript.SelectableLabelField(frameworkVersion, "1.7.0");
+			SoomlaEditorScript.SelectableLabelField(frameworkVersion, "1.7.3");
 			SoomlaEditorScript.SelectableLabelField(buildVersion, "1");
 			EditorGUILayout.Space();
 		}
@@ -181,7 +181,7 @@ namespace Soomla.Store
 		}
 
 		private Dictionary<string, bool> bpUpdate = new Dictionary<string, bool>();
-		private static string bpRootPath = Application.dataPath + "/Soomla/compilations/android-billing-services/";
+		private static string bpRootPath = Application.dataPath + "/Soomla/compilations/android/android-billing-services/";
 
 		public static void handlePlayBPJars(bool remove) {
 			try {
