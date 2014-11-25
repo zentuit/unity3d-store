@@ -77,12 +77,6 @@ namespace Soomla.Store
 			StoreEvents.Instance.onItemPurchaseStarted(eventJSON.print());
 
 			int balance = item.GetBalance();
-			if (item is VirtualCurrency) {
-				balance = VirtualCurrencyStorage.GetBalance(item);
-			} else {
-				balance = VirtualGoodsStorage.GetBalance(item);
-			}
-
 			if (balance < Amount){
 				throw new InsufficientFundsException(TargetItemId);
 			}

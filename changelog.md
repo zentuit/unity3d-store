@@ -1,3 +1,8 @@
+### v1.7.4 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.3...v1.7.4)
+* Fixes
+  * Fixed an issue with Google Play.
+  * Fixed a bug in VirtualGoodsStorage not being built b/c of wrong compiler flag.
+
 ### v1.7.3 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.2...v1.7.3)
 
 * Fixes
