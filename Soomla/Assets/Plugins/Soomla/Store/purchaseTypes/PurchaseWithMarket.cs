@@ -69,7 +69,7 @@ namespace Soomla.Store
 
 			JSONObject eventJSON = new JSONObject();
 			eventJSON.AddField("itemId", AssociatedItem.ItemId);
-			StoreEvents.Instance.onItemPurchaseStarted(eventJSON.print());
+			StoreEvents.Instance.onItemPurchaseStarted(eventJSON.print(), true);
 			SoomlaStore.BuyMarketItem(MarketItem.ProductId, payload);
 		}
 	}
