@@ -85,10 +85,13 @@ namespace Soomla.Store
 
 			AssociatedItem.Give(1);
 
-			eventJSON = new JSONObject();
-			eventJSON.AddField("itemId", AssociatedItem.ItemId);
-			eventJSON.AddField("payload", payload);
-			StoreEvents.Instance.onItemPurchased(eventJSON.print());
+			// We have to make sure the ItemPurchased event will be fired AFTER the balance/currency-changed events.
+			StoreEvents.Instance.RunLater(() => {
+				eventJSON = new JSONObject();
+				eventJSON.AddField("itemId", AssociatedItem.ItemId);
+				eventJSON.AddField("payload", payload);
+				StoreEvents.Instance.onItemPurchased(eventJSON.print());
+			});
 		}
 	}
 }

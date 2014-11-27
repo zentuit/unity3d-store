@@ -284,7 +284,7 @@ namespace Soomla.Store
 				UpgradeVG upgrade = VirtualGoodsStorage.GetCurrentUpgrade(item);
 				if (upgrade != null) {
 					int upgradeLevel = GetGoodUpgradeLevel(item.ItemId);
-					localUpgrades.Add(item.ItemId, new LocalUpgrade { itemId = upgrade.ItemId, level = upgradeLevel });
+					localUpgrades.AddOrUpdate(item.ItemId, new LocalUpgrade { itemId = upgrade.ItemId, level = upgradeLevel });
 				}
 				
 				if (item is EquippableVG) {
@@ -303,8 +303,8 @@ namespace Soomla.Store
 				localUpgrades.Remove(vg.ItemId);
 			} else {
 				int upgradeLevel = GetGoodUpgradeLevel(vg.ItemId);
-				LocalUpgrade upgrade = localUpgrades[vg.ItemId];
-				if (upgrade != null) {
+				LocalUpgrade upgrade;
+				if (localUpgrades.TryGetValue(vg.ItemId, out upgrade)) {
 					upgrade.itemId = uvg.ItemId;
 					upgrade.level = upgradeLevel;
 				} else {
