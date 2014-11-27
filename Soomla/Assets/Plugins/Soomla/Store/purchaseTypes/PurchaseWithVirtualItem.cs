@@ -74,7 +74,7 @@ namespace Soomla.Store
 
 			JSONObject eventJSON = new JSONObject();
 			eventJSON.AddField("itemId", AssociatedItem.ItemId);
-			StoreEvents.Instance.onItemPurchaseStarted(eventJSON.print());
+			StoreEvents.Instance.onItemPurchaseStarted(eventJSON.print(), true);
 
 			int balance = item.GetBalance();
 			if (balance < Amount){
@@ -90,7 +90,7 @@ namespace Soomla.Store
 				eventJSON = new JSONObject();
 				eventJSON.AddField("itemId", AssociatedItem.ItemId);
 				eventJSON.AddField("payload", payload);
-				StoreEvents.Instance.onItemPurchased(eventJSON.print());
+				StoreEvents.Instance.onItemPurchased(eventJSON.print(), true);
 			});
 		}
 	}
