@@ -1,4 +1,12 @@
+### v1.7.5 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.4...v1.7.5)
+
+* Fixes
+  * Fixed an issue with ItemPurchaseEvent being thrown before balance/currency changes.
+  * Fixed an issue with some dictionaries not being used correctly
+  * Fixed event pushing into native
+
 ### v1.7.4 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.3...v1.7.4)
+
 * Fixes
   * Fixed an issue with Google Play.
   * Fixed a bug in VirtualGoodsStorage not being built b/c of wrong compiler flag.

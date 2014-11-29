@@ -31,10 +31,10 @@ unity3d-store is the Unity3d flavor of SOOMLA's Store Module.
 
 ####Pre baked unitypackages:
 
-> If you're upgrading to v1.7.3 make sure you take soomla-unity3d-core again.
+> If you're upgrading to v1.7.x make sure you take soomla-unity3d-core again.
 
-[soomla-unity3d-core](https://raw.githubusercontent.com/soomla/unity3d-store/master/soomla-unity3d-core.unitypackage)  
-[unity3d-store v1.7.4](http://bit.ly/1rc21Zo)
+[soomla-unity3d-core v1.0.1](http://library.soom.la/fetch/unity3d-core/1.0.1?cf=github)  
+[unity3d-store v1.7.5](http://library.soom.la/fetch/unity3d-store/1.7.5?cf=github)
 
 ## Debugging
 
