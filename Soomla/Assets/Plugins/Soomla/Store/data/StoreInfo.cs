@@ -201,6 +201,17 @@ namespace Soomla.Store
 			Save();
 		}
 
+		/// <summary>
+		/// Replaces the given virtual item, and then saves the store's metadata.
+		/// </summary>
+		/// <param name="virtualItem">the virtual item to replace.</param>
+		public static void Save(List<VirtualItem> virtualItems) {
+			foreach(VirtualItem virtualItem in virtualItems) {
+				replaceVirtualItem(virtualItem);
+			}
+			Save();
+		}
+
 
 		/** Protected Functions **/
 		/** These protected virtual functions will only run when in editor **/
