@@ -1,3 +1,13 @@
+### v1.7.6 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.5...v1.7.6)
+
+* New Features
+  * Amazon integration supports v2
+  * Another Save function in StoreInfo that handles list of items
+
+* Fixed
+  * Multiple fixes from updated submodules
+
+
 ### v1.7.5 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.4...v1.7.5)
 
 * Fixes
