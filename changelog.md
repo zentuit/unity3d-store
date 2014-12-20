@@ -1,3 +1,9 @@
+### v1.7.7 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.6...v1.7.7)
+
+* Changes
+  * Fixes for Amazon support
+  * Updated changes from submodules
+
 ### v1.7.6 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.5...v1.7.6)
 
 * New Features
