@@ -64,7 +64,7 @@ namespace Soomla.Store
 			SoomlaUtils.LogDebug("SOOMLA PurchaseWithVirtualItem", "Trying to buy a " + AssociatedItem.Name + " with "
 			                     + Amount + " pieces of " + TargetItemId);
 
-			VirtualItem item = GetTargetVirtualItem ();
+			VirtualItem item = getTargetVirtualItem ();
 			if (item == null) {
 				return;
 			}
@@ -74,7 +74,7 @@ namespace Soomla.Store
 			eventJSON.AddField("itemId", AssociatedItem.ItemId);
 			StoreEvents.Instance.onItemPurchaseStarted(eventJSON.print(), true);
 
-			if (!CheckTargetBalance (item)) {
+			if (!checkTargetBalance (item)) {
 				throw new InsufficientFundsException (TargetItemId);
 			}
 
@@ -100,11 +100,11 @@ namespace Soomla.Store
 			SoomlaUtils.LogDebug("SOOMLA PurchaseWithVirtualItem", "Checking affordability of " + AssociatedItem.Name + " with "
 			                     + Amount + " pieces of " + TargetItemId);
 
-			VirtualItem targetItem = GetTargetVirtualItem();
-			return CheckTargetBalance(targetItem);
+			VirtualItem targetItem = getTargetVirtualItem();
+			return checkTargetBalance(targetItem);
 		}
 
-		private VirtualItem GetTargetVirtualItem ()
+		private VirtualItem getTargetVirtualItem ()
 		{
 			VirtualItem item = null;
 			try {
@@ -116,7 +116,7 @@ namespace Soomla.Store
 			return item;
 		}
 
-		private bool CheckTargetBalance (VirtualItem item)
+		private bool checkTargetBalance (VirtualItem item)
 		{
 			int balance = item.GetBalance ();
 			return balance > Amount;
