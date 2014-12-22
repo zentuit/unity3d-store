@@ -64,21 +64,18 @@ namespace Soomla.Store
 			SoomlaUtils.LogDebug("SOOMLA PurchaseWithVirtualItem", "Trying to buy a " + AssociatedItem.Name + " with "
 			                     + Amount + " pieces of " + TargetItemId);
 
-			VirtualItem item = null;
-			try {
-				item = StoreInfo.GetItemByItemId(TargetItemId);
-			} catch (VirtualItemNotFoundException) {
-				SoomlaUtils.LogError(TAG, "Target virtual item doesn't exist !");
+			VirtualItem item = GetTargetVirtualItem ();
+			if (item == null) {
 				return;
 			}
+
 
 			JSONObject eventJSON = new JSONObject();
 			eventJSON.AddField("itemId", AssociatedItem.ItemId);
 			StoreEvents.Instance.onItemPurchaseStarted(eventJSON.print(), true);
 
-			int balance = item.GetBalance();
-			if (balance < Amount){
-				throw new InsufficientFundsException(TargetItemId);
+			if (!CheckTargetBalance (item)) {
+				throw new InsufficientFundsException (TargetItemId);
 			}
 
 			item.Take(Amount);
@@ -92,6 +89,37 @@ namespace Soomla.Store
 				eventJSON.AddField("payload", payload);
 				StoreEvents.Instance.onItemPurchased(eventJSON.print(), true);
 			});
+		}
+		
+		/// <summary>
+		/// Checks if there is enough funds to afford the <code>PurchasableVirtualItem</code>.
+		/// Implementation in subclasses will be according to specific type of purchase.
+		/// </summary>
+		/// <returns>True if there are enough funds to afford the virtual item with the given item id </returns>
+		public override bool CanAfford() {
+			SoomlaUtils.LogDebug("SOOMLA PurchaseWithVirtualItem", "Checking affordability of " + AssociatedItem.Name + " with "
+			                     + Amount + " pieces of " + TargetItemId);
+
+			VirtualItem targetItem = GetTargetVirtualItem();
+			return CheckTargetBalance(targetItem);
+		}
+
+		private VirtualItem GetTargetVirtualItem ()
+		{
+			VirtualItem item = null;
+			try {
+				item = StoreInfo.GetItemByItemId (TargetItemId);
+			}
+			catch (VirtualItemNotFoundException) {
+				SoomlaUtils.LogError (TAG, "Target virtual item doesn't exist !");
+			}
+			return item;
+		}
+
+		private bool CheckTargetBalance (VirtualItem item)
+		{
+			int balance = item.GetBalance ();
+			return balance > Amount;
 		}
 	}
 }
