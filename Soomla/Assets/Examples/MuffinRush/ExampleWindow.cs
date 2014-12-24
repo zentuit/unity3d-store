@@ -86,7 +86,7 @@ namespace Soomla.Store.Example {
 		/// </summary>
 		void Start () {
 			StoreEvents.OnSoomlaStoreInitialized += onSoomlaStoreInitialized;
-			StoreEvents.OnGoodBalanceChanged += onGoodBalanceChanged;
+			StoreEvents.OnCurrencyBalanceChanged += onCurrencyBalanceChanged;
 
 			tImgDirect = (Texture2D)Resources.Load("SoomlaStore/images/img_direct");
 			fgoodDog = (Font)Resources.Load("SoomlaStore/GoodDog" + fontSuffix);
@@ -142,10 +142,12 @@ namespace Soomla.Store.Example {
 			}
 		}
 
-		public void onGoodBalanceChanged(VirtualGood good, int balance, int amountAdded) {
-			bool isAffordable;
-			if (itemsAffordability.TryGetValue (good.ID, out isAffordable)) {
-				itemsAffordability[good.ID] = StoreInventory.CanAfford(good.ID);
+		public void onCurrencyBalanceChanged(VirtualCurrency virtualCurrency, int balance, int amountAdded) {
+			if (itemsAffordability != null)
+			{
+				List<string> keys = new List<string> (itemsAffordability.Keys);
+				foreach(string key in keys)
+					itemsAffordability[key] = StoreInventory.CanAfford(key);
 			}
 		}
 
