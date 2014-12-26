@@ -157,32 +157,32 @@ namespace Soomla.Store
 				throw new VirtualItemNotFoundException("ProductId", productId);
 			}
 
-            // simulate onMarketPurchaseStarted event
-            var eventJSON = new JSONObject();
-            eventJSON.AddField("itemId", item.ItemId);
-            eventJSON.AddField("payload", payload);
-            StoreEvents.Instance.onMarketPurchaseStarted(eventJSON.print());
+			// simulate onMarketPurchaseStarted event
+			var eventJSON = new JSONObject();
+			eventJSON.AddField("itemId", item.ItemId);
+			eventJSON.AddField("payload", payload);
+			StoreEvents.Instance.onMarketPurchaseStarted(eventJSON.print());
             
-            // in the editor we just give the item... no real market.
+			// in the editor we just give the item... no real market.
 			item.Give(1);
             
-            // simulate onMarketPurchase event
-            StoreEvents.Instance.RunLater(() => {
-                eventJSON = new JSONObject();
-                eventJSON.AddField("itemId", item.ItemId);
-                eventJSON.AddField("payload", payload);
-                var extraJSON = new JSONObject();
-                #if UNITY_IOS
-                extraJSON.AddField("receipt", "fake_receipt_abcd1234");
-                extraJSON.AddField("token", "fake_token_zyxw9876");
-                #elif UNITY_ANDROID
-                extraJSON.AddField("orderId", "fake_orderId_abcd1234");
-                extraJSON.AddField("purchaseToken", "fake_purchaseToken_zyxw9876");
-                #endif
-                eventJSON.AddField("extra", extraJSON);
-                StoreEvents.Instance.onMarketPurchase(eventJSON.print());
-            });
-            #endif
+			// simulate onMarketPurchase event
+			StoreEvents.Instance.RunLater(() => {
+				eventJSON = new JSONObject();
+				eventJSON.AddField("itemId", item.ItemId);
+				eventJSON.AddField("payload", payload);
+				var extraJSON = new JSONObject();
+			#if UNITY_IOS
+				extraJSON.AddField("receipt", "fake_receipt_abcd1234");
+				extraJSON.AddField("token", "fake_token_zyxw9876");
+			#elif UNITY_ANDROID
+				extraJSON.AddField("orderId", "fake_orderId_abcd1234");
+				extraJSON.AddField("purchaseToken", "fake_purchaseToken_zyxw9876");
+			#endif
+				eventJSON.AddField("extra", extraJSON);
+				StoreEvents.Instance.onMarketPurchase(eventJSON.print());
+			});
+#endif
 		}
 
 		protected virtual void _refreshInventory() { }
