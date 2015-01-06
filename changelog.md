@@ -1,3 +1,10 @@
+### v1.7.8 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.7...v1.7.8)
+
+* New Features
+  * Added CanAfford method
+  * Add onMarketPurchaseStarted and onMarketPurchase fake events when in Unity Editor
+  * Updated features from submodules
+
 ### v1.7.7 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.6...v1.7.7)
 
 * Changes
