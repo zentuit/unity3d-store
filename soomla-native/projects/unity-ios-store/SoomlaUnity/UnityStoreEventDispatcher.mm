@@ -217,10 +217,10 @@ extern "C"{
         for(MarketItem* mi in marketItems) {
             NSDictionary* micJSON = @{
                                       @"productId": mi.productId,
-                                      @"marketPrice": mi.marketPriceAndCurrency,
-                                      @"marketTitle": mi.marketTitle,
-                                      @"marketDesc": mi.marketDescription,
-                                      @"marketCurrencyCode": mi.marketCurrencyCode,
+                                      @"marketPrice": (mi.marketPriceAndCurrency ?: @""),
+                                      @"marketTitle": (mi.marketTitle ?: @""),
+                                      @"marketDesc": (mi.marketDescription ?: @""),
+                                      @"marketCurrencyCode": (mi.marketCurrencyCode ?: @""),
                                       @"marketPriceMicros": @(mi.marketPriceMicros)
                                       };
             [eventJSON addObject:micJSON];
