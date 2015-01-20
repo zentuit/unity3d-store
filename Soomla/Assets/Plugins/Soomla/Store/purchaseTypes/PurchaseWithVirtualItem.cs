@@ -119,7 +119,7 @@ namespace Soomla.Store
 		private bool checkTargetBalance (VirtualItem item)
 		{
 			int balance = item.GetBalance ();
-			return balance > Amount;
+			return balance >= Amount;
 		}
 	}
 }
