@@ -63,7 +63,7 @@ namespace Soomla.Store {
 			yield return new WaitForSeconds(0.1f);
 			runLaterDelegate();
 		}
-		
+
 		/// <summary>
 		/// Initializes the different native event handlers in Android / iOS
 		/// </summary>
@@ -147,7 +147,7 @@ namespace Soomla.Store {
 			SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onGoodBalanceChanged:" + message);
 
 			JSONObject eventJSON = new JSONObject(message);
-			
+
 			VirtualGood vg = (VirtualGood)StoreInfo.GetItemByItemId(eventJSON["itemId"].str);
 			int balance = (int)eventJSON["balance"].n;
 			int amountAdded = (int)eventJSON["amountAdded"].n;
@@ -201,7 +201,7 @@ namespace Soomla.Store {
 			SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onVirtualGoodUnEquipped:" + message);
 
 			var eventJSON = new JSONObject(message);
-			
+
 			EquippableVG vg = (EquippableVG)StoreInfo.GetItemByItemId(eventJSON["itemId"].str);
 
 			StoreInventory.RefreshOnGoodUnEquipped(vg);
@@ -330,7 +330,9 @@ namespace Soomla.Store {
 			if (eventJSON.HasField("extra")) {
 				var extraJSON = eventJSON["extra"];
 				foreach(string key in extraJSON.keys) {
-					extra.Add(key, extraJSON[key].str);
+					if (extraJSON[key] != null) {
+						extra.Add(key, extraJSON[key].str);
+					}
 				}
 			}
 
@@ -544,7 +546,7 @@ namespace Soomla.Store {
 #endif
 
 		public class StoreEventPusher {
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR			
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
 			public StoreEventPusher() {}
 
 			public void PushEventSoomlaStoreInitialized() {
@@ -566,7 +568,7 @@ namespace Soomla.Store {
 				eventJSON.AddField("itemId", good.ItemId);
 				eventJSON.AddField("balance", balance);
 				eventJSON.AddField("amountAdded", amountAdded);
-				
+
 				_pushEventGoodBalanceChanged(eventJSON.print());
 			}
 			public void PushEventOnGoodEquipped(EquippableVG good) {
@@ -578,27 +580,27 @@ namespace Soomla.Store {
 			public void PushEventOnGoodUnequipped(EquippableVG good) {
 				var eventJSON = new JSONObject();
 				eventJSON.AddField("itemId", good.ItemId);
-				
+
 				_pushEventGoodUnequipped(eventJSON.print());
 			}
 			public void PushEventOnGoodUpgrade(VirtualGood good, UpgradeVG upgrade) {
 				var eventJSON = new JSONObject();
 				eventJSON.AddField("itemId", good.ItemId);
 				eventJSON.AddField("upgradeItemId", (upgrade==null ? null : upgrade.ItemId));
-				
+
 				_pushEventGoodUpgrade(eventJSON.print());
 			}
 			public void PushEventOnItemPurchased(PurchasableVirtualItem item, string payload) {
 				var eventJSON = new JSONObject();
 				eventJSON.AddField("itemId", item.ItemId);
 				eventJSON.AddField("payload", payload);
-				
+
 				_pushEventItemPurchased(eventJSON.print());
 			}
 			public void PushEventOnItemPurchaseStarted(PurchasableVirtualItem item) {
 				var eventJSON = new JSONObject();
 				eventJSON.AddField("itemId", item.ItemId);
-				
+
 				_pushEventItemPurchaseStarted(eventJSON.print());
 			}
 
