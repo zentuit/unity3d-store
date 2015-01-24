@@ -1,3 +1,8 @@
+### v1.7.9 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.8...v1.7.9)
+
+* Fixes
+  * Fixed a crash on versions < ICS
+
 ### v1.7.8 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.7...v1.7.8)
 
 * New Features
