@@ -2,6 +2,8 @@
 
 * Fixes
   * Fixed issues with purchases on edge cases on Google Play
+  * Fixed nil event issues from iOS purchases
+  * Fixed #404
 
 ### v1.7.9 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.8...v1.7.9)
 
