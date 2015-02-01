@@ -1,3 +1,8 @@
+### v1.7.10 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.9...v1.7.10)
+
+* Fixes
+  * Fixed issues with purchases on edge cases on Google Play
+
 ### v1.7.9 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.8...v1.7.9)
 
 * Fixes
