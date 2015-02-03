@@ -228,6 +228,13 @@ extern "C"{
         NSString* jsonStr = [SoomlaUtils arrayToJsonString:eventJSON];
         UnitySendMessage("StoreEvents", "onMarketItemsRefreshFinished", [jsonStr UTF8String]);
     }
+    else if ([notification.name isEqualToString:EVENT_MARKET_ITEMS_REFRESH_FAILED]) {
+        NSDictionary* userInfo = [notification userInfo];
+        NSString* jsonStr = [SoomlaUtils dictToJsonString:@{
+                                                            @"errorMessage": [userInfo objectForKey:DICT_ELEMENT_ERROR_MESSAGE]
+                                                            }];
+        UnitySendMessage("StoreEvents", "onMarketItemsRefreshFailed", [jsonStr UTF8String]);
+    }
     else if ([notification.name isEqualToString:EVENT_UNEXPECTED_ERROR_IN_STORE]) {
         UnitySendMessage("StoreEvents", "onUnexpectedErrorInStore", "");
     }

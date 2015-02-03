@@ -406,6 +406,21 @@ namespace Soomla.Store {
 		}
 
 		/// <summary>
+		/// Handles the <c>onMarketItemsRefreshFailed</c> event, which is fired when items associated with market
+		/// refresh process has failed.
+		/// </summary>
+		/// <param name="message">Message that contains information about the <c>market refresh</c> process that
+		/// has failed.</param>
+		public void onMarketItemsRefreshFailed(string message) {
+			SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onMarketItemsRefreshFailed");
+
+			var eventJSON = new JSONObject(message);
+			
+			string errorMessage = eventJSON["errorMessage"].str;
+			StoreEvents.OnMarketItemsRefreshFailed(errorMessage);
+		}
+
+		/// <summary>
 		/// Handles the <c>onMarketItemsRefreshFinished</c> event, which is fired when items associated with market are
 		/// refreshed (prices, titles ...).
 		/// </summary>
@@ -415,6 +430,7 @@ namespace Soomla.Store {
 
 			var eventJSON = new JSONObject(message);
 
+			List<VirtualItem> virtualItems = new List<VirtualItem>();
 			List<MarketItem> marketItems = new List<MarketItem>();
 			foreach (var micJSON in eventJSON.list) {
 				string productId = micJSON[StoreJSONConsts.MARKETITEM_PRODUCT_ID].str;
@@ -431,12 +447,18 @@ namespace Soomla.Store {
 					mi.MarketDescription = marketDescription;
 					mi.MarketCurrencyCode = marketCurrencyCode;
 					mi.MarketPriceMicros = marketPriceMicros;
-					pvi.Save();
 
 					marketItems.Add(mi);
+					virtualItems.Add(pvi);
 				} catch (VirtualItemNotFoundException ex){
 					SoomlaUtils.LogDebug(TAG, ex.Message);
 				}
+			}
+
+			if (virtualItems.Count > 0) {
+				// no need to save to DB since it's already saved in native
+				// before this event is received
+				StoreInfo.Save(virtualItems, false);
 			}
 
 			StoreEvents.OnMarketItemsRefreshFinished(marketItems);
@@ -532,6 +554,8 @@ namespace Soomla.Store {
 		public static Action OnRestoreTransactionsStarted = delegate {};
 
 		public static Action OnMarketItemsRefreshStarted = delegate {};
+
+		public static Action<string> OnMarketItemsRefreshFailed = delegate {};
 
 		public static Action<List<MarketItem>> OnMarketItemsRefreshFinished = delegate {};
 
