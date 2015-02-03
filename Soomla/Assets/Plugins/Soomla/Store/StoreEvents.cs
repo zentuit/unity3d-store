@@ -329,9 +329,11 @@ namespace Soomla.Store {
 			}
 			if (eventJSON.HasField("extra")) {
 				var extraJSON = eventJSON["extra"];
-				foreach(string key in extraJSON.keys) {
-					if (extraJSON[key] != null) {
-						extra.Add(key, extraJSON[key].str);
+				if (extraJSON.keys != null) {
+					foreach(string key in extraJSON.keys) {
+						if (extraJSON[key] != null) {
+							extra.Add(key, extraJSON[key].str);
+						}
 					}
 				}
 			}
