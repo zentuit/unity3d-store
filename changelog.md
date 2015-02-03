@@ -1,3 +1,9 @@
+### v1.7.11 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.10...v1.7.11)
+
+* Changes
+  * Removing saving items to DB upon market items refresh, since it's now done in native
+  * Added OnMarketItemsRefreshFailed event
+
 ### v1.7.10 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.9...v1.7.10)
 
 * Fixes
