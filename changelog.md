@@ -1,3 +1,11 @@
+### v1.7.12 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.11...v1.7.12)
+
+* Fixes
+  * Fixed NullRef exception calling BuyItem on editor #409
+
+* Changes
+  * Updated submodules
+
 ### v1.7.11 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.10...v1.7.11)
 
 * Changes
