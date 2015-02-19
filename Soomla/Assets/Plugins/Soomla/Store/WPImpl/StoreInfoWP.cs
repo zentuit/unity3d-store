@@ -17,7 +17,7 @@ using System.Collections.Generic;
 using System;
 using System.Runtime.InteropServices;
 
-#if UNITY_ANDROID && !UNITY_EDITOR
+#if UNITY_WP8 && !UNITY_EDITOR
 using SoomlaWpStore
 using SoomlaWpStore.data
 #endif
