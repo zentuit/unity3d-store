@@ -19,13 +19,12 @@ namespace Soomla.Store {
 	/// <summary>
 	/// This class contains all string names of the keys/vals in the JSON being parsed all around the SDK.
 	/// </summary>
-	public static class JSONConsts
+	public static class StoreJSONConsts
 	{
 	    public const string STORE_CURRENCIES         = "currencies";
 	    public const string STORE_CURRENCYPACKS      = "currencyPacks";
 	    public const string STORE_GOODS              = "goods";
 	    public const string STORE_CATEGORIES         = "categories";
-	    public const string STORE_NONCONSUMABLES     = "nonConsumables";
 	    public const string STORE_GOODS_SU           = "singleUse";
 	    public const string STORE_GOODS_PA           = "goodPacks";
 	    public const string STORE_GOODS_UP           = "goodUpgrades";
@@ -46,6 +45,8 @@ namespace Soomla.Store {
 		public const string MARKETITEM_MARKETPRICE   = "marketPrice";
 		public const string MARKETITEM_MARKETTITLE   = "marketTitle";
 		public const string MARKETITEM_MARKETDESC    = "marketDesc";
+		public const string MARKETITEM_MARKETCURRENCYCODE   = "marketCurrencyCode";
+		public const string MARKETITEM_MARKETPRICEMICROS    = "marketPriceMicros";
 	
 	    public const string EQUIPPABLE_EQUIPPING     = "equipping";
 	

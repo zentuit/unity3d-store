@@ -16,6 +16,7 @@ using UnityEngine;
 using System;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 #if UNITY_WP8
 using SoomlaWpStore;
 #endif
@@ -23,20 +24,33 @@ using SoomlaWpStore;
 namespace Soomla.Store {
 
 	/// <summary>
-	/// This class provides functions for event handling.
+	/// This class provides functionality for event handling.
 	/// </summary>
 	public class StoreEvents : MonoBehaviour {
 
 		private const string TAG = "SOOMLA StoreEvents";
 
-		private static StoreEvents instance = null;
+#if UNITY_EDITOR
+		public static StoreEvents Instance { get; private set; }
+#else
+		public static StoreEvents Instance = null;
+#endif
+		#pragma warning disable 0414
+		private static StoreEventPusher sep = null;
+		#pragma warning restore 0414
+
+#if UNITY_IOS && !UNITY_EDITOR
+		[DllImport ("__Internal")]
+		private static extern void eventDispatcher_Init();
+#endif
+
 
 		/// <summary>
-		/// Initializes game state before the game starts.
+		/// Initializes StoreEvents before the game starts.
 		/// </summary>
 		void Awake(){
-			if(instance == null){ 	// making sure we only initialize one instance.
-				instance = this;
+			if(Instance == null){ 	// making sure we only initialize one instance.
+				Instance = this;
 				GameObject.DontDestroyOnLoad(this.gameObject);
 				Initialize();
 			} else {				// Destroying unused instances.
@@ -44,17 +58,31 @@ namespace Soomla.Store {
 			}
 		}
 
+		public delegate void RunLaterDelegate();
+		public void RunLater(RunLaterDelegate runLaterDelegate) {
+			StartCoroutine(RunLaterPriv(runLaterDelegate));
+		}
+		private System.Collections.IEnumerator RunLaterPriv(RunLaterDelegate runLaterDelegate) {
+			yield return new WaitForSeconds(0.1f);
+			runLaterDelegate();
+		}
+
+		/// <summary>
+		/// Initializes the different native event handlers in Android / iOS
+		/// </summary>
 		public static void Initialize() {
 			SoomlaUtils.LogDebug (TAG, "Initializing StoreEvents ...");
-			#if UNITY_ANDROID && !UNITY_EDITOR
+#if UNITY_ANDROID && !UNITY_EDITOR
 			AndroidJNI.PushLocalFrame(100);
-			//init EventHandler
 			using(AndroidJavaClass jniEventHandler = new AndroidJavaClass("com.soomla.unity.StoreEventHandler")) {
 				jniEventHandler.CallStatic("initialize");
 			}
 			AndroidJNI.PopLocalFrame(IntPtr.Zero);
-			#elif UNITY_IOS && !UNITY_EDITOR
-			// On iOS, this is initialized inside the bridge library when we call "soomlaStore_Init" in SoomlaStoreIOS
+
+			sep = new StoreEventPusherAndroid();
+#elif UNITY_IOS && !UNITY_EDITOR
+			eventDispatcher_Init();
+			sep = new StoreEventPusherIOS();
             #elif UNITY_WP8
             SoomlaWpStore.StoreEvents.GetInstance().OnCurrencyBalanceChangedEvent += new SoomlaWpStore.CurrencyBalanceChangedEventHandler(onCurrencyBalanceChanged);
             SoomlaWpStore.StoreEvents.GetInstance().OnGoodBalanceChangedEvent += new SoomlaWpStore.GoodBalanceChangedEventHandler(onGoodBalanceChanged);
@@ -353,14 +381,26 @@ namespace Soomla.Store {
 		/// <param name="message">Message that contains information about the currency whose balance has
 		/// changed.</param>
 		public void onCurrencyBalanceChanged(string message) {
+			onCurrencyBalanceChanged(message, false);
+		}
+		public void onCurrencyBalanceChanged(string message, bool alsoPush) {
 			SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onCurrencyBalanceChanged:" + message);
 
-			string[] vars = Regex.Split(message, "#SOOM#");
+			JSONObject eventJSON = new JSONObject(message);
 
-			VirtualCurrency vc = (VirtualCurrency)StoreInfo.GetItemByItemId(vars[0]);
-			int balance = int.Parse(vars[1]);
-			int amountAdded = int.Parse(vars[2]);
+			VirtualCurrency vc = (VirtualCurrency)StoreInfo.GetItemByItemId(eventJSON["itemId"].str);
+			int balance = (int)eventJSON["balance"].n;
+			int amountAdded = (int)eventJSON["amountAdded"].n;
+
+			StoreInventory.RefreshOnCurrencyBalanceChanged(vc, balance, amountAdded);
+
 			StoreEvents.OnCurrencyBalanceChanged(vc, balance, amountAdded);
+
+			if (alsoPush) {
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+				sep.PushEventOnCurrencyBalanceChanged(vc, balance, amountAdded);
+#endif
+			}
 		}
 
 		/// <summary>
@@ -370,14 +410,26 @@ namespace Soomla.Store {
 		/// <param name="message">Message that contains information about the good whose balance has
 		/// changed.</param>
 		public void onGoodBalanceChanged(string message) {
+			onGoodBalanceChanged(message, false);
+		}
+		public void onGoodBalanceChanged(string message, bool alsoPush) {
 			SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onGoodBalanceChanged:" + message);
 
-			string[] vars = Regex.Split(message, "#SOOM#");
+			JSONObject eventJSON = new JSONObject(message);
 
-			VirtualGood vg = (VirtualGood)StoreInfo.GetItemByItemId(vars[0]);
-			int balance = int.Parse(vars[1]);
-			int amountAdded = int.Parse(vars[2]);
+			VirtualGood vg = (VirtualGood)StoreInfo.GetItemByItemId(eventJSON["itemId"].str);
+			int balance = (int)eventJSON["balance"].n;
+			int amountAdded = (int)eventJSON["amountAdded"].n;
+
+			StoreInventory.RefreshOnGoodBalanceChanged(vg, balance, amountAdded);
+
 			StoreEvents.OnGoodBalanceChanged(vg, balance, amountAdded);
+
+			if (alsoPush) {
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+				sep.PushEventOnGoodBalanceChanged(vg, balance, amountAdded);
+#endif
+			}
 		}
 
 		/// <summary>
@@ -386,10 +438,24 @@ namespace Soomla.Store {
 		/// </summary>
 		/// <param name="message">Message that contains information about the <c>EquippableVG</c>.</param>
 		public void onGoodEquipped(string message) {
+			onGoodEquipped(message, false);
+		}
+		public void onGoodEquipped(string message, bool alsoPush) {
 			SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onVirtualGoodEquipped:" + message);
 
-			EquippableVG vg = (EquippableVG)StoreInfo.GetItemByItemId(message);
+			var eventJSON = new JSONObject(message);
+
+			EquippableVG vg = (EquippableVG)StoreInfo.GetItemByItemId(eventJSON["itemId"].str);
+
+			StoreInventory.RefreshOnGoodEquipped(vg);
+
 			StoreEvents.OnGoodEquipped(vg);
+
+			if (alsoPush) {
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+				sep.PushEventOnGoodEquipped(vg);
+#endif
+			}
 		}
 
 		/// <summary>
@@ -398,10 +464,24 @@ namespace Soomla.Store {
 		/// </summary>
 		/// <param name="message">Message that contains information about the <c>EquippableVG</c>.</param>
 		public void onGoodUnequipped(string message) {
+			onGoodUnequipped(message, false);
+		}
+		public void onGoodUnequipped(string message, bool alsoPush) {
 			SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onVirtualGoodUnEquipped:" + message);
 
-			EquippableVG vg = (EquippableVG)StoreInfo.GetItemByItemId(message);
+			var eventJSON = new JSONObject(message);
+
+			EquippableVG vg = (EquippableVG)StoreInfo.GetItemByItemId(eventJSON["itemId"].str);
+
+			StoreInventory.RefreshOnGoodUnEquipped(vg);
+
 			StoreEvents.OnGoodUnEquipped(vg);
+
+			if (alsoPush) {
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+				sep.PushEventOnGoodUnequipped(vg);
+#endif
+			}
 		}
 
 		/// <summary>
@@ -411,16 +491,28 @@ namespace Soomla.Store {
 		/// <param name="message">Message that contains information about the good that has been
 		/// upgraded/downgraded.</param>
 		public void onGoodUpgrade(string message) {
+			onGoodUpgrade(message, false);
+		}
+		public void onGoodUpgrade(string message, bool alsoPush) {
 			SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onGoodUpgrade:" + message);
 
-			string[] vars = Regex.Split(message, "#SOOM#");
+			var eventJSON = new JSONObject(message);
 
-			VirtualGood vg = (VirtualGood)StoreInfo.GetItemByItemId(vars[0]);
+			VirtualGood vg = (VirtualGood)StoreInfo.GetItemByItemId(eventJSON["itemId"].str);
 			UpgradeVG vgu = null;
-			if (vars.Length > 1) {
-				vgu = (UpgradeVG)StoreInfo.GetItemByItemId(vars[1]);
-		  }
+			if (eventJSON.HasField("upgradeItemId") && !string.IsNullOrEmpty(eventJSON["upgradeItemId"].str)) {
+				vgu = (UpgradeVG)StoreInfo.GetItemByItemId(eventJSON["upgradeItemId"].str);
+		  	}
+
+			StoreInventory.RefreshOnGoodUpgrade(vg, vgu);
+
 			StoreEvents.OnGoodUpgrade(vg, vgu);
+
+			if (alsoPush) {
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+				sep.PushEventOnGoodUpgrade(vg, vgu);
+#endif
+			}
 		}
 
 		/// <summary>
@@ -429,17 +521,26 @@ namespace Soomla.Store {
 		/// </summary>
 		/// <param name="message">Message that contains information about the good that has been purchased.</param>
 		public void onItemPurchased(string message) {
+			onItemPurchased(message, false);
+		}
+		public void onItemPurchased(string message, bool alsoPush) {
 			SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onItemPurchased:" + message);
 
-			string[] vars = Regex.Split(message, "#SOOM#");
-			
-			PurchasableVirtualItem pvi = (PurchasableVirtualItem)StoreInfo.GetItemByItemId(vars[0]);
+			var eventJSON = new JSONObject(message);
+
+			PurchasableVirtualItem pvi = (PurchasableVirtualItem)StoreInfo.GetItemByItemId(eventJSON["itemId"].str);
 			string payload = "";
-			if (vars.Length > 1) {
-				payload = vars[1];
+			if (eventJSON.HasField("payload")) {
+				payload = eventJSON["payload"].str;
 			}
 
 			StoreEvents.OnItemPurchased(pvi, payload);
+
+			if (alsoPush) {
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+				sep.PushEventOnItemPurchased(pvi, payload);
+#endif
+			}
 		}
 
 		/// <summary>
@@ -448,10 +549,21 @@ namespace Soomla.Store {
 		/// </summary>
 		/// <param name="message">Message that contains information about the item being purchased.</param>
 		public void onItemPurchaseStarted(string message) {
+			onItemPurchaseStarted(message, false);
+		}
+		public void onItemPurchaseStarted(string message, bool alsoPush) {
 			SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onItemPurchaseStarted:" + message);
 
-			PurchasableVirtualItem pvi = (PurchasableVirtualItem)StoreInfo.GetItemByItemId(message);
+			var eventJSON = new JSONObject(message);
+
+			PurchasableVirtualItem pvi = (PurchasableVirtualItem)StoreInfo.GetItemByItemId(eventJSON["itemId"].str);
 			StoreEvents.OnItemPurchaseStarted(pvi);
+
+			if (alsoPush) {
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+				sep.PushEventOnItemPurchaseStarted(pvi);
+#endif
+			}
 		}
 
 		/// <summary>
@@ -463,7 +575,9 @@ namespace Soomla.Store {
 		public void onMarketPurchaseCancelled(string message) {
 			SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onMarketPurchaseCancelled: " + message);
 
-			PurchasableVirtualItem pvi = (PurchasableVirtualItem)StoreInfo.GetItemByItemId(message);
+			var eventJSON = new JSONObject(message);
+
+			PurchasableVirtualItem pvi = (PurchasableVirtualItem)StoreInfo.GetItemByItemId(eventJSON["itemId"].str);
 			StoreEvents.OnMarketPurchaseCancelled(pvi);
 		}
 
@@ -474,23 +588,26 @@ namespace Soomla.Store {
 		public void onMarketPurchase(string message) {
 			Debug.Log ("SOOMLA/UNITY onMarketPurchase:" + message);
 
-			string[] vars = Regex.Split(message, "#SOOM#");
+			var eventJSON = new JSONObject(message);
 
-			PurchasableVirtualItem pvi = (PurchasableVirtualItem)StoreInfo.GetItemByItemId(vars[0]);
+			PurchasableVirtualItem pvi = (PurchasableVirtualItem)StoreInfo.GetItemByItemId(eventJSON["itemId"].str);
 			string payload = "";
-			string purchaseToken = "";
-			string orderId = "";
-			if (vars.Length > 1) {
-				payload = vars[1];
+			var extra = new Dictionary<string, string>();
+			if (eventJSON.HasField("payload")) {
+				payload = eventJSON["payload"].str;
 			}
-			if (vars.Length > 2) {
-				purchaseToken = vars[2];
-			}
-			if (vars.Length > 3) {
-				orderId = vars[3];
+			if (eventJSON.HasField("extra")) {
+				var extraJSON = eventJSON["extra"];
+				if (extraJSON.keys != null) {
+					foreach(string key in extraJSON.keys) {
+						if (extraJSON[key] != null) {
+							extra.Add(key, extraJSON[key].str);
+						}
+					}
+				}
 			}
 
-			StoreEvents.OnMarketPurchase(pvi, purchaseToken, payload, orderId);
+			StoreEvents.OnMarketPurchase(pvi, payload, extra);
 		}
 
 		/// <summary>
@@ -501,7 +618,9 @@ namespace Soomla.Store {
 		public void onMarketPurchaseStarted(string message) {
 			SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onMarketPurchaseStarted: " + message);
 
-			PurchasableVirtualItem pvi = (PurchasableVirtualItem)StoreInfo.GetItemByItemId(message);
+			var eventJSON = new JSONObject(message);
+
+			PurchasableVirtualItem pvi = (PurchasableVirtualItem)StoreInfo.GetItemByItemId(eventJSON["itemId"].str);
 			StoreEvents.OnMarketPurchaseStarted(pvi);
 		}
 
@@ -512,8 +631,10 @@ namespace Soomla.Store {
 		public void onMarketRefund(string message) {
 			SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onMarketRefund:" + message);
 
-			PurchasableVirtualItem pvi = (PurchasableVirtualItem)StoreInfo.GetItemByItemId(message);
-			StoreEvents.OnMarketPurchaseStarted(pvi);
+			var eventJSON = new JSONObject(message);
+
+			PurchasableVirtualItem pvi = (PurchasableVirtualItem)StoreInfo.GetItemByItemId(eventJSON["itemId"].str);
+			StoreEvents.OnMarketRefund(pvi);
 		}
 
 		/// <summary>
@@ -525,7 +646,9 @@ namespace Soomla.Store {
 		public void onRestoreTransactionsFinished(string message) {
 			SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onRestoreTransactionsFinished:" + message);
 
-			bool success = Convert.ToBoolean(int.Parse(message));
+			var eventJSON = new JSONObject(message);
+
+			bool success = eventJSON["success"].b;
 			StoreEvents.OnRestoreTransactionsFinished(success);
 		}
 
@@ -554,6 +677,21 @@ namespace Soomla.Store {
 		}
 
 		/// <summary>
+		/// Handles the <c>onMarketItemsRefreshFailed</c> event, which is fired when items associated with market
+		/// refresh process has failed.
+		/// </summary>
+		/// <param name="message">Message that contains information about the <c>market refresh</c> process that
+		/// has failed.</param>
+		public void onMarketItemsRefreshFailed(string message) {
+			SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onMarketItemsRefreshFailed");
+
+			var eventJSON = new JSONObject(message);
+			
+			string errorMessage = eventJSON["errorMessage"].str;
+			StoreEvents.OnMarketItemsRefreshFailed(errorMessage);
+		}
+
+		/// <summary>
 		/// Handles the <c>onMarketItemsRefreshFinished</c> event, which is fired when items associated with market are
 		/// refreshed (prices, titles ...).
 		/// </summary>
@@ -561,30 +699,37 @@ namespace Soomla.Store {
 		public void onMarketItemsRefreshFinished(string message) {
 			SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onMarketItemsRefreshFinished: " + message);
 
-			string[] marketItemsChanges = Regex.Split(message, "#SOOM#");
-			List<MarketItem> marketItems = new List<MarketItem>();
-			foreach (string mic in marketItemsChanges) {
-				if (string.IsNullOrEmpty(mic.Trim())) {
-					continue;
-				}
+			var eventJSON = new JSONObject(message);
 
-				JSONObject micJSON = new JSONObject(mic);
-				string productId = micJSON["productId"].str;
-				string marketPrice = micJSON["market_price"].str;
-				string marketTitle = micJSON["market_title"].str;
-				string marketDescription = micJSON["market_desc"].str;
+			List<VirtualItem> virtualItems = new List<VirtualItem>();
+			List<MarketItem> marketItems = new List<MarketItem>();
+			foreach (var micJSON in eventJSON.list) {
+				string productId = micJSON[StoreJSONConsts.MARKETITEM_PRODUCT_ID].str;
+				string marketPrice = micJSON[StoreJSONConsts.MARKETITEM_MARKETPRICE].str;
+				string marketTitle = micJSON[StoreJSONConsts.MARKETITEM_MARKETTITLE].str;
+				string marketDescription = micJSON[StoreJSONConsts.MARKETITEM_MARKETDESC].str;
+				string marketCurrencyCode = micJSON[StoreJSONConsts.MARKETITEM_MARKETCURRENCYCODE].str;
+				long marketPriceMicros = System.Convert.ToInt64(micJSON[StoreJSONConsts.MARKETITEM_MARKETPRICEMICROS].n);
 				try {
 					PurchasableVirtualItem pvi = StoreInfo.GetPurchasableItemWithProductId(productId);
 					MarketItem mi = ((PurchaseWithMarket)pvi.PurchaseType).MarketItem;
-					mi.MarketPrice = marketPrice;
+					mi.MarketPriceAndCurrency = marketPrice;
 					mi.MarketTitle = marketTitle;
 					mi.MarketDescription = marketDescription;
-					pvi.save();
+					mi.MarketCurrencyCode = marketCurrencyCode;
+					mi.MarketPriceMicros = marketPriceMicros;
 
 					marketItems.Add(mi);
+					virtualItems.Add(pvi);
 				} catch (VirtualItemNotFoundException ex){
 					SoomlaUtils.LogDebug(TAG, ex.Message);
 				}
+			}
+
+			if (virtualItems.Count > 0) {
+				// no need to save to DB since it's already saved in native
+				// before this event is received
+				StoreInfo.Save(virtualItems, false);
 			}
 
 			StoreEvents.OnMarketItemsRefreshFinished(marketItems);
@@ -596,9 +741,18 @@ namespace Soomla.Store {
 		/// </summary>
 		/// <param name="message">Message that contains information about the error.</param>
 		public void onUnexpectedErrorInStore(string message) {
+			onUnexpectedErrorInStore(message, false);
+		}
+		public void onUnexpectedErrorInStore(string message, bool alsoPush) {
 			SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onUnexpectedErrorInStore");
 
 			StoreEvents.OnUnexpectedErrorInStore(message);
+
+			if (alsoPush) {
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+				sep.PushEventSoomlaStoreInitialized();
+#endif
+			}
 		}
 
 		/// <summary>
@@ -607,9 +761,20 @@ namespace Soomla.Store {
 		/// </summary>
 		/// <param name="message">Not used here.</param>
 		public void onSoomlaStoreInitialized(string message) {
+			onSoomlaStoreInitialized(message, false);
+		}
+		public void onSoomlaStoreInitialized(string message, bool alsoPush) {
 			SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onSoomlaStoreInitialized");
 
+			StoreInventory.RefreshLocalInventory();
+
 			StoreEvents.OnSoomlaStoreInitialized();
+
+			if (alsoPush) {
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+				sep.PushEventSoomlaStoreInitialized();
+#endif
+			}
 		}
 #endif
 
@@ -650,7 +815,7 @@ namespace Soomla.Store {
 
 		public static Action<PurchasableVirtualItem> OnMarketPurchaseCancelled = delegate {};
 
-		public static Action<PurchasableVirtualItem, string, string, string> OnMarketPurchase = delegate {};
+		public static Action<PurchasableVirtualItem, string, Dictionary<string, string>> OnMarketPurchase = delegate {};
 
 		public static Action<PurchasableVirtualItem> OnMarketPurchaseStarted = delegate {};
 
@@ -662,17 +827,93 @@ namespace Soomla.Store {
 
 		public static Action OnMarketItemsRefreshStarted = delegate {};
 
+		public static Action<string> OnMarketItemsRefreshFailed = delegate {};
+
 		public static Action<List<MarketItem>> OnMarketItemsRefreshFinished = delegate {};
 
 		public static Action<string> OnUnexpectedErrorInStore = delegate {};
 
 		public static Action OnSoomlaStoreInitialized = delegate {};
 
-		#if UNITY_ANDROID && !UNITY_EDITOR
+#if UNITY_ANDROID && !UNITY_EDITOR
 		public static Action OnIabServiceStarted = delegate {};
 
 		public static Action OnIabServiceStopped = delegate {};
-		#endif
+#endif
+
+		public class StoreEventPusher {
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
+			public StoreEventPusher() {}
+
+			public void PushEventSoomlaStoreInitialized() {
+				_pushEventSoomlaStoreInitialized("");
+			}
+			public void PushEventUnexpectedStoreError(string message) {
+				_pushEventUnexpectedStoreError(message);
+			}
+			public void PushEventOnCurrencyBalanceChanged(VirtualCurrency currency, int balance, int amountAdded) {
+				var eventJSON = new JSONObject();
+				eventJSON.AddField("itemId", currency.ItemId);
+				eventJSON.AddField("balance", balance);
+				eventJSON.AddField("amountAdded", amountAdded);
+
+				_pushEventCurrencyBalanceChanged(eventJSON.print());
+			}
+			public void PushEventOnGoodBalanceChanged(VirtualGood good, int balance, int amountAdded) {
+				var eventJSON = new JSONObject();
+				eventJSON.AddField("itemId", good.ItemId);
+				eventJSON.AddField("balance", balance);
+				eventJSON.AddField("amountAdded", amountAdded);
+
+				_pushEventGoodBalanceChanged(eventJSON.print());
+			}
+			public void PushEventOnGoodEquipped(EquippableVG good) {
+				var eventJSON = new JSONObject();
+				eventJSON.AddField("itemId", good.ItemId);
+
+				_pushEventGoodEquipped(eventJSON.print());
+			}
+			public void PushEventOnGoodUnequipped(EquippableVG good) {
+				var eventJSON = new JSONObject();
+				eventJSON.AddField("itemId", good.ItemId);
+
+				_pushEventGoodUnequipped(eventJSON.print());
+			}
+			public void PushEventOnGoodUpgrade(VirtualGood good, UpgradeVG upgrade) {
+				var eventJSON = new JSONObject();
+				eventJSON.AddField("itemId", good.ItemId);
+				eventJSON.AddField("upgradeItemId", (upgrade==null ? null : upgrade.ItemId));
+
+				_pushEventGoodUpgrade(eventJSON.print());
+			}
+			public void PushEventOnItemPurchased(PurchasableVirtualItem item, string payload) {
+				var eventJSON = new JSONObject();
+				eventJSON.AddField("itemId", item.ItemId);
+				eventJSON.AddField("payload", payload);
+
+				_pushEventItemPurchased(eventJSON.print());
+			}
+			public void PushEventOnItemPurchaseStarted(PurchasableVirtualItem item) {
+				var eventJSON = new JSONObject();
+				eventJSON.AddField("itemId", item.ItemId);
+
+				_pushEventItemPurchaseStarted(eventJSON.print());
+			}
+
+
+			// Event pushing back to native
+			protected virtual void _pushEventSoomlaStoreInitialized(string message) {}
+			protected virtual void _pushEventUnexpectedStoreError(string message) {}
+			protected virtual void _pushEventCurrencyBalanceChanged(string message) {}
+			protected virtual void _pushEventGoodBalanceChanged(string message) {}
+			protected virtual void _pushEventGoodEquipped(string message) {}
+			protected virtual void _pushEventGoodUnequipped(string message) {}
+			protected virtual void _pushEventGoodUpgrade(string message) {}
+			protected virtual void _pushEventItemPurchased(string message) {}
+			protected virtual void _pushEventItemPurchaseStarted(string message) {}
+#endif
+		}
+
 
 	}
 }

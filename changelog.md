@@ -1,4 +1,106 @@
-### v1.5.4 [view commit logs](https://github.com/soomla/android-store/compare/v1.5.3...v1.5.4)
+### v1.7.12 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.11...v1.7.12)
+
+* Fixes
+  * Fixed NullRef exception calling BuyItem on editor #409
+
+* Changes
+  * Updated submodules
+
+### v1.7.11 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.10...v1.7.11)
+
+* Changes
+  * Removing saving items to DB upon market items refresh, since it's now done in native
+  * Added OnMarketItemsRefreshFailed event
+
+### v1.7.10 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.9...v1.7.10)
+
+* Fixes
+  * Fixed issues with purchases on edge cases on Google Play
+  * Fixed nil event issues from iOS purchases
+  * Fixed #404
+
+### v1.7.9 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.8...v1.7.9)
+
+* Fixes
+  * Fixed a crash on versions < ICS
+
+### v1.7.8 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.7...v1.7.8)
+
+* New Features
+  * Added CanAfford method
+  * Add onMarketPurchaseStarted and onMarketPurchase fake events when in Unity Editor
+  * Updated features from submodules
+
+### v1.7.7 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.6...v1.7.7)
+
+* Changes
+  * Fixes for Amazon support
+  * Updated changes from submodules
+
+### v1.7.6 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.5...v1.7.6)
+
+* New Features
+  * Amazon integration supports v2
+  * Another Save function in StoreInfo that handles list of items
+
+* Fixed
+  * Multiple fixes from updated submodules
+
+
+### v1.7.5 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.4...v1.7.5)
+
+* Fixes
+  * Fixed an issue with ItemPurchaseEvent being thrown before balance/currency changes.
+  * Fixed an issue with some dictionaries not being used correctly
+  * Fixed event pushing into native
+
+### v1.7.4 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.3...v1.7.4)
+
+* Fixes
+  * Fixed an issue with Google Play.
+  * Fixed a bug in VirtualGoodsStorage not being built b/c of wrong compiler flag.
+
+### v1.7.3 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.2...v1.7.3)
+
+* Fixes
+  * Fixed some calls to wrong functions in native code.
+
+### v1.7.2 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.1...v1.7.2)
+
+* New Features
+  * SOOMLA Core now supports custom events.
+
+* Fixes
+  * There was an issue with manipulation of Dictionaries. It's fixed now using an extension method called 'AddOrUpdate' which is implemented in Soomla Core. Make sure to update both Store and Core for 1.7.2.
+  * Fixed issues with Android Store Google Play's handling of some null variables.
+
+### v1.7.1 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.0...v1.7.1)
+
+* Fixes
+  * Fixed an issue where events were not sent with the correct variables.
+  * Fixed an issue with StoreInventory not refreshing "local" balnces correctly.
+
+### v1.7.0 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.6.0...v1.7.0)
+
+***Important***: there are some breaking changes. Read the changes carefully.
+
+* New Features
+  * Work In Editor!
+  * New local inventory that keeps all balances in memory so you don't need to go to the native DB. Saves JNI calls.
+
+* Changes
+  * In [StoreInfo](https://github.com/soomla/unity3d-store/blob/master/Soomla/Assets/Plugins/Soomla/Store/data/StoreInfo.cs) we replaces some funtions with public [variables](https://github.com/soomla/unity3d-store/blob/master/Soomla/Assets/Plugins/Soomla/Store/data/StoreInfo.cs#L512) that represent the collections of store metadata.
+  * A class like the old [ExampleLocalStoreInfo](https://github.com/soomla/unity3d-store/blob/4dddde50607f83840fa1524f997c2568b90add11/Soomla/Assets/Examples/MuffinRush/ExampleLocalStoreInfo.cs) is **not** needed anymore. [StoreInventory](https://github.com/soomla/unity3d-store/commits/master/Soomla/Assets/Plugins/Soomla/Store/StoreInventory.cs) caches that info in memory and will be updated on runtime.
+  * OnMarketPurchase event signature has changed. It now has a dictionary of extra information about the specific purchase for different native platforms (Android / iOS). More information [here](http://know.soom.la/docs/platforms/unity/events).
+
+### v1.6.0 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.5.4...v1.6.0)
+
+***Important***: this is a breaking release. Read the changes carefully.
+
+* Changes
+  * **BREAKING**: `NonConsumableItem` class removed, use `LifeTimeVG` instead.
+
+### v1.5.4 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.5.3...v1.5.4)
 
 * Changes
   * Some changes from SOOMLA Core module are supported.
@@ -8,7 +110,7 @@
   * Fixed saving of market details after refresh (issue #300)
 
 
-### v1.5.3 [view commit logs](https://github.com/soomla/android-store/compare/v1.5.2...v1.5.3)
+### v1.5.3 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.5.2...v1.5.3)
 
 * New Features
   * You can now use StoreInventory's 'BuyItem' with a payload of your choice. This payload will be returned back to you in the purchase events when it's completed.
@@ -18,7 +120,7 @@
 * Fixed
   * Firing UnexpectedErrorInStoreEvent when the user tried to buy a NonConsumableItem when it was already owned.
 
-### v1.5.2 [view commit logs](https://github.com/soomla/android-store/compare/v1.5.1...v1.5.2)
+### v1.5.2 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.5.1...v1.5.2)
 
 * New Features
   * Some core objects and features were extracted to a separate folder called "Core". Will be moved to a separate repo later.

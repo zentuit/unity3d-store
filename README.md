@@ -1,4 +1,4 @@
-*This project is a part of The [SOOMLA](http://www.soom.la) Framework which is a series of open source initiatives with a joint goal to help mobile game developers do more together. SOOMLA encourages better game designing, economy modeling and faster development.*
+*This project is a part of The [SOOMLA](http://www.soom.la) Framework, which is a series of open source initiatives with a joint goal to help mobile game developers do more together. SOOMLA encourages better game design, economy modeling, social engagement, and faster development.*
 
 Haven't you ever wanted an in-app purchase one liner that looks like this ?!
 
@@ -11,10 +11,10 @@ unity3d-store
 
 *SOOMLA's Store Module for Unity3d*
 
-**June 20th, 2014**: v1.5.2 presents some significant changes. [Getting Started](https://github.com/soomla/unity3d-store#getting-started) has changed! see [CHANGELOG](changelog.md).
-> FYI - SOOMLA menu was moved and it's now under "Window -> Soomla"
+**October 29th:** v1.7 **Work in editor!** When you're in the Unity editor, data will be saved to PlayerPrefs.
 
-**May 28th, 2014:** v1.5.0 is released. Supporting Amazon billing service. see [CHANGELOG](changelog.md).
+**September 15th:** NonConsumableItem class was removed.
+To create a non-consumable item in your `IStoreAssets` implementation, use `LifeTimeVG` with `PurchaseType` of `PurchaseWithMarket`.
 
 **October 3rd, 2013:** iOS Server Side Verification is now implemented into unity3d-store. The server is a complimentary server provided by [SOOMLA](http://soom.la) to help you get your in-game purchases a bit more secured. This feature is not enabled by default. In order to enable Server Side verification go to the Soomla prefab and set  **ios Server Side Verification -> true**.
 
@@ -31,8 +31,10 @@ unity3d-store is the Unity3d flavor of SOOMLA's Store Module.
 
 ####Pre baked unitypackages:
 
-[soomla-unity3d-core](https://raw.githubusercontent.com/soomla/unity3d-store/master/soomla-unity3d-core.unitypackage)  
-[unity3d-store v1.5.4](http://bit.ly/1rc21Zo)  
+> If you're upgrading to v1.7.x make sure you take soomla-unity3d-core again.
+
+[soomla-unity3d-core v1.0.5](http://library.soom.la/fetch/unity3d-core/1.0.5?cf=github)  
+[unity3d-store v1.7.12](http://library.soom.la/fetch/unity3d-store/1.7.12?cf=github)
 
 ## Debugging
 
@@ -49,7 +51,7 @@ $ git clone --recursive git@github.com:soomla/unity3d-store.git
 
 ## Getting Started
 
-1. Download the [soomla-unity3d-core](https://raw.githubusercontent.com/soomla/unity3d-store/master/soomla-unity3d-core.unitypackage) and [unity3d-store](http://bit.ly/1rc21Zo) unitypackages and double-click on them (first 'Core' then 'Store'). It'll import all the necessary files into your project.
+1. Download the [soomla-unity3d-core](http://library.soom.la/fetch/unity3d-core/1.0.4?cf=github) and [unity3d-store](http://library.soom.la/fetch/unity3d-store/1.7.9?cf=github) unitypackages and double-click on them (first 'Core' then 'Store'). It'll import all the necessary files into your project.
 2. Drag the "StoreEvents" and "CoreEvents" Prefabs from `../Assets/Soomla/Prefabs` into your scene. You should see it listed in the "Hierarchy" panel. [This step MUST be done for unity3d-store to work properly]
 3. On the menu bar click "Window -> Soomla -> Edit Settings" and change the value for "Soomla Secret" (also setup Public Key if you're building for Google Play):
     - _Soomla Secret_ - is an encryption secret you provide that will be used to secure your data. (If you used versions before v1.5.2 this secret MUST be the same as Custom Secret)  
@@ -156,8 +158,6 @@ When you initialize _SoomlaStore_, it automatically initializes two other classe
 * _StoreInventory_ is a convenience class to let you perform operations on VirtualCurrencies and VirtualGoods. Use it to fetch/change the balances of VirtualItems in your game (using their ItemIds!)  
 * _StoreInfo_ is where all meta data information about your specific game can be retrieved. It is initialized with your implementation of `IStoreAssets` and you can use it to retrieve information about your specific game.
 
-**ATTENTION: because we're using JNI (Android) and DllImport (iOS) you should make as little calls as possible to _StoreInfo_. Look in the example project for the way we created a sort of a cache to hold your game's information in order to not make too many calls to _StoreInfo_. We update this cache using an event handler. (see [ExampleLocalStoreInfo](https://github.com/soomla/unity3d-store/blob/master/Soomla/Assets/Examples/MuffinRush/ExampleLocalStoreInfo.cs) and [ExampleEventHandler](https://github.com/soomla/unity3d-store/blob/master/Soomla/Assets/Examples/MuffinRush/ExampleEventHandler.cs)).**
-
 The on-device storage is encrypted and kept in a SQLite database. SOOMLA is preparing a cloud-based storage service that will allow this SQLite to be synced to a cloud-based repository that you'll define.
 
 **Example Usages**
@@ -165,7 +165,7 @@ The on-device storage is encrypted and kept in a SQLite database. SOOMLA is prep
 * Get VirtualCurrency with itemId "currency_coin":
 
     ```cs
-    VirtualCurrency coin = StoreInfo.GetVirtualCurrencyByItemId("currency_coin");
+    VirtualCurrency coin = (VirtualCurrency) StoreInfo.GetItemByItemId("currency_coin");
     ```
 
 * Give the user 10 pieces of a virtual currency with itemId "currency_coin":
@@ -197,22 +197,24 @@ The 'Events' class is where all event go through. To handle various events, just
 
 For example, if you want to 'listen' to a MarketPurchase event:
 
-```cs
+``` cs
 StoreEvents.OnMarketPurchase += onMarketPurchase;
 
-public void onMarketPurchase(PurchasableVirtualItem pvi, string purchaseToken, string payload) {
-    Debug.Log("Just purchased an item with itemId: " + pvi.ItemId);
+public void onMarketPurchase(PurchasableVirtualItem pvi, string payload, Dictionary<string, string> extra) {
+    // pvi is the PurchasableVirtualItem that was just purchased
+    // payload is a text that you can give when you initiate the purchase operation and you want to receive back upon completion
+    // extra will contain platform specific information about the market purchase.
+    //      Android: The "extra" dictionary will contain "orderId" and "purchaseToken".
+    //      iOS: The "extra" dictionary will contain "receipt" and "token".
+
+    // ... your game specific implementation here ...
 }
 ```
 
-One thing you need to make sure is that you instantiate your EventHandler before SoomlaStore.  
-So if you have:
+**NOTE:** One thing you need to notice is that if you want to listen to OnSoomlaStoreInitialized event you have to set up the listener before you initialize SoomlaStore.
+So you'll need to do:
 ````
-private static Soomla.Example.ExampleEventHandler handler;
-````
-you'll need to do:
-````
-handler = new Soomla.Example.ExampleEventHandler();
+StoreEvents.OnSoomlaStoreInitialized += onSoomlaStoreInitialized;
 ````
 before
 ````
@@ -221,24 +223,20 @@ Soomla.SoomlaStore.Initialize(new Soomla.Example.MuffinRushAssets());
 
 Contribution
 ---
+SOOMLA appreciates code contributions! You are more than welcome to extend the capabilities of SOOMLA.
 
-We want you!
+Fork -> Clone -> Implement -> Add documentation -> Test -> Pull-Request.
 
-Fork -> Clone -> Implement -> Insert Comments -> Test -> Pull-Request.
+IMPORTANT: If you would like to contribute, please follow our [Documentation Guidelines](https://github.com/soomla/unity3d-store/blob/master/documentation.md
+). Clear, consistent comments will make our code easy to understand.
 
-We have great RESPECT for contributors.
-
-Code Documentation
----
-
-android-store follows strict code documentation conventions. If you would like to contribute please read our [Documentation Guidelines](https://github.com/soomla/unity3d-store/tree/master/documentation.md) and follow them. Clear, consistent  comments will make our code easy to understand.
-
-SOOMLA, Elsewhere ...
----
+## SOOMLA, Elsewhere ...
 
 + [Framework Website](http://www.soom.la/)
-+ [On Facebook](https://www.facebook.com/pages/The-SOOMLA-Project/389643294427376).
-+ [On AngelList](https://angel.co/the-soomla-project)
++ [Knowledge Base](http://know.soom.la/)
+
+
+<a href="https://www.facebook.com/pages/The-SOOMLA-Project/389643294427376"><img src="http://know.soom.la/img/tutorial_img/social/Facebook.png"></a><a href="https://twitter.com/Soomla"><img src="http://know.soom.la/img/tutorial_img/social/Twitter.png"></a><a href="https://plus.google.com/+SoomLa/posts"><img src="http://know.soom.la/img/tutorial_img/social/GoogleP.png"></a><a href ="https://www.youtube.com/channel/UCR1-D9GdSRRLD0fiEDkpeyg"><img src="http://know.soom.la/img/tutorial_img/social/Youtube.png"></a>
 
 License
 ---

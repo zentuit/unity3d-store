@@ -30,26 +30,22 @@ namespace Soomla.Store {
 		private static AndroidJavaObject jniSoomlaStore = null;
 
 		/// <summary>
-		/// Initializes the SOOMLA SDK.
+		/// Load the billing service.
 		/// </summary>
-		/// <param name="storeAssets">Your game's economy.</param>
-		/// <exception cref="ExitGUIException">Thrown if soomlaSecret is missing or has not been changed.
-		/// </exception>
-		protected override void _initialize(IStoreAssets storeAssets) {
+		protected override void _loadBillingService() {
 			if (StoreSettings.GPlayBP && 
 			    (string.IsNullOrEmpty(StoreSettings.AndroidPublicKey) ||
 			 		StoreSettings.AndroidPublicKey==StoreSettings.AND_PUB_KEY_DEFAULT)) {
-				SoomlaUtils.LogError(TAG, "SOOMLA/UNITY You chose Google Play billing service but publicKey is not set!! Stopping here!!");
+				SoomlaUtils.LogError(TAG, "You chose Google Play billing service but publicKey is not set!! Stopping here!!");
 				throw new ExitGUIException();
 			}
 
-			StoreInfo.Initialize(storeAssets);
-
 			AndroidJNI.PushLocalFrame(100);
-			using(AndroidJavaObject jniStoreAssetsInstance = new AndroidJavaObject("com.soomla.unity.StoreAssets")) {
-				using(AndroidJavaClass jniSoomlaStoreClass = new AndroidJavaClass("com.soomla.store.SoomlaStore")) {
-					jniSoomlaStore = jniSoomlaStoreClass.CallStatic<AndroidJavaObject>("getInstance");
-					jniSoomlaStore.Call<bool>("initialize", jniStoreAssetsInstance);
+			using(AndroidJavaClass jniSoomlaStoreClass = new AndroidJavaClass("com.soomla.store.SoomlaStore")) {
+				jniSoomlaStore = jniSoomlaStoreClass.CallStatic<AndroidJavaObject>("getInstance");
+				bool success = jniSoomlaStore.Call<bool>("loadBillingService");
+				if (!success) {
+					SoomlaUtils.LogError(TAG, "Couldn't load billing service! Billing functions won't work.");
 				}
 			}
 

@@ -1,48 +1,23 @@
-#import "UnityStoreAssets.h"
 #import "VirtualItemNotFoundException.h"
 #import "UnityCommons.h"
 #import "UnityStoreCommons.h"
 #import "VirtualItem.h"
 #import "StoreInfo.h"
 #import "SoomlaUtils.h"
+#import "JSONConsts.h"
 
 extern "C"{
 	
-	int storeInfo_GetItemByItemId(const char* itemId, char** json) {
-        NSString* itemIdS = [NSString stringWithUTF8String:itemId];
-		@try {
-			VirtualItem* vi = [[StoreInfo getInstance] virtualItemWithId:itemIdS];
-			NSString *className = NSStringFromClass([vi class]);
-		    NSDictionary* nameWithClass = [NSDictionary dictionaryWithObjectsAndKeys:
-		                                   [vi toDictionary], @"item",
-		                                   className, @"className", nil];
-			*json = Soom_AutonomousStringCopy([[SoomlaUtils dictToJsonString:nameWithClass] UTF8String]);
-		}
-		
-		@catch (VirtualItemNotFoundException* e) {
-            NSLog(@"Couldn't find a VirtualItem with itemId: %@.", itemIdS);
-			return EXCEPTION_ITEM_NOT_FOUND;
-        }
-
+	int storeInfo_SetStoreAssets(const char* storeMetaJSON, int version) {
+        NSString* storeMetaJSONS = [NSString stringWithUTF8String:storeMetaJSON];
+        [[StoreInfo getInstance] setStoreAssetsJSON:storeMetaJSONS withVersion:version];
+        
 		return NO_ERR;
 	}
 	
-	int storeInfo_GetPurchasableItemWithProductId(const char* productId, char** json) {
-        NSString* productIdS = [NSString stringWithUTF8String:productId];
-		@try {
-			PurchasableVirtualItem* pvi = [[StoreInfo getInstance] purchasableItemWithProductId:productIdS];
-			NSString *className = NSStringFromClass([pvi class]);
-		    NSDictionary* nameWithClass = [NSDictionary dictionaryWithObjectsAndKeys:
-		                                   [pvi toDictionary], @"item",
-		                                   className, @"className", nil];
-			*json = Soom_AutonomousStringCopy([[SoomlaUtils dictToJsonString:nameWithClass] UTF8String]);
-		}
-		
-		@catch (VirtualItemNotFoundException* e) {
-            NSLog(@"Couldn't find a PurchasableVirtualItem with productId: %@.", productIdS);
-			return EXCEPTION_ITEM_NOT_FOUND;
-        }
-
+	int storeInfo_LoadFromDB() {
+        [[StoreInfo getInstance] loadFromDB];
+        
 		return NO_ERR;
 	}
 	
@@ -132,10 +107,10 @@ extern "C"{
         if (virtualGoods.count > 0) {
             retJson = [[[NSMutableString alloc] initWithString:@"["] autorelease];
             for(VirtualGood* vg in virtualGoods) {
-                NSString *className = NSStringFromClass([vg class]);
+                NSString *className = [SoomlaUtils getClassName:vg];
                 NSDictionary* nameWithClass = [NSDictionary dictionaryWithObjectsAndKeys:
                                                [vg toDictionary], @"item",
-                                               className, @"className", nil];
+                                               className, SOOM_CLASSNAME, nil];
                 [retJson appendString:[NSString stringWithFormat:@"%@,", [SoomlaUtils dictToJsonString:nameWithClass]]];
             }
             [retJson deleteCharactersInRange:NSMakeRange([retJson length]-1, 1)];
@@ -162,23 +137,6 @@ extern "C"{
 		
 		
 		*json = Soom_AutonomousStringCopy([retJson UTF8String]);
-		
-		return NO_ERR;
-	}
-	
-	int storeInfo_GetNonConsumableItems(char** json) {
-		NSArray* nonConsumables = [[StoreInfo getInstance] nonConsumableItems];
-        NSMutableString* retJson = [NSMutableString string];
-        if (nonConsumables.count > 0) {
-            retJson = [[[NSMutableString alloc] initWithString:@"["] autorelease];
-            for(NonConsumableItem* non in nonConsumables) {
-                [retJson appendString:[NSString stringWithFormat:@"%@,", [SoomlaUtils dictToJsonString:[non toDictionary]]]];
-            }
-            [retJson deleteCharactersInRange:NSMakeRange([retJson length]-1, 1)];
-            [retJson appendString:@"]"];
-        }
-		
-        *json = Soom_AutonomousStringCopy([retJson UTF8String]);
 		
 		return NO_ERR;
 	}
