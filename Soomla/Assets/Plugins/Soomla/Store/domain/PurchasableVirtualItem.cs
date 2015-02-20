@@ -102,7 +102,7 @@ namespace Soomla.Store {
 
                 MarketItem mi = new MarketItem(productId, consType, price);
                 mi.MarketTitle = wpPWM.getMarketItem().getMarketTitle();
-                mi.MarketPrice = wpPWM.getMarketItem().getMarketPrice();
+                mi.MarketPriceAndCurrency = wpPWM.getMarketItem().getMarketPrice();
                 mi.MarketDescription = wpPWM.getMarketItem().getMarketDescription();
                 PurchaseType = new PurchaseWithMarket(mi);
             }

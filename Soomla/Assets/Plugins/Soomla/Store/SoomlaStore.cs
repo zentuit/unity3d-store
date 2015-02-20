@@ -74,9 +74,9 @@ namespace Soomla.Store
 
 			SoomlaUtils.LogDebug(TAG, "SoomlaStore Initializing ...");
 
-			instance._loadBillingService();
-
 			StoreInfo.SetStoreAssets(storeAssets);
+
+            instance._loadBillingService();
 
 #if UNITY_IOS
 			// On iOS we only refresh market items
@@ -84,6 +84,8 @@ namespace Soomla.Store
 #elif UNITY_ANDROID
 			// On Android we refresh market items and restore transactions
 			instance._refreshInventory();
+#elif UNITY_WP8
+            
 #endif
 
 			initialized = true;

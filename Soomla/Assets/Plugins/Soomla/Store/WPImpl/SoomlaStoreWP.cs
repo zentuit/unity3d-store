@@ -28,6 +28,7 @@ namespace Soomla.Store {
 
 #if UNITY_WP8
 		
+        /*
 		/// <summary>
 		/// Initializes the SOOMLA SDK.
 		/// </summary>
@@ -36,11 +37,21 @@ namespace Soomla.Store {
 		/// </exception>
 		protected override void _initialize(IStoreAssets storeAssets) {
 			
-			StoreInfo.Initialize(storeAssets);
+			StoreInfo.SetStoreAssets(storeAssets);
             //TODO Link test mode to the editor interface
             SoomlaWpCore.SoomlaConfig.logDebug = CoreSettings.DebugMessages;
             SoomlaWpStore.SoomlaStore.GetInstance().initialize(SoomlaWpStore.data.GenericStoreAssets.GetInstance(),StoreSettings.WP8TestMode);
-		}
+		}*/
+
+        /// <summary>
+		/// Load the billing service.
+		/// </summary>
+        protected override void _loadBillingService()
+        {
+            SoomlaWpCore.SoomlaConfig.logDebug = CoreSettings.DebugMessages;
+            SoomlaWpStore.data.GenericStoreAssets gsa = SoomlaWpStore.data.GenericStoreAssets.GetInstance();
+            SoomlaWpStore.SoomlaStore.GetInstance().initialize(gsa, StoreSettings.WP8TestMode);
+        }
 
 		/// <summary>
 		/// Starts a purchase process in the market.

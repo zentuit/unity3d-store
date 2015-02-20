@@ -120,10 +120,6 @@ namespace Soomla.Store {
             {
                 return new VirtualCurrencyPack((SoomlaWpStore.domain.virtualCurrencies.VirtualCurrencyPack)wpvi);
             }
-            else if(wpvi is SoomlaWpStore.domain.NonConsumableItem)
-            {
-                return new NonConsumableItem((SoomlaWpStore.domain.NonConsumableItem)wpvi);
-            }
             else if(wpvi is SoomlaWpStore.domain.virtualGoods.UpgradeVG)
             {
                 return new UpgradeVG((SoomlaWpStore.domain.virtualGoods.UpgradeVG)wpvi);
