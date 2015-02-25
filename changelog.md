@@ -1,3 +1,8 @@
+### v1.7.13 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.12...v1.7.13)
+
+* Changes
+  * Updating Amazon plugin (v2.0.1)
+
 ### v1.7.12 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.11...v1.7.12)
 
 * Fixes
