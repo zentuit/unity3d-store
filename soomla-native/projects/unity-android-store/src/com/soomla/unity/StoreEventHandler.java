@@ -224,6 +224,8 @@ public class StoreEventHandler {
             JSONObject extraJSON = new JSONObject();
             extraJSON.put("purchaseToken", playPurchaseEvent.getToken());
             extraJSON.put("orderId", playPurchaseEvent.getOrderId());
+            extraJSON.put("originalJson", playPurchaseEvent.getOriginalJson());
+            extraJSON.put("signature", playPurchaseEvent.getSignature());
             eventJSON.put("extra", extraJSON);
 
             UnityPlayer.UnitySendMessage("StoreEvents", "onMarketPurchase", eventJSON.toString());
