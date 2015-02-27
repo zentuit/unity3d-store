@@ -28,20 +28,23 @@ namespace Soomla.Store
 
 		protected override void _removeUpgrades(VirtualGood good, bool notify) {
             SoomlaWpStore.domain.virtualGoods.VirtualGood vg = (SoomlaWpStore.domain.virtualGoods.VirtualGood)SoomlaWpStore.data.StoreInfo.getVirtualItem(good.ItemId);
-            SoomlaWpStore.data.StorageManager.getVirtualGoodsStorage().removeUpgrades(vg);			
+            SoomlaWpStore.data.StorageManager.getVirtualGoodsStorage().removeUpgrades(vg, notify);			
 		}
 		
 		protected override void _assignCurrentUpgrade(VirtualGood good, UpgradeVG upgradeVG, bool notify) {
             SoomlaWpStore.domain.virtualGoods.VirtualGood vg = (SoomlaWpStore.domain.virtualGoods.VirtualGood)SoomlaWpStore.data.StoreInfo.getVirtualItem(good.ItemId);
             SoomlaWpStore.domain.virtualGoods.UpgradeVG uvg = (SoomlaWpStore.domain.virtualGoods.UpgradeVG)SoomlaWpStore.data.StoreInfo.getVirtualItem(upgradeVG.ItemId);
-            SoomlaWpStore.data.StorageManager.getVirtualGoodsStorage().assignCurrentUpgrade(vg, uvg);
+            SoomlaWpStore.data.StorageManager.getVirtualGoodsStorage().assignCurrentUpgrade(vg, uvg, notify);
 		}
 		
 		protected override UpgradeVG _getCurrentUpgrade(VirtualGood good) {
-			string upgradeVGItemId;
+			string upgradeVGItemId = null;
             SoomlaWpStore.domain.virtualGoods.VirtualGood vg = (SoomlaWpStore.domain.virtualGoods.VirtualGood)SoomlaWpStore.data.StoreInfo.getVirtualItem(good.ItemId);
-            upgradeVGItemId = SoomlaWpStore.data.StorageManager.getVirtualGoodsStorage().getCurrentUpgrade(vg).getItemId();
-
+            if (vg is SoomlaWpStore.domain.virtualGoods.UpgradeVG)
+            {
+                upgradeVGItemId = SoomlaWpStore.data.StorageManager.getVirtualGoodsStorage().getCurrentUpgrade(vg).getItemId();
+            }
+            
 			if (!string.IsNullOrEmpty(upgradeVGItemId)) {
 				return (UpgradeVG) StoreInfo.GetItemByItemId(upgradeVGItemId);
 			}
@@ -58,12 +61,12 @@ namespace Soomla.Store
 		
 		protected override void _equip(EquippableVG good, bool notify) {
             SoomlaWpStore.domain.virtualGoods.EquippableVG evg = (SoomlaWpStore.domain.virtualGoods.EquippableVG)SoomlaWpStore.data.StoreInfo.getVirtualItem(good.ItemId);
-            SoomlaWpStore.data.StorageManager.getVirtualGoodsStorage().equip(evg);
+            SoomlaWpStore.data.StorageManager.getVirtualGoodsStorage().equip(evg,notify);
 		}
 		
 		protected override void _unequip(EquippableVG good, bool notify) {
             SoomlaWpStore.domain.virtualGoods.EquippableVG evg = (SoomlaWpStore.domain.virtualGoods.EquippableVG)SoomlaWpStore.data.StoreInfo.getVirtualItem(good.ItemId);
-            SoomlaWpStore.data.StorageManager.getVirtualGoodsStorage().unequip(evg);
+            SoomlaWpStore.data.StorageManager.getVirtualGoodsStorage().unequip(evg,notify);
 		}
 
 
@@ -77,21 +80,21 @@ namespace Soomla.Store
 		protected override int _setBalance(VirtualItem item, int balance, bool notify) {
 			int retBalance;
 			SoomlaWpStore.domain.VirtualItem vi = SoomlaWpStore.data.StoreInfo.getVirtualItem(item.ItemId);
-            retBalance = SoomlaWpStore.data.StorageManager.getVirtualGoodsStorage().setBalance(vi,balance);
+            retBalance = SoomlaWpStore.data.StorageManager.getVirtualGoodsStorage().setBalance(vi,balance,notify);
 			return retBalance;
 		}
 		
 		protected override int _add(VirtualItem item, int amount, bool notify){
 			int retBalance;
             SoomlaWpStore.domain.VirtualItem vi = SoomlaWpStore.data.StoreInfo.getVirtualItem(item.ItemId);
-            retBalance = SoomlaWpStore.data.StorageManager.getVirtualGoodsStorage().add(vi, amount);
+            retBalance = SoomlaWpStore.data.StorageManager.getVirtualGoodsStorage().add(vi, amount, notify);
 			return retBalance;
 		}
 		
 		protected override int _remove(VirtualItem item, int amount, bool notify){
 			int retBalance;
             SoomlaWpStore.domain.VirtualItem vi = SoomlaWpStore.data.StoreInfo.getVirtualItem(item.ItemId);
-            retBalance = SoomlaWpStore.data.StorageManager.getVirtualGoodsStorage().remove(vi, amount);
+            retBalance = SoomlaWpStore.data.StorageManager.getVirtualGoodsStorage().remove(vi, amount, notify);
 			return retBalance;
 		}
 	

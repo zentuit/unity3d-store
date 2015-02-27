@@ -36,7 +36,7 @@ namespace Soomla.Store {
 	/// </summary>
 	public class StoreInfoWP : StoreInfo {
 
-#if UNITY_WP8
+#if UNITY_WP8 && !UNITY_EDITOR
 
         /// <summary>
         /// Initializes <c>StoreInfo</c>.
@@ -55,6 +55,7 @@ namespace Soomla.Store {
             string storeAssetsJSON = IStoreAssetsToJSON(storeAssets);
             int version = storeAssets.GetVersion();
             SoomlaWpStore.data.GenericStoreAssets.GetInstance().Prepare(version, storeAssetsJSON);
+            SoomlaWpStore.data.StoreInfo.setStoreAssets(SoomlaWpStore.data.GenericStoreAssets.GetInstance());
 			SoomlaUtils.LogDebug(TAG, "done! (pushing data to StoreAssets on wp side)");
 		}
 

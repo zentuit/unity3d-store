@@ -119,6 +119,10 @@ namespace Soomla.Store {
 
             VirtualCurrency vc = (VirtualCurrency)StoreInfo.GetItemByItemId(currency.getItemId());
             StoreEvents.OnCurrencyBalanceChanged(vc, balance, amountAdded);
+
+            StoreInventory.RefreshOnCurrencyBalanceChanged(vc, balance, amountAdded);
+
+            StoreEvents.OnCurrencyBalanceChanged(vc, balance, amountAdded);
         }
 
         public void onCurrencyBalanceChanged(string message)
@@ -159,6 +163,7 @@ namespace Soomla.Store {
             SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onGoodBalanceChanged:" + good.getItemId() + " " + balance.ToString() + " " + amountAdded.ToString());
 
             VirtualGood vg = (VirtualGood)StoreInfo.GetItemByItemId(good.getItemId());
+            StoreInventory.RefreshOnGoodBalanceChanged(vg, balance, amountAdded);
             StoreEvents.OnGoodBalanceChanged(vg, balance, amountAdded);
         }
         public void onGoodBalanceChanged(string message)
@@ -197,6 +202,7 @@ namespace Soomla.Store {
             SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onVirtualGoodEquipped:" + good.getItemId());
 
             EquippableVG vg = (EquippableVG)StoreInfo.GetItemByItemId(good.getItemId());
+            StoreInventory.RefreshOnGoodEquipped(vg);
             StoreEvents.OnGoodEquipped(vg);
         }
         public void onGoodEquipped(string message)
@@ -233,6 +239,7 @@ namespace Soomla.Store {
             SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onVirtualGoodUnEquipped:" + good.getItemId());
 
             EquippableVG vg = (EquippableVG)StoreInfo.GetItemByItemId(good.getItemId());
+            StoreInventory.RefreshOnGoodUnEquipped(vg);
             StoreEvents.OnGoodUnEquipped(vg);
         }
         public void onGoodUnequipped(string message)
@@ -275,6 +282,7 @@ namespace Soomla.Store {
             {
                 vgu = (UpgradeVG)StoreInfo.GetItemByItemId(upgradeVG.getItemId());
             }
+            StoreInventory.RefreshOnGoodUpgrade(vg, vgu);
             StoreEvents.OnGoodUpgrade(vg, vgu);
         }
 
@@ -571,7 +579,7 @@ namespace Soomla.Store {
         public static void onSoomlaStoreInitialized()
         {
             SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onSoomlaStoreInitialized");
-
+            StoreInventory.RefreshLocalInventory();
             StoreEvents.OnSoomlaStoreInitialized();
         }
 

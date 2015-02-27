@@ -85,6 +85,7 @@ namespace Soomla.Store
 			// On Android we refresh market items and restore transactions
 			instance._refreshInventory();
 #elif UNITY_WP8
+            instance._refreshInventory();
             
 #endif
 

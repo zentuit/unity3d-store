@@ -34,22 +34,19 @@ namespace Soomla.Store
 		
 		protected override int _setBalance(VirtualItem item, int balance, bool notify) {
 			int retBalance;
-			//TOTO setbalance notify
-            retBalance = SoomlaWpStore.data.StorageManager.getVirtualCurrencyStorage().setBalance(SoomlaWpStore.data.StoreInfo.getVirtualItem(item.ItemId),balance);
+            retBalance = SoomlaWpStore.data.StorageManager.getVirtualCurrencyStorage().setBalance(SoomlaWpStore.data.StoreInfo.getVirtualItem(item.ItemId),balance,notify);
 			return retBalance;
 		}
 		
 		protected override int _add(VirtualItem item, int amount, bool notify){
 			int retBalance;
-            //TOTO add notify
-            retBalance = SoomlaWpStore.data.StorageManager.getVirtualCurrencyStorage().add(SoomlaWpStore.data.StoreInfo.getVirtualItem(item.ItemId), amount);
+            retBalance = SoomlaWpStore.data.StorageManager.getVirtualCurrencyStorage().add(SoomlaWpStore.data.StoreInfo.getVirtualItem(item.ItemId), amount, notify);
 			return retBalance;
 		}
 		
 		protected override int _remove(VirtualItem item, int amount, bool notify){
 			int retBalance;
-            //TOTO remove notify
-            retBalance = SoomlaWpStore.data.StorageManager.getVirtualCurrencyStorage().remove(SoomlaWpStore.data.StoreInfo.getVirtualItem(item.ItemId), amount);
+            retBalance = SoomlaWpStore.data.StorageManager.getVirtualCurrencyStorage().remove(SoomlaWpStore.data.StoreInfo.getVirtualItem(item.ItemId), amount, notify);
 			return retBalance;
 		}
 	
