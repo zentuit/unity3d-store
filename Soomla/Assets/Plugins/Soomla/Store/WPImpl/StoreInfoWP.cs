@@ -57,9 +57,7 @@ namespace Soomla.Store {
             SoomlaWpStore.data.GenericStoreAssets.GetInstance().Prepare(version, storeAssetsJSON);
             SoomlaWpStore.data.StoreInfo.setStoreAssets(SoomlaWpStore.data.GenericStoreAssets.GetInstance());
 			SoomlaUtils.LogDebug(TAG, "done! (pushing data to StoreAssets on wp side)");
-		}
-
-		
+		}	
 #endif
-                                         }
+    }
 }

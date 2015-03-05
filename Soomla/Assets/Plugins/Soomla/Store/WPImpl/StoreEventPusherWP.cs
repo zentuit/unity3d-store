@@ -21,7 +21,6 @@ namespace Soomla.Store {
 	public class StoreEventPusherWP : StoreEvents.StoreEventPusher {
 
 #if UNITY_WP8 && !UNITY_EDITOR
-
 		protected override void _pushEventSoomlaStoreInitialized(string message) {
 			pushEvent("SoomlaStoreInitialized", message);
 		}
@@ -51,9 +50,8 @@ namespace Soomla.Store {
 		}
 
 		private void pushEvent(string name, string message) {
-			Debug.Log("TODO Push Event");
+			//Debug.Log("TODO Push Event");
 		}
-
 #endif
 	}
 }

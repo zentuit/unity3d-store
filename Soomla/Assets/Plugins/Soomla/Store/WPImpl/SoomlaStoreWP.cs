@@ -27,18 +27,11 @@ namespace Soomla.Store {
 	public class SoomlaStoreWP : SoomlaStore {
 
 #if UNITY_WP8 && !UNITY_EDITOR
-		
-        
 		/// <summary>
 		/// Load the billing service.
 		/// </summary>
         protected override void _loadBillingService()
         {
-            /*
-            SoomlaWpCore.SoomlaConfig.logDebug = CoreSettings.DebugMessages;
-            SoomlaWpStore.data.GenericStoreAssets gsa = SoomlaWpStore.data.GenericStoreAssets.GetInstance();
-            SoomlaWpStore.SoomlaStore.GetInstance().initialize(gsa, StoreSettings.WP8TestMode);
-            */
             SoomlaWpStore.StoreConfig.STORE_TEST_MODE = StoreSettings.WP8TestMode;
             SoomlaWpCore.SoomlaConfig.logDebug = CoreSettings.DebugMessages;
             SoomlaWpStore.SoomlaStore.GetInstance().initStoreManager();
