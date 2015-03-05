@@ -51,9 +51,9 @@ namespace Soomla.Store {
 
 #if UNITY_WP8
 		public VirtualCategory(SoomlaWpStore.domain.VirtualCategory wpVirtualCategory) {
-            this.Name = wpVirtualCategory.getName();
-            GoodItemIds = wpVirtualCategory.getGoodsItemIds();
-		}
+    		this.Name = wpVirtualCategory.getName();
+    		GoodItemIds = wpVirtualCategory.getGoodsItemIds();
+    	}
 #endif
         /// <summary>
 		/// Constructor.

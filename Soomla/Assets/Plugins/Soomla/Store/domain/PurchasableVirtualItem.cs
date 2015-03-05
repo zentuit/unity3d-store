@@ -76,7 +76,7 @@ namespace Soomla.Store {
 #if UNITY_WP8
 		protected PurchasableVirtualItem(SoomlaWpStore.domain.PurchasableVirtualItem wpPurchasableVirtualItem) :
             base(wpPurchasableVirtualItem)
-		{
+            {
 			SoomlaUtils.LogDebug(TAG, "Trying to create PurchasableVirtualItem with itemId: " +
                                 wpPurchasableVirtualItem.getItemId());
 
@@ -114,8 +114,7 @@ namespace Soomla.Store {
                 int amount = wpPWVI.getAmount();
                 PurchaseType = new PurchaseWithVirtualItem(itemId, amount);
             }
-
-		}
+        }
 #endif
        
         /// <summary>

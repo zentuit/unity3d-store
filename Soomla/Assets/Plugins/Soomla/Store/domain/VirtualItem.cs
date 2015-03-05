@@ -51,7 +51,7 @@ namespace Soomla.Store {
 #if UNITY_WP8
 		protected VirtualItem(SoomlaWpStore.domain.VirtualItem wpVirtualItem)
             : base(wpVirtualItem)
-		{
+            {
 		}
 #endif
         /// <summary>
@@ -74,19 +74,6 @@ namespace Soomla.Store {
 			return base.GetHashCode ();
 		}
 
-		/// <summary>
-		/// Gives your user the given amount of the specific virtual item.
-		/// For example, when your users play your game for the first time you GIVE them 1000 gems.
-		///
-		/// NOTE: This action is different than <code>PurchasableVirtualItem</code>'s <code>buy()</code>:
-     	/// You use <code>give(int amount)</code> to give your user something for free.
-        /// You use <code>buy()</code> to give your user something and get something in return.
-		/// 
-		/// </summary>
-		/// <param name="amount">amount the amount of the specific item to be given</param>
-		public int Give(int amount) {
-			return Give(amount, true);
-		}
 #if UNITY_WP8
         /// <summary>
         /// Creates relevant virtual item according to given JSON object's className.
@@ -130,6 +117,19 @@ namespace Soomla.Store {
         }
 #endif
 	
+		/// <summary>
+		/// Gives your user the given amount of the specific virtual item.
+		/// For example, when your users play your game for the first time you GIVE them 1000 gems.
+		///
+		/// NOTE: This action is different than <code>PurchasableVirtualItem</code>'s <code>buy()</code>:
+     	/// You use <code>give(int amount)</code> to give your user something for free.
+        /// You use <code>buy()</code> to give your user something and get something in return.
+		/// 
+		/// </summary>
+		/// <param name="amount">amount the amount of the specific item to be given</param>
+		public int Give(int amount) {
+			return Give(amount, true);
+		}
 
 		/// <summary>
 		/// Works like "give" but receives an argument, notify, to indicate
