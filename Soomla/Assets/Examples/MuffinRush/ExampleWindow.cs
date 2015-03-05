@@ -112,7 +112,7 @@ namespace Soomla.Store.Example {
 			if (StoreInfo.Currencies.Count>0) {
 				try {
 					StoreInventory.GiveItem(StoreInfo.Currencies[0].ItemId,4000);
-					SoomlaUtils.LogDebug("SOOMLA ExampleEventHandler", "Currency balance:" + StoreInventory.GetItemBalance(StoreInfo.Currencies[0].ItemId));
+					//SoomlaUtils.LogDebug("SOOMLA ExampleEventHandler", "Currency balance:" + StoreInventory.GetItemBalance(StoreInfo.Currencies[0].ItemId));
 				} catch (VirtualItemNotFoundException ex){
 					SoomlaUtils.LogError("SOOMLA ExampleEventHandler", ex.Message);
 				}
