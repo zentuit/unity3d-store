@@ -11,6 +11,10 @@ unity3d-store
 
 *SOOMLA's Store Module for Unity3d*
 
+**March 9th:** v1.7.15 Unity 5 compatibility patch.
+
+> If you are upgrading an already imported store module, make sure to delete the `<project>/Assets/Soomla/compilations` folder
+
 **October 29th:** v1.7 **Work in editor!** When you're in the Unity editor, data will be saved to PlayerPrefs.
 
 **September 15th:** NonConsumableItem class was removed.
