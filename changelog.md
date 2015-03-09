@@ -1,3 +1,8 @@
+### v1.7.15 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.14...v1.7.15)
+
+* Changes
+  * Making Store module Unity 5 compatible
+
 ### v1.7.14 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.13...v1.7.14)
 
 * Changes
