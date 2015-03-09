@@ -13,7 +13,9 @@ unity3d-store
 
 **March 9th:** v1.7.15 **Unity 5** compatibility patch.
 
-> If you are upgrading an already imported store module, make sure to delete the `<project>/Assets/Soomla/compilations` folder
+> If you are upgrading an already imported store module, make sure to delete the `<project>/Assets/Soomla/compilations` folder.
+
+> If you get the “API Update Required” window, click the "I Made a Backup. Go Ahead!" button, Unity will automatically update some of our code.
 
 **October 29th:** v1.7 **Work in editor!** When you're in the Unity editor, data will be saved to PlayerPrefs.
 
