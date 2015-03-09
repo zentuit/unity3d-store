@@ -11,7 +11,7 @@ unity3d-store
 
 *SOOMLA's Store Module for Unity3d*
 
-**March 9th:** v1.7.15 Unity 5 compatibility patch.
+**March 9th:** v1.7.15 **Unity 5** compatibility patch.
 
 > If you are upgrading an already imported store module, make sure to delete the `<project>/Assets/Soomla/compilations` folder
 
