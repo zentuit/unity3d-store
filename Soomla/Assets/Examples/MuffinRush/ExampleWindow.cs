@@ -325,10 +325,16 @@ namespace Soomla.Store.Example {
 				GUI.skin.label.font = fDesc;
 				GUI.Label(new Rect(productSize + 10f,y+productSize/3f,Screen.width-productSize-15f,productSize/3f),vg.Description);
 				//set price
-				if (vg.PurchaseType is PurchaseWithVirtualItem)
+				if (vg.PurchaseType is PurchaseWithVirtualItem) {
 					GUI.Label(new Rect(Screen.width/2f,y+productSize*2/3f,Screen.width,productSize/3f),"price:" + ((PurchaseWithVirtualItem)vg.PurchaseType).Amount);
-				else
-					GUI.Label(new Rect(Screen.width/2f,y+productSize*2/3f,Screen.width,productSize/3f),"price:$ " + ((PurchaseWithMarket)vg.PurchaseType).MarketItem.Price.ToString("0.00"));
+				}
+				else {
+					string price = ((PurchaseWithMarket)vg.PurchaseType).MarketItem.MarketPriceAndCurrency;
+					if (string.IsNullOrEmpty(price)) {
+						price = ((PurchaseWithMarket)vg.PurchaseType).MarketItem.Price.ToString("0.00");
+					}
+					GUI.Label(new Rect(Screen.width/2f,y+productSize*2/3f,Screen.width,productSize/3f),"price: " + price);
+				}
 				GUI.Label(new Rect(Screen.width*3/4f,y+productSize*2/3f,Screen.width,productSize/3f), "Balance:" + StoreInventory.GetItemBalance(vg.ItemId));
 
 				GUI.skin.label.alignment = TextAnchor.UpperRight;

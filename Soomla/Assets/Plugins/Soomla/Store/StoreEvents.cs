@@ -63,7 +63,7 @@ namespace Soomla.Store {
 			yield return new WaitForSeconds(0.1f);
 			runLaterDelegate();
 		}
-		
+
 		/// <summary>
 		/// Initializes the different native event handlers in Android / iOS
 		/// </summary>
@@ -147,7 +147,7 @@ namespace Soomla.Store {
 			SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onGoodBalanceChanged:" + message);
 
 			JSONObject eventJSON = new JSONObject(message);
-			
+
 			VirtualGood vg = (VirtualGood)StoreInfo.GetItemByItemId(eventJSON["itemId"].str);
 			int balance = (int)eventJSON["balance"].n;
 			int amountAdded = (int)eventJSON["amountAdded"].n;
@@ -201,7 +201,7 @@ namespace Soomla.Store {
 			SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onVirtualGoodUnEquipped:" + message);
 
 			var eventJSON = new JSONObject(message);
-			
+
 			EquippableVG vg = (EquippableVG)StoreInfo.GetItemByItemId(eventJSON["itemId"].str);
 
 			StoreInventory.RefreshOnGoodUnEquipped(vg);
@@ -329,8 +329,12 @@ namespace Soomla.Store {
 			}
 			if (eventJSON.HasField("extra")) {
 				var extraJSON = eventJSON["extra"];
-				foreach(string key in extraJSON.keys) {
-					extra.Add(key, extraJSON[key].str);
+				if (extraJSON.keys != null) {
+					foreach(string key in extraJSON.keys) {
+						if (extraJSON[key] != null) {
+							extra.Add(key, extraJSON[key].str);
+						}
+					}
 				}
 			}
 
@@ -404,6 +408,21 @@ namespace Soomla.Store {
 		}
 
 		/// <summary>
+		/// Handles the <c>onMarketItemsRefreshFailed</c> event, which is fired when items associated with market
+		/// refresh process has failed.
+		/// </summary>
+		/// <param name="message">Message that contains information about the <c>market refresh</c> process that
+		/// has failed.</param>
+		public void onMarketItemsRefreshFailed(string message) {
+			SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onMarketItemsRefreshFailed");
+
+			var eventJSON = new JSONObject(message);
+			
+			string errorMessage = eventJSON["errorMessage"].str;
+			StoreEvents.OnMarketItemsRefreshFailed(errorMessage);
+		}
+
+		/// <summary>
 		/// Handles the <c>onMarketItemsRefreshFinished</c> event, which is fired when items associated with market are
 		/// refreshed (prices, titles ...).
 		/// </summary>
@@ -413,6 +432,7 @@ namespace Soomla.Store {
 
 			var eventJSON = new JSONObject(message);
 
+			List<VirtualItem> virtualItems = new List<VirtualItem>();
 			List<MarketItem> marketItems = new List<MarketItem>();
 			foreach (var micJSON in eventJSON.list) {
 				string productId = micJSON[StoreJSONConsts.MARKETITEM_PRODUCT_ID].str;
@@ -429,12 +449,18 @@ namespace Soomla.Store {
 					mi.MarketDescription = marketDescription;
 					mi.MarketCurrencyCode = marketCurrencyCode;
 					mi.MarketPriceMicros = marketPriceMicros;
-					pvi.Save();
 
 					marketItems.Add(mi);
+					virtualItems.Add(pvi);
 				} catch (VirtualItemNotFoundException ex){
 					SoomlaUtils.LogDebug(TAG, ex.Message);
 				}
+			}
+
+			if (virtualItems.Count > 0) {
+				// no need to save to DB since it's already saved in native
+				// before this event is received
+				StoreInfo.Save(virtualItems, false);
 			}
 
 			StoreEvents.OnMarketItemsRefreshFinished(marketItems);
@@ -531,6 +557,8 @@ namespace Soomla.Store {
 
 		public static Action OnMarketItemsRefreshStarted = delegate {};
 
+		public static Action<string> OnMarketItemsRefreshFailed = delegate {};
+
 		public static Action<List<MarketItem>> OnMarketItemsRefreshFinished = delegate {};
 
 		public static Action<string> OnUnexpectedErrorInStore = delegate {};
@@ -544,7 +572,7 @@ namespace Soomla.Store {
 #endif
 
 		public class StoreEventPusher {
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR			
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
 			public StoreEventPusher() {}
 
 			public void PushEventSoomlaStoreInitialized() {
@@ -566,7 +594,7 @@ namespace Soomla.Store {
 				eventJSON.AddField("itemId", good.ItemId);
 				eventJSON.AddField("balance", balance);
 				eventJSON.AddField("amountAdded", amountAdded);
-				
+
 				_pushEventGoodBalanceChanged(eventJSON.print());
 			}
 			public void PushEventOnGoodEquipped(EquippableVG good) {
@@ -578,27 +606,27 @@ namespace Soomla.Store {
 			public void PushEventOnGoodUnequipped(EquippableVG good) {
 				var eventJSON = new JSONObject();
 				eventJSON.AddField("itemId", good.ItemId);
-				
+
 				_pushEventGoodUnequipped(eventJSON.print());
 			}
 			public void PushEventOnGoodUpgrade(VirtualGood good, UpgradeVG upgrade) {
 				var eventJSON = new JSONObject();
 				eventJSON.AddField("itemId", good.ItemId);
 				eventJSON.AddField("upgradeItemId", (upgrade==null ? null : upgrade.ItemId));
-				
+
 				_pushEventGoodUpgrade(eventJSON.print());
 			}
 			public void PushEventOnItemPurchased(PurchasableVirtualItem item, string payload) {
 				var eventJSON = new JSONObject();
 				eventJSON.AddField("itemId", item.ItemId);
 				eventJSON.AddField("payload", payload);
-				
+
 				_pushEventItemPurchased(eventJSON.print());
 			}
 			public void PushEventOnItemPurchaseStarted(PurchasableVirtualItem item) {
 				var eventJSON = new JSONObject();
 				eventJSON.AddField("itemId", item.ItemId);
-				
+
 				_pushEventItemPurchaseStarted(eventJSON.print());
 			}
 
