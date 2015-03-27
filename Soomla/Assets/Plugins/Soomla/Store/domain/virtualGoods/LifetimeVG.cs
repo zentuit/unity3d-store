@@ -50,7 +50,7 @@ namespace Soomla.Store {
 		{
 		}
 
-#if UNITY_WP8
+#if UNITY_WP8 && !UNITY_EDITOR
 		public LifetimeVG(SoomlaWpStore.domain.virtualGoods.LifetimeVG wpLifetimeVG)
             : base(wpLifetimeVG)
 		{

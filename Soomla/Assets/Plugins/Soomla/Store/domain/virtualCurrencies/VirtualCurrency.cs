@@ -41,7 +41,7 @@ namespace Soomla.Store{
 		{
 		}
 
-#if UNITY_WP8
+#if UNITY_WP8 && !UNITY_EDITOR
 		public VirtualCurrency(SoomlaWpStore.domain.virtualCurrencies.VirtualCurrency wpVirtualCurrency)
             	: base(wpVirtualCurrency)
             	{

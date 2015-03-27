@@ -16,7 +16,7 @@ using System;
 using SoomlaWpCore;
 using SoomlaWpStore.data;
 using SoomlaWpStore.purchasesTypes;
-using Newtonsoft.Json.Linq;
+//using Newtonsoft.Json.Linq;
 /**
  * A <code>LifetimeVG</code> is a virtual good that is bought once and kept forever.
  *
@@ -59,7 +59,7 @@ namespace SoomlaWpStore.domain.virtualGoods
      * @param jsonObject see parent
      * @throws JSONException
      */
-    public LifetimeVG(JObject jsonObject) : base(jsonObject) {
+    public LifetimeVG(object jsonObject) : base(jsonObject) {
         
     }
 
@@ -68,7 +68,7 @@ namespace SoomlaWpStore.domain.virtualGoods
      *
      * @return see parent
      */
-    public override JObject toJSONObject() {
+    public override object toJSONObject() {
         return base.toJSONObject();
     }
 

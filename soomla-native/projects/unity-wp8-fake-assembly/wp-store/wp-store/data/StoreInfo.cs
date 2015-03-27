@@ -23,7 +23,7 @@ using SoomlaWpStore.exceptions;
 using SoomlaWpStore.purchasesTypes;
 using System.Collections.Generic;
 using System.IO.IsolatedStorage;
-using Newtonsoft.Json.Linq;
+//using Newtonsoft.Json.Linq;
 namespace SoomlaWpStore.data 
 {
 
@@ -79,32 +79,8 @@ public class StoreInfo {
      * @return success
      */
     public static bool initializeFromDB() {
-        checkMetadataVersion();
-
-        String key = keyMetaStoreInfo();
-        String val = KeyValueStorage.GetValue(key);
-
-        if (val == null && String.IsNullOrEmpty(val)){
-            SoomlaUtils.LogDebug(TAG, "store json is not in DB yet.");
-            return false;
-        }
-
-        SoomlaUtils.LogDebug(TAG, "the metadata-economy json (from DB) is " + val);
-
-        try {
-            fromJObject(new JObject(val));
-
-            // everything went well... StoreInfo is initialized from the local DB.
-            // it's ok to return now.
-
-            return true;
-        } catch (Exception e) {
-            SoomlaUtils.LogDebug(TAG, "Can't parse metadata json. Going to return false and make "
-                    + "StoreInfo load from static data: " + val + " " + e.Message);
-        }
-
+        
         return false;
-
     }
 
     /**
@@ -238,9 +214,9 @@ public class StoreInfo {
         return mGoods;
     }
 
-    public static List<NonConsumableItem> getNonConsumableItems() {
+    /*public static List<NonConsumableItem> getNonConsumableItems() {
         return mNonConsumables;
-    }
+    }*/
 
     public static List<VirtualCategory> getCategories() {
         return mCategories;
@@ -253,144 +229,14 @@ public class StoreInfo {
 
     /** Private functions **/
     /**
-     * Transforms given JObject to StoreInfo
+     * Transforms given object to StoreInfo
      *
      * @param JObject
      * @throws JSONException
      */
-    private static void fromJObject(JObject JObject) {
+    private static void fromJObject(object JObject) {
 
-        mVirtualItems = new Dictionary<String, VirtualItem>();
-        mPurchasableItems = new Dictionary<String, PurchasableVirtualItem>();
-        mGoodsCategories = new Dictionary<String, VirtualCategory>();
-        mGoodsUpgrades = new Dictionary<String, List<UpgradeVG>>();
-        mCurrencyPacks = new List<VirtualCurrencyPack>();
-        mGoods = new List<VirtualGood>();
-        mCategories = new List<VirtualCategory>();
-        mCurrencies = new List<VirtualCurrency>();
-        mNonConsumables = new List<NonConsumableItem>();
-
-		JToken value;
-        if (JObject.TryGetValue(StoreJSONConsts.STORE_CURRENCIES, out value)) {
-            JArray virtualCurrencies = JObject.Value<JArray>(StoreJSONConsts.STORE_CURRENCIES);
-            for (int i=0; i<virtualCurrencies.Count; i++){
-                JObject o = virtualCurrencies.Value<JObject>(i);
-                VirtualCurrency c = new VirtualCurrency(o);
-                mCurrencies.Add(c);
-
-                mVirtualItems.Add(c.getItemId(), c);
-            }
-        }
-
-        if (JObject.TryGetValue(StoreJSONConsts.STORE_CURRENCYPACKS, out value)) {
-            JArray currencyPacks = JObject.Value<JArray>(StoreJSONConsts.STORE_CURRENCYPACKS);
-            for (int i=0; i<currencyPacks.Count; i++){
-                JObject o = currencyPacks.Value<JObject>(i);
-                VirtualCurrencyPack pack = new VirtualCurrencyPack(o);
-                mCurrencyPacks.Add(pack);
-
-                mVirtualItems.Add(pack.getItemId(), pack);
-
-                PurchaseType purchaseType = pack.GetPurchaseType();
-                if (purchaseType is PurchaseWithMarket) {
-                    mPurchasableItems.Add(((PurchaseWithMarket) purchaseType)
-                            .getMarketItem().getProductId(), pack);
-                }
-            }
-        }
-
-        // The order in which VirtualGoods are created matters!
-        // For example: VGU and VGP depend on other VGs
-        if (JObject.TryGetValue(StoreJSONConsts.STORE_GOODS, out value)) {
-            JObject virtualGoods = JObject.Value<JObject>(StoreJSONConsts.STORE_GOODS);
-
-			JToken valueVg;
-            if (virtualGoods.TryGetValue(StoreJSONConsts.STORE_GOODS_SU, out valueVg)) {
-                JArray suGoods = virtualGoods.Value<JArray>(StoreJSONConsts.STORE_GOODS_SU);
-                for (int i=0; i<suGoods.Count; i++){
-                    JObject o = suGoods.Value<JObject>(i);
-                    SingleUseVG g = new SingleUseVG(o);
-                    addVG(g);
-                }
-            }
-
-
-            if (virtualGoods.TryGetValue(StoreJSONConsts.STORE_GOODS_LT, out valueVg)) {
-                JArray ltGoods = virtualGoods.Value<JArray>(StoreJSONConsts.STORE_GOODS_LT);
-                for (int i=0; i<ltGoods.Count; i++){
-                    JObject o = ltGoods.Value<JObject>(i);
-                    LifetimeVG g = new LifetimeVG(o);
-                    addVG(g);
-                }
-            }
-
-
-            if (virtualGoods.TryGetValue(StoreJSONConsts.STORE_GOODS_EQ, out valueVg)) {
-                JArray eqGoods = virtualGoods.Value<JArray>(StoreJSONConsts.STORE_GOODS_EQ);
-                for (int i=0; i<eqGoods.Count; i++){
-                    JObject o = eqGoods.Value<JObject>(i);
-                    EquippableVG g = new EquippableVG(o);
-                    addVG(g);
-                }
-            }
-
-            if (virtualGoods.TryGetValue(StoreJSONConsts.STORE_GOODS_PA, out valueVg)) {
-                JArray paGoods = virtualGoods.Value<JArray>(StoreJSONConsts.STORE_GOODS_PA);
-                for (int i=0; i<paGoods.Count; i++){
-                    JObject o = paGoods.Value<JObject>(i);
-                    SingleUsePackVG g = new SingleUsePackVG(o);
-                    addVG(g);
-                }
-            }
-
-
-            if (virtualGoods.TryGetValue(StoreJSONConsts.STORE_GOODS_UP, out valueVg)) {
-                JArray upGoods = virtualGoods.Value<JArray>(StoreJSONConsts.STORE_GOODS_UP);
-                for (int i=0; i<upGoods.Count; i++){
-                    JObject o = upGoods.Value<JObject>(i);
-                    UpgradeVG g = new UpgradeVG(o);
-                    addVG(g);
-
-                    List<UpgradeVG> upgrades = mGoodsUpgrades[g.getGoodItemId()];
-                    if (upgrades == null) {
-                        upgrades = new List<UpgradeVG>();
-                        mGoodsUpgrades.Add(g.getGoodItemId(), upgrades);
-                    }
-                    upgrades.Add(g);
-                }
-            }
-
-        }
-
-        // Categories depend on virtual goods. That's why the have to be initialized after!
-        if (JObject.TryGetValue(StoreJSONConsts.STORE_CATEGORIES, out value)) {
-            JArray virtualCategories = JObject.Value<JArray>(StoreJSONConsts.STORE_CATEGORIES);
-            for(int i=0; i<virtualCategories.Count; i++){
-                JObject o = virtualCategories.Value<JObject>(i);
-                VirtualCategory category = new VirtualCategory(o);
-                mCategories.Add(category);
-                foreach(String goodItemId in category.getGoodsItemIds()) {
-                    mGoodsCategories.Add(goodItemId, category);
-                }
-            }
-        }
-
-        if (JObject.TryGetValue(StoreJSONConsts.STORE_NONCONSUMABLES, out value)) {
-            JArray nonConsumables = JObject.Value<JArray>(StoreJSONConsts.STORE_NONCONSUMABLES);
-            for (int i=0; i<nonConsumables.Count; i++){
-                JObject o = nonConsumables.Value<JObject>(i);
-                NonConsumableItem non = new NonConsumableItem(o);
-                mNonConsumables.Add(non);
-
-                mVirtualItems.Add(non.getItemId(), non);
-
-                PurchaseType purchaseType = non.GetPurchaseType();
-                if (purchaseType is PurchaseWithMarket) {
-                    mPurchasableItems.Add(((PurchaseWithMarket) purchaseType)
-                            .getMarketItem().getProductId(), non);
-                }
-            }
-        }
+        
     }
 
     /**
@@ -417,67 +263,9 @@ public class StoreInfo {
      *
      * @return a <code>JObject</code> representation of <code>StoreInfo</code>.
      */
-    public static JObject toJSONObject(){
+    public static object toJSONObject(){
 
-        JArray currencies = new JArray();
-        foreach(VirtualCurrency c in mCurrencies){
-            currencies.Add(c.toJSONObject());
-        }
-
-        JArray currencyPacks = new JArray();
-        foreach(VirtualCurrencyPack pack in mCurrencyPacks){
-            currencyPacks.Add(pack.toJSONObject());
-        }
-
-        JObject goods = new JObject();
-        JArray suGoods = new JArray();
-        JArray ltGoods = new JArray();
-        JArray eqGoods = new JArray();
-        JArray paGoods = new JArray();
-        JArray upGoods = new JArray();
-        foreach(VirtualGood good in mGoods){
-            if (good is SingleUseVG) {
-                suGoods.Add(good.toJSONObject());
-            } else if (good is UpgradeVG) {
-                upGoods.Add(good.toJSONObject());
-            } else if (good is EquippableVG) {
-                eqGoods.Add(good.toJSONObject());
-            } else if (good is SingleUsePackVG) {
-                paGoods.Add(good.toJSONObject());
-            } else if (good is LifetimeVG) {
-                ltGoods.Add(good.toJSONObject());
-            }
-        }
-
-
-        JArray categories = new JArray();
-        foreach (VirtualCategory cat in mCategories){
-            categories.Add(cat.toJSONObject());
-        }
-
-        JArray nonConsumableItems = new JArray();
-        foreach(NonConsumableItem non in mNonConsumables){
-            nonConsumableItems.Add(non.toJSONObject());
-        }
-
-        JObject JObject = new JObject();
-        try {
-            goods.Add(StoreJSONConsts.STORE_GOODS_SU, suGoods);
-            goods.Add(StoreJSONConsts.STORE_GOODS_LT, ltGoods);
-            goods.Add(StoreJSONConsts.STORE_GOODS_EQ, eqGoods);
-            goods.Add(StoreJSONConsts.STORE_GOODS_PA, paGoods);
-            goods.Add(StoreJSONConsts.STORE_GOODS_UP, upGoods);
-
-            JObject.Add(StoreJSONConsts.STORE_CATEGORIES, categories);
-            JObject.Add(StoreJSONConsts.STORE_CURRENCIES, currencies);
-            JObject.Add(StoreJSONConsts.STORE_GOODS, goods);
-            JObject.Add(StoreJSONConsts.STORE_CURRENCYPACKS, currencyPacks);
-            JObject.Add(StoreJSONConsts.STORE_NONCONSUMABLES, nonConsumableItems);
-        } catch (Exception e) {
-            SoomlaUtils.LogError(TAG, "An error occurred while generating JSON object." + " " + e.Message);
-        }
-
-        return JObject;
+        return new object();
     }
 
     /**
@@ -565,7 +353,7 @@ public class StoreInfo {
             }
             mGoods.Add(vg);
         }
-
+        /*
         if (virtualItem is NonConsumableItem) {
             NonConsumableItem non = (NonConsumableItem) virtualItem;
 
@@ -582,7 +370,7 @@ public class StoreInfo {
                 }
             }
             mNonConsumables.Add(non);
-        }
+        }*/
     }
 
     /**
@@ -602,8 +390,8 @@ public class StoreInfo {
         mGoods.AddRange(storeAssets.GetGoods());
         mCategories = new List<VirtualCategory>();
         mCategories.AddRange(storeAssets.GetCategories());
-        mNonConsumables = new List<NonConsumableItem>();
-        mNonConsumables.AddRange(storeAssets.GetNonConsumableItems());
+        //mNonConsumables = new List<NonConsumableItem>();
+        //mNonConsumables.AddRange(storeAssets.GetNonConsumableItems());
 
         mVirtualItems = new Dictionary<String, VirtualItem>();
         mPurchasableItems = new Dictionary<String, PurchasableVirtualItem>();
@@ -642,7 +430,7 @@ public class StoreInfo {
                         .getProductId(), vi);
             }
         }
-
+        /*
         foreach(NonConsumableItem vi in mNonConsumables) {
             mVirtualItems.Add(vi.getItemId(), vi);
 
@@ -651,7 +439,7 @@ public class StoreInfo {
                 mPurchasableItems.Add(((PurchaseWithMarket) purchaseType).getMarketItem()
                         .getProductId(), vi);
             }
-        }
+        }*/
 
         foreach(VirtualCategory category in mCategories) {
             foreach(String goodItemId in category.getGoodsItemIds()) {
@@ -716,7 +504,7 @@ public class StoreInfo {
     private static List<VirtualCategory> mCategories;
 
     // list of non consumable items
-    private static List<NonConsumableItem> mNonConsumables;
+    //private static List<NonConsumableItem> mNonConsumables;
 
     private static int mCurrentAssetsVersion = 0;
 }

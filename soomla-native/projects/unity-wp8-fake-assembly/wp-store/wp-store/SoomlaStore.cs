@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using SoomlaWpCore;
 using SoomlaWpCore.data;
 using SoomlaWpStore.domain;
+using SoomlaWpStore.domain.virtualGoods;
 using SoomlaWpStore.data;
 using SoomlaWpStore.purchasesTypes;
 using SoomlaWpStore.exceptions;
@@ -384,13 +385,14 @@ namespace SoomlaWpStore
         // if the purchasable item is NonConsumableItem and it already exists then we
         // don't fire any events.
         // fixes: https://github.com/soomla/unity3d-store/issues/192
+        /*
         if (pvi is NonConsumableItem) {
             bool exists = StorageManager.getNonConsumableItemsStorage().
                     nonConsumableItemExists((NonConsumableItem) pvi);
             if (exists) {
                 return;
             }
-        }
+        }*/
 
         StoreEvents.GetInstance().PostMarketPurchaseEvent(pvi,null,null);
         pvi.give(1);
@@ -484,7 +486,7 @@ namespace SoomlaWpStore
         SoomlaUtils.LogDebug(TAG, "TODO consumeIfConsumable");
         
         try {
-            if (!(pvi is NonConsumableItem)) {
+            if (!(pvi is LifetimeVG)) {
                 StoreManager.GetInstance().Consume(pvi.getItemId());
             }
         } catch (Exception e) {

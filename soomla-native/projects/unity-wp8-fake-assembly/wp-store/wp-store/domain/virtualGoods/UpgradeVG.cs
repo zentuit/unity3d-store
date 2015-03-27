@@ -17,7 +17,7 @@ using SoomlaWpCore;
 using SoomlaWpStore.data;
 using SoomlaWpStore.exceptions;
 using SoomlaWpStore.purchasesTypes;
-using Newtonsoft.Json.Linq;
+//using Newtonsoft.Json.Linq;
 /*
 import android.text.TextUtils;
 import com.soomla.SoomlaUtils;
@@ -93,36 +93,17 @@ public class UpgradeVG : LifetimeVG {
      * @param jsonObject see parent
      * @throws JSONException
      */
-    public UpgradeVG(JObject jsonObject) : base(jsonObject) {
+    public UpgradeVG(object jsonObject) : base(jsonObject) {
 
-        mGoodItemId = jsonObject.Value<String>(StoreJSONConsts.VGU_GOOD_ITEMID);
-        mPrevItemId = jsonObject.Value<String>(StoreJSONConsts.VGU_PREV_ITEMID);
-        mNextItemId = jsonObject.Value<String>(StoreJSONConsts.VGU_NEXT_ITEMID);
+        
     }
 
     /**
      * @{inheritDoc}
      */
-    public override JObject toJSONObject(){
-        JObject parentJsonObject = base.toJSONObject();
-        JObject jsonObject = new JObject();
-        try {
-            
-            foreach(var childObject in parentJsonObject)
-            {
-				jsonObject.Add(childObject.Key, childObject.Value);
-            }
-
-            jsonObject.Add(StoreJSONConsts.VGU_GOOD_ITEMID, mGoodItemId);
-            jsonObject.Add(StoreJSONConsts.VGU_PREV_ITEMID, String.IsNullOrEmpty(mPrevItemId) ? ""
-                    : mPrevItemId);
-            jsonObject.Add(StoreJSONConsts.VGU_NEXT_ITEMID, String.IsNullOrEmpty(mNextItemId) ? ""
-                    : mNextItemId);
-        } catch (Exception e) {
-            SoomlaUtils.LogError(TAG, "An error occurred while generating JSON object." + " " + e.Message);
-        }
-
-        return jsonObject;
+    public override object toJSONObject(){
+        
+        return new object();
     }
 
     /**

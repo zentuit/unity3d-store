@@ -16,7 +16,7 @@ using System;
 using SoomlaWpCore;
 using SoomlaWpCore.data;
 using SoomlaWpStore.data;
-using Newtonsoft.Json.Linq;
+////using Newtonsoft.Json.Linq;
 namespace SoomlaWpStore.domain
 {
 
@@ -47,12 +47,12 @@ public class MarketItem {
      *                   <code>MarketItem</code>.
      * @throws JSONException
      */
-    public MarketItem(JObject jsonObject){
+    public MarketItem(object jsonObject){
 
         //MarketItem miDeserialized = Newtonsoft.Json.JsonConvert.DeserializeObject<MarketItem>(jsonObject.ToString());
         
         /*
-        JToken jValue;
+        object jValue;
         if (jsonObject.TryGetValue(StoreJSONConsts.MARKETITEM_MANAGED, out jValue)) {
             this.mManaged = jsonObject.Value<int>(StoreJSONConsts.MARKETITEM_MANAGED);
         } else {
@@ -76,8 +76,8 @@ public class MarketItem {
      *
      * @return A <code>JSONObject</code> representation of the current <code>MarketItem</code>.
      */
-    public JObject toJSONObject(){
-        JObject jsonObject = new JObject();
+    public object toJSONObject(){
+        object jsonObject = new object();
         /*
         try {
             jsonObject.put(StoreJSONConsts.MARKETITEM_MANAGED, mManaged.ordinal());

@@ -16,7 +16,7 @@ using System;
 using SoomlaWpCore;
 using SoomlaWpStore.domain;
 using SoomlaWpStore.data;
-using Newtonsoft.Json.Linq;
+//using Newtonsoft.Json.Linq;
 namespace SoomlaWpStore.domain.virtualCurrencies
 {
 /**
@@ -52,7 +52,7 @@ public class VirtualCurrency : VirtualItem {
      * @param jsonObject a JSONObject representation of the wanted VirtualItem
      * @throws JSONException
      */
-    public VirtualCurrency(JObject jsonObject) : base(jsonObject) {
+    public VirtualCurrency(object jsonObject) : base(jsonObject) {
         
     }
 
@@ -61,7 +61,7 @@ public class VirtualCurrency : VirtualItem {
      *
      * @return see parent
      */
-    public override JObject toJSONObject(){
+    public override object toJSONObject(){
         return base.toJSONObject();
     }
 

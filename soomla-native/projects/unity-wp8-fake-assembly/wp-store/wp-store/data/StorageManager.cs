@@ -36,9 +36,9 @@ public class StorageManager {
         return mVirtualGoodsStorage;
     }
 
-    public static NonConsumableItemsStorage getNonConsumableItemsStorage() {
+    /*public static NonConsumableItemsStorage getNonConsumableItemsStorage() {
         return mNonConsumableItemsStorage;
-    }
+    }*/
 
     /**
      * Checks whether the given item belongs to <code>VirtualGoodStorage</code> or
@@ -69,8 +69,8 @@ public class StorageManager {
     private static VirtualCurrencyStorage mVirtualCurrencyStorage = new VirtualCurrencyStorage();
 
     // storage of all non-consumable items
-    private static NonConsumableItemsStorage mNonConsumableItemsStorage =
-            new NonConsumableItemsStorage();
+    /*private static NonConsumableItemsStorage mNonConsumableItemsStorage =
+            new NonConsumableItemsStorage();*/
 
 }
 }

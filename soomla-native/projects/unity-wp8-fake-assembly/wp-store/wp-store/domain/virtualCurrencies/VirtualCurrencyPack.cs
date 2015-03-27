@@ -18,7 +18,7 @@ using SoomlaWpStore.data;
 using SoomlaWpStore.domain;
 using SoomlaWpStore.exceptions;
 using SoomlaWpStore.purchasesTypes;
-using Newtonsoft.Json.Linq;
+//using Newtonsoft.Json.Linq;
 namespace SoomlaWpStore.domain.virtualCurrencies
 {
 /**
@@ -62,30 +62,16 @@ public class VirtualCurrencyPack : PurchasableVirtualItem {
      * @param jsonObject see parent
      * @throws JSONException
      */
-    public VirtualCurrencyPack(JObject jsonObject) : base(jsonObject) {
-        this.mCurrencyAmount = jsonObject.Value<int>(StoreJSONConsts.CURRENCYPACK_CURRENCYAMOUNT);
-        this.mCurrencyItemId = jsonObject.Value<String>(StoreJSONConsts.CURRENCYPACK_CURRENCYITEMID);
+    public VirtualCurrencyPack(object jsonObject) : base(jsonObject) {
+        
     }
 
     /**
      * @{inheritDoc}
      */
-    public override JObject toJSONObject(){
-        JObject parentJsonObject = base.toJSONObject();
-        JObject jsonObject = new JObject();
-        try {
-            jsonObject.Add(StoreJSONConsts.CURRENCYPACK_CURRENCYAMOUNT, mCurrencyAmount);
-            jsonObject.Add(StoreJSONConsts.CURRENCYPACK_CURRENCYITEMID, mCurrencyItemId);
-
-			foreach(var childObject in parentJsonObject)
-            {
-				jsonObject.Add(childObject.Key,childObject.Value);
-            }
-        } catch (Exception e) {
-            SoomlaUtils.LogError(TAG, "An error occurred while generating JSON object. "+e.Message);
-        }
-
-        return jsonObject;
+    public override object toJSONObject(){
+        
+        return new object();
     }
 
     /**

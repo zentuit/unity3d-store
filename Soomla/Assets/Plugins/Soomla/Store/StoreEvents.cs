@@ -17,7 +17,7 @@ using System;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-#if UNITY_WP8
+#if UNITY_WP8 && !UNITY_EDITOR
 using SoomlaWpStore;
 #endif
 

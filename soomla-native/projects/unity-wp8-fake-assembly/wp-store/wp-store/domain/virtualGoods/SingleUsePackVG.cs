@@ -17,7 +17,7 @@ using SoomlaWpCore;
 using SoomlaWpStore.data;
 using SoomlaWpStore.purchasesTypes;
 using SoomlaWpStore.exceptions;
-using Newtonsoft.Json.Linq;
+//using Newtonsoft.Json.Linq;
 /**
  * SingleUsePacks are just bundles of <code>SingleUseVG</code>'s.
  * This kind of virtual good can be used to let your users buy more than one SingleUseVG at once.
@@ -67,32 +67,15 @@ public class SingleUsePackVG : VirtualGood {
      * @param jsonObject see parent
      * @throws JSONException
      */
-    public SingleUsePackVG(JObject jsonObject) : base(jsonObject){
-        mGoodItemId = jsonObject.Value<String>(StoreJSONConsts.VGP_GOOD_ITEMID);
-        mGoodAmount = jsonObject.Value<int>(StoreJSONConsts.VGP_GOOD_AMOUNT);
+    public SingleUsePackVG(object jsonObject) : base(jsonObject){
+        
     }
 
     /**
      * @{inheritDoc}
      */
-    public override JObject toJSONObject() {
-        JObject parentJsonObject = base.toJSONObject();
-        JObject jsonObject = new JObject();
-
-		
-        try {
-            foreach(var childObject in parentJsonObject)
-			{
-				jsonObject.Add(childObject.Key,childObject.Value);
-			}
-
-            jsonObject.Add(StoreJSONConsts.VGP_GOOD_ITEMID, mGoodItemId);
-            jsonObject.Add(StoreJSONConsts.VGP_GOOD_AMOUNT, mGoodAmount);
-        } catch (Exception e) {
-            SoomlaUtils.LogError(TAG, "An error occurred while generating JSON object. "+e.Message);
-        }
-
-        return jsonObject;
+    public override object toJSONObject() {
+        return new object();
     }
 
     /**

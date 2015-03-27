@@ -48,7 +48,7 @@ namespace Soomla.Store {
 		{
 		}
 
-#if UNITY_WP8
+#if UNITY_WP8 && !UNITY_EDITOR
 		protected VirtualItem(SoomlaWpStore.domain.VirtualItem wpVirtualItem)
             : base(wpVirtualItem)
             {
@@ -74,7 +74,7 @@ namespace Soomla.Store {
 			return base.GetHashCode ();
 		}
 
-#if UNITY_WP8
+#if UNITY_WP8 && !UNITY_EDITOR
         /// <summary>
         /// Creates relevant virtual item according to given JSON object's className.
         /// </summary>
@@ -116,8 +116,8 @@ namespace Soomla.Store {
             return null;
         }
 #endif
-	
-		/// <summary>
+
+        /// <summary>
 		/// Gives your user the given amount of the specific virtual item.
 		/// For example, when your users play your game for the first time you GIVE them 1000 gems.
 		///

@@ -73,7 +73,7 @@ namespace Soomla.Store {
 		/// Determines if user is in a state that allows him/her to buy a specific <code>VirtualItem</code>.
 		/// </summary>
 		protected abstract bool canBuy();
-#if UNITY_WP8
+#if UNITY_WP8 && !UNITY_EDITOR
 		protected PurchasableVirtualItem(SoomlaWpStore.domain.PurchasableVirtualItem wpPurchasableVirtualItem) :
             base(wpPurchasableVirtualItem)
             {
@@ -116,7 +116,7 @@ namespace Soomla.Store {
             }
         }
 #endif
-       
+
         /// <summary>
 		/// Constructor.
 		/// Generates an instance of <c>PurchasableVirtualItem</c> from a <c>JSONObject</c>.

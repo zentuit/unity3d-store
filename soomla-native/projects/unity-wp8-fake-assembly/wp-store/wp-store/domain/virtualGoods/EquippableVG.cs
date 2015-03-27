@@ -19,7 +19,7 @@ using SoomlaWpStore.domain;
 using SoomlaWpStore.purchasesTypes;
 using SoomlaWpStore.exceptions;
 using System.Collections.Generic;
-using Newtonsoft.Json.Linq;
+//using Newtonsoft.Json.Linq;
 /**
  * An Equippable virtual good is a special type of Lifetime Virtual good that can be equipped
  * by your users. Equipping means that the user decides to currently use a specific virtual good.
@@ -90,37 +90,17 @@ public class EquippableVG : LifetimeVG{
      * @param jsonObject see parent
      * @throws JSONException
      */
-    public EquippableVG(JObject jsonObject) : base(jsonObject) {
+    public EquippableVG(object jsonObject) : base(jsonObject) {
         
 
-        String equipping = jsonObject.Value<String>(StoreJSONConsts.EQUIPPABLE_EQUIPPING);
-        if (equipping == EquippingModel.LOCAL.ToString()) {
-            mEquippingModel = EquippingModel.LOCAL;
-        } else if (equipping == EquippingModel.CATEGORY.ToString()) {
-            mEquippingModel = EquippingModel.CATEGORY;
-        } else if (equipping == EquippingModel.GLOBAL.ToString()) {
-            mEquippingModel = EquippingModel.GLOBAL;
-        }
     }
 
     /**
      * @{inheritDoc}
      */
-    public override JObject toJSONObject() {
-        JObject parentJsonObject = base.toJSONObject();
-        JObject jsonObject = new JObject();
-        try {
-            foreach(var childObject in parentJsonObject)
-            {
-				jsonObject.Add(childObject.Key,childObject.Value);
-            }
-            
-            jsonObject.Add(StoreJSONConsts.EQUIPPABLE_EQUIPPING, mEquippingModel.ToString());
-        } catch (Exception e) {
-            SoomlaUtils.LogError(TAG, "An error occurred while generating JSON object. "+e.Message);
-        }
-
-        return jsonObject;
+    public override object toJSONObject() {
+        
+        return new object();
     }
 
     /**

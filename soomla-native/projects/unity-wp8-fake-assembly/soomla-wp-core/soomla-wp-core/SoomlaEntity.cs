@@ -14,7 +14,7 @@
 using System;
 using System.Collections.Generic;
 using SoomlaWpCore.data;
-using Newtonsoft.Json.Linq;
+////using Newtonsoft.Json.Linq;
 namespace SoomlaWpCore
 {
     public abstract class SoomlaEntity
@@ -26,23 +26,23 @@ namespace SoomlaWpCore
             mID = ID.Trim();
         }
 
-        public SoomlaEntity(JObject jsonObject) {
-            mName = jsonObject.Value<string>(JSONConsts.SOOM_ENTITY_NAME);
+        public SoomlaEntity(object jsonObject) {
+            /*mName = jsonObject.Value<string>(JSONConsts.SOOM_ENTITY_NAME);
             mDescription = jsonObject.Value<string>(JSONConsts.SOOM_ENTITY_DESCRIPTION);
-            mID = jsonObject.Value<string>(JSONConsts.SOOM_ENTITY_ID);
+            mID = jsonObject.Value<string>(JSONConsts.SOOM_ENTITY_ID);*/
         }
 
-        public JObject toJSONObject()
+        public object toJSONObject()
         {
             if (mID == null)
             {
                 SoomlaUtils.LogError(TAG, "This is BAD! We don't have ID in the this SoomlaEntity. Stopping here.");
                 return null;
             }
-            JObject jsonObject = new JObject();
-            jsonObject[JSONConsts.SOOM_ENTITY_NAME] = mName;
+            object jsonObject = new object();
+            /*jsonObject[JSONConsts.SOOM_ENTITY_NAME] = mName;
             jsonObject[JSONConsts.SOOM_ENTITY_DESCRIPTION] = mDescription;
-            jsonObject[JSONConsts.SOOM_ENTITY_ID] = mID;
+            jsonObject[JSONConsts.SOOM_ENTITY_ID] = mID;*/
            
             return jsonObject;
         }

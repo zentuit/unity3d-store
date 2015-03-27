@@ -77,6 +77,6 @@ namespace SoomlaWpStore
         /// Retrieves the array of all non-consumable items served by your store.
         /// </summary>
         /// <returns>All non consumable items served in your game.</returns>
-        NonConsumableItem[] GetNonConsumableItems();
+        //NonConsumableItem[] GetNonConsumableItems();
     }
 }
