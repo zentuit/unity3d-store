@@ -14,6 +14,7 @@
 
 using System;
 using SoomlaWpCore;
+using SoomlaWpCore.util;
 using SoomlaWpStore.data;
 using SoomlaWpStore.purchasesTypes;
 //using Newtonsoft.Json.Linq;
@@ -68,7 +69,8 @@ namespace SoomlaWpStore.domain.virtualGoods
      *
      * @return see parent
      */
-    public override object toJSONObject() {
+    public override JSONObject toJSONObject()
+    {
         return base.toJSONObject();
     }
 

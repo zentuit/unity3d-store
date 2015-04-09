@@ -38,7 +38,7 @@ namespace SoomlaWpCore.data
             return cache;
         }
         
-        public static String GetValue(String Key)
+        public static String GetValue(String Key, bool EncryptedKey = true)
         {
             if (GetCache().Keys.Contains(Key))
             {
@@ -48,13 +48,13 @@ namespace SoomlaWpCore.data
             return null;
         }
 
-        public static void SetValue(String Key, String Value)
+        public static void SetValue(String Key, String Value, bool EncryptedKey = true)
         {
             GetCache()[Key] = Value;
             
         }
 
-        public static void DeleteKeyValue(String key)
+        public static void DeleteKeyValue(String key, bool EncryptedKey = true)
         {
             if (GetCache().Keys.Contains(key))
             {
@@ -71,5 +71,38 @@ namespace SoomlaWpCore.data
             return Kvd;
         }
 
+        public static String GetNonEncryptedKeyValue(String Key)
+        {
+            return "";
+        }
+
+        public static List<KeyValue> GetNonEncryptedQueryValues(String query)
+        {
+            return new List<KeyValue>();
+        }
+
+        public static String GetOneNonEncryptedQueryValues(String query)
+        {
+            return "";
+        }
+
+        public static int GetCountNonEncryptedQueryValues(String query)
+        {
+            return 0;
+        }
+
+        /// <summary>
+        /// Gets all KeyValue keys in the storage with no encryption
+        /// </summary>
+        /// <returns></returns>
+        public static List<KeyValue> GetEncryptedKeys()
+        {
+            return new List<KeyValue>();
+        }
+
+        public static void SetNonEncryptedKeyValue(String Key, String Value)
+        {
+            
+        }
     }
 }

@@ -14,6 +14,7 @@
 
 using System;
 using SoomlaWpCore;
+using SoomlaWpCore.util;
 using SoomlaWpStore.data;
 using SoomlaWpStore.purchasesTypes;
 using SoomlaWpStore.exceptions;
@@ -74,8 +75,9 @@ public class SingleUsePackVG : VirtualGood {
     /**
      * @{inheritDoc}
      */
-    public override object toJSONObject() {
-        return new object();
+    public override JSONObject toJSONObject()
+    {
+        return new JSONObject();
     }
 
     /**

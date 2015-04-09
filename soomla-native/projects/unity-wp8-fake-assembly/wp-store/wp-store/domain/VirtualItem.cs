@@ -21,7 +21,7 @@ using SoomlaWpCore;
 //using Newtonsoft.Json.Linq;
 namespace SoomlaWpStore.domain
 {
-    public abstract class VirtualItem : SoomlaEntity
+    public abstract class VirtualItem : SoomlaEntity<VirtualItem>
     {
         public VirtualItem(String Name, String Description, String ItemId) : base(Name, Description, ItemId)
         {
@@ -32,10 +32,10 @@ namespace SoomlaWpStore.domain
         {
         }
 
-        public virtual new object toJSONObject()
+        /*public virtual new object toJSONObject()
         {
             return base.toJSONObject();
-        }
+        }*/
 
         public int give(int amount)
         {

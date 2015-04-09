@@ -14,6 +14,7 @@
 
 using System;
 using SoomlaWpCore;
+using SoomlaWpCore.util;
 using SoomlaWpStore.data;
 using SoomlaWpStore.domain;
 using SoomlaWpStore.exceptions;
@@ -69,9 +70,10 @@ public class VirtualCurrencyPack : PurchasableVirtualItem {
     /**
      * @{inheritDoc}
      */
-    public override object toJSONObject(){
-        
-        return new object();
+    public override JSONObject toJSONObject()
+    {
+
+        return new JSONObject();
     }
 
     /**

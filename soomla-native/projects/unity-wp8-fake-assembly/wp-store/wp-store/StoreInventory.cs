@@ -39,7 +39,7 @@ public class StoreInventory {
      * @throws InsufficientFundsException
      * @throws VirtualItemNotFoundException
      */
-    public static void buy(String itemId, String payload) {
+    public static void Buy(String itemId, String payload) {
         PurchasableVirtualItem pvi = (PurchasableVirtualItem) StoreInfo.getVirtualItem(itemId);
         pvi.buy(payload);
     }
@@ -53,7 +53,7 @@ public class StoreInventory {
      * @return balance of the virtual item with the given <code>itemId</code>.
      * @throws VirtualItemNotFoundException
      */
-    public static int getVirtualItemBalance(String itemId) {
+    public static int GetVirtualItemBalance(String itemId) {
         VirtualItem item = StoreInfo.getVirtualItem(itemId);
         return StorageManager.getVirtualItemStorage(item).getBalance(item);
     }
@@ -70,7 +70,7 @@ public class StoreInventory {
      * @param amount amount of the item to be given
      * @throws VirtualItemNotFoundException
      */
-    public static void giveVirtualItem(String itemId, int amount) {
+    public static void GiveVirtualItem(String itemId, int amount) {
         VirtualItem item = StoreInfo.getVirtualItem(itemId);
         item.give(amount);
     }
@@ -83,7 +83,7 @@ public class StoreInventory {
      * @param amount amount of the item to be given
      * @throws VirtualItemNotFoundException
      */
-    public static void takeVirtualItem(String itemId, int amount) {
+    public static void TakeVirtualItem(String itemId, int amount) {
         VirtualItem item = StoreInfo.getVirtualItem(itemId);
         item.take(amount);
     }
@@ -100,7 +100,7 @@ public class StoreInventory {
      * @throws ClassCastException
      * @throws NotEnoughGoodsException
      */
-    public static void equipVirtualGood(String goodItemId) {
+    public static void EquipVirtualGood(String goodItemId) {
         EquippableVG good = (EquippableVG) StoreInfo.getVirtualItem(goodItemId);
 
         try {
@@ -120,7 +120,7 @@ public class StoreInventory {
      * @throws VirtualItemNotFoundException
      * @throws ClassCastException
      */
-    public static void unEquipVirtualGood(String goodItemId) {
+    public static void UnEquipVirtualGood(String goodItemId) {
         EquippableVG good = (EquippableVG) StoreInfo.getVirtualItem(goodItemId);
 
         good.unequip();
@@ -134,7 +134,7 @@ public class StoreInventory {
      * @throws VirtualItemNotFoundException
      * @throws ClassCastException
      */
-    public static bool isVirtualGoodEquipped(String goodItemId) {
+    public static bool IsVirtualGoodEquipped(String goodItemId) {
         EquippableVG good = (EquippableVG) StoreInfo.getVirtualItem(goodItemId);
 
         return StorageManager.getVirtualGoodsStorage().isEquipped(good);
@@ -157,7 +157,7 @@ public class StoreInventory {
      * @return upgrade level of the good with the given id
      * @throws VirtualItemNotFoundException
      */
-    public static int getGoodUpgradeLevel(String goodItemId) {
+    public static int GetGoodUpgradeLevel(String goodItemId) {
         VirtualGood good = (VirtualGood) StoreInfo.getVirtualItem(goodItemId);
         UpgradeVG upgradeVG = StorageManager.getVirtualGoodsStorage().getCurrentUpgrade(good);
         if (upgradeVG == null) {
@@ -166,7 +166,7 @@ public class StoreInventory {
 
         UpgradeVG first = StoreInfo.getGoodFirstUpgrade(goodItemId);
         int level = 1;
-        while (!first.Equal(upgradeVG)) {
+        while (!first.Equals(upgradeVG)) {
             first = (UpgradeVG) StoreInfo.getVirtualItem(first.getNextItemId());
             level++;
         }
@@ -182,7 +182,7 @@ public class StoreInventory {
      * @return upgrade id if exists, or empty string otherwise
      * @throws VirtualItemNotFoundException
      */
-    public static String getGoodCurrentUpgrade(String goodItemId) {
+    public static String GetGoodCurrentUpgrade(String goodItemId) {
         VirtualGood good = (VirtualGood) StoreInfo.getVirtualItem(goodItemId);
         UpgradeVG upgradeVG = StorageManager.getVirtualGoodsStorage().getCurrentUpgrade(good);
         if (upgradeVG == null) {
@@ -204,7 +204,7 @@ public class StoreInventory {
      * @throws VirtualItemNotFoundException
      * @throws InsufficientFundsException
      */
-    public static void upgradeVirtualGood(String goodItemId) {
+    public static void UpgradeVirtualGood(String goodItemId) {
         VirtualGood good = (VirtualGood) StoreInfo.getVirtualItem(goodItemId);
         UpgradeVG upgradeVG = StorageManager.getVirtualGoodsStorage().getCurrentUpgrade(good);
         if (upgradeVG != null) {
@@ -231,7 +231,7 @@ public class StoreInventory {
      * @param upgradeItemId id of the virtual good who we want to force an upgrade upon
      * @throws VirtualItemNotFoundException
      */
-    public static void forceUpgrade(String upgradeItemId) {
+    public static void ForceUpgrade(String upgradeItemId) {
         try {
             UpgradeVG upgradeVG = (UpgradeVG) StoreInfo.getVirtualItem(upgradeItemId);
             upgradeVG.give(1);
@@ -247,7 +247,7 @@ public class StoreInventory {
      * @param goodItemId id of the virtual good we want to remove all upgrades from
      * @throws VirtualItemNotFoundException
      */
-    public static void removeUpgrades(String goodItemId) {
+    public static void RemoveUpgrades(String goodItemId) {
         List<UpgradeVG> upgrades = StoreInfo.getGoodUpgrades(goodItemId);
         foreach (UpgradeVG upgrade in upgrades) {
             StorageManager.getVirtualGoodsStorage().remove(upgrade, 1, true);

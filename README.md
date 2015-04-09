@@ -92,10 +92,8 @@ Don't forget to close the Iab Service when your store is closed. You don't have 
 
 #### Compatibility
 
-This WP8 plugin work on Unity 4.5.4, Unity fix some major bug for including assembly and winmd.
-
-You need to setup the Unity Player to ".NET 2.0" instead of ".NET 2.0 Subset" 
-Player Settings -> Api Compatibility Level -> .NET 2.0
+This WP8 plugin work on Unity 4.5.4 and above 4.x versions, Unity fix some major bug to include assembly and winmd.
+Because of a regression on winmd Unity 5.0.0 is still not supported. A fix is in progress by Unity.
 
 #### IAP Test Mode
 

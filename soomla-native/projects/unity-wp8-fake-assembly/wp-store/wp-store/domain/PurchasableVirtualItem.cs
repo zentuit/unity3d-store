@@ -14,6 +14,7 @@
 
 using System;
 using SoomlaWpCore;
+using SoomlaWpCore.util;
 using SoomlaWpStore.data;
 using SoomlaWpStore.exceptions;
 using SoomlaWpStore.purchasesTypes;
@@ -50,8 +51,9 @@ public abstract class PurchasableVirtualItem : VirtualItem {
     /**
      * @{inheritDoc}
      */
-    public override object toJSONObject(){
-        return new object();
+    public override JSONObject toJSONObject()
+    {
+        return new JSONObject();
     }
 
     /**

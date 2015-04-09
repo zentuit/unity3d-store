@@ -79,7 +79,7 @@ namespace SoomlaWpStore.billing.wp.store
             bool isPurchased = false;
             SoomlaUtils.LogDebug(TAG,"Licence " + productId );
             
-            if(StoreInventory.getVirtualItemBalance(productId)>0)
+            if(StoreInventory.GetVirtualItemBalance(productId)>0)
             {
                 isPurchased = true;
             }

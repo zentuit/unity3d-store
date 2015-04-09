@@ -14,6 +14,7 @@
 
 using System;
 using SoomlaWpCore;
+using SoomlaWpCore.util;
 using SoomlaWpStore.data;
 using SoomlaWpStore.purchasesTypes;
 ////using Newtonsoft.Json.Linq;
@@ -65,7 +66,8 @@ public class SingleUseVG : VirtualGood{
     /**
      * @{inheritDoc}
      */
-    public override object toJSONObject() {
+    public override JSONObject toJSONObject()
+    {
         return base.toJSONObject();
     }
 

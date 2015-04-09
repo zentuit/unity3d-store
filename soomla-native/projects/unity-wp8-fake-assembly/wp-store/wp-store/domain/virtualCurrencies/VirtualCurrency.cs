@@ -14,6 +14,7 @@
 
 using System;
 using SoomlaWpCore;
+using SoomlaWpCore.util;
 using SoomlaWpStore.domain;
 using SoomlaWpStore.data;
 //using Newtonsoft.Json.Linq;
@@ -61,7 +62,7 @@ public class VirtualCurrency : VirtualItem {
      *
      * @return see parent
      */
-    public override object toJSONObject(){
+    public override JSONObject toJSONObject(){
         return base.toJSONObject();
     }
 

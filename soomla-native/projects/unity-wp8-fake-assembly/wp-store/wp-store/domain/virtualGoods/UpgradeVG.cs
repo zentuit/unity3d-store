@@ -14,6 +14,7 @@
 
 using System;
 using SoomlaWpCore;
+using SoomlaWpCore.util;
 using SoomlaWpStore.data;
 using SoomlaWpStore.exceptions;
 using SoomlaWpStore.purchasesTypes;
@@ -101,9 +102,10 @@ public class UpgradeVG : LifetimeVG {
     /**
      * @{inheritDoc}
      */
-    public override object toJSONObject(){
-        
-        return new object();
+    public override JSONObject toJSONObject()
+    {
+
+        return new JSONObject();
     }
 
     /**

@@ -73,6 +73,9 @@ public class StoreJSONConsts {
     public const String PURCHASE_VI_ITEMID       = "pvi_itemId";
     public const String PURCHASE_VI_AMOUNT       = "pvi_amount";
 
+    // VIR = VirtualItemReward
+    public const String VIR_ASSOCITEMID = "associatedItemId";
+    public const String VIR_AMOUNT = "amount";
 
 }
 }

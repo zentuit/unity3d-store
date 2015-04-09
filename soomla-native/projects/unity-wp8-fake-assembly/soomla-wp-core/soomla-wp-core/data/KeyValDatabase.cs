@@ -44,6 +44,46 @@ namespace SoomlaWpCore.data
             database.Remove(Key);
         }
 
+        public void PurgeDatabse()
+        {
+            
+        }
+
+        public void PurgeDatabaseEntries()
+        {
+            
+        }
+
+        public List<KeyValue> GetQueryVals(String query)
+        {
+            
+            return new List<KeyValue>();
+        }
+
+        public string GetQueryOne(String query)
+        {
+            return "";
+        }
+
+        public int GetQueryCount(String query)
+        {
+            return 0;
+        }
+
+        /// <summary>
+        /// Get all Keys from KeyValue without the Values
+        /// </summary>
+        /// <returns></returns>
+        public List<KeyValue> GetAllKeys()
+        {
+            return new List<KeyValue>();
+        }
+
     }
 
+    public sealed class KeyValue
+    {
+        public string Key { get; set; }
+        public string Value { get; set; }
+    }
 }

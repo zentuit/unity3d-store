@@ -26,6 +26,7 @@ namespace SoomlaWpCore.data
         public const String SOOM_DESIRED_BALANCE   = "desiredBalance";
         public const String SOOM_NAME              = "name";
         public const String SOOM_CLASSNAME         = "className";
+        public const string SOOM_SCHEDULE          = "schedule";
 
         /** Reward **/
         public const String SOOM_REWARDS           = "rewards";
@@ -33,5 +34,12 @@ namespace SoomlaWpCore.data
         public const String SOOM_REWARD_AMOUNT     = "amount";
         public const String SOOM_REWARD_ICONURL    = "iconUrl";
         public const String SOOM_REWARD_REPEAT     = "repeatable";
+
+        /** Schedule **/
+        public const string SOOM_SCHE_REC = "schedRecurrence";
+        public const string SOOM_SCHE_RANGES = "schedTimeRanges";
+        public const string SOOM_SCHE_RANGE_START = "schedTimeRangeStart";
+        public const string SOOM_SCHE_RANGE_END = "schedTimeRangeEnd";
+        public const string SOOM_SCHE_APPROVALS = "schedApprovals";
     }
 }
