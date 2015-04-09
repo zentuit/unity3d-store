@@ -65,7 +65,7 @@ namespace Soomla.Store
 				SoomlaUtils.LogDebug(TAG, "StoreEvents Component not found in scene. We're continuing from here but you won't get many events.");
 			}
 
-			if (initialized) {
+			if (Initialized) {
 				string err = "SoomlaStore is already initialized. You can't initialize it twice!";
 				StoreEvents.Instance.onUnexpectedErrorInStore(err, true);
 				SoomlaUtils.LogError(TAG, err);
@@ -89,7 +89,7 @@ namespace Soomla.Store
             
 #endif
 
-			initialized = true;
+			Initialized = true;
 			StoreEvents.Instance.onSoomlaStoreInitialized("", true);
 
 			return true;
@@ -209,7 +209,11 @@ namespace Soomla.Store
 
 		protected const string TAG = "SOOMLA SoomlaStore";
 
-		private static bool initialized;
+		/// <summary>
+		/// Gets a value indicating whether <see cref="Soomla.Store.SoomlaStore"/> is initialized.
+		/// </summary>
+		/// <value><c>true</c> if initialized; otherwise, <c>false</c>.</value>
+		public static bool Initialized { get; private set; }
 
 	}
 }

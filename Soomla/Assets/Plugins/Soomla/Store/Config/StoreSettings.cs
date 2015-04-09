@@ -73,7 +73,7 @@ namespace Soomla.Store
 		}
 
 		public void OnInfoGUI() {
-			SoomlaEditorScript.SelectableLabelField(frameworkVersion, "1.7.14");
+			SoomlaEditorScript.SelectableLabelField(frameworkVersion, "1.7.15");
 			SoomlaEditorScript.SelectableLabelField(buildVersion, "1");
 			EditorGUILayout.Space();
 		}
@@ -196,8 +196,8 @@ namespace Soomla.Store
 		}
 
 		private Dictionary<string, bool> bpUpdate = new Dictionary<string, bool>();
-		private static string bpRootPath = Application.dataPath + "/Soomla/compilations/android/android-billing-services/";
-        private static string wp8RootPath = Application.dataPath + "/Soomla/compilations/wp8/";
+		private static string bpRootPath = Application.dataPath + "/WebPlayerTemplates/SoomlaConfig/android/android-billing-services/";
+        private static string wp8RootPath = Application.dataPath + "/WebPlayerTemplates/SoomlaConfig/wp8/";
 
 		public static void handlePlayBPJars(bool remove) {
 			try {
@@ -365,70 +365,27 @@ namespace Soomla.Store
                 {
                     SoomlaEditorScript.Instance.setSettingsValue("WP8SimulatorBuild", value.ToString());
                     SoomlaEditorScript.DirtyEditor();
-
 #if UNITY_EDITOR
-                    
                     if (value == true)
                     {
-                        //FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Plugins/WP8/Newtonsoft.Json.dll");
-                        //FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Plugins/WP8/soomla-wp-core.dll");
                         FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Plugins/WP8/sqlite3.dll");
                         FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Plugins/WP8/Sqlite.dll");
                         FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Plugins/WP8/Sqlite.winmd");
-                        //FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Plugins/WP8/sqlite3.dll");
-                        //FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Plugins/WP8/wp-store.dll");
-
-                        /*
-                        FileUtil.CopyFileOrDirectory(wp8RootPath + "x86/Newtonsoft.Json.soomladll",
-                                                     Application.dataPath + "/Plugins/WP8/Newtonsoft.Json.dll");
-                        FileUtil.CopyFileOrDirectory(wp8RootPath + "x86/soomla-wp-core.soomladll",
-                                                     Application.dataPath + "/Plugins/WP8/soomla-wp-core.dll");
-                        FileUtil.CopyFileOrDirectory(wp8RootPath + "x86/sqlite3.soomladll",
-                                                     Application.dataPath + "/Plugins/WP8/sqlite3.dll");
-                        FileUtil.CopyFileOrDirectory(wp8RootPath + "x86/wp-store.soomladll",
-                                                     Application.dataPath + "/Plugins/WP8/wp-store.dll");
-                         */
-                        FileUtil.CopyFileOrDirectory(wp8RootPath + "x86/sqlite3.soomladll",
-                                                     Application.dataPath + "/Plugins/WP8/sqlite3.dll");
-                        FileUtil.CopyFileOrDirectory(wp8RootPath + "x86/Sqlite.soomladll",
-                                                     Application.dataPath + "/Plugins/WP8/Sqlite.dll");
-                        FileUtil.CopyFileOrDirectory(wp8RootPath + "x86/Sqlite.soomlawinmd",
-                                                     Application.dataPath + "/Plugins/WP8/Sqlite.winmd");
-                        
-                        
-                        
+                        FileUtil.CopyFileOrDirectory(wp8RootPath + "x86/sqlite3.soomladll",Application.dataPath + "/Plugins/WP8/sqlite3.dll");
+                        FileUtil.CopyFileOrDirectory(wp8RootPath + "x86/Sqlite.soomladll",Application.dataPath + "/Plugins/WP8/Sqlite.dll");
+                        FileUtil.CopyFileOrDirectory(wp8RootPath + "x86/Sqlite.soomlawinmd",Application.dataPath + "/Plugins/WP8/Sqlite.winmd");
                     }
                     else
                     {
-                        //FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Plugins/WP8/Newtonsoft.Json.dll");
-                        //FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Plugins/WP8/soomla-wp-core.dll");
                         FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Plugins/WP8/sqlite3.dll");
                         FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Plugins/WP8/Sqlite.dll");
                         FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Plugins/WP8/Sqlite.winmd");
-                        //FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Plugins/WP8/sqlite3.dll");
-                        //FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Plugins/WP8/wp-store.dll");
-                        /*
-                        FileUtil.CopyFileOrDirectory(wp8RootPath + "ARM/Newtonsoft.Json.soomladll",
-                                                     Application.dataPath + "/Plugins/WP8/Newtonsoft.Json.dll");
-                        FileUtil.CopyFileOrDirectory(wp8RootPath + "ARM/soomla-wp-core.soomladll",
-                                                     Application.dataPath + "/Plugins/WP8/soomla-wp-core.dll");
-                        FileUtil.CopyFileOrDirectory(wp8RootPath + "ARM/sqlite3.soomladll",
-                                                     Application.dataPath + "/Plugins/WP8/sqlite3.dll");
-                        FileUtil.CopyFileOrDirectory(wp8RootPath + "ARM/wp-store.soomladll",
-                                                     Application.dataPath + "/Plugins/WP8/wp-store.dll");
-                         */
-                        FileUtil.CopyFileOrDirectory(wp8RootPath + "ARM/sqlite3.soomladll",
-                                                     Application.dataPath + "/Plugins/WP8/sqlite3.dll");
-                        FileUtil.CopyFileOrDirectory(wp8RootPath + "ARM/Sqlite.soomlawinmd",
-                                                     Application.dataPath + "/Plugins/WP8/Sqlite.winmd");
-                        FileUtil.CopyFileOrDirectory(wp8RootPath + "ARM/Sqlite.soomladll",
-                                                     Application.dataPath + "/Plugins/WP8/Sqlite.dll");
-                        
+                        FileUtil.CopyFileOrDirectory(wp8RootPath + "ARM/sqlite3.soomladll",Application.dataPath + "/Plugins/WP8/sqlite3.dll");
+                        FileUtil.CopyFileOrDirectory(wp8RootPath + "ARM/Sqlite.soomlawinmd",Application.dataPath + "/Plugins/WP8/Sqlite.winmd");
+                        FileUtil.CopyFileOrDirectory(wp8RootPath + "ARM/Sqlite.soomladll",Application.dataPath + "/Plugins/WP8/Sqlite.dll");
                     }
-                
 #endif
                 }
-
             }
         }
 
