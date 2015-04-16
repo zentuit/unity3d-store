@@ -231,7 +231,7 @@ extern "C"{
     else if ([notification.name isEqualToString:EVENT_MARKET_ITEMS_REFRESH_FAILED]) {
         NSDictionary* userInfo = [notification userInfo];
         NSString* jsonStr = [SoomlaUtils dictToJsonString:@{
-                                                            @"errorMessage": [userInfo objectForKey:DICT_ELEMENT_ERROR_MESSAGE]
+                                                            @"errorMessage": ([userInfo objectForKey:DICT_ELEMENT_ERROR_MESSAGE] ?: @"")
                                                             }];
         UnitySendMessage("StoreEvents", "onMarketItemsRefreshFailed", [jsonStr UTF8String]);
     }
