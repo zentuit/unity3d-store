@@ -98,8 +98,8 @@ Don't forget to close the Iab Service when your store is closed. You don't have 
 
 #### Compatibility
 
-This WP8 plugin work on Unity 4.5.4 and above 4.x versions, Unity fix some major bug to include assembly and winmd.
-Because of a regression on winmd Unity 5.0.0 is still not supported. A fix is in progress by Unity.
+This WP8 plugin work on Unity 4.5.4 and above 4.x versions.
+For Unity 5 the plugin work with 5.0.1p1 patch release 1 version and above.
 
 #### IAP Test Mode
 
