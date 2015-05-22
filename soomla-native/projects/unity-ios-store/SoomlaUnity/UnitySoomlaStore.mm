@@ -61,4 +61,7 @@ extern "C"{
 		*outResult = [[SoomlaStore getInstance] transactionsAlreadyRestored];
 	}
 
+    void soomlaStore_RetryUnfinishedTransactions() {
+        [[SoomlaStore getInstance] retryUnfinishedTransactions];
+    }
 }

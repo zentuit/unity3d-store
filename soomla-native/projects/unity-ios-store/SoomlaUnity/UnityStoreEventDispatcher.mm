@@ -23,7 +23,7 @@ extern "C"{
     
     void eventDispatcher_PushEventUnexpectedStoreError(const char* errMessage) {
         // TODO: we're ignoring errMessage here. change it?
-
+        
         NSDictionary *userInfo = @{ DICT_ELEMENT_ERROR_CODE: [NSNumber numberWithInt:ERR_GENERAL] };
         [[NSNotificationCenter defaultCenter] postNotificationName:EVENT_UNEXPECTED_ERROR_IN_STORE object:instance userInfo:userInfo];
     }
@@ -87,6 +87,13 @@ extern "C"{
         NSDictionary *userInfo = @{ DICT_ELEMENT_PURCHASABLE_ID: [eventJSON objectForKey:@"itemId"] };
         
         [[NSNotificationCenter defaultCenter] postNotificationName:EVENT_ITEM_PURCHASE_STARTED object:instance userInfo:userInfo];
+    }
+    
+    void eventDispatcher_PushEventVerificationError(const char* errMessage) {
+        // TODO: we're ignoring errMessage here. change it?
+        
+        NSDictionary *userInfo = @{ DICT_ELEMENT_ERROR_CODE: [NSNumber numberWithInt:ERR_GENERAL] };
+        [[NSNotificationCenter defaultCenter] postNotificationName:EVENT_VERIFICATION_ERROR object:instance userInfo:userInfo];
     }
 }
 
@@ -186,7 +193,8 @@ extern "C"{
         NSString* jsonStr = [SoomlaUtils dictToJsonString:@{
                                                             @"itemId": pvi.itemId,
                                                             @"payload": [userInfo objectForKey:DICT_ELEMENT_DEVELOPERPAYLOAD],
-                                                            @"extra": @{ @"receipt": [userInfo objectForKey:DICT_ELEMENT_RECEIPT], @"token": [userInfo objectForKey:DICT_ELEMENT_TOKEN]}
+                                                            @"extra": @{ @"receipt": [userInfo objectForKey:DICT_ELEMENT_RECEIPT],
+                                                                         @"token": [userInfo objectForKey:DICT_ELEMENT_TOKEN]}
                                                             }];
         UnitySendMessage("StoreEvents", "onMarketPurchase", [jsonStr UTF8String]);
     }
@@ -240,6 +248,31 @@ extern "C"{
     }
     else if ([notification.name isEqualToString:EVENT_SOOMLASTORE_INIT]) {
         UnitySendMessage("StoreEvents", "onSoomlaStoreInitialized", "");
+    }
+    else if ([notification.name isEqualToString:EVENT_VERIFICATION_ERROR]) {
+        UnitySendMessage("StoreEvents", "onVerificationError", "");
+    }
+    else if ([notification.name isEqualToString:EVENT_VERIFICATION_STARTED]) {
+        NSDictionary* userInfo = [notification userInfo];
+        PurchasableVirtualItem* pvi = (PurchasableVirtualItem*)[userInfo objectForKey:DICT_ELEMENT_PURCHASABLE];
+        NSString* jsonStr = [SoomlaUtils dictToJsonString:@{
+                                                            @"itemId": pvi.itemId,
+                                                            @"payload": [userInfo objectForKey:DICT_ELEMENT_DEVELOPERPAYLOAD],
+                                                            @"extra": @{ @"receipt": [userInfo objectForKey:DICT_ELEMENT_RECEIPT],
+                                                                         @"token": [userInfo objectForKey:DICT_ELEMENT_TOKEN]}
+                                                            }];
+        UnitySendMessage("StoreEvents", "onVerificationStarted", [jsonStr UTF8String]);
+    }
+    else if ([notification.name isEqualToString:EVENT_VERIFICATION_FAILED]) {
+        NSDictionary* userInfo = [notification userInfo];
+        PurchasableVirtualItem* pvi = (PurchasableVirtualItem*)[userInfo objectForKey:DICT_ELEMENT_PURCHASABLE];
+        NSString* jsonStr = [SoomlaUtils dictToJsonString:@{
+                                                            @"itemId": pvi.itemId,
+                                                            @"payload": [userInfo objectForKey:DICT_ELEMENT_DEVELOPERPAYLOAD],
+                                                            @"extra": @{ @"receipt": [userInfo objectForKey:DICT_ELEMENT_RECEIPT],
+                                                                         @"token": [userInfo objectForKey:DICT_ELEMENT_TOKEN]}
+                                                            }];
+        UnitySendMessage("StoreEvents", "onVerificationFailed", [jsonStr UTF8String]);
     }
 }
 
