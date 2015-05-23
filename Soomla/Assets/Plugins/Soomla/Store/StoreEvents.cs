@@ -478,16 +478,83 @@ namespace Soomla.Store {
 			SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onUnexpectedErrorInStore");
 
 			StoreEvents.OnUnexpectedErrorInStore(message);
-
-			if (alsoPush) {
-#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
-				sep.PushEventSoomlaStoreInitialized();
-#endif
-			}
 		}
 
 		/// <summary>
-		/// Handles the <c>onSoomlaStoreInitialized</c> event, which is fired when <c>SoomlaStore</c>
+		/// Handles the <c>onVerificationError</c> event, which is fired when an unexpected/unrecognized error
+		/// occurs with verification.
+		/// </summary>
+		/// <param name="message">Message that contains information about the error.</param>
+		public void onVerificationError(string message) {
+			onVerificationError(message, false);
+		}
+		public void onVerificationError(string message, bool alsoPush) {
+			SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onVerificationError");
+			
+			StoreEvents.OnVerificationError(message);
+		}
+
+		/// <summary>
+		/// Handles the <c>onVerificationStarted</c> event, which is fired when verification has begun
+		/// </summary>
+		/// <param name="message">Message that contains information about the market purchase.</param>
+		public void onVerificationStarted(string message) {
+			Debug.Log ("SOOMLA/UNITY onVerificationStarted:" + message);
+			
+			var eventJSON = new JSONObject(message);
+			
+			PurchasableVirtualItem pvi = (PurchasableVirtualItem)StoreInfo.GetItemByItemId(eventJSON["itemId"].str);
+			string payload = "";
+			var extra = new Dictionary<string, string>();
+			if (eventJSON.HasField("payload")) {
+				payload = eventJSON["payload"].str;
+			}
+			if (eventJSON.HasField("extra")) {
+				var extraJSON = eventJSON["extra"];
+				if (extraJSON.keys != null) {
+					foreach(string key in extraJSON.keys) {
+						if (extraJSON[key] != null) {
+							extra.Add(key, extraJSON[key].str);
+                        }
+                    }
+                }
+            }
+            
+            StoreEvents.OnVerificationStarted(pvi, payload, extra);
+        }
+        
+		/// <summary>
+		/// Handles the <c>onVerificationFailed</c> event, which is fired when the 
+		/// verification process completed successfully but the receipt failed validation
+		/// </summary>
+		/// <param name="message">Message that contains information about the market purchase.</param>
+		public void onVerificationFailed(string message) {
+			Debug.Log ("SOOMLA/UNITY onVerificationFailed:" + message);
+			
+			var eventJSON = new JSONObject(message);
+			
+			PurchasableVirtualItem pvi = (PurchasableVirtualItem)StoreInfo.GetItemByItemId(eventJSON["itemId"].str);
+			string payload = "";
+			var extra = new Dictionary<string, string>();
+			if (eventJSON.HasField("payload")) {
+				payload = eventJSON["payload"].str;
+			}
+			if (eventJSON.HasField("extra")) {
+				var extraJSON = eventJSON["extra"];
+				if (extraJSON.keys != null) {
+					foreach(string key in extraJSON.keys) {
+						if (extraJSON[key] != null) {
+							extra.Add(key, extraJSON[key].str);
+                        }
+                    }
+                }
+            }
+            
+            StoreEvents.OnVerificationFailed(pvi, payload, extra);
+        }
+        
+        /// <summary>
+        /// Handles the <c>onSoomlaStoreInitialized</c> event, which is fired when <c>SoomlaStore</c>
 		/// is initialized.
 		/// </summary>
 		/// <param name="message">Not used here.</param>
@@ -562,7 +629,13 @@ namespace Soomla.Store {
 		public static Action<List<MarketItem>> OnMarketItemsRefreshFinished = delegate {};
 
 		public static Action<string> OnUnexpectedErrorInStore = delegate {};
-
+        
+		public static Action<string> OnVerificationError = delegate {};
+        
+		public static Action<PurchasableVirtualItem, string, Dictionary<string, string>> OnVerificationStarted = delegate {};
+		
+		public static Action<PurchasableVirtualItem, string, Dictionary<string, string>> OnVerificationFailed = delegate {};
+		
 		public static Action OnSoomlaStoreInitialized = delegate {};
 
 #if UNITY_ANDROID && !UNITY_EDITOR
@@ -580,8 +653,8 @@ namespace Soomla.Store {
 			}
 			public void PushEventUnexpectedStoreError(string message) {
 				_pushEventUnexpectedStoreError(message);
-			}
-			public void PushEventOnCurrencyBalanceChanged(VirtualCurrency currency, int balance, int amountAdded) {
+            }
+            public void PushEventOnCurrencyBalanceChanged(VirtualCurrency currency, int balance, int amountAdded) {
 				var eventJSON = new JSONObject();
 				eventJSON.AddField("itemId", currency.ItemId);
 				eventJSON.AddField("balance", balance);
@@ -629,9 +702,12 @@ namespace Soomla.Store {
 
 				_pushEventItemPurchaseStarted(eventJSON.print());
 			}
-
-
-			// Event pushing back to native
+			public void PushEventVerificationError(string message) {
+				_pushEventVerificationError(message);
+            }
+            
+            
+            // Event pushing back to native
 			protected virtual void _pushEventSoomlaStoreInitialized(string message) {}
 			protected virtual void _pushEventUnexpectedStoreError(string message) {}
 			protected virtual void _pushEventCurrencyBalanceChanged(string message) {}
@@ -641,7 +717,8 @@ namespace Soomla.Store {
 			protected virtual void _pushEventGoodUpgrade(string message) {}
 			protected virtual void _pushEventItemPurchased(string message) {}
 			protected virtual void _pushEventItemPurchaseStarted(string message) {}
-#endif
+			protected virtual void _pushEventVerificationError(string message) {}
+            #endif
 		}
 
 

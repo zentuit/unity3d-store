@@ -41,9 +41,11 @@ namespace Soomla.Store {
 		private static extern void soomlaStore_TransactionsAlreadyRestored(out bool outResult);
 		[DllImport ("__Internal")]
 		private static extern void soomlaStore_SetSSV(bool ssv, string verifyUrl);
-
-
-		protected override void _loadBillingService() {
+		[DllImport ("__Internal")]
+		private static extern void soomlaStore_RetryUnfinishedTransactions();
+        
+        
+        protected override void _loadBillingService() {
 			soomlaStore_SetSSV(StoreSettings.IosSSV, "https://verify.soom.la/verify_ios?platform=unity4");
 			soomlaStore_LoadBillingService();
 		}
@@ -86,6 +88,16 @@ namespace Soomla.Store {
 			bool restored = false;
 			soomlaStore_TransactionsAlreadyRestored(out restored);
 			return restored;
+		}
+
+		/// <summary>
+		/// Retry any waiting unfinished transactions. If on a purchase, the verification server returns a non-200 status
+		/// the transaction is not verified, nor is it marked in StoreKit as finished. When we start up, we
+		/// need to finish verifying these pending transactions. Calling restoreTransactions won't work if the
+		/// transactions are for consumables. We will have to try the verification again.
+        /// </summary>
+        protected override void _retryUnfinishedTransactions() {
+			soomlaStore_RetryUnfinishedTransactions();
 		}
 #endif
 	}

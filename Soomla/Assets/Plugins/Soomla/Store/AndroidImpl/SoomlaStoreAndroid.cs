@@ -120,6 +120,14 @@ namespace Soomla.Store {
 			jniSoomlaStore.Call("stopIabServiceInBg");
 			AndroidJNI.PopLocalFrame(IntPtr.Zero);
 		}
+
+		/// <summary>
+		/// Only needed for iOS
+		/// </summary>
+		protected override void _retryUnfinishedTransactions() {
+		}
+		
+
 #endif
 	}
 }
