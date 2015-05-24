@@ -163,10 +163,11 @@ namespace Soomla.Store
 			eventJSON.AddField("payload", payload);
 			StoreEvents.Instance.onMarketPurchaseStarted(eventJSON.print());
             
-			// in the editor we just give the item... no real market.
-			item.Give(1);
-            
-			// simulate onMarketPurchase event
+			// simulate events as they happen on the device
+			// the order is : 
+			//    onMarketPurchase
+			//    give item
+			//    onItemPurchase
 			StoreEvents.Instance.RunLater(() => {
 				eventJSON = new JSONObject();
 				eventJSON.AddField("itemId", item.ItemId);
@@ -181,6 +182,17 @@ namespace Soomla.Store
 			#endif
 				eventJSON.AddField("extra", extraJSON);
 				StoreEvents.Instance.onMarketPurchase(eventJSON.print());
+
+				// in the editor we just give the item... no real market.
+				item.Give(1);
+	
+				// We have to make sure the ItemPurchased event will be fired AFTER the balance/currency-changed events.
+				StoreEvents.Instance.RunLater(() => {
+					eventJSON = new JSONObject();
+					eventJSON.AddField("itemId", item.ItemId);
+					eventJSON.AddField("payload", payload);
+	            	StoreEvents.Instance.onItemPurchased(eventJSON.print());
+				});
 			});
 #endif
 		}
