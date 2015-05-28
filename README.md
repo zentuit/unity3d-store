@@ -1,4 +1,6 @@
-*This project is a part of The [SOOMLA](http://www.soom.la) Framework, which is a series of open source initiatives with a joint goal to help mobile game developers do more together. SOOMLA encourages better game design, economy modeling, social engagement, and faster development.*
+*This project is a fork of The [SOOMLA](http://www.soom.la) Framework, which is a series of open source initiatives with a joint goal to help mobile game developers do more together. SOOMLA encourages better game design, economy modeling, social engagement, and faster development.
+
+This is the fork that I use for my projects*
 
 Haven't you ever wanted an in-app purchase one liner that looks like this ?!
 
@@ -10,6 +12,8 @@ unity3d-store
 ---
 
 *SOOMLA's Store Module for Unity3d*
+
+**May 28th:** Added retrying unfinished transactions and verification events. Also made this my branch to use in production
 
 **March 9th:** v1.7.15 **Unity 5** compatibility patch.
 
