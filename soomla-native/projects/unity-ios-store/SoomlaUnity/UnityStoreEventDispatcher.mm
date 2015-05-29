@@ -186,7 +186,7 @@ extern "C"{
         NSString* jsonStr = [SoomlaUtils dictToJsonString:@{
                                                             @"itemId": pvi.itemId,
                                                             @"payload": [userInfo objectForKey:DICT_ELEMENT_DEVELOPERPAYLOAD],
-                                                            @"extra": @{ @"receipt": [userInfo objectForKey:DICT_ELEMENT_RECEIPT], @"token": [userInfo objectForKey:DICT_ELEMENT_TOKEN]}
+                                                            @"extra": [userInfo objectForKey:DICT_ELEMENT_EXTRA_INFO]
                                                             }];
         UnitySendMessage("StoreEvents", "onMarketPurchase", [jsonStr UTF8String]);
     }
