@@ -46,9 +46,6 @@ namespace Soomla.Store
 		///   purchase is completed.</param>
 		/// <exception cref="Soomla.Store.InsufficientFundsException">throws InsufficientFundsException</exception>
 		public abstract void Buy(string payload);
-
-        public abstract string GetPrice();
-   
 	}
 
 }

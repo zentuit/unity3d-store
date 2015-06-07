@@ -72,11 +72,6 @@ namespace Soomla.Store
 			StoreEvents.Instance.onItemPurchaseStarted(eventJSON.print());
 			SoomlaStore.BuyMarketItem(MarketItem.ProductId, payload);
 		}
-
-        public override string GetPrice()
-        {
-            return MarketItem.Price.ToString();
-        }
 	}
 }
 
