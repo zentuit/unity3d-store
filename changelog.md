@@ -1,3 +1,92 @@
+### v1.7.16 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.15...v1.7.16)
+
+* New Features
+  * In StoreEventHandler.onMarketPurchase, pass back originalJson and signature to Unity for server-side receipt verification
+  * Guarding against non-existing error message in refresh failed (iOS6 only)
+
+* Changes
+  * Removed Consumable enum from MarketItem (***breaking change***)
+
+### v1.7.15 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.14...v1.7.15)
+
+* Changes
+  * Making Store module Unity 5 compatible
+
+### v1.7.14 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.13...v1.7.14)
+
+* Changes
+  * Added core post build script
+
+* Fixes
+  * In post-build, making dependent libraries add only once
+
+### v1.7.13 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.12...v1.7.13)
+
+* Changes
+  * Updating Amazon plugin (v2.0.1)
+
+### v1.7.12 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.11...v1.7.12)
+
+* Fixes
+  * Fixed NullRef exception calling BuyItem on editor #409
+
+* Changes
+  * Updated submodules
+
+### v1.7.11 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.10...v1.7.11)
+
+* Changes
+  * Removing saving items to DB upon market items refresh, since it's now done in native
+  * Added OnMarketItemsRefreshFailed event
+
+### v1.7.10 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.9...v1.7.10)
+
+* Fixes
+  * Fixed issues with purchases on edge cases on Google Play
+  * Fixed nil event issues from iOS purchases
+  * Fixed #404
+
+### v1.7.9 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.8...v1.7.9)
+
+* Fixes
+  * Fixed a crash on versions < ICS
+
+### v1.7.8 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.7...v1.7.8)
+
+* New Features
+  * Added CanAfford method
+  * Add onMarketPurchaseStarted and onMarketPurchase fake events when in Unity Editor
+  * Updated features from submodules
+
+### v1.7.7 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.6...v1.7.7)
+
+* Changes
+  * Fixes for Amazon support
+  * Updated changes from submodules
+
+### v1.7.6 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.5...v1.7.6)
+
+* New Features
+  * Amazon integration supports v2
+  * Another Save function in StoreInfo that handles list of items
+
+* Fixed
+  * Multiple fixes from updated submodules
+
+
+### v1.7.5 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.4...v1.7.5)
+
+* Fixes
+  * Fixed an issue with ItemPurchaseEvent being thrown before balance/currency changes.
+  * Fixed an issue with some dictionaries not being used correctly
+  * Fixed event pushing into native
+
+### v1.7.4 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.3...v1.7.4)
+
+* Fixes
+  * Fixed an issue with Google Play.
+  * Fixed a bug in VirtualGoodsStorage not being built b/c of wrong compiler flag.
+
 ### v1.7.3 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.2...v1.7.3)
 
 * Fixes

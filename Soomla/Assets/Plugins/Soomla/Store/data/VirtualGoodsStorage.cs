@@ -216,7 +216,7 @@ namespace Soomla.Store
 		/// <param name="notify">notify if true posts balance change event.</param>
 		public static int Add(VirtualItem item, int amount, bool notify){
 			SoomlaUtils.LogDebug(TAG, "adding " + amount + " " + item.ItemId);
-			
+
 			return instance._add(item, amount, notify);
 		}
 		
@@ -292,7 +292,7 @@ namespace Soomla.Store
 			
 			if (string.IsNullOrEmpty(upItemId)) {
 				SoomlaUtils.LogDebug(TAG, "You tried to fetch the current upgrade of " + good.ItemId
-				                     + " but there's not upgrade to it.");
+				                     + " but there's no upgrade for it.");
 				return null;
 			}
 			

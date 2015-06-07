@@ -11,10 +11,13 @@ unity3d-store
 
 *SOOMLA's Store Module for Unity3d*
 
-**October 29th:** v1.7 **Work in editor!** When you're in the Unity editor, data will be saved to PlayerPrefs.
+**March 9th:** v1.7.15 **Unity 5** compatibility patch.
 
-**September 15th:** NonConsumableItem class was removed.
-To create a non-consumable item in your `IStoreAssets` implementation, use `LifeTimeVG` with `PurchaseType` of `PurchaseWithMarket`.
+> If you are upgrading an already imported store module, make sure to delete the `<project>/Assets/Soomla/compilations` folder.
+
+> If you get the “API Update Required” window, click the "I Made a Backup. Go Ahead!" button, Unity will automatically update some of our code.
+
+**October 29th:** v1.7 **Work in editor!** When you're in the Unity editor, data will be saved to PlayerPrefs.
 
 **October 3rd, 2013:** iOS Server Side Verification is now implemented into unity3d-store. The server is a complimentary server provided by [SOOMLA](http://soom.la) to help you get your in-game purchases a bit more secured. This feature is not enabled by default. In order to enable Server Side verification go to the Soomla prefab and set  **ios Server Side Verification -> true**.
 
@@ -31,10 +34,10 @@ unity3d-store is the Unity3d flavor of SOOMLA's Store Module.
 
 ####Pre baked unitypackages:
 
-> If you're upgrading to v1.7.2 make sure you take soomla-unity3d-core again.
+> If you're upgrading to v1.7.x make sure you take soomla-unity3d-core again.
 
-[soomla-unity3d-core](https://raw.githubusercontent.com/soomla/unity3d-store/master/soomla-unity3d-core.unitypackage)  
-[unity3d-store v1.7.2](http://bit.ly/1rc21Zo)  
+[soomla-unity3d-core v1.0.7](http://library.soom.la/fetch/unity3d-core/1.0.7?cf=github)  
+[unity3d-store v1.7.16](http://library.soom.la/fetch/unity3d-store/1.7.16?cf=github)
 
 ## Debugging
 
@@ -51,8 +54,8 @@ $ git clone --recursive git@github.com:soomla/unity3d-store.git
 
 ## Getting Started
 
-1. Download the [soomla-unity3d-core](https://raw.githubusercontent.com/soomla/unity3d-store/master/soomla-unity3d-core.unitypackage) and [unity3d-store](http://bit.ly/1rc21Zo) unitypackages and double-click on them (first 'Core' then 'Store'). It'll import all the necessary files into your project.
-2. Drag the "StoreEvents" and "CoreEvents" Prefabs from `../Assets/Soomla/Prefabs` into your scene. You should see it listed in the "Hierarchy" panel. [This step MUST be done for unity3d-store to work properly]
+1. Download the [soomla-unity3d-core](http://library.soom.la/fetch/unity3d-core/1.0.7?cf=github) and [unity3d-store](http://library.soom.la/fetch/unity3d-store/1.7.16?cf=github) unitypackages and double-click on them (first 'Core' then 'Store'). It'll import all the necessary files into your project.
+2. Drag the "StoreEvents" and "CoreEvents" Prefabs from `../Assets/Soomla/Prefabs` into the root scene. You should see it listed in the "Hierarchy" panel. [This step MUST be done for unity3d-store to work properly]
 3. On the menu bar click "Window -> Soomla -> Edit Settings" and change the value for "Soomla Secret" (also setup Public Key if you're building for Google Play):
     - _Soomla Secret_ - is an encryption secret you provide that will be used to secure your data. (If you used versions before v1.5.2 this secret MUST be the same as Custom Secret)  
     **Choose the secret wisely. You can't change them after you launch your game!**

@@ -68,7 +68,7 @@ namespace Soomla.Store
 		}
 
 		public void OnInfoGUI() {
-			SoomlaEditorScript.SelectableLabelField(frameworkVersion, "1.7.3");
+			SoomlaEditorScript.SelectableLabelField(frameworkVersion, "1.7.16");
 			SoomlaEditorScript.SelectableLabelField(buildVersion, "1");
 			EditorGUILayout.Space();
 		}
@@ -181,7 +181,7 @@ namespace Soomla.Store
 		}
 
 		private Dictionary<string, bool> bpUpdate = new Dictionary<string, bool>();
-		private static string bpRootPath = Application.dataPath + "/Soomla/compilations/android/android-billing-services/";
+		private static string bpRootPath = Application.dataPath + "/WebPlayerTemplates/SoomlaConfig/android/android-billing-services/";
 
 		public static void handlePlayBPJars(bool remove) {
 			try {
@@ -200,13 +200,13 @@ namespace Soomla.Store
 				if (remove) {
 					FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Plugins/Android/AndroidStoreAmazon.jar");
 					FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Plugins/Android/AndroidStoreAmazon.jar.meta");
-					FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Plugins/Android/in-app-purchasing-1.0.3.jar");
-					FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Plugins/Android/in-app-purchasing-1.0.3.jar.meta");
+					FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Plugins/Android/in-app-purchasing-2.0.1.jar");
+					FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Plugins/Android/in-app-purchasing-2.0.1.jar.meta");
 				} else {
 					FileUtil.CopyFileOrDirectory(bpRootPath + "amazon/AndroidStoreAmazon.jar",
 					                             Application.dataPath + "/Plugins/Android/AndroidStoreAmazon.jar");
-					FileUtil.CopyFileOrDirectory(bpRootPath + "amazon/in-app-purchasing-1.0.3.jar",
-					                             Application.dataPath + "/Plugins/Android/in-app-purchasing-1.0.3.jar");
+					FileUtil.CopyFileOrDirectory(bpRootPath + "amazon/in-app-purchasing-2.0.1.jar",
+					                             Application.dataPath + "/Plugins/Android/in-app-purchasing-2.0.1.jar");
 				}
 			}catch {}
 		}

@@ -14,6 +14,7 @@ echo "creating unitypackage for SOOMLA Core"
     Assets/Plugins/Soomla/Core \
     Assets/Soomla/Editor/SoomlaPostBuild.cs \
     Assets/Soomla/Editor/SoomlaSettingsEditor.cs \
+    Assets/Soomla/Editor/build-tools/Soomla_CoreRunner.py \
     Assets/Soomla/Editor/build-tools/mod_pbxproj.pyc \
     Assets/Soomla/Prefabs/CoreEvents.prefab \
     Assets/Soomla/Resources/SoomlaEditorScript.asset \
@@ -35,6 +36,6 @@ echo "creating unitypackage for SOOMLA Store"
     Assets/Plugins/Soomla/Store \
     Assets/Soomla/Editor/build-tools/Soomla_StoreRunner.py \
     Assets/Soomla/Prefabs/StoreEvents.prefab \
-    Assets/Soomla/compilations \
+    Assets/WebPlayerTemplates \
   $PWD/soomla-unity3d-Store.unitypackage \
   -quit

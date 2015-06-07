@@ -132,10 +132,12 @@ namespace Soomla.Store {
 
 		/// <summary>
 		/// Save this instance with changes that were made to it.
-		/// The saving is done in the metadata in StoreInfo and being persisted to the local DB.
+		/// The saving is done in the metadata in StoreInfo and being persisted to the local DB
+		/// (if requested).
 		/// </summary>
-		public void Save() {
-			StoreInfo.Save(this);
+		/// <param name="saveToDB">Should the changes be persisted to local DB</param>
+		public void Save(bool saveToDB = true) {
+			StoreInfo.Save(this, saveToDB);
 		}
 	}
 }

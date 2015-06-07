@@ -186,7 +186,7 @@ extern "C"{
         NSString* jsonStr = [SoomlaUtils dictToJsonString:@{
                                                             @"itemId": pvi.itemId,
                                                             @"payload": [userInfo objectForKey:DICT_ELEMENT_DEVELOPERPAYLOAD],
-                                                            @"extra": @{ @"receipt": [userInfo objectForKey:DICT_ELEMENT_RECEIPT], @"token": [userInfo objectForKey:DICT_ELEMENT_TOKEN]}
+                                                            @"extra": [userInfo objectForKey:DICT_ELEMENT_EXTRA_INFO]
                                                             }];
         UnitySendMessage("StoreEvents", "onMarketPurchase", [jsonStr UTF8String]);
     }
@@ -217,16 +217,23 @@ extern "C"{
         for(MarketItem* mi in marketItems) {
             NSDictionary* micJSON = @{
                                       @"productId": mi.productId,
-                                      @"marketPrice": mi.marketPriceAndCurrency,
-                                      @"marketTitle": mi.marketTitle,
-                                      @"marketDesc": mi.marketDescription,
-                                      @"marketCurrencyCode": mi.marketCurrencyCode,
+                                      @"marketPrice": (mi.marketPriceAndCurrency ?: @""),
+                                      @"marketTitle": (mi.marketTitle ?: @""),
+                                      @"marketDesc": (mi.marketDescription ?: @""),
+                                      @"marketCurrencyCode": (mi.marketCurrencyCode ?: @""),
                                       @"marketPriceMicros": @(mi.marketPriceMicros)
                                       };
             [eventJSON addObject:micJSON];
         }
         NSString* jsonStr = [SoomlaUtils arrayToJsonString:eventJSON];
         UnitySendMessage("StoreEvents", "onMarketItemsRefreshFinished", [jsonStr UTF8String]);
+    }
+    else if ([notification.name isEqualToString:EVENT_MARKET_ITEMS_REFRESH_FAILED]) {
+        NSDictionary* userInfo = [notification userInfo];
+        NSString* jsonStr = [SoomlaUtils dictToJsonString:@{
+                                                            @"errorMessage": ([userInfo objectForKey:DICT_ELEMENT_ERROR_MESSAGE] ?: @"")
+                                                            }];
+        UnitySendMessage("StoreEvents", "onMarketItemsRefreshFailed", [jsonStr UTF8String]);
     }
     else if ([notification.name isEqualToString:EVENT_UNEXPECTED_ERROR_IN_STORE]) {
         UnitySendMessage("StoreEvents", "onUnexpectedErrorInStore", "");

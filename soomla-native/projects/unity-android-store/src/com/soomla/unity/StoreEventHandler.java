@@ -16,6 +16,7 @@ import com.soomla.store.events.IabServiceStartedEvent;
 import com.soomla.store.events.IabServiceStoppedEvent;
 import com.soomla.store.events.ItemPurchaseStartedEvent;
 import com.soomla.store.events.ItemPurchasedEvent;
+import com.soomla.store.events.MarketItemsRefreshFailedEvent;
 import com.soomla.store.events.MarketItemsRefreshFinishedEvent;
 import com.soomla.store.events.MarketItemsRefreshStartedEvent;
 import com.soomla.store.events.MarketPurchaseCancelledEvent;
@@ -218,11 +219,12 @@ public class StoreEventHandler {
         }
         try {
             JSONObject eventJSON = new JSONObject();
-            eventJSON.put("itemId", playPurchaseEvent.getPurchasableVirtualItem().getItemId());
-            eventJSON.put("payload", playPurchaseEvent.getPayload());
+            eventJSON.put("itemId", playPurchaseEvent.PurchasableVirtualItem.getItemId());
+            eventJSON.put("payload", playPurchaseEvent.Payload);
             JSONObject extraJSON = new JSONObject();
-            extraJSON.put("purchaseToken", playPurchaseEvent.getToken());
-            extraJSON.put("orderId", playPurchaseEvent.getOrderId());
+            for(String key : playPurchaseEvent.ExtraInfo.keySet()) {
+                extraJSON.put(key, playPurchaseEvent.ExtraInfo.get(key));
+            }
             eventJSON.put("extra", extraJSON);
 
             UnityPlayer.UnitySendMessage("StoreEvents", "onMarketPurchase", eventJSON.toString());
@@ -316,6 +318,22 @@ public class StoreEventHandler {
             UnityPlayer.UnitySendMessage("StoreEvents", "onMarketItemsRefreshFinished", eventJSON.toString());
         } catch (JSONException e) {
             SoomlaUtils.LogError(TAG, "This is BAD! couldn't create JSON for onMarketItemsRefreshFinished event.");
+        }
+    }
+
+    @Subscribe
+    public void onMarketItemsRefreshFailed(MarketItemsRefreshFailedEvent marketItemsRefreshFailedEvent) {
+        if (marketItemsRefreshFailedEvent.Sender == this) {
+            return;
+        }
+
+        try {
+            JSONObject eventJSON = new JSONObject();
+            eventJSON.put("errorMessage", marketItemsRefreshFailedEvent.ErrorMessage);
+
+            UnityPlayer.UnitySendMessage("StoreEvents", "onMarketItemsRefreshFailed", eventJSON.toString());
+        } catch (JSONException e) {
+            SoomlaUtils.LogError(TAG, "This is BAD! couldn't create JSON for onMarketItemsRefreshFailed event.");
         }
     }
 
