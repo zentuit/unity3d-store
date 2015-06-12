@@ -535,22 +535,11 @@ namespace Soomla.Store {
 			
 			PurchasableVirtualItem pvi = (PurchasableVirtualItem)StoreInfo.GetItemByItemId(eventJSON["itemId"].str);
 			string payload = "";
-			var extra = new Dictionary<string, string>();
 			if (eventJSON.HasField("payload")) {
 				payload = eventJSON["payload"].str;
 			}
-			if (eventJSON.HasField("extra")) {
-				var extraJSON = eventJSON["extra"];
-				if (extraJSON.keys != null) {
-					foreach(string key in extraJSON.keys) {
-						if (extraJSON[key] != null) {
-							extra.Add(key, extraJSON[key].str);
-                        }
-                    }
-                }
-            }
-            
-            StoreEvents.OnVerificationFailed(pvi, payload, extra);
+
+            StoreEvents.OnVerificationFailed(pvi, payload);
         }
         
         /// <summary>
@@ -634,7 +623,7 @@ namespace Soomla.Store {
         
 		public static Action<PurchasableVirtualItem, string, Dictionary<string, string>> OnVerificationStarted = delegate {};
 		
-		public static Action<PurchasableVirtualItem, string, Dictionary<string, string>> OnVerificationFailed = delegate {};
+		public static Action<PurchasableVirtualItem, string> OnVerificationFailed = delegate {};
 		
 		public static Action OnSoomlaStoreInitialized = delegate {};
 
