@@ -72,14 +72,13 @@ namespace Soomla.Store
 
 			SoomlaUtils.LogDebug(TAG, "SoomlaStore Initializing ...");
 
-			instance._loadBillingService();
-
 			StoreInfo.SetStoreAssets(storeAssets);
 
-#if UNITY_IOS
-			// On iOS we only refresh market items and retry any unfinished transactions
+			instance._loadBillingService();
+			
+			#if UNITY_IOS
+			// On iOS we only refresh market items
 			instance._refreshMarketItemsDetails();
-			instance._retryUnfinishedTransactions();
 #elif UNITY_ANDROID
 			// On Android we refresh market items and restore transactions
 			instance._refreshInventory();
@@ -146,16 +145,6 @@ namespace Soomla.Store
 			instance._stopIabServiceInBg();
 		}
 
-		/// <summary>
-		/// Retry any waiting unfinished transactions. If on a purchase, the verification server returns a non-200 status
-		/// the transaction is not verified, nor is it marked in StoreKit as finished. When we start up, we
-		/// need to finish verifying these pending transactions. Calling restoreTransactions won't work if the
-		/// transactions are for consumables. We will have to try the verification again.
-        /// </summary>
-        public static void RetryUnfinishedTransactions() {
-			instance._retryUnfinishedTransactions();
-        }
-
 		/** protected functions **/
 		/** The implementation of these functions here will be the behaviour when working in the editor **/
 
@@ -213,8 +202,6 @@ namespace Soomla.Store
 		protected virtual void _restoreTransactions() { }
 
 		protected virtual void _refreshMarketItemsDetails() { }
-
-		protected virtual void _retryUnfinishedTransactions() { }
 
 		protected virtual bool _transactionsAlreadyRestored() {
 			return true;

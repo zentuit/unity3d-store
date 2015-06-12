@@ -23,7 +23,7 @@ extern "C"{
     
     void eventDispatcher_PushEventUnexpectedStoreError(const char* errMessage) {
         // TODO: we're ignoring errMessage here. change it?
-        
+
         NSDictionary *userInfo = @{ DICT_ELEMENT_ERROR_CODE: [NSNumber numberWithInt:ERR_GENERAL] };
         [[NSNotificationCenter defaultCenter] postNotificationName:EVENT_UNEXPECTED_ERROR_IN_STORE object:instance userInfo:userInfo];
     }
@@ -193,8 +193,7 @@ extern "C"{
         NSString* jsonStr = [SoomlaUtils dictToJsonString:@{
                                                             @"itemId": pvi.itemId,
                                                             @"payload": [userInfo objectForKey:DICT_ELEMENT_DEVELOPERPAYLOAD],
-                                                            @"extra": @{ @"receipt": [userInfo objectForKey:DICT_ELEMENT_RECEIPT],
-                                                                         @"token": [userInfo objectForKey:DICT_ELEMENT_TOKEN]}
+                                                            @"extra": [userInfo objectForKey:DICT_ELEMENT_EXTRA_INFO]
                                                             }];
         UnitySendMessage("StoreEvents", "onMarketPurchase", [jsonStr UTF8String]);
     }
@@ -258,8 +257,7 @@ extern "C"{
         NSString* jsonStr = [SoomlaUtils dictToJsonString:@{
                                                             @"itemId": pvi.itemId,
                                                             @"payload": [userInfo objectForKey:DICT_ELEMENT_DEVELOPERPAYLOAD],
-                                                            @"extra": @{ @"receipt": [userInfo objectForKey:DICT_ELEMENT_RECEIPT],
-                                                                         @"token": [userInfo objectForKey:DICT_ELEMENT_TOKEN]}
+                                                            @"extra": [userInfo objectForKey:DICT_ELEMENT_EXTRA_INFO]
                                                             }];
         UnitySendMessage("StoreEvents", "onVerificationStarted", [jsonStr UTF8String]);
     }
@@ -269,11 +267,8 @@ extern "C"{
         NSString* jsonStr = [SoomlaUtils dictToJsonString:@{
                                                             @"itemId": pvi.itemId,
                                                             @"payload": [userInfo objectForKey:DICT_ELEMENT_DEVELOPERPAYLOAD],
-                                                            @"extra": @{ @"receipt": [userInfo objectForKey:DICT_ELEMENT_RECEIPT],
-                                                                         @"token": [userInfo objectForKey:DICT_ELEMENT_TOKEN]}
                                                             }];
         UnitySendMessage("StoreEvents", "onVerificationFailed", [jsonStr UTF8String]);
-    }
-}
+    }}
 
 @end

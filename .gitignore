@@ -71,3 +71,5 @@ proguard/
 .idea/libraries
 
 Soomla/ProjectSettings
+soomla-native/projects/unity-ios-store/submodules/ios-store
+soomla-native/projects/unity-ios-store/submodules/soomla-io-core
