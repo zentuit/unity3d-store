@@ -15,42 +15,53 @@
 using UnityEngine;
 using System;
 using System.Runtime.InteropServices;
+using SoomlaWpStore.events;
+using SoomlaWpCore.events;
+using SoomlaWpCore.util;
 
 namespace Soomla.Store {
 
 	public class StoreEventPusherWP : StoreEvents.StoreEventPusher {
 
 #if UNITY_WP8 && !UNITY_EDITOR
-		protected override void _pushEventSoomlaStoreInitialized(string message) {
-			pushEvent("SoomlaStoreInitialized", message);
+		protected override void _pushEventSoomlaStoreInitialized(SoomlaStoreInitializedEvent _Event) {
+            pushEvent(_Event);
 		}
-		protected override void _pushEventUnexpectedStoreError(string message) {
-			pushEvent("UnexpectedStoreError", message);
+		protected override void _pushEventUnexpectedStoreError(UnexpectedStoreErrorEvent _Event) {
+            pushEvent(_Event);
 		}
-		protected override void _pushEventCurrencyBalanceChanged(string message) {
-			pushEvent("SoomlaStoreInitialized", message);
+        protected override void _pushEventCurrencyBalanceChanged(CurrencyBalanceChangedEvent _Event)
+        {
+            pushEvent(_Event);
 		}
-		protected override void _pushEventGoodBalanceChanged(string message) {
-			pushEvent("CurrencyBalanceChanged", message);
+        protected override void _pushEventGoodBalanceChanged(GoodBalanceChangedEvent _Event)
+        {
+            pushEvent(_Event);
 		}
-		protected override void _pushEventGoodEquipped(string message) {
-			pushEvent("GoodEquipped", message);
+        protected override void _pushEventGoodEquipped(GoodEquippedEvent _Event)
+        {
+            pushEvent(_Event);
 		}
-		protected override void _pushEventGoodUnequipped(string message) {
-			pushEvent("GoodUnequipped", message);
+        protected override void _pushEventGoodUnequipped(GoodUnEquippedEvent _Event)
+        {
+            pushEvent(_Event);
 		}
-		protected override void _pushEventGoodUpgrade(string message) {
-			pushEvent("GoodUpgrade", message);
+        protected override void _pushEventGoodUpgrade(GoodUpgradeEvent _Event)
+        {
+            pushEvent(_Event);
 		}
-		protected override void _pushEventItemPurchased(string message) {
-			pushEvent("ItemPurchased", message);
+        protected override void _pushEventItemPurchased(ItemPurchasedEvent _Event)
+        {
+            pushEvent(_Event);
 		}
-		protected override void _pushEventItemPurchaseStarted(string message) {
-			pushEvent("ItemPurchaseStarted", message);
+        protected override void _pushEventItemPurchaseStarted(ItemPurchaseStartedEvent _Event)
+        {
+            pushEvent(_Event);
 		}
 
-		private void pushEvent(string name, string message) {
-			//Debug.Log("TODO Push Event");
+        private void pushEvent(SoomlaWpCore.events.SoomlaEvent _Event)
+        {
+            BusProvider.Instance.Post(_Event);
 		}
 #endif
 	}

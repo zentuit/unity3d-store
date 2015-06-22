@@ -1,3 +1,12 @@
+### v1.7.16 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.15...v1.7.16)
+
+* New Features
+  * In StoreEventHandler.onMarketPurchase, pass back originalJson and signature to Unity for server-side receipt verification
+  * Guarding against non-existing error message in refresh failed (iOS6 only)
+
+* Changes
+  * Removed Consumable enum from MarketItem (***breaking change***)
+
 ### v1.7.15 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.14...v1.7.15)
 
 * Changes

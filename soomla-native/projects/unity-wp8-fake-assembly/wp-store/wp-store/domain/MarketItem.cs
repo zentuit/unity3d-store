@@ -117,6 +117,21 @@ public class MarketItem {
         this.mMarketDescription = mMarketDescription;
     }
 
+    public void setMarketCurrencyCode(String mMarketCurrencyCode)
+    {
+        this.mMarketCurrencyCode = mMarketCurrencyCode;
+    }
+
+    public void setMarketPriceMicros(long mMarketPriceMicros)
+    {
+        this.mMarketPriceMicros = mMarketPriceMicros;
+    }
+
+    public void setIsPriceSuccessfullyParsed(bool mIsPriceSuccessfullyParsed)
+    {
+        this.mIsPriceSuccessfullyParsed = mIsPriceSuccessfullyParsed;
+    }
+
     public String getProductId() {
         return mProductId;
     }
@@ -145,6 +160,21 @@ public class MarketItem {
         return mMarketDescription;
     }
 
+    public String getMarketCurrencyCode()
+    {
+        return mMarketCurrencyCode;
+    }
+
+    public long getMarketPriceMicros()
+    {
+        return mMarketPriceMicros;
+    }
+
+    public bool isPriceSuccessfullyParsed()
+    {
+        return mIsPriceSuccessfullyParsed;
+    }
+
 
     /** Private Members **/
 
@@ -161,5 +191,11 @@ public class MarketItem {
     private String mMarketTitle;
 
     private String mMarketDescription;
+
+    private String mMarketCurrencyCode;
+
+    private long mMarketPriceMicros;
+
+    private bool mIsPriceSuccessfullyParsed;
 }
 }

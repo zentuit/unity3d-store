@@ -85,7 +85,7 @@ namespace Soomla.Store {
             {
                 SoomlaWpStore.purchasesTypes.PurchaseWithMarket wpPWM = (SoomlaWpStore.purchasesTypes.PurchaseWithMarket)wpPT;
                 string productId = wpPWM.getMarketItem().getProductId();
-                MarketItem.Consumable consType = MarketItem.Consumable.CONSUMABLE;
+                /*MarketItem.Consumable consType = MarketItem.Consumable.CONSUMABLE;
                 if(wpPWM.getMarketItem().getManaged() == SoomlaWpStore.domain.MarketItem.Managed.MANAGED)
                 {
                     consType = MarketItem.Consumable.CONSUMABLE;
@@ -97,13 +97,18 @@ namespace Soomla.Store {
                 if (wpPWM.getMarketItem().getManaged() == SoomlaWpStore.domain.MarketItem.Managed.SUBSCRIPTION)
                 {
                     consType = MarketItem.Consumable.SUBSCRIPTION;
-                }
+                }*/
                 double price = wpPWM.getMarketItem().getPrice();
 
-                MarketItem mi = new MarketItem(productId, consType, price);
+                MarketItem mi = new MarketItem(productId, price);
                 mi.MarketTitle = wpPWM.getMarketItem().getMarketTitle();
                 mi.MarketPriceAndCurrency = wpPWM.getMarketItem().getMarketPrice();
                 mi.MarketDescription = wpPWM.getMarketItem().getMarketDescription();
+                if(wpPWM.getMarketItem().isPriceSuccessfullyParsed())
+                {
+                    mi.MarketPriceMicros = wpPWM.getMarketItem().getMarketPriceMicros();
+                    mi.MarketCurrencyCode = wpPWM.getMarketItem().getMarketCurrencyCode();
+                }
                 PurchaseType = new PurchaseWithMarket(mi);
             }
 

@@ -54,12 +54,15 @@ namespace SoomlaWpCore.data
             
         }
 
-        public static void DeleteKeyValue(String key, bool EncryptedKey = true)
+        public static int DeleteKeyValue(String key, bool EncryptedKey = true)
         {
+            int c = 0;
             if (GetCache().Keys.Contains(key))
             {
-                GetCache().Remove(key);    
+                GetCache().Remove(key);
+                c++;
             }
+            return c;
         }
 
         public static KeyValDatabase GetDatabase()

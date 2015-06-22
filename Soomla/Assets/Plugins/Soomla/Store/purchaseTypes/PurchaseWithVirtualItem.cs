@@ -104,6 +104,11 @@ namespace Soomla.Store
 			return checkTargetBalance(targetItem);
 		}
 
+        public override string GetPrice()
+        {
+            return Amount.ToString();
+        }
+
 		private VirtualItem getTargetVirtualItem ()
 		{
 			VirtualItem item = null;

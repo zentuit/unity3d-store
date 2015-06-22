@@ -46,6 +46,8 @@ public class StoreJSONConsts {
     public const String MARKETITEM_MARKETPRICE   = "marketPrice";
     public const String MARKETITEM_MARKETTITLE   = "marketTitle";
     public const String MARKETITEM_MARKETDESC    = "marketDesc";
+    public const String MARKETITEM_MARKETCURRENCYCODE = "marketCurrencyCode";
+    public const String MARKETITEM_MARKETPRICEMICROS = "marketPriceMicros";
 
     public const String EQUIPPABLE_EQUIPPING     = "equipping";
 

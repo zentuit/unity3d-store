@@ -219,14 +219,12 @@ public class StoreEventHandler {
         }
         try {
             JSONObject eventJSON = new JSONObject();
-            eventJSON.put("itemId", playPurchaseEvent.getPurchasableVirtualItem().getItemId());
-            eventJSON.put("payload", playPurchaseEvent.getPayload());
+            eventJSON.put("itemId", playPurchaseEvent.PurchasableVirtualItem.getItemId());
+            eventJSON.put("payload", playPurchaseEvent.Payload);
             JSONObject extraJSON = new JSONObject();
-            extraJSON.put("purchaseToken", playPurchaseEvent.getToken());
-            extraJSON.put("orderId", playPurchaseEvent.getOrderId());
-            extraJSON.put("originalJson", playPurchaseEvent.getOriginalJson());
-            extraJSON.put("signature", playPurchaseEvent.getSignature());
-            extraJSON.put("userId", playPurchaseEvent.getUserId());
+            for(String key : playPurchaseEvent.ExtraInfo.keySet()) {
+                extraJSON.put(key, playPurchaseEvent.ExtraInfo.get(key));
+            }
             eventJSON.put("extra", extraJSON);
 
             UnityPlayer.UnitySendMessage("StoreEvents", "onMarketPurchase", eventJSON.toString());

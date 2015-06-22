@@ -24,6 +24,8 @@ using SoomlaWpStore.data;
 using SoomlaWpStore.purchasesTypes;
 using SoomlaWpStore.exceptions;
 using SoomlaWpStore.billing.wp.store;
+using SoomlaWpCore.util;
+using SoomlaWpStore.events;
 namespace SoomlaWpStore
 {
     public class SoomlaStore
@@ -59,7 +61,7 @@ namespace SoomlaWpStore
         refreshInventory();
 
         mInitialized = true;
-        StoreEvents.GetInstance().PostSoomlaStoreInitializedEvent();
+        BusProvider.Instance.Post(new SoomlaStoreInitializedEvent());
         return true;
     }
 
@@ -164,7 +166,7 @@ namespace SoomlaWpStore
                 SoomlaUtils.LogError(TAG, msg);
             }
         }
-        StoreEvents.GetInstance().PostMarketItemsRefreshFinishedEvent(marketItems);
+        BusProvider.Instance.Post(new MarketItemsRefreshFinishedEvent(marketItems));
         
         /*
         mInAppBillingService.initializeBillingService(
@@ -266,11 +268,11 @@ namespace SoomlaWpStore
         } catch (VirtualItemNotFoundException e) {
             String msg = "Couldn't find a purchasable item associated with: " + marketItem.getProductId() + " " + e.Message;
             SoomlaUtils.LogError(TAG, msg);
-            StoreEvents.GetInstance().PostUnexpectedStoreErrorEvent(msg);
+            BusProvider.Instance.Post(new UnexpectedStoreErrorEvent(msg));
             return;
         }
 
-        StoreEvents.GetInstance().PostMarketPurchaseStartedEvent(pvi);
+        BusProvider.Instance.Post(new MarketPurchaseStartedEvent(pvi));
         StoreManager.GetInstance().PurchaseProduct(marketItem.getProductId());
         /*
         mInAppBillingService.initializeBillingService
@@ -375,8 +377,8 @@ namespace SoomlaWpStore
                     + "ERROR : Couldn't find the " +
                     " VirtualCurrencyPack OR MarketItem  with productId: " + productId +
                     ". It's unexpected so an unexpected error is being emitted." + " " + e.Message);
-            StoreEvents.GetInstance().PostUnexpectedStoreErrorEvent("Couldn't find the productId "
-                    + "of a product after purchase or query-inventory." + " " + e.Message);
+            BusProvider.Instance.Post(new UnexpectedStoreErrorEvent("Couldn't find the productId "
+                    + "of a product after purchase or query-inventory." + " " + e.Message));
             return;
         }
         
@@ -394,10 +396,10 @@ namespace SoomlaWpStore
             }
         }*/
 
-        StoreEvents.GetInstance().PostMarketPurchaseEvent(pvi,null,null);
+        BusProvider.Instance.Post(new MarketPurchaseEvent(pvi,null,null));
         pvi.give(1);
         
-        StoreEvents.GetInstance().PostItemPurchasedEvent(pvi, null);
+        BusProvider.Instance.Post(new ItemPurchasedEvent(pvi, null));
         consumeIfConsumable(pvi);
 
         /*
@@ -467,12 +469,12 @@ namespace SoomlaWpStore
         
         try {
             PurchasableVirtualItem v = StoreInfo.getPurchasableItem(productId);
-            StoreEvents.GetInstance().PostMarketPurchaseCancelledEvent(v);
+            BusProvider.Instance.Post(new MarketPurchaseCancelledEvent(v));
         } catch (VirtualItemNotFoundException e) {
             SoomlaUtils.LogError(TAG, "(purchaseActionResultCancelled) ERROR : Couldn't find the "
                     + "VirtualCurrencyPack OR MarketItem  with productId: " + productId
                     + ". It's unexpected so an unexpected error is being emitted.");
-            StoreEvents.GetInstance().PostUnexpectedStoreErrorEvent(e.Message);
+            BusProvider.Instance.Post(new UnexpectedStoreErrorEvent(e.Message));
         }
         
     }
@@ -491,7 +493,7 @@ namespace SoomlaWpStore
             }
         } catch (Exception e) {
             SoomlaUtils.LogDebug(TAG, "Error while consuming: itemId: " + pvi.getItemId());
-            StoreEvents.GetInstance().PostUnexpectedStoreErrorEvent(e.Message);
+            BusProvider.Instance.Post(new UnexpectedStoreErrorEvent(e.Message));
         }
         
     }
@@ -503,7 +505,7 @@ namespace SoomlaWpStore
      */
     private void handleErrorResult(String message) {
         //BusProvider.getInstance().post(new OnUnexpectedStoreErrorEvent(message));
-        StoreEvents.GetInstance().PostUnexpectedStoreErrorEvent(message);
+        BusProvider.Instance.Post(new UnexpectedStoreErrorEvent(message));
         SoomlaUtils.LogError(TAG, "ERROR: IabPurchase failed: " + message);
     }
 

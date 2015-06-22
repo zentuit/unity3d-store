@@ -15,6 +15,8 @@
 using System;
 using SoomlaWpCore;
 using SoomlaWpStore.domain;
+using SoomlaWpStore.events;
+using SoomlaWpCore.util;
 
 namespace SoomlaWpStore.purchasesTypes
 {
@@ -58,7 +60,7 @@ public class PurchaseWithMarket : PurchaseType {
                 + mMarketItem.getProductId());
         
         
-        StoreEvents.GetInstance().PostItemPurchaseStartedEvent(getAssociatedItem());
+        BusProvider.Instance.Post(new ItemPurchaseStartedEvent(getAssociatedItem()));
         
         try {
             SoomlaStore.GetInstance().buyWithMarket(mMarketItem, payload);
