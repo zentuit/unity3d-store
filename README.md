@@ -110,7 +110,7 @@ To run your app in the simulator select the checkbox in the Soomla config panel.
 
 One major issue is that Git didn't manage symlink on Windows...
 
-Before launching Unity you have to run "setup-symlinks.bat" located at the root of the repo in a Git bash. If you forget to call it before launching Unity, just close Unity and delete the Library folder.
+Before launching Unity you have to run "fix-symlinks-windows\setup-symlinks.bat" from the root of the repo in a Git bash. If you forget to call it before launching Unity, just close Unity and delete the Library folder.
 
 When you want to restore the repo at it's initial state run "restore-symlinks.bat"
 
