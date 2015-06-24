@@ -96,7 +96,18 @@ Don't forget to close the Iab Service when your store is closed. You don't have 
 #### Compatibility
 
 This WP8 plugin work on Unity 4.5.4 and above 4.x versions.
+
 For Unity 5 the plugin work with 5.0.1p1 patch release 1 version and above.
+
+To build for WP8 target you need to configure the assemblies with the new plugins setting panel introduce in the 5.0 version.
+
+For Assets/Plugins/soomla-wp-core.dll Check Editor platform only
+
+For Assets/Plugins/wp-store.dll Check Editor platform only
+
+For Assets/Plugins/WP8/soomla-wp-core.dll Check WP8Player platform only and select Assets/Plugins/soomla-wp-core.dll for the Placeholder
+
+For Assets/Plugins/WP8/wp-store.dll Check WP8Player platform only and select Assets/Plugins/wp-store.dll for the Placeholder
 
 #### IAP Test Mode
 
