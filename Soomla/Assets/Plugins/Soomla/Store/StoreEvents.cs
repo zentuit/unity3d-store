@@ -754,7 +754,7 @@ namespace Soomla.Store {
 			SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onMarketItemsRefreshFailed");
 
 			var eventJSON = new JSONObject(message);
-			
+
 			string errorMessage = eventJSON["errorMessage"].str;
 			StoreEvents.OnMarketItemsRefreshFailed(errorMessage);
 		}
@@ -814,7 +814,16 @@ namespace Soomla.Store {
 		public void onUnexpectedErrorInStore(string message, bool alsoPush) {
 			SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onUnexpectedErrorInStore");
 
-			StoreEvents.OnUnexpectedErrorInStore(message);
+			JSONObject eventJSON = null;
+			try {
+				eventJSON = new JSONObject(message);
+			} catch {}
+
+			if (eventJSON != null && eventJSON ["errorCode"] != null) {
+				StoreEvents.OnUnexpectedStoreError((int) eventJSON ["errorCode"].n);
+			} else {
+				StoreEvents.OnUnexpectedErrorInStore (message);
+			}
 
 			if (alsoPush) {
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
@@ -903,6 +912,8 @@ namespace Soomla.Store {
 		public static Action<List<MarketItem>> OnMarketItemsRefreshFinished = delegate {};
 
 		public static Action<string> OnUnexpectedErrorInStore = delegate {};
+
+		public static Action<int> OnUnexpectedStoreError = delegate {};
 
 		public static Action OnSoomlaStoreInitialized = delegate {};
 

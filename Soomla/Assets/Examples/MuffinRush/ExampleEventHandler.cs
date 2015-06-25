@@ -46,10 +46,20 @@ namespace Soomla.Store.Example {
 			StoreEvents.OnRestoreTransactionsStarted += onRestoreTransactionsStarted;
 			StoreEvents.OnRestoreTransactionsFinished += onRestoreTransactionsFinished;
 			StoreEvents.OnSoomlaStoreInitialized += onSoomlaStoreInitialized;
+			StoreEvents.OnUnexpectedStoreError += onUnexpectedStoreError;
+
 #if UNITY_ANDROID && !UNITY_EDITOR
 			StoreEvents.OnIabServiceStarted += onIabServiceStarted;
 			StoreEvents.OnIabServiceStopped += onIabServiceStopped;
 #endif
+		}
+
+		/// <summary>
+		/// Handles unexpected errors with error code.
+		/// </summary>
+		/// <param name="errorCode">The error code.</param>
+		public void onUnexpectedStoreError(int errorCode) {
+			SoomlaUtils.LogError ("ExampleEventHandler", "error with code: " + errorCode);
 		}
 
 		/// <summary>

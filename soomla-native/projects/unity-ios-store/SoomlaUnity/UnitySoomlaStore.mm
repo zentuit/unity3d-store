@@ -11,8 +11,9 @@
 
 extern "C"{
     
-    void soomlaStore_SetSSV(bool ssv, const char* verifyUrl) {
+    void soomlaStore_SetSSV(bool ssv, const char* verifyUrl, bool forceOnItunesFailure) {
 		VERIFY_PURCHASES = ssv;
+        VERIFY_ON_ITUNES_FAILURE = forceOnItunesFailure;
 
         if (VERIFY_URL) {
             [VERIFY_URL release];

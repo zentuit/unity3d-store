@@ -15,9 +15,11 @@
 using UnityEngine;
 using System;
 using System.Runtime.InteropServices;
+#if UNITY_WP8 && !UNITY_EDITOR
 using SoomlaWpStore.events;
 using SoomlaWpCore.events;
 using SoomlaWpCore.util;
+#endif
 
 namespace Soomla.Store {
 

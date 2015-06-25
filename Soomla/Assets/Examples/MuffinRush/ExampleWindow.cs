@@ -88,6 +88,7 @@ namespace Soomla.Store.Example {
 		void Start () {
 			StoreEvents.OnSoomlaStoreInitialized += onSoomlaStoreInitialized;
 			StoreEvents.OnCurrencyBalanceChanged += onCurrencyBalanceChanged;
+			StoreEvents.OnUnexpectedStoreError += onUnexpectedStoreError;
 
 			tImgDirect = (Texture2D)Resources.Load("SoomlaStore/images/img_direct");
 			fgoodDog = (Font)Resources.Load("SoomlaStore/GoodDog" + fontSuffix);
@@ -107,6 +108,10 @@ namespace Soomla.Store.Example {
 			SoomlaStore.Initialize(new MuffinRushAssets());
 		}
 
+		public void onUnexpectedStoreError(int errorCode) {
+			SoomlaUtils.LogError ("ExampleEventHandler", "error with code: " + errorCode);
+		}
+
 		public void onSoomlaStoreInitialized() {
 
 			// some usage examples for add/remove currency
@@ -123,7 +128,7 @@ namespace Soomla.Store.Example {
                     //StoreInventory.GiveItem(StoreInfo.Currencies[0].ItemId,4000);
 					SoomlaUtils.LogDebug("SOOMLA ExampleEventHandler", "Currency balance:" + StoreInventory.GetItemBalance(StoreInfo.Currencies[0].ItemId));
 				} catch (VirtualItemNotFoundException ex){
-					SoomlaUtils.LogError("SOOMLA ExampleEventHandler", ex.Message);
+					SoomlaUtils.LogError("SOOMLA ExampleWindow", ex.Message);
 				}
 			}
 
