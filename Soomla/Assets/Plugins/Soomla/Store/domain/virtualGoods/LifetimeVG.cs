@@ -36,7 +36,9 @@ namespace Soomla.Store {
 	/// <see cref="com.soomla.store.domain.VirtualItem"/>
 	/// </summary>
 	public class LifetimeVG : VirtualGood {
+		#if DEBUG_SOOMLA
 		private static string TAG = "SOOMLA LifetimeVG";
+		#endif
 
 		/// <summary>
 		/// Constructor.
