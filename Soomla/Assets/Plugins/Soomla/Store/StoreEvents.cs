@@ -853,7 +853,9 @@ namespace Soomla.Store {
 
 					marketItems.Add(mi);
 					virtualItems.Add(pvi);
+				#pragma warning disable 168 
 				} catch (VirtualItemNotFoundException ex){
+				#pragma warning restore 168 
 					#if DEBUG_SOOMLA
 					SoomlaUtils.LogDebug(TAG, ex.Message);
 					#endif
