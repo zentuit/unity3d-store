@@ -79,6 +79,7 @@ namespace Soomla.Store.Example {
 		private Dictionary<string, Texture2D> itemsTextures;
 		private Dictionary<string, bool> itemsAffordability;
 
+        private Reward firstLaunchReward;
 
 		/// <summary>
 		/// Starts this instance.
@@ -87,6 +88,7 @@ namespace Soomla.Store.Example {
 		void Start () {
 			StoreEvents.OnSoomlaStoreInitialized += onSoomlaStoreInitialized;
 			StoreEvents.OnCurrencyBalanceChanged += onCurrencyBalanceChanged;
+			StoreEvents.OnUnexpectedStoreError += onUnexpectedStoreError;
 
 			tImgDirect = (Texture2D)Resources.Load("SoomlaStore/images/img_direct");
 			fgoodDog = (Font)Resources.Load("SoomlaStore/GoodDog" + fontSuffix);
@@ -102,7 +104,12 @@ namespace Soomla.Store.Example {
 			tGetMore = (Texture2D)Resources.Load("SoomlaStore/images/GetMore");
 			tTitle = (Font)Resources.Load("SoomlaStore/Title" + fontSuffix);
 
+            firstLaunchReward = new VirtualItemReward("first-launch", "Give Money at first launch", MuffinRushAssets.MUFFIN_CURRENCY_ITEM_ID, 4000);
 			SoomlaStore.Initialize(new MuffinRushAssets());
+		}
+
+		public void onUnexpectedStoreError(int errorCode) {
+			SoomlaUtils.LogError ("ExampleEventHandler", "error with code: " + errorCode);
 		}
 
 		public void onSoomlaStoreInitialized() {
@@ -111,10 +118,17 @@ namespace Soomla.Store.Example {
 			// some examples
 			if (StoreInfo.Currencies.Count>0) {
 				try {
-					StoreInventory.GiveItem(StoreInfo.Currencies[0].ItemId,4000);
+					//First launch reward
+                    if(!firstLaunchReward.Owned)
+                    {
+                        firstLaunchReward.Give();
+                    }
+
+                    //How to give currency
+                    //StoreInventory.GiveItem(StoreInfo.Currencies[0].ItemId,4000);
 					SoomlaUtils.LogDebug("SOOMLA ExampleEventHandler", "Currency balance:" + StoreInventory.GetItemBalance(StoreInfo.Currencies[0].ItemId));
 				} catch (VirtualItemNotFoundException ex){
-					SoomlaUtils.LogError("SOOMLA ExampleEventHandler", ex.Message);
+					SoomlaUtils.LogError("SOOMLA ExampleWindow", ex.Message);
 				}
 			}
 

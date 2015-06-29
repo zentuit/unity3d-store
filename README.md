@@ -19,9 +19,6 @@ unity3d-store
 
 **October 29th:** v1.7 **Work in editor!** When you're in the Unity editor, data will be saved to PlayerPrefs.
 
-**September 15th:** NonConsumableItem class was removed.
-To create a non-consumable item in your `IStoreAssets` implementation, use `LifeTimeVG` with `PurchaseType` of `PurchaseWithMarket`.
-
 **October 3rd, 2013:** iOS Server Side Verification is now implemented into unity3d-store. The server is a complimentary server provided by [SOOMLA](http://soom.la) to help you get your in-game purchases a bit more secured. This feature is not enabled by default. In order to enable Server Side verification go to the Soomla prefab and set  **ios Server Side Verification -> true**.
 
 * More documentation and information in SOOMLA's [Knowledge Base](http://know.soom.la/docs/platforms/unity)  
@@ -39,8 +36,8 @@ unity3d-store is the Unity3d flavor of SOOMLA's Store Module.
 
 > If you're upgrading to v1.7.x make sure you take soomla-unity3d-core again.
 
-[soomla-unity3d-core v1.0.6](http://library.soom.la/fetch/unity3d-core/1.0.6?cf=github)  
-[unity3d-store v1.7.15](http://library.soom.la/fetch/unity3d-store/1.7.15?cf=github)
+[soomla-unity3d-core v1.0.7](http://library.soom.la/fetch/unity3d-core/1.0.7?cf=github)  
+[unity3d-store v1.7.16](http://library.soom.la/fetch/unity3d-store/1.7.16?cf=github)
 
 ## Debugging
 
@@ -57,7 +54,7 @@ $ git clone --recursive git@github.com:soomla/unity3d-store.git
 
 ## Getting Started
 
-1. Download the [soomla-unity3d-core](http://library.soom.la/fetch/unity3d-core/1.0.4?cf=github) and [unity3d-store](http://library.soom.la/fetch/unity3d-store/1.7.9?cf=github) unitypackages and double-click on them (first 'Core' then 'Store'). It'll import all the necessary files into your project.
+1. Download the [soomla-unity3d-core](http://library.soom.la/fetch/unity3d-core/1.0.7?cf=github) and [unity3d-store](http://library.soom.la/fetch/unity3d-store/1.7.16?cf=github) unitypackages and double-click on them (first 'Core' then 'Store'). It'll import all the necessary files into your project.
 2. Drag the "StoreEvents" and "CoreEvents" Prefabs from `../Assets/Soomla/Prefabs` into the root scene. You should see it listed in the "Hierarchy" panel. [This step MUST be done for unity3d-store to work properly]
 3. On the menu bar click "Window -> Soomla -> Edit Settings" and change the value for "Soomla Secret" (also setup Public Key if you're building for Google Play):
     - _Soomla Secret_ - is an encryption secret you provide that will be used to secure your data. (If you used versions before v1.5.2 this secret MUST be the same as Custom Secret)  
@@ -92,6 +89,45 @@ SoomlaStore.StopIabServiceInBg();
 ```
 
 Don't forget to close the Iab Service when your store is closed. You don't have to do this at all, this is just an optimization.
+
+
+### Unity & Windows Phone 8
+
+#### Compatibility
+
+This WP8 plugin work on Unity 4.5.4 and above 4.x versions.
+
+For Unity 5 the plugin work with 5.0.1p1 patch release 1 version and above.
+
+To build for WP8 target you need to configure the assemblies with the new plugins setting panel introduce in the 5.0 version.
+
+For Assets/Plugins/soomla-wp-core.dll Check Editor platform only
+
+For Assets/Plugins/wp-store.dll Check Editor platform only
+
+For Assets/Plugins/WP8/soomla-wp-core.dll Check WP8Player platform only and select Assets/Plugins/soomla-wp-core.dll for the Placeholder
+
+For Assets/Plugins/WP8/wp-store.dll Check WP8Player platform only and select Assets/Plugins/wp-store.dll for the Placeholder
+
+#### IAP Test Mode
+
+To activate the IAP Test Mode select the checkbox in the Soomla Config Panel. Declare your test IAP in Assets/Plugins/WP8/IAPMock.xml
+
+#### Simulator build
+
+To run your app in the simulator select the checkbox in the Soomla config panel. This option copy the right assembly into the Assets/Plugins/WP8/ folder
+
+#### Clone and Develop on Windows (workaround)
+
+One major issue is that Git didn't manage symlink on Windows...
+
+Before launching Unity you have to run "fix-symlinks-windows\setup-symlinks.bat" from the root of the repo in a Git bash. If you forget to call it before launching Unity, just close Unity and delete the Library folder.
+
+When you want to restore the repo at it's initial state run "restore-symlinks.bat"
+
+Keep in mind that modifications in symlink single files or not copied, you have to copy them before restoring symlinks!
+
+One last thing is that this script didn't follow symlink in submodules of submodules, you can still have missing files.
 
 
 ## What's next? In App Purchasing.
