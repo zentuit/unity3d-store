@@ -1,0 +1,9 @@
+#!/bin/bash
+
+rm -rf android-store
+rm -rf ios-store
+rm -rf soomla-unity3d-core
+rm -rf wp-store
+
+ln -s ~/Projects/ios-store ios-store
+ln -s ~/Projects/soomla-unity3d-core soomla-unity3d-core
