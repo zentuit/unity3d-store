@@ -111,18 +111,30 @@ namespace Soomla.Store {
                             }
                         }
                         
-                        // refresh token
-                        using(AndroidJavaObject k = new AndroidJavaObject("java.lang.String", "refreshToken"))
+						// refresh token
+						using(AndroidJavaObject k = new AndroidJavaObject("java.lang.String", "refreshToken"))
 						{
 							using(AndroidJavaObject v = new AndroidJavaObject("java.lang.String", StoreSettings.PlayClientSecret))
 							{
 								args[0] = k;
 								args[1] = v;
-                                AndroidJNI.CallObjectMethod(obj_HashMap.GetRawObject(),
-                                                            method_Put, AndroidJNIHelper.CreateJNIArgArray(args));
-                            }
-                        }
-
+								AndroidJNI.CallObjectMethod(obj_HashMap.GetRawObject(),
+								                            method_Put, AndroidJNIHelper.CreateJNIArgArray(args));
+							}
+						}
+						
+						// verifyOnServerFailure
+						using(AndroidJavaObject k = new AndroidJavaObject("java.lang.String", "verifyOnServerFailure"))
+						{
+							using(AndroidJavaObject v = new AndroidJavaObject("java.lang.Boolean", StoreSettings.PlayVerifyOnServerFailure))
+							{
+								args[0] = k;
+								args[1] = v;
+								AndroidJNI.CallObjectMethod(obj_HashMap.GetRawObject(),
+								                            method_Put, AndroidJNIHelper.CreateJNIArgArray(args));
+							}
+						}
+						
 						jniGooglePlayIabService.Call("configVerifyPurchases", obj_HashMap);
                     }
                     

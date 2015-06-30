@@ -51,6 +51,8 @@ namespace Soomla.Store
 		GUIContent playClientIdLabel = new GUIContent("Client ID");
 		GUIContent playClientSecretLabel = new GUIContent("Client Secret");
 		GUIContent playRefreshTokenLabel = new GUIContent("Refresh Token");
+		GUIContent playVerifyOnServerFailureLabel = new GUIContent("Verify On Server Failure [?]:", "Check if you want your purchases get validated if server failure happens.");
+
 
 		GUIContent amazonLabel = new GUIContent("Amazon");
 		GUIContent publicKeyLabel = new GUIContent("API Key [?]:", "The API key from Google Play dev console (just in case you're using Google Play as billing provider).");
@@ -166,6 +168,12 @@ namespace Soomla.Store
 						EditorGUILayout.Space();
 						EditorGUILayout.LabelField(playRefreshTokenLabel, SoomlaEditorScript.FieldWidth, SoomlaEditorScript.FieldHeight);
 						PlayRefreshToken = EditorGUILayout.TextField(PlayRefreshToken, SoomlaEditorScript.FieldHeight);
+						EditorGUILayout.EndHorizontal();
+
+						EditorGUILayout.BeginHorizontal();
+						EditorGUILayout.Space();
+						EditorGUILayout.LabelField(SoomlaEditorScript.EmptyContent, SoomlaEditorScript.SpaceWidth, SoomlaEditorScript.FieldHeight);
+						PlayVerifyOnServerFailure = EditorGUILayout.Toggle(playVerifyOnServerFailureLabel, PlayVerifyOnServerFailure);
 						EditorGUILayout.EndHorizontal();
 					}
 				}
@@ -349,6 +357,24 @@ namespace Soomla.Store
 			}
 		}
 
+		public static bool PlayVerifyOnServerFailure
+		{
+			get {
+				string value;
+				return SoomlaEditorScript.Instance.SoomlaSettings.TryGetValue("PlayVerifyOnServerFailure", out value) ? Convert.ToBoolean(value) : false;
+			}
+			set
+			{
+				string v;
+				SoomlaEditorScript.Instance.SoomlaSettings.TryGetValue("PlayVerifyOnServerFailure", out v);
+				if (Convert.ToBoolean(v) != value)
+				{
+					SoomlaEditorScript.Instance.setSettingsValue("PlayVerifyOnServerFailure", value.ToString());
+					SoomlaEditorScript.DirtyEditor ();
+				}
+			}
+		}
+		
 		public static bool AndroidTestPurchases
 		{
 			get {
@@ -384,7 +410,7 @@ namespace Soomla.Store
 				}
 			}
 		}
-		
+
 		public static bool IosSSV
 		{
 			get {

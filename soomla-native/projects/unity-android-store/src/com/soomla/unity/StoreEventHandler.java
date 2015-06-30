@@ -350,8 +350,16 @@ public class StoreEventHandler {
         if (unexpectedStoreErrorEvent.Sender == this) {
             return;
         }
-        String msg = unexpectedStoreErrorEvent.getMessage();
-        UnityPlayer.UnitySendMessage("StoreEvents", "onUnexpectedErrorInStore", (msg == null ? "" : msg));
+
+        try {
+            JSONObject eventJSON = new JSONObject();
+            eventJSON.put("errorCode", unexpectedStoreErrorEvent.getErrorCode().ordinal());
+            eventJSON.put("message", unexpectedStoreErrorEvent.getMessage());
+
+            UnityPlayer.UnitySendMessage("StoreEvents", "onUnexpectedErrorInStore", eventJSON.toString());
+        } catch (JSONException e) {
+            SoomlaUtils.LogError(TAG, "This is BAD! couldn't create JSON for onMarketItemsRefreshFailed event.");
+        }
     }
 
 
@@ -363,7 +371,7 @@ public class StoreEventHandler {
     }
 
     public void pushEventUnexpectedStoreError(String message) {
-        BusProvider.getInstance().post(new UnexpectedStoreErrorEvent(message, this));
+        BusProvider.getInstance().post(new UnexpectedStoreErrorEvent(UnexpectedStoreErrorEvent.ErrorCode.GENERAL, message, this));
     }
 
     public void pushEventCurrencyBalanceChanged(String message) {
