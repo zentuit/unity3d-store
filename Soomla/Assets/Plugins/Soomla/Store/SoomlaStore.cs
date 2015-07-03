@@ -60,7 +60,9 @@ namespace Soomla.Store
 
 			var storeEvents = GameObject.FindObjectOfType<StoreEvents> ();
 			if (storeEvents == null) {
+				#if DEBUG_SOOMLA
 				SoomlaUtils.LogDebug(TAG, "StoreEvents Component not found in scene. We're continuing from here but you won't get many events.");
+				#endif
 			}
 
 			if (Initialized) {
@@ -70,7 +72,9 @@ namespace Soomla.Store
 				return false;
 			}
 
+			#if DEBUG_SOOMLA
 			SoomlaUtils.LogDebug(TAG, "SoomlaStore Initializing ...");
+			#endif
 
 			StoreInfo.SetStoreAssets(storeAssets);
 
