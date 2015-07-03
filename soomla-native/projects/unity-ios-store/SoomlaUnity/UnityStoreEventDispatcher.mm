@@ -188,6 +188,15 @@ extern "C"{
                                                             }];
         UnitySendMessage("StoreEvents", "onMarketPurchaseCancelled", [jsonStr UTF8String]);
     }
+    else if ([notification.name isEqualToString:EVENT_MARKET_PURCHASE_DEFERRED]) {
+        NSDictionary* userInfo = [notification userInfo];
+        PurchasableVirtualItem* pvi = (PurchasableVirtualItem*)[userInfo objectForKey:DICT_ELEMENT_PURCHASABLE];
+        NSString* jsonStr = [SoomlaUtils dictToJsonString:@{
+                                                            @"itemId": pvi.itemId,
+                                                            @"payload": [userInfo objectForKey:DICT_ELEMENT_DEVELOPERPAYLOAD],
+                                                            }];
+        UnitySendMessage("StoreEvents", "onMarketPurchaseDeferred", [jsonStr UTF8String]);
+    }
 	else if ([notification.name isEqualToString:EVENT_MARKET_PURCHASED]) {
         NSDictionary* userInfo = [notification userInfo];
         PurchasableVirtualItem* pvi = (PurchasableVirtualItem*)[userInfo objectForKey:DICT_ELEMENT_PURCHASABLE];
