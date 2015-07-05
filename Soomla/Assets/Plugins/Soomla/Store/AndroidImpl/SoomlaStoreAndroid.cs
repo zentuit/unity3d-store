@@ -114,7 +114,7 @@ namespace Soomla.Store {
 						// refresh token
 						using(AndroidJavaObject k = new AndroidJavaObject("java.lang.String", "refreshToken"))
 						{
-							using(AndroidJavaObject v = new AndroidJavaObject("java.lang.String", StoreSettings.PlayClientSecret))
+							using(AndroidJavaObject v = new AndroidJavaObject("java.lang.String", StoreSettings.PlayRefreshToken))
 							{
 								args[0] = k;
 								args[1] = v;
