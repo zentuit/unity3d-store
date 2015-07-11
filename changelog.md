@@ -1,3 +1,19 @@
+### v1.7.17 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.16...v1.7.17)
+
+* New Features
+  * WP8 integration
+  * Support Google Play verification
+
+* Changes
+  * Price getter added to Purchase Types.
+  * For MarketPurchaseEvent we bundle the specific provider extra params inside a Hash
+  * GetEquippedVirtualGood in Category
+  * Changed OnUnexpectedErrorInStore to OnUnexpectedStoreError which now returns an error code
+
+* Fixes
+  * Fix Editor Market purchase event firing to match device
+
+
 ### v1.7.16 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.15...v1.7.16)
 
 * New Features
