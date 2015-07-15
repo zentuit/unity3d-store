@@ -42,7 +42,7 @@ namespace Soomla.Store
 		}
 
 		bool showAndroidSettings = (EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android);
-		bool showIOSSettings = (EditorUserBuildSettings.activeBuildTarget == BuildTarget.iPhone);
+		bool showIOSSettings = (EditorUserBuildSettings.activeBuildTarget == BuildTarget.iOS);
         	bool showWP8Settings = (EditorUserBuildSettings.activeBuildTarget == BuildTarget.WP8Player);
 
 		GUIContent noneBPLabel = new GUIContent("You have your own Billing Service");
