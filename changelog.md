@@ -1,4 +1,12 @@
-### v1.7.17 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.16...v1.7.17)
+### v1.8.1 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.8.0...v1.8.1)
+
+* Fixes
+  * Fixed StoreSetting for Unity4
+  * Fixed billing services softlinks
+  * Fixed getting PlaySsvValidation
+  * Merged with verification fixes in ios-store v3.6.11 - https://github.com/soomla/ios-store/blob/master/changelog.md
+
+### v1.8.0 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.7.16...v1.8.0)
 
 * New Features
   * WP8 integration
