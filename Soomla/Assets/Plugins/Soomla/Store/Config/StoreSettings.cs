@@ -84,7 +84,7 @@ namespace Soomla.Store
 		}
 
 		public void OnInfoGUI() {
-			SoomlaEditorScript.SelectableLabelField(frameworkVersion, "1.8.0");
+			SoomlaEditorScript.SelectableLabelField(frameworkVersion, "1.8.1");
 			SoomlaEditorScript.SelectableLabelField(buildVersion, "1");
 			EditorGUILayout.Space();
 		}
@@ -161,7 +161,7 @@ namespace Soomla.Store
 						EditorGUILayout.LabelField(playClientIdLabel, SoomlaEditorScript.FieldWidth, SoomlaEditorScript.FieldHeight);
 						PlayClientId = EditorGUILayout.TextField(PlayClientId, SoomlaEditorScript.FieldHeight);
 						EditorGUILayout.EndHorizontal();
-						
+
 						EditorGUILayout.BeginHorizontal();
 						EditorGUILayout.Space();
 						EditorGUILayout.LabelField(playClientSecretLabel, SoomlaEditorScript.FieldWidth, SoomlaEditorScript.FieldHeight);
@@ -219,7 +219,7 @@ namespace Soomla.Store
                 EditorGUILayout.Space();
                 WP8TestMode = EditorGUILayout.ToggleLeft(wp8TestModeLabel, WP8TestMode);
             }
-            
+
         }
 
 
@@ -288,7 +288,7 @@ namespace Soomla.Store
 		public static string PLAY_CLIENT_SECRET_DEFAULT = "YOUR CLIENT SECRET";
 		public static string PLAY_REFRESH_TOKEN_DEFAULT = "YOUR REFRESH TOKEN";
 
-		
+
 		public static string AndroidPublicKey
 		{
 			get {
@@ -324,7 +324,7 @@ namespace Soomla.Store
 				}
 			}
 		}
-		
+
 		public static string PlayClientSecret
 		{
 			get {
@@ -342,7 +342,7 @@ namespace Soomla.Store
 				}
 			}
 		}
-		
+
 		public static string PlayRefreshToken
 		{
 			get {
@@ -378,7 +378,7 @@ namespace Soomla.Store
 				}
 			}
 		}
-		
+
 		public static bool AndroidTestPurchases
 		{
 			get {
