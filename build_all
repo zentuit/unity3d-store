@@ -1,0 +1,11 @@
+#!/bin/sh
+cd soomla-native/projects/unity-android-store
+./build_all
+cd -
+cd soomla-native/projects/unity-ios-store
+./build_all
+cd -
+./create_deploys
+rm -rf build
+mkdir build
+cp *unitypackage build/
