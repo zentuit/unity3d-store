@@ -54,33 +54,64 @@ $ git clone --recursive git@github.com:soomla/unity3d-store.git
 
 ## Getting Started
 
-1. Download the [soomla-unity3d-core](http://library.soom.la/fetch/unity3d-core/latest?cf=github) and [unity3d-store](http://library.soom.la/fetch/unity3d-store/latest?cf=github) unitypackages and double-click on them (first 'Core' then 'Store'). It'll import all the necessary files into your project.
-2. Drag the "StoreEvents" and "CoreEvents" Prefabs from `../Assets/Soomla/Prefabs` into the root scene. You should see it listed in the "Hierarchy" panel. [This step MUST be done for unity3d-store to work properly]
-3. On the menu bar click "Window -> Soomla -> Edit Settings" and change the value for "Soomla Secret" (also setup Public Key if you're building for Google Play):
-    - _Soomla Secret_ - is an encryption secret you provide that will be used to secure your data. (If you used versions before v1.5.2 this secret MUST be the same as Custom Secret)  
-    **Choose the secret wisely. You can't change them after you launch your game!**
-    - _Public Key_ - is the public key given to you from Google. (iOS doesn't have a public key).
-4. Create your own implementation of _IStoreAssets_ in order to describe your specific game's assets ([example](https://github.com/soomla/unity3d-store/blob/master/Soomla/Assets/Examples/MuffinRush/MuffinRushAssets.cs)). Initialize _SoomlaStore_ with the class you just created:
+1. First, you'll need to either download (RECOMMENDED) the unity3d-store pre-baked packages, or clone unity3d-store.
 
-    ```cs
+  - RECOMMENDED: Download [soomla-unity3d-core](https://github.com/soomla/unity3d-store/raw/master/deploy/out/soomla-unity3d-core.unitypackage) and [unity3d-store](https://github.com/soomla/unity3d-store/raw/master/deploy/out/soomla-unity3d-store.unitypackage)
+
+    OR, if you'd like to work with sources:
+
+  - Clone unity3d-store from SOOMLA's github page.
+
+    ```
+    $ git clone --recursive git@github.com:soomla/unity3d-store.git
+    ```
+
+    >There are some necessary files in submodules linked with symbolic links. If you're cloning the project make sure to include the `--recursive` flag.
+
+2. Drag the "StoreEvents" and "CoreEvents" Prefabs from `Assets/Soomla/Prefabs` into your scene. You should see them listed in the "Hierarchy" panel.
+
+  ![alt text](http://know.soom.la/img/tutorial_img/unity_getting_started/prefabs.png "Prefabs")
+
+3. On the menu bar click **Window > Soomla > Edit Settings** and change the values for "Soomla Secret" and "Public Key":
+
+  - **Soomla Secret** - This is an encryption secret you provide that will be used to secure your data. (If you used versions before v1.5.2 this secret MUST be the same as Custom Secret)
+
+  - **Public Key** - If your billing service provider is Google Play, you'll need to insert the public key given to you from Google. (Learn more in step 4 [here](/android/store/Store_GooglePlayIAB)). **Choose both secrets wisely. You can't change them after you launch your game!**
+  
+  - **Fraud Protection** - If your billing service provider supports Fraud Protection, you can turn on this option and provide needed data.
+    Optionally, you can turn on `Verify On Server Failure` if you want to get purchases automatically verified in case of network failures during the verification process.
+
+    > In order to get clientId, clientSecret and refreshToken for Google Play go over [Google Play Purchase Verification](/android/store/Store_GooglePlayVerification).
+  
+    ![alt text](http://know.soom.la/img/tutorial_img/unity_getting_started/soomlaSettings.png "Soomla Settings")
+
+4. Create your own implementation of `IStoreAssets` in order to describe your game's specific assets.
+
+  - For a brief example, see the [example](#example) at the bottom.
+
+  - For a more detailed example, see our MuffinRush [example](https://github.com/soomla/unity3d-store/blob/master/Soomla/Assets/Examples/MuffinRush/MuffinRushAssets.cs).
+
+5. Initialize `SoomlaStore` with the class you just created:
+
+    ``` cs
     SoomlaStore.Initialize(new YourStoreAssetsImplementation());
     ```
 
-    > Initialize _SoomlaStore_ ONLY ONCE when your application loads.
+    > Initialize SoomlaStore in the `Start` function of `MonoBehaviour` and NOT in the `Awake` function. SOOMLA has its own `MonoBehaviour` and it needs to be "Awakened" before you initialize.
 
-    > Initialize _SoomlaStore_ in the "Start()" function of a 'MonoBehaviour' and **NOT** in the "Awake()" function. SOOMLA has its own 'MonoBehaviour' and it needs to be "Awakened" before you initialize.
+    > Initialize SoomlaStore ONLY ONCE when your application loads.
 
-5. You'll need an event handler in order to be notified about in-app purchasing related events. refer to the [Event Handling](https://github.com/soomla/unity3d-store#event-handling) section for more information.
+6. You'll need an event handler in order to be notified about in-app purchasing related events. Refer to the document about [Event Handling](https://github.com/soomla/unity3d-store#event-handling) for more information.
 
-And that's it ! You have storage and in-app purchasing capabilities... ALL-IN-ONE.
+That's it! You now have storage and in-app purchasing capabilities ALL-IN-ONE!
 
-### Unity & Android
+###Unity & Android
 
-#### Starting IAB Service in background
+**Starting IAB Service in background**
 
 If you have your own storefront implemented inside your game, it's recommended that you open the IAB Service in the background when the store opens and close it when the store is closed.
 
-```cs
+``` cs
 // Start Iab Service
 SoomlaStore.StartIabServiceInBg();
 
@@ -88,8 +119,12 @@ SoomlaStore.StartIabServiceInBg();
 SoomlaStore.StopIabServiceInBg();
 ```
 
-Don't forget to close the Iab Service when your store is closed. You don't have to do this at all, this is just an optimization.
+This is not mandatory, your game will work without this, but we do recommend it because it enhances performance. The
+idea here is to preemptively start the in-app billing setup process with Google's (or Amazon's) servers.
 
+In many games the user has to navigate into the in-game store, or start a game session in order to reach the point of
+making purchases. You want the user experience to be fast and smooth and prevent any lag that could be caused by network
+latency and setup routines you could have done silently in the background.
 
 ### Unity & Windows Phone 8
 
