@@ -1,3 +1,11 @@
+### v1.8.2 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.8.1...v1.8.2)
+
+* New Features
+  * Supporting Verify-On-iTunes-Failure param
+
+* Changes
+  * New build way
+
 ### v1.8.1 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.8.0...v1.8.1)
 
 * Fixes
