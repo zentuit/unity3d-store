@@ -36,8 +36,8 @@ unity3d-store is the Unity3d flavor of SOOMLA's Store Module.
 
 > If you're upgrading to v1.7.x make sure you take soomla-unity3d-core again.
 
-[soomla-unity3d-core v1.0.9](http://library.soom.la/fetch/unity3d-core/1.0.9?cf=github)  
-[unity3d-store v1.8.2](http://library.soom.la/fetch/unity3d-store/1.8.2?cf=github)
+[soomla-unity3d-core v1.0.10](http://library.soom.la/fetch/unity3d-core/1.0.10?cf=github)  
+[unity3d-store v1.8.3](http://library.soom.la/fetch/unity3d-store/1.8.3?cf=github)
 
 ## Debugging
 
@@ -77,12 +77,12 @@ $ git clone --recursive git@github.com:soomla/unity3d-store.git
   - **Soomla Secret** - This is an encryption secret you provide that will be used to secure your data. (If you used versions before v1.5.2 this secret MUST be the same as Custom Secret)
 
   - **Public Key** - If your billing service provider is Google Play, you'll need to insert the public key given to you from Google. (Learn more in step 4 [here](/android/store/Store_GooglePlayIAB)). **Choose both secrets wisely. You can't change them after you launch your game!**
-  
+
   - **Fraud Protection** - If your billing service provider supports Fraud Protection, you can turn on this option and provide needed data.
     Optionally, you can turn on `Verify On Server Failure` if you want to get purchases automatically verified in case of network failures during the verification process.
 
     > In order to get clientId, clientSecret and refreshToken for Google Play go over [Google Play Purchase Verification](/android/store/Store_GooglePlayVerification).
-  
+
     ![alt text](http://know.soom.la/img/tutorial_img/unity_getting_started/soomlaSettings.png "Soomla Settings")
 
 4. Create your own implementation of `IStoreAssets` in order to describe your game's specific assets.

@@ -1,3 +1,7 @@
+### v1.8.3 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.8.2...v1.8.3)
+
+
+
 ### v1.8.2 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.8.1...v1.8.2)
 
 * New Features
