@@ -164,6 +164,9 @@ Keep in mind that modifications in symlink single files or not copied, you have 
 
 One last thing is that this script didn't follow symlink in submodules of submodules, you can still have missing files.
 
+### Unity & iOS
+
+- If you are building your app under Windows, you have to have iTunes installed since the SOOMLA postprocessing is expecting a utility that exists in OS X and is installed with iTunes in Windows.
 
 ## What's next? In App Purchasing.
 
