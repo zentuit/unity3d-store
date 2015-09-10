@@ -85,7 +85,7 @@ namespace Soomla.Store
 		}
 
 		public void OnInfoGUI() {
-			SoomlaEditorScript.SelectableLabelField(frameworkVersion, "1.8.2");
+			SoomlaEditorScript.SelectableLabelField(frameworkVersion, "1.8.3");
 			SoomlaEditorScript.SelectableLabelField(buildVersion, "1");
 			EditorGUILayout.Space();
 		}
