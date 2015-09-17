@@ -1,3 +1,11 @@
+### v1.8.4 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.8.3...v1.8.4)
+
+* Changes
+  * Removed binaries and improved build scripts
+
+* Fixes
+  * Wrong behaviour if purchasable items have the same product ID
+
 ### v1.8.3 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.8.2...v1.8.3)
 
 * Changes
