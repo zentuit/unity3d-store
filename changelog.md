@@ -1,3 +1,8 @@
+### v1.8.5 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.8.4...v1.8.5)
+
+* Fixes
+  * Soomla works when game is paused
+
 ### v1.8.4 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.8.3...v1.8.4)
 
 * Changes
