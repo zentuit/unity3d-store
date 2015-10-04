@@ -47,6 +47,8 @@ namespace Soomla.Store.Example {
 			StoreEvents.OnSoomlaStoreInitialized += onSoomlaStoreInitialized;
 			StoreEvents.OnUnexpectedStoreError += onUnexpectedStoreError;
 
+			StoreEvents.OnVerificationStarted += onVerificationStarted;
+
 #if UNITY_ANDROID && !UNITY_EDITOR
 			StoreEvents.OnIabServiceStarted += onIabServiceStarted;
 			StoreEvents.OnIabServiceStopped += onIabServiceStopped;
@@ -185,6 +187,14 @@ namespace Soomla.Store.Example {
 
 		}
 
+		/// <summary>
+		/// Handles a market purchase verification started event.
+		/// </summary>
+		/// <param name="pvi">Purchasable virtual item.</param>
+		public void onVerificationStarted(PurchasableVirtualItem pvi) {
+			
+		}
+		
 		/// <summary>
 		/// Handles a store controller initialized event.
 		/// </summary>

@@ -250,6 +250,14 @@ extern "C"{
                                                       }];
         UnitySendMessage("StoreEvents", "onUnexpectedStoreError", [jsonStr UTF8String]);
     }
+    else if ([notification.name isEqualToString:EVENT_VERIFICATION_STARTED]) {
+        NSDictionary* userInfo = [notification userInfo];
+        PurchasableVirtualItem* pvi = (PurchasableVirtualItem*)[userInfo objectForKey:DICT_ELEMENT_PURCHASABLE];
+        NSString* jsonStr = [SoomlaUtils dictToJsonString:@{
+                                                            @"itemId": pvi.itemId
+                                                            }];
+        UnitySendMessage("StoreEvents", "onVerificationStarted", [jsonStr UTF8String]);
+    }
     else if ([notification.name isEqualToString:EVENT_SOOMLASTORE_INIT]) {
         UnitySendMessage("StoreEvents", "onSoomlaStoreInitialized", "");
     }
