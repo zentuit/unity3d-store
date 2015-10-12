@@ -1,3 +1,8 @@
+### v1.8.6 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.8.5...v1.8.6)
+
+* Fixes
+  * StoreInventory.RemoveGoodUpgrades crash in iOS when upgrade id is null
+
 ### v1.8.5 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.8.4...v1.8.5)
 
 * Fixes
