@@ -68,9 +68,12 @@ extern "C"{
     void eventDispatcher_PushEventGoodUpgrade(const char* message) {
         NSString* messageS = [NSString stringWithUTF8String:message];
         NSDictionary* eventJSON = [SoomlaUtils jsonStringToDict:messageS];
-        NSDictionary *userInfo = @{ DICT_ELEMENT_GOOD: [eventJSON objectForKey:@"itemId"], DICT_ELEMENT_UpgradeVG: [eventJSON objectForKey:@"upgradeItemId"] };
+        NSMutableDictionary *mutableUserInfo = [NSMutableDictionary dictionaryWithDictionary:@{DICT_ELEMENT_GOOD: eventJSON[@"itemId"]}];
+        if (eventJSON[@"upgradeItemId"]) {
+            mutableUserInfo[DICT_ELEMENT_UpgradeVG] = eventJSON[@"upgradeItemId"];
+        }
         
-        [[NSNotificationCenter defaultCenter] postNotificationName:EVENT_GOOD_UPGRADE object:instance userInfo:userInfo];
+        [[NSNotificationCenter defaultCenter] postNotificationName:EVENT_GOOD_UPGRADE object:instance userInfo:mutableUserInfo.copy];
     }
     
     void eventDispatcher_PushEventItemPurchased(const char* message) {
@@ -159,11 +162,12 @@ extern "C"{
     }
 	else if ([notification.name isEqualToString:EVENT_GOOD_UPGRADE]) {
         NSDictionary* userInfo = [notification userInfo];
-        NSString* jsonStr = [SoomlaUtils dictToJsonString:@{
-                                                            @"itemId": [userInfo objectForKey:DICT_ELEMENT_GOOD],
-                                                            @"upgradeItemId": [userInfo objectForKey:DICT_ELEMENT_UpgradeVG]
-                                                            }];
-        UnitySendMessage("StoreEvents", "onGoodUpgrade", [jsonStr UTF8String]);
+
+        NSMutableDictionary *eventInfo = [NSMutableDictionary dictionaryWithDictionary:@{@"itemId": notification.userInfo[DICT_ELEMENT_GOOD]}];
+        if (notification.userInfo[DICT_ELEMENT_UpgradeVG]) {
+            eventInfo[@"upgradeItemId"] = notification.userInfo[DICT_ELEMENT_UpgradeVG];
+        }
+        UnitySendMessage("StoreEvents", "onGoodUpgrade", [[SoomlaUtils dictToJsonString:eventInfo.copy] UTF8String]);
     }
 	else if ([notification.name isEqualToString:EVENT_ITEM_PURCHASED]) {
         NSDictionary* userInfo = [notification userInfo];
