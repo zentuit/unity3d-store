@@ -1,7 +1,7 @@
 Assets/Plugins/Android/AndroidStore.jar
 Assets/Plugins/Android/UnityAndroidStore.jar
-Assets/Plugins/iOS/libSoomlaiOSStore.a
-Assets/Plugins/iOS/libUnityiOSStore.a
+Assets/Plugins/iOS/SOOMLA/libSoomlaiOSStore.a
+Assets/Plugins/iOS/SOOMLA/libUnityiOSStore.a
 Assets/Plugins/WP8/IAPMock.xml
 Assets/Plugins/WP8/wp-store.dll
 Assets/Plugins/Soomla/Store
