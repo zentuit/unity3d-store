@@ -1,0 +1,10 @@
+Assets/Plugins/Android/AndroidStore.jar
+Assets/Plugins/Android/UnityAndroidStore.jar
+Assets/Plugins/iOS/libSoomlaiOSStore.a
+Assets/Plugins/iOS/libUnityiOSStore.a
+Assets/Plugins/WP8/IAPMock.xml
+Assets/Plugins/WP8/wp-store.dll
+Assets/Plugins/Soomla/Store
+Assets/Plugins/wp-store.dll
+Assets/Soomla/Editor/build-tools/Soomla_StoreRunner.py
+Assets/WebPlayerTemplates/SoomlaConfig/android/android-billing-services
