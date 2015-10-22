@@ -39,7 +39,7 @@ unity3d-store is the Unity3d flavor of SOOMLA's Store Module.
 [unity3d-store v1.8.6](http://library.soom.la/fetch/unity3d-store/1.8.6?cf=github)
  
 #### From sources:
- - Clone this repository;
+ - Clone this repository recursively: `git clone --recursive https://github.com/soomla/unity3d-store.git`;
  - Run `./build_all` from project directory;
  - Take created binaries from `build` directory and use it!
 
