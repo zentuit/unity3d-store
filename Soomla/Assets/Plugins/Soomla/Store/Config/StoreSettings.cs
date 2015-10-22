@@ -69,7 +69,6 @@ namespace Soomla.Store
     	GUIContent iosVerifyOnServerFailureLabel = new GUIContent("Verify On Server Failure [?]:", "Check if you want your purchases get validated if server failure happens.");
 
 		GUIContent frameworkVersion = new GUIContent("Store Version [?]", "The SOOMLA Framework Store Module version. ");
-		GUIContent buildVersion = new GUIContent("Store Build [?]", "The SOOMLA Framework Store Module build.");
 
 		public void OnEnable() {
 			// Generating AndroidManifest.xml
@@ -86,7 +85,7 @@ namespace Soomla.Store
 
 		public void OnInfoGUI() {
 			SoomlaEditorScript.SelectableLabelField(frameworkVersion, "1.8.5");
-			SoomlaEditorScript.SelectableLabelField(buildVersion, "1");
+			SoomlaEditorScript.LatestVersionField ("unity3d-store", "1.8.5");
 			EditorGUILayout.Space();
 		}
 

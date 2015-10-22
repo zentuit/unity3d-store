@@ -41,8 +41,9 @@ namespace Soomla.Store.Example {
 			StoreEvents.OnItemPurchaseStarted += onItemPurchaseStarted;
 			StoreEvents.OnCurrencyBalanceChanged += onCurrencyBalanceChanged;
 			StoreEvents.OnGoodBalanceChanged += onGoodBalanceChanged;
-			StoreEvents.OnMarketPurchaseCancelled += onMarketPurchaseCancelled;
-			StoreEvents.OnRestoreTransactionsStarted += onRestoreTransactionsStarted;
+            StoreEvents.OnMarketPurchaseCancelled += onMarketPurchaseCancelled;
+            StoreEvents.OnMarketPurchaseDeferred += onMarketPurchaseDeferred;
+            StoreEvents.OnRestoreTransactionsStarted += onRestoreTransactionsStarted;
 			StoreEvents.OnRestoreTransactionsFinished += onRestoreTransactionsFinished;
 			StoreEvents.OnSoomlaStoreInitialized += onSoomlaStoreInitialized;
 			StoreEvents.OnUnexpectedStoreError += onUnexpectedStoreError;
@@ -142,14 +143,23 @@ namespace Soomla.Store.Example {
 
 		}
 
-		/// <summary>
-		/// Handles an item purchase cancelled event.
-		/// </summary>
-		/// <param name="pvi">Purchasable virtual item.</param>
-		public void onMarketPurchaseCancelled(PurchasableVirtualItem pvi) {
-
-		}
-
+        /// <summary>
+        /// Handles an item purchase cancelled event.
+        /// </summary>
+        /// <param name="pvi">Purchasable virtual item.</param>
+        public void onMarketPurchaseCancelled(PurchasableVirtualItem pvi) {
+            
+        }
+        
+        /// <summary>
+        /// Handles an item purchase deferred event.
+        /// </summary>
+        /// <param name="pvi">Purchasable virtual item.</param>
+        /// <param name="payload">Developer supplied payload.</param>
+        public void onMarketPurchaseDeferred(PurchasableVirtualItem pvi, string payload) {
+            
+        }
+        
 		/// <summary>
 		/// Handles a currency balance changed event.
 		/// </summary>
