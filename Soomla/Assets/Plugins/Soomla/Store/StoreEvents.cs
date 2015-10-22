@@ -652,6 +652,28 @@ namespace Soomla.Store {
 			PurchasableVirtualItem pvi = (PurchasableVirtualItem)StoreInfo.GetItemByItemId(eventJSON["itemId"].str);
 			StoreEvents.OnMarketPurchaseCancelled(pvi);
 		}
+        
+        /// <summary>
+        /// Handles the <c>onMarketPurchaseDeferred</c> event, which is fired when a Market purchase was deferred
+        /// until it can be finished by the family delegate.
+        /// Note that this is an iOS only event for when users have set up "Ask to Buy" and the purchaser is 
+        /// selected as a family member that needs "family organizer" permission to buy.
+        /// <see href="https://support.apple.com/en-us/HT201089">Apple's explanation of "Ask to Buy"</see> 
+        /// </summary>
+        /// <param name="message">Message that contains information about the market purchase that is being
+        /// deferred.</param>
+        public void onMarketPurchaseDeferred(string message) {
+            SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onMarketPurchaseDeferred: " + message);
+
+            var eventJSON = new JSONObject(message);
+            
+            PurchasableVirtualItem pvi = (PurchasableVirtualItem)StoreInfo.GetItemByItemId(eventJSON["itemId"].str);
+            string payload = "";
+            if (eventJSON.HasField("payload")) {
+                payload = eventJSON["payload"].str;
+            }
+            StoreEvents.OnMarketPurchaseDeferred(pvi, payload);
+        }
 
 		/// <summary>
 		/// Handles the <c>onMarketPurchase</c> event, which is fired when a Market purchase has occurred.
@@ -891,7 +913,9 @@ namespace Soomla.Store {
 
 		public static Action<PurchasableVirtualItem> OnMarketPurchaseCancelled = delegate {};
 
-		public static Action<PurchasableVirtualItem, string, Dictionary<string, string>> OnMarketPurchase = delegate {};
+        public static Action<PurchasableVirtualItem, string> OnMarketPurchaseDeferred = delegate {};
+        
+        public static Action<PurchasableVirtualItem, string, Dictionary<string, string>> OnMarketPurchase = delegate {};
 
 		public static Action<PurchasableVirtualItem> OnMarketPurchaseStarted = delegate {};
 
