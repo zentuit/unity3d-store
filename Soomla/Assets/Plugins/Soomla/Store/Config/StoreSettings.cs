@@ -36,6 +36,9 @@ namespace Soomla.Store
 #if UNITY_EDITOR
 
 		static StoreSettings instance = new StoreSettings();
+
+		static string currentModuleVersion = "1.8.5";
+
 		static StoreSettings()
 		{
 			SoomlaEditorScript.addSettings(instance);
@@ -84,8 +87,8 @@ namespace Soomla.Store
 		}
 
 		public void OnInfoGUI() {
-			SoomlaEditorScript.SelectableLabelField(frameworkVersion, "1.8.5");
-			SoomlaEditorScript.LatestVersionField ("unity3d-store", "1.8.5", "New Store version available!", "http://library.soom.la/fetch/unity3d-store/latest?cf=unity");
+			SoomlaEditorScript.SelectableLabelField(frameworkVersion, currentModuleVersion);
+			SoomlaEditorScript.LatestVersionField ("unity3d-store", currentModuleVersion, "New Store version available!", "http://library.soom.la/fetch/unity3d-store/latest?cf=unity");
 			EditorGUILayout.Space();
 		}
 
