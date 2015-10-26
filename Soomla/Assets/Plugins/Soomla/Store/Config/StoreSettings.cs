@@ -85,7 +85,7 @@ namespace Soomla.Store
 
 		public void OnInfoGUI() {
 			SoomlaEditorScript.SelectableLabelField(frameworkVersion, "1.8.5");
-			SoomlaEditorScript.LatestVersionField ("unity3d-store", "1.8.5");
+			SoomlaEditorScript.LatestVersionField ("unity3d-store", "1.8.5", "New Store version available!", "http://library.soom.la/fetch/unity3d-store/latest?cf=unity");
 			EditorGUILayout.Space();
 		}
 
