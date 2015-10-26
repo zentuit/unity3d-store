@@ -33,10 +33,7 @@ namespace Soomla.Store {
 
 		private const string TAG = "SOOMLA StoreEvents";
 
-	    public static StoreEvents Instance
-	    {
-	        get { return GetSynchronousCodeGeneratedInstance<StoreEvents>(); }
-	    }
+		public static StoreEvents Instance = null;	    
 
 	    protected override bool DontDestroySingleton
 	    {
@@ -51,16 +48,6 @@ namespace Soomla.Store {
 		[DllImport ("__Internal")]
 		private static extern void eventDispatcher_Init();
 #endif
-
-        /// <summary>
-        /// Initializes StoreEvents before the game starts.
-        /// </summary>
-	    protected override void InitAfterRegisteringAsSingleInstance()
-	    {
-	        base.InitAfterRegisteringAsSingleInstance();
-
-            Initialize();
-        }
 
 		public delegate void RunLaterDelegate();
 		public void RunLater(RunLaterDelegate runLaterDelegate) {
@@ -78,23 +65,26 @@ namespace Soomla.Store {
 		/// Initializes the different native event handlers in Android / iOS
 		/// </summary>
 		public static void Initialize() {
-			Soomla.CoreEvents.Initialize();
-			SoomlaUtils.LogDebug (TAG, "Initializing StoreEvents ...");
+			if (Instance == null) {
+				CoreEvents.Initialize();
+				Instance = GetSynchronousCodeGeneratedInstance<StoreEvents>();
+				SoomlaUtils.LogDebug (TAG, "Initializing StoreEvents ...");
 #if UNITY_ANDROID && !UNITY_EDITOR
-			AndroidJNI.PushLocalFrame(100);
-			using(AndroidJavaClass jniEventHandler = new AndroidJavaClass("com.soomla.unity.StoreEventHandler")) {
-				jniEventHandler.CallStatic("initialize");
-			}
-			AndroidJNI.PopLocalFrame(IntPtr.Zero);
-
-			sep = new StoreEventPusherAndroid();
+				AndroidJNI.PushLocalFrame(100);
+				using(AndroidJavaClass jniEventHandler = new AndroidJavaClass("com.soomla.unity.StoreEventHandler")) {
+					jniEventHandler.CallStatic("initialize");
+				}
+				AndroidJNI.PopLocalFrame(IntPtr.Zero);
+				
+				sep = new StoreEventPusherAndroid();
 #elif UNITY_IOS && !UNITY_EDITOR
-			eventDispatcher_Init();
-			sep = new StoreEventPusherIOS();
+				eventDispatcher_Init();
+				sep = new StoreEventPusherIOS();
 #elif UNITY_WP8 && !UNITY_EDITOR
-            BusProvider.Instance.Register(StoreEvents.Instance);
-            sep = new StoreEventPusherWP();
+				BusProvider.Instance.Register(StoreEvents.Instance);
+				sep = new StoreEventPusherWP();
 #endif
+			}
         }
 
 #if UNITY_WP8 && !UNITY_EDITOR
