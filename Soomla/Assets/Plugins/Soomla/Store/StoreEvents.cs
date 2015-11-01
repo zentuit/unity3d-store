@@ -647,9 +647,9 @@ namespace Soomla.Store {
         /// <summary>
         /// Handles the <c>onMarketPurchaseDeferred</c> event, which is fired when a Market purchase was deferred
         /// until it can be finished by the family delegate.
-        /// Note that this is an iOS only event for when users have set up "Ask to Buy" and the purchaser is 
+        /// Note that this is an iOS only event for when users have set up "Ask to Buy" and the purchaser is
         /// selected as a family member that needs "family organizer" permission to buy.
-        /// <see href="https://support.apple.com/en-us/HT201089">Apple's explanation of "Ask to Buy"</see> 
+        /// <see href="https://support.apple.com/en-us/HT201089">Apple's explanation of "Ask to Buy"</see>
         /// </summary>
         /// <param name="message">Message that contains information about the market purchase that is being
         /// deferred.</param>
@@ -657,7 +657,7 @@ namespace Soomla.Store {
             SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onMarketPurchaseDeferred: " + message);
 
             var eventJSON = new JSONObject(message);
-            
+
             PurchasableVirtualItem pvi = (PurchasableVirtualItem)StoreInfo.GetItemByItemId(eventJSON["itemId"].str);
             string payload = "";
             if (eventJSON.HasField("payload")) {
