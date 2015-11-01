@@ -41,9 +41,9 @@ namespace Soomla.Store.Example {
 			StoreEvents.OnItemPurchaseStarted += onItemPurchaseStarted;
 			StoreEvents.OnCurrencyBalanceChanged += onCurrencyBalanceChanged;
 			StoreEvents.OnGoodBalanceChanged += onGoodBalanceChanged;
-            StoreEvents.OnMarketPurchaseCancelled += onMarketPurchaseCancelled;
-            StoreEvents.OnMarketPurchaseDeferred += onMarketPurchaseDeferred;
-            StoreEvents.OnRestoreTransactionsStarted += onRestoreTransactionsStarted;
+			StoreEvents.OnMarketPurchaseCancelled += onMarketPurchaseCancelled;
+			StoreEvents.OnMarketPurchaseDeferred += onMarketPurchaseDeferred;
+			StoreEvents.OnRestoreTransactionsStarted += onRestoreTransactionsStarted;
 			StoreEvents.OnRestoreTransactionsFinished += onRestoreTransactionsFinished;
 			StoreEvents.OnSoomlaStoreInitialized += onSoomlaStoreInitialized;
 			StoreEvents.OnUnexpectedStoreError += onUnexpectedStoreError;
