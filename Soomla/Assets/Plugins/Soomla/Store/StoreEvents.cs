@@ -17,6 +17,7 @@ using System;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using Soomla.Singletons;
 #if UNITY_WP8 && !UNITY_EDITOR
 using SoomlaWpStore;
 using SoomlaWpStore.events;
@@ -28,15 +29,17 @@ namespace Soomla.Store {
 	/// <summary>
 	/// This class provides functionality for event handling.
 	/// </summary>
-	public class StoreEvents : MonoBehaviour {
+	public class StoreEvents : CodeGeneratedSingleton {
 
 		private const string TAG = "SOOMLA StoreEvents";
 
-#if UNITY_EDITOR
-		public static StoreEvents Instance { get; private set; }
-#else
-		public static StoreEvents Instance = null;
-#endif
+		public static StoreEvents Instance = null;	    
+
+	    protected override bool DontDestroySingleton
+	    {
+	        get { return true; }
+	    }
+
 		#pragma warning disable 0414
 		private static StoreEventPusher sep = null;
 		#pragma warning restore 0414
@@ -45,21 +48,6 @@ namespace Soomla.Store {
 		[DllImport ("__Internal")]
 		private static extern void eventDispatcher_Init();
 #endif
-
-
-		/// <summary>
-		/// Initializes StoreEvents before the game starts.
-		/// </summary>
-		void Awake(){
-			if(Instance == null){ 	// making sure we only initialize one instance.
-				Instance = this;
-                gameObject.name = "StoreEvents";
-				GameObject.DontDestroyOnLoad(this.gameObject);
-				Initialize();
-			} else {				// Destroying unused instances.
-				GameObject.Destroy(this.gameObject);
-			}
-		}
 
 		public delegate void RunLaterDelegate();
 		public void RunLater(RunLaterDelegate runLaterDelegate) {
@@ -77,22 +65,26 @@ namespace Soomla.Store {
 		/// Initializes the different native event handlers in Android / iOS
 		/// </summary>
 		public static void Initialize() {
-			SoomlaUtils.LogDebug (TAG, "Initializing StoreEvents ...");
+			if (Instance == null) {
+				CoreEvents.Initialize();
+				Instance = GetSynchronousCodeGeneratedInstance<StoreEvents>();
+				SoomlaUtils.LogDebug (TAG, "Initializing StoreEvents ...");
 #if UNITY_ANDROID && !UNITY_EDITOR
-			AndroidJNI.PushLocalFrame(100);
-			using(AndroidJavaClass jniEventHandler = new AndroidJavaClass("com.soomla.unity.StoreEventHandler")) {
-				jniEventHandler.CallStatic("initialize");
-			}
-			AndroidJNI.PopLocalFrame(IntPtr.Zero);
-
-			sep = new StoreEventPusherAndroid();
+				AndroidJNI.PushLocalFrame(100);
+				using(AndroidJavaClass jniEventHandler = new AndroidJavaClass("com.soomla.unity.StoreEventHandler")) {
+					jniEventHandler.CallStatic("initialize");
+				}
+				AndroidJNI.PopLocalFrame(IntPtr.Zero);
+				
+				sep = new StoreEventPusherAndroid();
 #elif UNITY_IOS && !UNITY_EDITOR
-			eventDispatcher_Init();
-			sep = new StoreEventPusherIOS();
+				eventDispatcher_Init();
+				sep = new StoreEventPusherIOS();
 #elif UNITY_WP8 && !UNITY_EDITOR
-            BusProvider.Instance.Register(StoreEvents.Instance);
-            sep = new StoreEventPusherWP();
+				BusProvider.Instance.Register(StoreEvents.Instance);
+				sep = new StoreEventPusherWP();
 #endif
+			}
         }
 
 #if UNITY_WP8 && !UNITY_EDITOR
@@ -651,6 +643,28 @@ namespace Soomla.Store {
 			PurchasableVirtualItem pvi = (PurchasableVirtualItem)StoreInfo.GetItemByItemId(eventJSON["itemId"].str);
 			StoreEvents.OnMarketPurchaseCancelled(pvi);
 		}
+        
+        /// <summary>
+        /// Handles the <c>onMarketPurchaseDeferred</c> event, which is fired when a Market purchase was deferred
+        /// until it can be finished by the family delegate.
+        /// Note that this is an iOS only event for when users have set up "Ask to Buy" and the purchaser is
+        /// selected as a family member that needs "family organizer" permission to buy.
+        /// <see href="https://support.apple.com/en-us/HT201089">Apple's explanation of "Ask to Buy"</see>
+        /// </summary>
+        /// <param name="message">Message that contains information about the market purchase that is being
+        /// deferred.</param>
+        public void onMarketPurchaseDeferred(string message) {
+            SoomlaUtils.LogDebug(TAG, "SOOMLA/UNITY onMarketPurchaseDeferred: " + message);
+
+            var eventJSON = new JSONObject(message);
+
+            PurchasableVirtualItem pvi = (PurchasableVirtualItem)StoreInfo.GetItemByItemId(eventJSON["itemId"].str);
+            string payload = "";
+            if (eventJSON.HasField("payload")) {
+                payload = eventJSON["payload"].str;
+            }
+            StoreEvents.OnMarketPurchaseDeferred(pvi, payload);
+        }
 
 		/// <summary>
 		/// Handles the <c>onMarketPurchase</c> event, which is fired when a Market purchase has occurred.
@@ -890,7 +904,9 @@ namespace Soomla.Store {
 
 		public static Action<PurchasableVirtualItem> OnMarketPurchaseCancelled = delegate {};
 
-		public static Action<PurchasableVirtualItem, string, Dictionary<string, string>> OnMarketPurchase = delegate {};
+        public static Action<PurchasableVirtualItem, string> OnMarketPurchaseDeferred = delegate {};
+        
+        public static Action<PurchasableVirtualItem, string, Dictionary<string, string>> OnMarketPurchase = delegate {};
 
 		public static Action<PurchasableVirtualItem> OnMarketPurchaseStarted = delegate {};
 

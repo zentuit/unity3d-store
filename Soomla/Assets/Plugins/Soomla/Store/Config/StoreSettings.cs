@@ -36,6 +36,9 @@ namespace Soomla.Store
 #if UNITY_EDITOR
 
 		static StoreSettings instance = new StoreSettings();
+
+		static string currentModuleVersion = "1.8.6";
+
 		static StoreSettings()
 		{
 			SoomlaEditorScript.addSettings(instance);
@@ -69,7 +72,6 @@ namespace Soomla.Store
     	GUIContent iosVerifyOnServerFailureLabel = new GUIContent("Verify On Server Failure [?]:", "Check if you want your purchases get validated if server failure happens.");
 
 		GUIContent frameworkVersion = new GUIContent("Store Version [?]", "The SOOMLA Framework Store Module version. ");
-		GUIContent buildVersion = new GUIContent("Store Build [?]", "The SOOMLA Framework Store Module build.");
 
 		public void OnEnable() {
 			// Generating AndroidManifest.xml
@@ -85,8 +87,8 @@ namespace Soomla.Store
 		}
 
 		public void OnInfoGUI() {
-			SoomlaEditorScript.SelectableLabelField(frameworkVersion, "1.8.6");
-			SoomlaEditorScript.SelectableLabelField(buildVersion, "1");
+			SoomlaEditorScript.SelectableLabelField(frameworkVersion, currentModuleVersion);
+			SoomlaEditorScript.LatestVersionField ("unity3d-store", currentModuleVersion, "New Store version available!", "http://library.soom.la/fetch/unity3d-store/latest?cf=unity");
 			EditorGUILayout.Space();
 		}
 
@@ -253,11 +255,11 @@ namespace Soomla.Store
 		public static void handlePlayBPJars(bool remove) {
 			try {
 				if (remove) {
-					FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Plugins/Android/AndroidStoreGooglePlay.jar");
-					FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Plugins/Android/AndroidStoreGooglePlay.jar.meta");
+					FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Plugins/Android/Soomla/libs/AndroidStoreGooglePlay.jar");
+					FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Plugins/Android/Soomla/libs/AndroidStoreGooglePlay.jar.meta");
 				} else {
 					FileUtil.CopyFileOrDirectory(bpRootPath + "google-play/AndroidStoreGooglePlay.jar",
-					                             Application.dataPath + "/Plugins/Android/AndroidStoreGooglePlay.jar");
+					                             Application.dataPath + "/Plugins/Android/Soomla/libs/AndroidStoreGooglePlay.jar");
 				}
 			}catch {}
 		}
@@ -265,15 +267,15 @@ namespace Soomla.Store
 		public static void handleAmazonBPJars(bool remove) {
 			try {
 				if (remove) {
-					FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Plugins/Android/AndroidStoreAmazon.jar");
-					FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Plugins/Android/AndroidStoreAmazon.jar.meta");
-					FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Plugins/Android/in-app-purchasing-2.0.1.jar");
-					FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Plugins/Android/in-app-purchasing-2.0.1.jar.meta");
+					FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Plugins/Android/Soomla/libs/AndroidStoreAmazon.jar");
+					FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Plugins/Android/Soomla/libs/AndroidStoreAmazon.jar.meta");
+					FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Plugins/Android/Soomla/libs/in-app-purchasing-2.0.1.jar");
+					FileUtil.DeleteFileOrDirectory(Application.dataPath + "/Plugins/Android/Soomla/libs/in-app-purchasing-2.0.1.jar.meta");
 				} else {
 					FileUtil.CopyFileOrDirectory(bpRootPath + "amazon/AndroidStoreAmazon.jar",
-					                             Application.dataPath + "/Plugins/Android/AndroidStoreAmazon.jar");
+					                             Application.dataPath + "/Plugins/Android/Soomla/libs/AndroidStoreAmazon.jar");
 					FileUtil.CopyFileOrDirectory(bpRootPath + "amazon/in-app-purchasing-2.0.1.jar",
-					                             Application.dataPath + "/Plugins/Android/in-app-purchasing-2.0.1.jar");
+					                             Application.dataPath + "/Plugins/Android/Soomla/libs/in-app-purchasing-2.0.1.jar");
 				}
 			}catch {}
 		}
