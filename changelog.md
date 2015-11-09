@@ -1,3 +1,8 @@
+### v1.9.1 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.9.0...v1.9.1)
+
+* Changes
+  * Minor improvements in Editor script
+
 ### v1.9.0 [view commit logs](https://github.com/soomla/unity3d-store/compare/v1.8.6...v1.9.0)
 
 * Features
