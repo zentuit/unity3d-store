@@ -42,6 +42,12 @@ namespace Soomla.Store
 		static StoreSettings()
 		{
 			SoomlaEditorScript.addSettings(instance);
+
+			List<string> additionalDependFiles = new List<string>(); //Add files that not tracked in file_list
+			additionalDependFiles.Add("Assets/Plugins/Android/Soomla/libs/AndroidStoreAmazon.jar");
+			additionalDependFiles.Add("Assets/Plugins/Android/Soomla/libs/in-app-purchasing-2.0.1.jar");
+			additionalDependFiles.Add("Assets/Plugins/Android/Soomla/libs/AndroidStoreGooglePlay.jar");
+			SoomlaEditorScript.addFileList("Store", "Assets/Soomla/store_file_list", additionalDependFiles.ToArray());
 		}
 
 		bool showAndroidSettings = (EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android);
@@ -87,8 +93,8 @@ namespace Soomla.Store
 		}
 
 		public void OnInfoGUI() {
-			SoomlaEditorScript.SelectableLabelField(frameworkVersion, currentModuleVersion);
-			SoomlaEditorScript.LatestVersionField ("unity3d-store", currentModuleVersion, "New Store version available!", "http://library.soom.la/fetch/unity3d-store/latest?cf=unity");
+			SoomlaEditorScript.RemoveSoomlaModuleButton(frameworkVersion, currentModuleVersion, "Store");
+			SoomlaEditorScript.LatestVersionField ("unity3d-store", currentModuleVersion, "New version available!", "http://library.soom.la/fetch/unity3d-store-only/latest?cf=unity");
 			EditorGUILayout.Space();
 		}
 
